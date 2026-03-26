@@ -1,0 +1,139 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/jewish.json",
+  "title": "Jewish Law Extension",
+  "description": "Halachic inheritance rules including heir classification, bekhor (firstborn) double-share, mezonot (maintenance), kinyan (acquisition), and bequest classification under Jewish law.",
+  "type": "object",
+  "$defs": {
+    "HalachicHeir": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "relationship": { "type": "string" },
+        "heirOrder": {
+          "type": "string",
+          "enum": ["bechor", "regular"]
+        },
+        "halachicClass": {
+          "type": "string",
+          "enum": ["ben", "bat", "av", "em", "ach", "achot", "ben_ben", "other"]
+        }
+      },
+      "required": ["personId", "relationship", "halachicClass"],
+      "additionalProperties": false
+    },
+    "MezonotDetails": {
+      "type": "object",
+      "properties": {
+        "eligible": { "type": "boolean" },
+        "amount": { "$ref": "../common/money.json" },
+        "duration": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["eligible"],
+      "additionalProperties": false
+    },
+    "BekhorRules": {
+      "type": "object",
+      "properties": {
+        "applies": { "type": "boolean" },
+        "bekhorPersonId": { "type": "string", "format": "uuid" },
+        "doubleShareApplicable": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "required": ["applies"],
+      "additionalProperties": false
+    },
+    "HebrewName": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "hebrewGivenName": { "type": "string" },
+        "hebrewFamilyName": { "type": "string" },
+        "benOrBat": {
+          "type": "string",
+          "enum": ["ben", "bat"]
+        }
+      },
+      "required": ["personId", "hebrewGivenName", "benOrBat"],
+      "additionalProperties": false
+    },
+    "HalachicWitnessValidity": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "halachicallyValid": { "type": "boolean" },
+        "disqualificationReason": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["personId", "halachicallyValid"],
+      "additionalProperties": false
+    },
+    "KinyanDetails": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["kinyan_sudar", "kinyan_agav", "kinyan_meshichah", "kinyan_hagbahah"]
+        },
+        "performed": { "type": "boolean" },
+        "witnessPersonIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "notes": { "type": "string" }
+      },
+      "required": ["type", "performed"],
+      "additionalProperties": false
+    },
+    "BequestClassification": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["matanah", "yerusha", "shtar_chov_gift"]
+        },
+        "bequestId": { "type": "string", "format": "uuid" },
+        "notes": { "type": "string" }
+      },
+      "required": ["type", "bequestId"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "denomination": {
+      "type": "string",
+      "enum": ["orthodox", "conservative", "reform", "reconstructionist", "traditional", "unaffiliated"]
+    },
+    "halachicHeirs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HalachicHeir" }
+    },
+    "mezonotDetails": { "$ref": "#/$defs/MezonotDetails" },
+    "halachicMechanism": {
+      "type": "string",
+      "enum": ["shtar_chov", "matnat_bari", "matnat_shechiv_mera", "matnat_bari_conditional"]
+    },
+    "bekhorRules": { "$ref": "#/$defs/BekhorRules" },
+    "hebrewNames": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HebrewName" }
+    },
+    "halachicWitnessValidity": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HalachicWitnessValidity" }
+    },
+    "kinyanDetails": { "$ref": "#/$defs/KinyanDetails" },
+    "bequestClassifications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/BequestClassification" }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["denomination"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

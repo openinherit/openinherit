@@ -1,0 +1,23 @@
+{
+  "name": "India Hindu Succession",
+  "id": "https://openinherit.org/v1/extensions/india-hindu.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "IN",
+  "legalSystems": [
+    "hindu_law",
+    "common_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Hindu Succession Act 1956 (as amended 2005), Indian Succession Act 1925, Transfer of Property Act 1882",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Mitakshara/Dayabhaga schools, HUF coparcenary, heir classifications, stridhan assets, agricultural land ceiling rules, NRI complications."
+}

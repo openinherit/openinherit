@@ -1,0 +1,117 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/schema.json",
+  "$comment": "$ref resolution convention: all $ref paths are resolved relative to the schema's $id URI, NOT filesystem paths. Core schemas use relative paths (e.g., 'common/money.json' resolves to 'https://openinherit.org/v1/common/money.json'). Extension schemas use '../common/money.json' (resolves relative to their $id in the extensions/ directory). All schemas MUST be registered with the validator before $ref resolution will work.",
+  "title": "INHERIT v1 Root Schema",
+  "description": "Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.",
+  "type": "object",
+  "properties": {
+    "inherit": {
+      "type": "string",
+      "const": "https://openinherit.org/v1/schema.json"
+    },
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "exportedAt": { "type": "string", "format": "date" },
+    "exportedBy": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "organisationName": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "generator": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "url": { "type": "string" }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "estate": { "$ref": "estate.json" },
+    "people": {
+      "type": "array",
+      "items": { "$ref": "person.json" }
+    },
+    "kinships": {
+      "type": "array",
+      "items": { "$ref": "kinship.json" }
+    },
+    "relationships": {
+      "type": "array",
+      "items": { "$ref": "relationship.json" }
+    },
+    "properties": {
+      "type": "array",
+      "items": { "$ref": "property.json" }
+    },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "asset.json" }
+    },
+    "liabilities": {
+      "type": "array",
+      "items": { "$ref": "liability.json" }
+    },
+    "bequests": {
+      "type": "array",
+      "items": { "$ref": "bequest.json" }
+    },
+    "trusts": {
+      "type": "array",
+      "items": { "$ref": "trust.json" }
+    },
+    "executors": {
+      "type": "array",
+      "items": { "$ref": "executor.json" }
+    },
+    "guardians": {
+      "type": "array",
+      "items": { "$ref": "guardian.json" }
+    },
+    "wishes": {
+      "type": "array",
+      "items": { "$ref": "wish.json" }
+    },
+    "documents": {
+      "type": "array",
+      "items": { "$ref": "document.json" }
+    },
+    "nonprobateTransfers": {
+      "type": "array",
+      "items": { "$ref": "nonprobate-transfer.json" }
+    },
+    "proxyAuthorisations": {
+      "type": "array",
+      "items": { "$ref": "proxy-authorisation.json" }
+    },
+    "dealerInterests": {
+      "type": "array",
+      "items": { "$ref": "dealer-interest.json" }
+    },
+    "extensions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "$comment": "URIs of extension schemas applied to this document."
+    }
+  },
+  "required": [
+    "inherit", "version", "estate",
+    "people", "kinships", "relationships", "properties", "assets",
+    "liabilities", "bequests", "trusts", "executors", "guardians",
+    "wishes", "documents", "nonprobateTransfers", "proxyAuthorisations",
+    "dealerInterests"
+  ],
+  "patternProperties": {
+    "^x-inherit-": {
+      "$comment": "Extension data blocks. Each can contain any structure incl. arrays. Extension schema validates."
+    }
+  },
+  "unevaluatedProperties": false
+}

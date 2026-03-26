@@ -1,0 +1,87 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/prc-china.json",
+  "title": "PRC China Extension",
+  "description": "People's Republic of China succession law — forced heirship (first/second order heirs), hukou registration, notarised succession certificates, cross-border HK/PRC asset handling.",
+  "type": "object",
+  "$defs": {
+    "PRCForcedHeirship": {
+      "type": "object",
+      "properties": {
+        "firstOrderHeirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "relationship": { "type": "string" }
+            },
+            "required": ["personId"],
+            "additionalProperties": false
+          }
+        },
+        "secondOrderHeirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "relationship": { "type": "string" }
+            },
+            "required": ["personId"],
+            "additionalProperties": false
+          }
+        },
+        "mandatoryShareRule": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "HukouReference": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "hukouLocation": { "type": "string" },
+        "hukouType": {
+          "type": "string",
+          "enum": ["agricultural", "non_agricultural"]
+        }
+      },
+      "required": ["personId"],
+      "additionalProperties": false
+    },
+    "CrossBorderHKPRC": {
+      "type": "object",
+      "properties": {
+        "hkAssets": { "type": "string" },
+        "prcAssets": { "type": "string" },
+        "applicableTreaty": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "applicableLaw": {
+      "type": "string",
+      "enum": ["prc_succession_law_1985", "prc_civil_code_2021"]
+    },
+    "forcedHeirship": { "$ref": "#/$defs/PRCForcedHeirship" },
+    "hukouReferences": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HukouReference" }
+    },
+    "notarisationRequired": { "type": "boolean" },
+    "notarisationDetails": {
+      "type": "string",
+      "$comment": "PRC requires notarised succession certificate"
+    },
+    "crossBorderHandling": { "$ref": "#/$defs/CrossBorderHKPRC" },
+    "notes": { "type": "string" }
+  },
+  "required": ["applicableLaw"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

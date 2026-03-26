@@ -1,0 +1,181 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/islamic.json",
+  "title": "Islamic Succession Extension",
+  "description": "Faraid (Islamic inheritance) rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf details, and priority debts including mahr.",
+  "type": "object",
+  "$defs": {
+    "HeirClassification": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "heirClass": {
+          "type": "string",
+          "enum": [
+            "son", "daughter", "father", "mother",
+            "grandfather", "grandmother",
+            "brother_full", "brother_paternal", "brother_maternal",
+            "sister_full", "sister_paternal", "sister_maternal",
+            "husband", "wife",
+            "son_of_son", "daughter_of_son",
+            "uncle_paternal"
+          ]
+        },
+        "fixedShareFraction": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$",
+          "$comment": "Quranic fixed share as a fraction, e.g. 1/6, 1/8, 2/3."
+        },
+        "residuaryClass": {
+          "type": "string",
+          "enum": ["asaba_by_self", "asaba_with_other", "asaba_through_other", "none"]
+        },
+        "blocked": { "type": "boolean" },
+        "blockedBy": {
+          "type": "string",
+          "format": "uuid",
+          "$comment": "personId of the heir who blocks this heir."
+        },
+        "notes": { "type": "string" }
+      },
+      "required": ["personId", "heirClass"],
+      "additionalProperties": false
+    },
+    "WasiyyaRules": {
+      "type": "object",
+      "properties": {
+        "maxPortion": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "$comment": "Maximum bequeathable percentage of estate (typically 33.33%)."
+        },
+        "toNonHeirsOnly": {
+          "type": "boolean",
+          "$comment": "Whether wasiyya is restricted to non-heirs only."
+        },
+        "requiresHeirConsent": {
+          "type": "boolean",
+          "$comment": "Whether bequests exceeding the limit or to heirs require heir consent."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "IddahPeriod": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "periodType": {
+          "type": "string",
+          "enum": ["divorce", "death", "pregnancy"]
+        },
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": {
+          "oneOf": [
+            { "type": "string", "format": "date" },
+            { "type": "null" }
+          ]
+        },
+        "notes": { "type": "string" }
+      },
+      "required": ["personId", "periodType", "startDate"],
+      "additionalProperties": false
+    },
+    "WaqfDetail": {
+      "type": "object",
+      "properties": {
+        "waqfId": {
+          "type": "string",
+          "format": "uuid",
+          "$comment": "Reference to Trust.id for the waqf entity."
+        },
+        "waqfType": {
+          "type": "string",
+          "enum": ["ahli", "khairi", "mushtarak"]
+        },
+        "dedicationDate": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      },
+      "required": ["waqfId", "waqfType"],
+      "additionalProperties": false
+    },
+    "PriorityDebt": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["mahr", "kafan", "funeral_costs", "tax", "debts_of_deceased"]
+        },
+        "amount": { "$ref": "../common/money.json" },
+        "creditorPersonId": { "type": "string", "format": "uuid" },
+        "notes": { "type": "string" }
+      },
+      "required": ["description", "type", "amount"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "school": {
+      "type": "string",
+      "enum": ["hanafi", "shafii", "maliki", "hanbali", "jafari", "ibadi", "zahiri"],
+      "$comment": "Islamic school of jurisprudence (madhab) governing succession."
+    },
+    "faraidApplies": {
+      "type": "boolean",
+      "$comment": "Whether faraid (compulsory Islamic inheritance) applies to this estate."
+    },
+    "heirClassifications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/HeirClassification" }
+    },
+    "awlApplied": {
+      "type": "boolean",
+      "$comment": "Whether awl (proportional reduction) was applied when fixed shares exceed the estate."
+    },
+    "raddApplied": {
+      "type": "boolean",
+      "$comment": "Whether radd (proportional increase) was applied when fixed shares are less than the estate."
+    },
+    "wasiyyaRules": { "$ref": "#/$defs/WasiyyaRules" },
+    "iddahPeriods": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/IddahPeriod" }
+    },
+    "waqfDetails": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/WaqfDetail" }
+    },
+    "priorityDebts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PriorityDebt" }
+    },
+    "hijriDates": {
+      "type": "object",
+      "properties": {
+        "deathDateHijri": { "type": "string", "$comment": "Hijri date of death, e.g. 1446-07-15." },
+        "willDateHijri": { "type": "string", "$comment": "Hijri date of the will, if applicable." }
+      },
+      "additionalProperties": false
+    },
+    "islamicFormalities": {
+      "type": "object",
+      "properties": {
+        "shariaCourtReference": { "type": "string" },
+        "muftiFatwReference": { "type": "string" },
+        "certifiedByScholar": { "type": "boolean" },
+        "scholarName": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["school"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

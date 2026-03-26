@@ -1,0 +1,129 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/singapore-malaysia.json",
+  "title": "Singapore / Malaysia Extension",
+  "description": "Singapore and Malaysia succession law — ISA intestate distribution, AMLA Islamic distribution, CPF/EPF nominations, Malaysian Distribution Act, Shariah court jurisdiction.",
+  "type": "object",
+  "$defs": {
+    "SingaporeISADistribution": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "shareSchedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "relationship": { "type": "string" },
+              "share": { "type": "string" },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "SingaporeAMLADistribution": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "school": {
+          "type": "string",
+          "enum": ["shafii", "hanafi"]
+        },
+        "faraidRef": {
+          "type": "string",
+          "$comment": "links to Islamic extension"
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "CPFNomination": {
+      "type": "object",
+      "properties": {
+        "accountId": { "type": "string", "format": "uuid" },
+        "nominatedPersonIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "binding": { "type": "boolean" },
+        "nominationDate": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      },
+      "required": ["accountId"],
+      "additionalProperties": false
+    },
+    "MalaysianDistributionAct": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "shareSchedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "relationship": { "type": "string" },
+              "share": { "type": "string" },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "MalaysianShariah": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "shariaCourtReference": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "EPFNomination": {
+      "type": "object",
+      "properties": {
+        "accountId": { "type": "string", "format": "uuid" },
+        "nominatedPersonIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "binding": { "type": "boolean" },
+        "nominationDate": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      },
+      "required": ["accountId"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "country": {
+      "type": "string",
+      "enum": ["SG", "MY"]
+    },
+    "singaporeISA": { "$ref": "#/$defs/SingaporeISADistribution" },
+    "singaporeAMLA": { "$ref": "#/$defs/SingaporeAMLADistribution" },
+    "cpfNominations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CPFNomination" }
+    },
+    "malaysianDistributionAct": { "$ref": "#/$defs/MalaysianDistributionAct" },
+    "malaysianShariah": { "$ref": "#/$defs/MalaysianShariah" },
+    "epfNominations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/EPFNomination" }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["country"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/latin-america.json",
+  "title": "Latin America Extension",
+  "description": "Latin American succession law — Brazilian legítima and stable union rights, Argentine forced heirship with collation, Colombian fourths system, Venezuelan succession, and other civil-law jurisdictions.",
+  "type": "object",
+  "$defs": {
+    "BrazilianSuccession": {
+      "type": "object",
+      "properties": {
+        "legitimaFraction": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$",
+          "default": "1/2"
+        },
+        "necessaryHeirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "category": {
+                "type": "string",
+                "enum": ["descendant", "ascendant", "spouse"]
+              }
+            },
+            "required": ["personId", "category"],
+            "additionalProperties": false
+          }
+        },
+        "meacaoHerancaSplit": {
+          "type": "boolean",
+          "$comment": "community property split before succession"
+        },
+        "stableUnionRights": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ArgentineSuccession": {
+      "type": "object",
+      "properties": {
+        "legitimaDescendants": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$"
+        },
+        "legitimaAscendants": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$"
+        },
+        "porcionDisponible": { "type": "string" },
+        "collation": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ColombianSuccession": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string",
+          "enum": ["fourths"]
+        },
+        "legitimaRigurosa": { "type": "string" },
+        "cuartaDeMejoras": { "type": "string" },
+        "cuartaDeLibreDisposicion": { "type": "string" },
+        "forcedHeirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "relationship": { "type": "string" }
+            },
+            "required": ["personId"],
+            "additionalProperties": false
+          }
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "VenezuelanSuccession": {
+      "type": "object",
+      "properties": {
+        "legitimaFraction": {
+          "type": "string",
+          "pattern": "^[0-9]+/[0-9]+$"
+        },
+        "applicableLaw": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "country": {
+      "type": "string",
+      "enum": ["BR", "AR", "CO", "VE", "MX", "CL", "PE"]
+    },
+    "brazilianSuccession": { "$ref": "#/$defs/BrazilianSuccession" },
+    "argentineSuccession": { "$ref": "#/$defs/ArgentineSuccession" },
+    "colombianSuccession": { "$ref": "#/$defs/ColombianSuccession" },
+    "venezuelanSuccession": { "$ref": "#/$defs/VenezuelanSuccession" },
+    "notes": { "type": "string" }
+  },
+  "required": ["country"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/attestation.json",
+  "title": "Attestation",
+  "description": "Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish).",
+  "type": "object",
+  "properties": {
+    "date": { "type": "string", "format": "date" },
+    "witnessPersonIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "method": {
+      "type": "string",
+      "enum": ["in_person", "video", "remote", "none", "kinyan_sudar", "kinyan_agav", "seal_based", "inkan_registered"]
+    },
+    "attestationType": {
+      "type": "string",
+      "enum": ["written_signed", "oral_witnessed", "oral_community", "seal_based"]
+    },
+    "solicitorSupervised": { "type": "boolean" },
+    "testatorSignedInPresenceOfWitnesses": {
+      "type": "boolean",
+      "$comment": "Wills Act 1837 s.9(c)."
+    },
+    "witnessesSignedInPresenceOfTestator": {
+      "type": "boolean",
+      "$comment": "Wills Act 1837 s.9(d)."
+    },
+    "witnessConflictCheck": { "type": "boolean" },
+    "witnessConflictCheckScope": {
+      "type": "string",
+      "enum": ["english_law", "halachic_broad", "shariah_standard", "civil_law_standard", "customary_oral", "community_testimony"]
+    },
+    "notes": { "type": "string" }
+  },
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

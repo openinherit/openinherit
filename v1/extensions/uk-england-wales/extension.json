@@ -1,0 +1,22 @@
+{
+  "name": "UK England & Wales",
+  "id": "https://openinherit.org/v1/extensions/uk-england-wales.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "GB-ENG",
+  "legalSystems": [
+    "common_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Inheritance Tax Act 1984, Administration of Estates Act 1925, Inheritance (Provision for Family and Dependants) Act 1975",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "IHT thresholds, intestacy rules, IFPA 1975 eligibility, temporal legislation tracking for England & Wales."
+}

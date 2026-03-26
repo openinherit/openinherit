@@ -1,0 +1,160 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/property.json",
+  "title": "Property",
+  "description": "Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name (e.g. 'Family Home', '42 Acacia Avenue')"
+    },
+    "propertyType": {
+      "type": "string",
+      "enum": [
+        "detached_house", "semi_detached_house", "terraced_house",
+        "flat", "maisonette", "bungalow", "cottage",
+        "farmhouse", "barn_conversion", "land",
+        "commercial", "mixed_use", "houseboat", "mobile_home", "other"
+      ]
+    },
+    "address": { "$ref": "common/address.json" },
+    "estimatedValue": { "$ref": "common/money.json" },
+    "professionalValuation": { "$ref": "common/money.json" },
+    "valuationDate": { "type": "string", "format": "date" },
+    "valuationConfidence": {
+      "type": "string",
+      "enum": ["estimated", "professional", "probate", "unknown"]
+    },
+    "isPrimaryResidence": {
+      "type": "boolean",
+      "$comment": "Annotation only — JSON Schema 'default' does not insert values. Consuming apps must implement defaulting."
+    },
+    "ownershipType": {
+      "type": "string",
+      "enum": ["sole", "joint_tenants", "tenants_in_common", "trust", "tenancy_by_entirety"],
+      "$comment": "tenancy_by_entirety = US spousal joint tenancy (PA, FL, MA, IL, OH, etc.). Survives creditors of the deceased spouse."
+    },
+    "ownershipPercentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "multipleOf": 0.01,
+      "$comment": "Capped at 2 decimal places. For legal disputes requiring higher precision, use notes."
+    },
+    "ownershipModel": {
+      "type": "string",
+      "enum": [
+        "individual", "joint", "communal_family",
+        "huf_coparcenary", "tribal", "government_vested", "trust_held"
+      ],
+      "$comment": "communal_family = Nigerian family land, clan property. huf_coparcenary = Hindu Undivided Family joint property (India). government_vested = Nigerian Certificate of Occupancy. tribal = indigenous/tribal communal land."
+    },
+    "acquisitionType": {
+      "type": "string",
+      "enum": [
+        "self_acquired", "ancestral_joint", "ancestral_severed",
+        "inherited", "gifted", "stridhan", "communal", "waqf_endowed"
+      ],
+      "$comment": "Determines which succession law applies in India. ancestral_joint = coparcenary (devolves by survivorship). self_acquired = succession (devolves by will/intestacy). stridhan = Hindu woman's absolute property."
+    },
+    "tenureType": {
+      "type": "string",
+      "enum": [
+        "freehold", "leasehold", "certificate_of_occupancy",
+        "customary_right_of_occupancy", "communal",
+        "government_allocated", "traditional_authority_granted",
+        "informal_unregistered"
+      ],
+      "$comment": "Nigerian Land Use Act 1978: all urban land vested in state governor — you hold a Certificate of Occupancy, not freehold."
+    },
+    "registrationStatus": {
+      "type": "string",
+      "enum": ["formally_registered", "informally_held", "community_acknowledged", "disputed", "undocumented"]
+    },
+    "ownershipEvidence": {
+      "type": "string",
+      "enum": ["title_deed", "certificate_of_occupancy", "family_recognition", "community_testimony", "receipts_only", "none"]
+    },
+    "applicableSuccessionLaw": {
+      "type": "object",
+      "$comment": "Which succession law governs this property. Immoveables typically governed by lex rei sitae (law where the property is situated).",
+      "properties": {
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "lawName": { "type": "string", "$comment": "e.g., 'Hindu Succession Act 1956', 'Japanese Civil Code'" },
+        "section": { "type": "string", "$comment": "e.g., 's.6 (coparcenary)'" }
+      },
+      "required": ["jurisdiction"],
+      "additionalProperties": false
+    },
+    "custodianPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "$comment": "For communal/family property: the current custodian (not owner). On death, custodianship passes by custom, not by will."
+    },
+    "successionRule": {
+      "type": "string",
+      "enum": [
+        "testamentary", "intestacy", "customary_eldest_son",
+        "customary_family_council", "customary_matrilineal",
+        "survivorship", "not_individually_bequeathable"
+      ],
+      "$comment": "How this property passes on death. 'not_individually_bequeathable' = communal property that cannot be included in a will."
+    },
+    "governmentConsentRequired": {
+      "type": "boolean",
+      "$comment": "Nigerian Land Use Act: governor's consent required for all transfers of rights. Some Indian states require similar for agricultural land."
+    },
+    "mobilityType": {
+      "type": "string",
+      "enum": ["immoveable", "moveable", "mixed"],
+      "$comment": "Relevant for Shia inheritance (immoveable property rules differ), French succession (lex rei sitae), and halachic bekhor rules."
+    },
+    "mortgageOutstanding": { "$ref": "common/money.json" },
+    "characterClassification": {
+      "type": "string",
+      "enum": ["community", "separate", "quasi_community", "mixed", "not_applicable"],
+      "$comment": "US community property states (CA, TX, AZ, WA, NV, NM, LA, ID, WI): community = 50/50. quasi_community = CA-specific (property acquired in a non-community state but treated as community on divorce/death). 'not_applicable' for jurisdictions without this distinction."
+    },
+    "homesteadStatus": {
+      "type": "object",
+      "$comment": "Homestead exemption protects primary residence from creditors and may restrict devise. Florida: unlimited value. Texas: 200 acres rural / 10 acres urban.",
+      "properties": {
+        "isHomestead": { "type": "boolean" },
+        "exemptionAmount": { "$ref": "common/money.json" },
+        "exemptionUnlimited": {
+          "type": "boolean",
+          "$comment": "Florida, Texas (rural), Iowa, Kansas, Oklahoma, South Dakota."
+        },
+        "deviseRestriction": {
+          "type": "boolean",
+          "$comment": "Florida: cannot devise homestead away from spouse/minor children."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "passesOutsideEstate": {
+      "type": "boolean",
+      "$comment": "True if this property passes outside probate (JTWROS, TOD deed, trust-held). NOT distributed under the will."
+    },
+    "statutoryLifeEstate": {
+      "type": "object",
+      "$comment": "Statutory life estate imposed by law (Alberta Dower Act, Florida homestead devise restriction). Not the same as a testamentary life interest.",
+      "properties": {
+        "beneficiaryPersonId": { "type": "string", "format": "uuid" },
+        "basis": { "type": "string", "$comment": "Legal basis — e.g., 'Alberta Dower Act', 'Florida Constitution Art. X s.4'" },
+        "conditions": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "name"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

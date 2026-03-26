@@ -1,0 +1,22 @@
+{
+  "name": "Australia & New Zealand",
+  "id": "https://openinherit.org/v1/extensions/australia-nz.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "AU",
+  "legalSystems": [
+    "common_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Succession Act 2006 (NSW), Property (Relationships) Act 1976 (NZ), Te Ture Whenua Maori Act 1993",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Superannuation binding death benefit nominations, family provision claims, Aboriginal/Torres Strait Islander land, NZ testamentary promises, Maori land."
+}

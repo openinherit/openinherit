@@ -1,0 +1,91 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/canada.json",
+  "title": "Canada Extension",
+  "description": "Provincial succession rules for Canada: Quebec patrimony, Ontario equalization, BC WESA variation, Alberta dower rights, and Indigenous land succession details.",
+  "type": "object",
+  "$defs": {
+    "QuebecPatrimony": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "patrimonyValue": { "$ref": "../common/money.json" },
+        "equalisation": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "OntarioEqualization": {
+      "type": "object",
+      "properties": {
+        "netFamilyProperty": { "$ref": "../common/money.json" },
+        "equalizationPayment": { "$ref": "../common/money.json" },
+        "canBeNegative": {
+          "type": "boolean",
+          "$comment": "Ontario equalization can result in negative NFP"
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "BCWESAVariation": {
+      "type": "object",
+      "properties": {
+        "variationApplied": { "type": "boolean" },
+        "courtReference": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "AlbertaDower": {
+      "type": "object",
+      "properties": {
+        "dowerRight": { "type": "boolean" },
+        "spousePersonId": { "type": "string", "format": "uuid" },
+        "propertyId": { "type": "string", "format": "uuid" },
+        "consentGiven": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "required": ["dowerRight"],
+      "additionalProperties": false
+    },
+    "IndigenousLandDetails": {
+      "type": "object",
+      "properties": {
+        "propertyId": { "type": "string", "format": "uuid" },
+        "reserveName": { "type": "string" },
+        "treatyNumber": { "type": "string" },
+        "landType": {
+          "type": "string",
+          "enum": ["reserve", "treaty", "fee_simple_on_reserve", "certificate_of_possession"]
+        },
+        "successionRestrictions": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["propertyId", "landType"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "province": {
+      "type": "string",
+      "pattern": "^CA-[A-Z]{2}$",
+      "$comment": "Canadian province/territory code, e.g. CA-ON, CA-QC, CA-BC."
+    },
+    "quebecPatrimony": { "$ref": "#/$defs/QuebecPatrimony" },
+    "ontarioEqualization": { "$ref": "#/$defs/OntarioEqualization" },
+    "bcWesaVariation": { "$ref": "#/$defs/BCWESAVariation" },
+    "albertaDower": { "$ref": "#/$defs/AlbertaDower" },
+    "indigenousLandDetails": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/IndigenousLandDetails" }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["province"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

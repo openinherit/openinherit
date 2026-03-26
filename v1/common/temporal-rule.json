@@ -1,0 +1,47 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/temporal-rule.json",
+  "$comment": "Wraps any jurisdiction rule value with temporal legislation tracking. Use this for tax thresholds, exemption amounts, forced heirship fractions, and any value that changes when legislation changes. Enables historical lookback (what was the threshold when this gift was made?) and forward planning (what will the threshold be after the announced reform?).",
+  "title": "TemporalRule",
+  "description": "A jurisdiction rule value with effective dates, legislative status, and change history.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "description": "The actual rule value. Can be a number (tax rate, threshold amount in minor units), boolean (rule applies/doesn't), string (enum value, fraction), or object (complex rule).",
+      "type": ["number", "boolean", "string", "object"],
+      "$comment": "JSON Schema 'number' includes integers. Do not add 'integer' separately — oneOf would fail because a value like 50 matches both."
+    },
+    "effectiveFrom": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when this value came/comes into effect"
+    },
+    "effectiveUntil": {
+      "oneOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "description": "ISO 8601 date when this value was/will be superseded. null = currently in effect.",
+      "$comment": "null = no known end date (current rule). A date = superseded on that date."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["enacted", "royal_assent", "bill_stage", "consultation", "announced"],
+      "$comment": "enacted = in force. royal_assent = passed but not yet commenced. bill_stage = in parliamentary/congressional process. consultation = proposed, seeking feedback. announced = government has announced intent but no legislation drafted."
+    },
+    "predecessorValue": {
+      "description": "The previous value of this rule, for computing deltas. null if this is the first known value.",
+      "type": ["number", "boolean", "string", "object", "null"],
+      "$comment": "Same type flexibility as 'value', plus null for the first known value."
+    },
+    "legislativeReference": {
+      "type": "string",
+      "$comment": "e.g. 'Finance Act 2027 s.12', 'Swiss Civil Code Art. 471 (2023 revision)', 'Inheritance Tax Act 1984 s.7'"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": ["value", "effectiveFrom", "status"],
+  "additionalProperties": false
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/address.json",
+  "$comment": "All fields optional. Supports Western, Japanese (reversed), Indian (landmark-based), African (informal) addressing. An empty object is valid — some jurisdictions have no formal address system.",
+  "title": "PostalAddress",
+  "description": "A physical address. Culturally neutral — supports any global addressing convention.",
+  "type": "object",
+  "properties": {
+    "streetAddress": {
+      "type": "string",
+      "description": "Street number and name"
+    },
+    "addressLine2": {
+      "type": "string",
+      "description": "Flat, suite, building, floor"
+    },
+    "addressLocality": {
+      "type": "string",
+      "description": "City, town, village, or ward"
+    },
+    "addressRegion": {
+      "type": "string",
+      "description": "State, prefecture, province, county"
+    },
+    "postalCode": {
+      "type": "string"
+    },
+    "addressCountry": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2"
+    },
+    "latitude": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "longitude": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "landmark": {
+      "type": "string",
+      "$comment": "Common in India, Nigeria, rural areas. 'Near Meenakshi Temple' or 'Behind Shoprite, Lekki Phase 1'."
+    },
+    "directionNotes": {
+      "type": "string",
+      "$comment": "Free-form directions when no formal address exists. Common in rural Africa, parts of India."
+    },
+    "addressOrder": {
+      "type": "string",
+      "enum": ["western", "japanese", "indian", "arabic", "custom"],
+      "$comment": "japanese = country → prefecture → city → ward → block → building (reversed from Western). Determines display order."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Islamic Succession",
+  "id": "https://openinherit.org/v1/extensions/islamic.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "SA",
+  "legalSystems": [
+    "islamic_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Quranic inheritance verses (Surah An-Nisa 4:11-12), classical fiqh (Hanafi, Shafi'i, Maliki, Hanbali schools)",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Faraid rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf, mahr."
+}

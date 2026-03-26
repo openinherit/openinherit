@@ -1,0 +1,22 @@
+{
+  "name": "Africa Customary Succession",
+  "id": "https://openinherit.org/v1/extensions/africa-customary.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "ZA",
+  "legalSystems": [
+    "customary_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Reform of Customary Law of Succession and Regulation of Related Matters Act 11 of 2009 (ZA), various constitutional court decisions",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Patrilineal/matrilineal systems, family council decisions, communal property, widow rights, lobola, land tenure, constitutional challenges."
+}

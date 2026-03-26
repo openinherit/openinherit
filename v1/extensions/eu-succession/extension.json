@@ -1,0 +1,22 @@
+{
+  "name": "EU Succession",
+  "id": "https://openinherit.org/v1/extensions/eu-succession.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "EU",
+  "legalSystems": [
+    "civil_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Regulation (EU) No 650/2012 (Brussels IV), Spanish Civil Code, French Code civil, German BGB",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Brussels IV choice of law, European Certificate of Succession, Spanish regional regimes, forced heirship variants, post-Brexit UK asset handling."
+}

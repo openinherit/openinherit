@@ -1,0 +1,156 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/africa-customary.json",
+  "title": "Africa Customary Succession Extension",
+  "description": "Customary succession rules across African ethnic groups: patrilineal/matrilineal systems, family council decisions, communal property, widow rights, lobola, land tenure, and constitutional challenges.",
+  "type": "object",
+  "$defs": {
+    "FamilyCouncilDecision": {
+      "type": "object",
+      "properties": {
+        "decisionDate": { "type": "string", "format": "date" },
+        "decisionType": { "type": "string" },
+        "decidedBy": { "type": "string" },
+        "participants": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "chairPersonId": { "type": "string", "format": "uuid" },
+        "outcome": { "type": "string" },
+        "constitutionalChallengeOutcome": {
+          "type": "string",
+          "enum": ["not_challenged", "upheld", "struck_down", "pending"]
+        },
+        "challengeable": { "type": "boolean" }
+      },
+      "required": ["decisionType"],
+      "additionalProperties": false
+    },
+    "CustomarySuccessionRule": {
+      "type": "object",
+      "properties": {
+        "ethnicGroup": { "type": "string" },
+        "successionSystem": {
+          "type": "string",
+          "enum": [
+            "patrilineal_primogeniture",
+            "patrilineal_equal",
+            "matrilineal",
+            "bilateral",
+            "ultimogeniture"
+          ]
+        },
+        "widowInheritanceRight": {
+          "type": "string",
+          "enum": [
+            "full_inheritance",
+            "usufruct_only",
+            "levirate_marriage",
+            "none",
+            "statutory_override"
+          ]
+        },
+        "daughterInheritanceRight": { "type": "string" },
+        "constitutionalOverride": { "type": "boolean" },
+        "caseReference": { "type": "string" }
+      },
+      "required": ["ethnicGroup", "successionSystem"],
+      "additionalProperties": false
+    },
+    "CommunalPropertyDetail": {
+      "type": "object",
+      "properties": {
+        "propertyId": { "type": "string", "format": "uuid" },
+        "communityName": { "type": "string" },
+        "tenureType": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["propertyId"],
+      "additionalProperties": false
+    },
+    "WidowRights": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "customaryRight": { "type": "string" },
+        "statutoryRight": { "type": "string" },
+        "widowRitesRequired": { "type": "boolean" },
+        "widowRitesCompleted": { "type": "boolean" },
+        "ritesDescription": { "type": "string" },
+        "ritesCompletionDate": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      },
+      "required": ["personId"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "ethnicGroup": { "type": "string" },
+    "customaryRules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CustomarySuccessionRule" }
+    },
+    "familyCouncilDecisions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/FamilyCouncilDecision" }
+    },
+    "communalPropertyDetails": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/CommunalPropertyDetail" }
+    },
+    "widowRights": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/WidowRights" }
+    },
+    "lobolaDetails": {
+      "type": "object",
+      "$comment": "Derive fullyPaid from totalAgreed === paidToDate",
+      "properties": {
+        "totalAgreed": { "$ref": "../common/money.json" },
+        "paidToDate": { "$ref": "../common/money.json" },
+        "includesLivestock": { "type": "boolean" },
+        "livestockDetails": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "landTenureDetails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "propertyId": { "type": "string", "format": "uuid" },
+          "tenureType": { "type": "string" },
+          "communityAuthority": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["propertyId"],
+        "additionalProperties": false
+      }
+    },
+    "constitutionalChallenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": { "type": "string" },
+          "caseReference": { "type": "string" },
+          "outcome": {
+            "type": "string",
+            "enum": ["not_challenged", "upheld", "struck_down", "pending"]
+          },
+          "notes": { "type": "string" }
+        },
+        "required": ["description"],
+        "additionalProperties": false
+      }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["ethnicGroup"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

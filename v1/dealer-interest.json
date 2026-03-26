@@ -1,0 +1,116 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/dealer-interest.json",
+  "title": "Dealer Interest",
+  "description": "Level D data — records third-party interest in estate assets (art dealers, property investors, collectors). Privacy-controlled. Managed via proxy authorisation.",
+  "type": "object",
+  "$defs": {
+    "InterestedParty": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "art_dealer", "antique_dealer", "property_investor",
+            "auction_house", "gallery", "private_collector",
+            "museum", "institution", "charity",
+            "developer", "fund_manager", "family_office",
+            "estate_agent", "solicitor_firm", "other"
+          ]
+        },
+        "contactDetails": { "type": "string" }
+      },
+      "required": ["name", "type"],
+      "additionalProperties": false
+    },
+    "AssetInterestItem": {
+      "type": "object",
+      "properties": {
+        "assetId": { "type": "string", "format": "uuid" },
+        "propertyId": { "type": "string", "format": "uuid" },
+        "interestLevel": {
+          "type": "string",
+          "enum": ["exploratory", "moderate", "strong", "committed"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "CollectionInterest": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "assetIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "propertyIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "notes": { "type": "string" }
+      },
+      "anyOf": [
+        { "required": ["assetIds"] },
+        { "required": ["propertyIds"] }
+      ],
+      "additionalProperties": false
+    },
+    "OfferDetails": {
+      "type": "object",
+      "properties": {
+        "amount": { "$ref": "common/money.json" },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "validUntil": { "type": "string", "format": "date" },
+        "offerDate": { "type": "string", "format": "date" },
+        "documentRef": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "interestedParty": { "$ref": "#/$defs/InterestedParty" },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AssetInterestItem" }
+    },
+    "collection": { "$ref": "#/$defs/CollectionInterest" },
+    "offerStatus": {
+      "type": "string",
+      "enum": [
+        "standing_interest", "verbal_offer", "written_offer",
+        "formal_valuation", "conditional_offer", "accepted",
+        "declined", "expired", "withdrawn"
+      ]
+    },
+    "offerDetails": { "$ref": "#/$defs/OfferDetails" },
+    "testatorDisposition": {
+      "type": "string",
+      "enum": [
+        "willing_to_sell", "prefer_not_to_sell", "hold_for_executor",
+        "deferred_to_family", "promised_to_institution", "undecided"
+      ]
+    },
+    "linkedBequestId": { "type": "string", "format": "uuid" },
+    "privacyLevel": {
+      "type": "string",
+      "enum": ["testator_only", "proxy_visible", "executor_visible", "all_parties"]
+    },
+    "communicationInitiatedBy": {
+      "type": "string",
+      "enum": ["buyer", "testator", "proxy", "executor"]
+    },
+    "managedByProxyId": { "type": "string", "format": "uuid" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "interestedParty", "offerStatus", "privacyLevel"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

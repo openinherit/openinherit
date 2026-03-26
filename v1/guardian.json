@@ -1,0 +1,50 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/guardian.json",
+  "title": "Guardian",
+  "description": "A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "guardianPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the guardian Person.id"
+    },
+    "childPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the child Person.id"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["primary", "secondary", "substitute"]
+    },
+    "appointmentType": {
+      "type": "string",
+      "enum": [
+        "testamentary",
+        "parental_responsibility",
+        "court_appointed",
+        "shariah_court_appointed",
+        "community_appointed",
+        "religious_court_appointed"
+      ]
+    },
+    "guardianshipStructure": {
+      "type": "string",
+      "enum": ["individual", "collective", "rotating", "family_council_determined"]
+    },
+    "familyCouncilDecisionRef": {
+      "type": "string",
+      "$comment": "Reference to a family council decision document or record."
+    },
+    "conditions": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "guardianPersonId", "childPersonId", "role", "appointmentType"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}
