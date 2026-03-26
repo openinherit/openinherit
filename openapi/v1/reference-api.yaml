@@ -1,0 +1,526 @@
+openapi: '3.1.0'
+info:
+  title: INHERIT Reference REST API
+  version: '1.0.0'
+  description: |
+    Reference CRUD REST API for the INHERIT open estate data standard.
+    This API provides estate lifecycle management — create, read, update,
+    delete, import, export, and companion linking — built on top of the
+    INHERIT JSON Schema bundle.
+
+    For the schema bundle and validation endpoint, see openapi.yaml.
+    For the full specification, visit https://openinherit.org
+  license:
+    name: Apache 2.0
+    identifier: Apache-2.0
+  contact:
+    name: OpenInherit
+    url: https://openinherit.org
+    email: hello@openinherit.org
+
+servers:
+  - url: https://api.example.com/v1
+    description: Reference implementation server
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Estates
+    description: Estate lifecycle management
+
+paths:
+  /estates:
+    post:
+      operationId: createEstate
+      summary: Create a new estate
+      description: |
+        Creates a new estate record. The request body must conform to the
+        INHERIT Estate schema. Returns the created estate with an ETag for
+        optimistic concurrency control.
+      tags:
+        - Estates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/Estate'
+      responses:
+        '201':
+          description: Estate created successfully
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/Estate'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+
+    get:
+      operationId: listEstates
+      summary: List estates
+      description: |
+        Returns a paginated list of estates visible to the authenticated caller.
+        Supports cursor-based pagination and filtering by status and jurisdiction.
+      tags:
+        - Estates
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - name: status
+          in: query
+          description: Filter by estate status
+          required: false
+          schema:
+            type: string
+            enum:
+              - draft
+              - active
+              - locked
+              - archived
+        - name: jurisdiction
+          in: query
+          description: Filter by jurisdiction code (ISO 3166-2)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated list of estates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEstateList'
+
+  /estates/{estateId}:
+    parameters:
+      - $ref: '#/components/parameters/estateId'
+
+    get:
+      operationId: getEstate
+      summary: Get a single estate
+      description: Returns a single estate by its unique identifier.
+      tags:
+        - Estates
+      responses:
+        '200':
+          description: Estate retrieved successfully
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/Estate'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      operationId: updateEstate
+      summary: Update an estate
+      description: |
+        Partially or fully updates an estate. Callers SHOULD supply an
+        If-Match header containing the ETag from a previous GET or POST
+        response to enable optimistic concurrency control. If the ETag does
+        not match, a 412 Precondition Failed is returned.
+      tags:
+        - Estates
+      parameters:
+        - name: If-Match
+          in: header
+          description: ETag value from a previous response for optimistic concurrency control
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './openapi.yaml#/components/schemas/Estate'
+      responses:
+        '200':
+          description: Estate updated successfully
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: './openapi.yaml#/components/schemas/Estate'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '412':
+          description: Precondition failed — ETag mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      operationId: deleteEstate
+      summary: Delete an estate
+      description: Permanently deletes an estate and all its associated entities.
+      tags:
+        - Estates
+      responses:
+        '204':
+          description: Estate deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer token issued by the INHERIT identity provider
+
+  parameters:
+    estateId:
+      name: estateId
+      in: path
+      description: Unique identifier for the estate (UUID v4)
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    cursor:
+      name: cursor
+      in: query
+      description: Opaque cursor for pagination — use the value returned in the previous response
+      required: false
+      schema:
+        type: string
+
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of items to return (1–100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+              example: ESTATE_NOT_FOUND
+            message:
+              type: string
+              description: Human-readable error description
+              example: No estate found with the given identifier
+            details:
+              type: object
+              description: Additional structured detail about the error
+              additionalProperties: true
+
+    PaginatedEstateList:
+      type: object
+      required:
+        - items
+        - hasMore
+      properties:
+        items:
+          type: array
+          description: Page of estate records
+          items:
+            $ref: './openapi.yaml#/components/schemas/Estate'
+        cursor:
+          type: string
+          description: Opaque cursor to fetch the next page; absent when hasMore is false
+        hasMore:
+          type: boolean
+          description: Whether further pages are available
+
+    ImportResult:
+      type: object
+      required:
+        - estateId
+        - conformanceLevel
+      properties:
+        estateId:
+          type: string
+          format: uuid
+          description: Identifier assigned to the newly imported estate
+        conformanceLevel:
+          type: integer
+          enum: [1, 2, 3]
+          description: |
+            Highest conformance level achieved:
+            1 = Schema Valid, 2 = Referentially Intact, 3 = Jurisdiction Complete
+        warnings:
+          type: array
+          description: Non-fatal warnings produced during import
+          items:
+            type: string
+        entitiesCreated:
+          type: object
+          description: Count of each entity type created during import
+          properties:
+            persons:
+              type: integer
+            relationships:
+              type: integer
+            kinships:
+              type: integer
+            properties:
+              type: integer
+            assets:
+              type: integer
+            liabilities:
+              type: integer
+            bequests:
+              type: integer
+            trusts:
+              type: integer
+            executors:
+              type: integer
+            guardians:
+              type: integer
+            wishes:
+              type: integer
+            documents:
+              type: integer
+            attestations:
+              type: integer
+            proxyAuthorisations:
+              type: integer
+            dealerInterests:
+              type: integer
+            nonprobateTransfers:
+              type: integer
+
+    ExportJsonRequest:
+      type: object
+      properties:
+        includeExtensions:
+          type: array
+          description: List of extension identifiers to include in the export
+          items:
+            type: string
+        conformanceLevel:
+          type: integer
+          enum: [1, 2, 3]
+          description: Minimum conformance level required for export
+
+    ExportPdfRequest:
+      type: object
+      required:
+        - template
+      properties:
+        template:
+          type: string
+          enum:
+            - full
+            - summary
+            - professional
+          description: PDF template to use for rendering
+        includeExtensions:
+          type: array
+          description: List of extension identifiers to include in the PDF
+          items:
+            type: string
+        recipientName:
+          type: string
+          description: Name of the person receiving the PDF (used in the document header)
+
+    CompanionLink:
+      type: object
+      required:
+        - companionEstateId
+      properties:
+        companionEstateId:
+          type: string
+          format: uuid
+          description: UUID of the estate to link as a companion (e.g. a spouse's estate)
+
+    EstateSummary:
+      type: object
+      required:
+        - estateId
+        - status
+        - jurisdiction
+        - entityCounts
+        - conformanceLevel
+        - lastModifiedAt
+      properties:
+        estateId:
+          type: string
+          format: uuid
+          description: Unique identifier for the estate
+        status:
+          type: string
+          enum:
+            - draft
+            - active
+            - locked
+            - archived
+          description: Current lifecycle status of the estate
+        jurisdiction:
+          $ref: './openapi.yaml#/components/schemas/Jurisdiction'
+        entityCounts:
+          type: object
+          description: Count of each entity type present in the estate
+          properties:
+            persons:
+              type: integer
+            relationships:
+              type: integer
+            kinships:
+              type: integer
+            properties:
+              type: integer
+            assets:
+              type: integer
+            liabilities:
+              type: integer
+            bequests:
+              type: integer
+            trusts:
+              type: integer
+            executors:
+              type: integer
+            guardians:
+              type: integer
+            wishes:
+              type: integer
+            documents:
+              type: integer
+            attestations:
+              type: integer
+            proxyAuthorisations:
+              type: integer
+            dealerInterests:
+              type: integer
+            nonprobateTransfers:
+              type: integer
+        totalEstimatedValue:
+          $ref: './openapi.yaml#/components/schemas/Money'
+        totalLiabilities:
+          $ref: './openapi.yaml#/components/schemas/Money'
+        netEstimatedValue:
+          $ref: './openapi.yaml#/components/schemas/Money'
+        conformanceLevel:
+          type: integer
+          enum: [0, 1, 2, 3]
+          description: |
+            Current conformance level:
+            0 = Not validated, 1 = Schema Valid,
+            2 = Referentially Intact, 3 = Jurisdiction Complete
+        completeness:
+          type: object
+          description: Key completeness indicators for the estate
+          properties:
+            hasWill:
+              type: boolean
+            hasExecutor:
+              type: boolean
+            hasGuardian:
+              type: boolean
+            hasAttestation:
+              type: boolean
+            allBequestsHaveBeneficiary:
+              type: boolean
+        complexityIndicators:
+          type: object
+          description: Indicators used to assess estate complexity
+          properties:
+            jurisdictionCount:
+              type: integer
+              description: Number of distinct jurisdictions involved
+            hasTrusts:
+              type: boolean
+            hasForcedHeirship:
+              type: boolean
+            hasNonprobateTransfers:
+              type: boolean
+            hasCrossJurisdictionAssets:
+              type: boolean
+        lastModifiedAt:
+          type: string
+          format: date
+          description: Date the estate was last modified (ISO 8601)
+
+  headers:
+    ETag:
+      description: |
+        Entity tag for optimistic concurrency control.
+        Supply this value in the If-Match header on subsequent PATCH requests.
+      schema:
+        type: string
+        example: '"a3f4b2c1"'
+
+  responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: NOT_FOUND
+              message: The requested resource was not found
+
+    ValidationError:
+      description: The request body failed schema validation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: VALIDATION_ERROR
+              message: Request body does not conform to the INHERIT Estate schema
+              details:
+                violations:
+                  - path: /estateId
+                    message: must be a valid UUID
+
+    Conflict:
+      description: The request conflicts with the current state of the resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: CONFLICT
+              message: A resource with this identifier already exists
+
+    ReferentialIntegrityError:
+      description: The operation would violate referential integrity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              code: REFERENTIAL_INTEGRITY_ERROR
+              message: Cannot delete — other entities reference this resource
+              details:
+                referencedBy:
+                  - entityType: Bequest
+                    entityId: 550e8400-e29b-41d4-a716-446655440000
