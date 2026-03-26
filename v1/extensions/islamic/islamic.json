@@ -108,7 +108,7 @@
           "type": "string",
           "enum": ["mahr", "kafan", "funeral_costs", "tax", "debts_of_deceased"]
         },
-        "amount": { "$ref": "../common/money.json" },
+        "amount": { "$ref": "../../common/money.json" },
         "creditorPersonId": { "type": "string", "format": "uuid" },
         "notes": { "type": "string" }
       },

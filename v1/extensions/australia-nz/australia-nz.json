@@ -25,8 +25,8 @@
           "type": "array",
           "items": { "type": "string", "format": "uuid" }
         },
-        "taxableComponent": { "$ref": "../common/money.json" },
-        "taxFreeComponent": { "$ref": "../common/money.json" },
+        "taxableComponent": { "$ref": "../../common/money.json" },
+        "taxFreeComponent": { "$ref": "../../common/money.json" },
         "notes": { "type": "string" }
       },
       "required": ["assetId", "nominationType"],
@@ -75,8 +75,8 @@
       "type": "object",
       "properties": {
         "applicable": { "type": "boolean" },
-        "relationshipProperty": { "$ref": "../common/money.json" },
-        "separateProperty": { "$ref": "../common/money.json" },
+        "relationshipProperty": { "$ref": "../../common/money.json" },
+        "separateProperty": { "$ref": "../../common/money.json" },
         "optingOutAgreement": { "type": "boolean" },
         "notes": { "type": "string" }
       },

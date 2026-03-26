@@ -26,7 +26,7 @@
       "type": "object",
       "properties": {
         "eligible": { "type": "boolean" },
-        "amount": { "$ref": "../common/money.json" },
+        "amount": { "$ref": "../../common/money.json" },
         "duration": { "type": "string" },
         "notes": { "type": "string" }
       },

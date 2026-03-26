@@ -9,7 +9,7 @@
       "type": "object",
       "properties": {
         "applicable": { "type": "boolean" },
-        "patrimonyValue": { "$ref": "../common/money.json" },
+        "patrimonyValue": { "$ref": "../../common/money.json" },
         "equalisation": { "type": "string" },
         "notes": { "type": "string" }
       },
@@ -18,8 +18,8 @@
     "OntarioEqualization": {
       "type": "object",
       "properties": {
-        "netFamilyProperty": { "$ref": "../common/money.json" },
-        "equalizationPayment": { "$ref": "../common/money.json" },
+        "netFamilyProperty": { "$ref": "../../common/money.json" },
+        "equalizationPayment": { "$ref": "../../common/money.json" },
         "canBeNegative": {
           "type": "boolean",
           "$comment": "Ontario equalization can result in negative NFP"

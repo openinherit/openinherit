@@ -106,7 +106,7 @@
       "type": "object",
       "properties": {
         "applicable": { "type": "boolean" },
-        "foreignJurisdiction": { "$ref": "../common/jurisdiction.json" },
+        "foreignJurisdiction": { "$ref": "../../common/jurisdiction.json" },
         "taxImplications": { "type": "string" },
         "notes": { "type": "string" }
       },

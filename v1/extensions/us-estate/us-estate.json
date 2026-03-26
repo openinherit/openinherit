@@ -40,7 +40,7 @@
         "type": "object",
         "properties": {
           "propertyId": { "type": "string", "format": "uuid" },
-          "exemptionAmount": { "$ref": "../common/money.json" },
+          "exemptionAmount": { "$ref": "../../common/money.json" },
           "constitutional": { "type": "boolean" },
           "notes": { "type": "string" }
         },

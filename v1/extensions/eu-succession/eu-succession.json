@@ -8,9 +8,9 @@
     "BrusselsIVChoiceOfLaw": {
       "type": "object",
       "properties": {
-        "habitualResidence": { "$ref": "../common/jurisdiction.json" },
+        "habitualResidence": { "$ref": "../../common/jurisdiction.json" },
         "nationalityElection": { "type": "boolean" },
-        "electedNationality": { "$ref": "../common/jurisdiction.json" },
+        "electedNationality": { "$ref": "../../common/jurisdiction.json" },
         "electionDate": { "type": "string", "format": "date" }
       },
       "additionalProperties": false
@@ -60,7 +60,7 @@
         "calculationNotes": { "type": "string" },
         "effectiveDate": { "type": "string", "format": "date" },
         "reformVersion": { "type": "string" },
-        "temporalRule": { "$ref": "../common/temporal-rule.json" }
+        "temporalRule": { "$ref": "../../common/temporal-rule.json" }
       },
       "required": ["model"],
       "additionalProperties": false

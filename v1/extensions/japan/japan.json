@@ -74,7 +74,7 @@
           "$comment": "short_term = 6 months minimum. long_term = lifetime or fixed period."
         },
         "duration": { "type": "string" },
-        "actuarialValue": { "$ref": "../common/money.json" },
+        "actuarialValue": { "$ref": "../../common/money.json" },
         "registeredAtLegalAffairsBureau": { "type": "boolean" }
       },
       "required": ["propertyId", "spousePersonId", "rightType"],

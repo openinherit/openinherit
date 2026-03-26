@@ -6,15 +6,15 @@
   "type": "object",
   "properties": {
     "intestacyStatutoryLegacy": {
-      "$ref": "../common/temporal-rule.json",
+      "$ref": "../../common/temporal-rule.json",
       "$comment": "Statutory legacy amount under Administration of Estates Act 1925. As of 2023: £322,000."
     },
     "nilRateBand": {
-      "$ref": "../common/temporal-rule.json",
+      "$ref": "../../common/temporal-rule.json",
       "$comment": "IHT nil-rate band. Frozen at £325,000 since 2009."
     },
     "residenceNilRateBand": {
-      "$ref": "../common/temporal-rule.json",
+      "$ref": "../../common/temporal-rule.json",
       "$comment": "RNRB (main residence). Currently £175,000."
     },
     "transferableNilRateBand": {
@@ -28,7 +28,7 @@
       "$comment": "Percentage of the predeceased spouse's NRB available for transfer."
     },
     "inheritanceTaxRate": {
-      "$ref": "../common/temporal-rule.json",
+      "$ref": "../../common/temporal-rule.json",
       "$comment": "Main IHT rate. Currently 40%."
     },
     "cohabitantRights": {

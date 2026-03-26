@@ -106,8 +106,8 @@
       "type": "object",
       "$comment": "Derive fullyPaid from totalAgreed === paidToDate",
       "properties": {
-        "totalAgreed": { "$ref": "../common/money.json" },
-        "paidToDate": { "$ref": "../common/money.json" },
+        "totalAgreed": { "$ref": "../../common/money.json" },
+        "paidToDate": { "$ref": "../../common/money.json" },
         "includesLivestock": { "type": "boolean" },
         "livestockDetails": { "type": "string" },
         "notes": { "type": "string" }
