@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Governance, contributing, and security documentation
 - Developer documentation (primer, maturity model, conformance levels, extension guide)
 - Partner onboarding documentation
+- Reference REST API spec (`reference-api.yaml`) — 109 endpoints covering CRUD, import/export, couples, validation
 - Reference data (regulatory bodies, practitioner activities, data protection rules)
 - CI pipelines (schema validation, OpenAPI lint, test suite, type generation)
 - Issue and PR templates

@@ -9,7 +9,10 @@
     "lint:openapi": "npx @redocly/cli lint openapi/v1/openapi.yaml",
     "test": "node scripts/run-tests.mjs",
     "generate": "npx @hey-api/openapi-ts -i openapi/v1/openapi-bundled.yaml -o generated/typescript -c @hey-api/client-fetch",
-    "bundle": "npx @redocly/cli bundle openapi/v1/openapi.yaml -o openapi/v1/openapi-bundled.yaml"
+    "bundle": "npx @redocly/cli bundle openapi/v1/openapi.yaml -o openapi/v1/openapi-bundled.yaml",
+    "lint:reference-api": "npx @redocly/cli lint openapi/v1/reference-api.yaml",
+    "bundle:reference-api": "npx @redocly/cli bundle openapi/v1/reference-api.yaml -o openapi/v1/reference-api-bundled.yaml",
+    "generate:reference-api": "npx @hey-api/openapi-ts -i openapi/v1/reference-api-bundled.yaml -o generated/typescript-api -c @hey-api/client-fetch"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "latest",
