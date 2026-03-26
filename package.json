@@ -1,0 +1,22 @@
+{
+  "name": "openinherit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "INHERIT — open estate data interchange standard",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-schemas.mjs",
+    "lint:openapi": "npx @redocly/cli lint openapi/v1/openapi.yaml",
+    "test": "node scripts/run-tests.mjs",
+    "generate": "npx @hey-api/openapi-ts -i openapi/v1/openapi.yaml -o generated/typescript -c @hey-api/client-fetch",
+    "bundle": "npx @redocly/cli bundle openapi/v1/openapi.yaml -o openapi/v1/openapi-bundled.yaml"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "latest",
+    "@hey-api/client-fetch": "latest",
+    "@redocly/cli": "latest",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "license": "Apache-2.0"
+}
