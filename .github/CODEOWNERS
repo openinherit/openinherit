@@ -2,9 +2,9 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Core schemas — require Rich's approval
-/v1/*.json                            @richardd
-/v1/common/**                         @richardd
-/openapi/**                           @richardd
+/v1/*.json                            @davieshq
+/v1/common/**                         @davieshq
+/openapi/**                           @davieshq
 
 # Core extensions — jurisdiction partners
 # As partners are onboarded, their GitHub usernames replace @testate-team
@@ -23,6 +23,6 @@
 /v1/extensions/latin-america/**       @testate-team
 
 # Governance docs — Rich only
-/GOVERNANCE.md                        @richardd
-/CONTRIBUTING.md                      @richardd
-/SECURITY.md                          @richardd
+/GOVERNANCE.md                        @davieshq
+/CONTRIBUTING.md                      @davieshq
+/SECURITY.md                          @davieshq

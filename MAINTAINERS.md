@@ -2,7 +2,7 @@
 
 ## Core Maintainer
 
-- **Richard Davies** — Founder, Testate Technologies Ltd — [@richardd](https://github.com/richardd)
+- **Richard Davies** — Founder, Testate Technologies Ltd — [@davieshq](https://github.com/davieshq)
 
 ## Extension Maintainers
 
