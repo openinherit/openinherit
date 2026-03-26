@@ -1,0 +1,44 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/executor.json",
+  "title": "Executor",
+  "description": "A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "personId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Person.id"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["primary", "secondary", "substitute", "administrator", "administrator_with_will_annexed"]
+    },
+    "isProfessional": { "type": "boolean" },
+    "firmName": {
+      "type": "string",
+      "description": "Firm name if the executor is a professional (solicitor, accountant, trust corporation)"
+    },
+    "grantType": {
+      "type": "string",
+      "enum": [
+        "grant_of_probate",
+        "letters_of_administration",
+        "letters_of_administration_with_will_annexed",
+        "resealing",
+        "european_certificate_of_succession"
+      ],
+      "$comment": "Without a grant, the executor has no legal authority to administer the estate."
+    },
+    "grantDate": { "type": "string", "format": "date" },
+    "grantReference": { "type": "string" },
+    "issuingCourt": { "type": "string" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "personId", "role"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

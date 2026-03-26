@@ -1,0 +1,139 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/asset.json",
+  "title": "Asset",
+  "description": "A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.",
+  "type": "object",
+  "$defs": {
+    "Photo": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "caption": { "type": "string" }
+      },
+      "required": ["url"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string", "minLength": 1, "description": "Display name for this asset" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bank_account", "savings_account", "investment", "pension", "shares",
+        "premium_bonds", "cryptocurrency", "insurance",
+        "vehicle", "jewellery", "art", "antiques", "collectibles", "furniture",
+        "electronics", "musical_instruments", "books", "clothing",
+        "kitchenware", "sports_equipment", "firearms", "wine_and_spirits",
+        "tools", "garden_and_outdoor", "business_interest", "intellectual_property",
+        "domain_name", "social_media_account", "digital_subscription",
+        "sukuk", "takaful", "islamic_deposit",
+        "other"
+      ],
+      "$comment": "sukuk = Islamic bond. takaful = Islamic insurance. islamic_deposit = Shariah-compliant deposit."
+    },
+    "subcategory": { "type": "string" },
+    "estimatedValue": { "$ref": "common/money.json" },
+    "professionalValuation": { "$ref": "common/money.json" },
+    "valuationDate": { "type": "string", "format": "date" },
+    "valuationConfidence": {
+      "type": "string",
+      "enum": ["estimated", "professional", "probate", "unknown"]
+    },
+    "condition": {
+      "type": "string",
+      "enum": ["excellent", "good", "fair", "poor", "unknown", "not_applicable"],
+      "$comment": "Use 'not_applicable' for financial assets."
+    },
+    "quantity": { "type": "integer", "minimum": 1 },
+    "location": { "type": "string", "description": "Where this asset is stored or held" },
+    "propertyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Property.id if located at a property"
+    },
+    "identifiers": {
+      "type": "array",
+      "items": { "$ref": "common/identifier.json" },
+      "description": "Serial numbers, account numbers, policy refs, etc."
+    },
+    "photos": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Photo" }
+    },
+    "possessionStatus": {
+      "type": "string",
+      "enum": ["possessed_at_death", "receivable", "contingent"],
+      "$comment": "Distinguishes assets held at death from those receivable after (insurance payouts, debts owed). Under halacha, the bekhor's double portion applies only to 'possessed_at_death' (muchzak), not 'receivable' (ra'ui). Useful for probate valuations universally."
+    },
+    "mobilityType": {
+      "type": "string",
+      "enum": ["immoveable", "moveable", "mixed"],
+      "$comment": "Relevant for Shia inheritance and French lex rei sitae."
+    },
+    "acquisitionType": {
+      "type": "string",
+      "enum": [
+        "self_acquired", "ancestral_joint", "ancestral_severed",
+        "inherited", "gifted", "stridhan", "communal", "waqf_endowed"
+      ]
+    },
+    "registrationStatus": {
+      "type": "string",
+      "enum": ["formally_registered", "informally_held", "community_acknowledged", "disputed", "undocumented"]
+    },
+    "ownershipEvidence": {
+      "type": "string",
+      "enum": ["title_deed", "certificate_of_occupancy", "family_recognition", "community_testimony", "receipts_only", "none"]
+    },
+    "applicableSuccessionLaw": {
+      "type": "object",
+      "properties": {
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "lawName": { "type": "string" },
+        "section": { "type": "string" }
+      },
+      "required": ["jurisdiction"],
+      "additionalProperties": false
+    },
+    "beneficiaryDesignation": {
+      "type": "object",
+      "$comment": "For assets with named beneficiaries (retirement accounts, life insurance, POD bank accounts). These pass OUTSIDE the estate.",
+      "properties": {
+        "primaryBeneficiaryPersonIds": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+        "contingentBeneficiaryPersonIds": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+        "designationType": {
+          "type": "string",
+          "enum": ["retirement_account", "life_insurance", "superannuation", "pod_account", "other"]
+        },
+        "linkedNonprobateTransferId": { "type": "string", "format": "uuid" }
+      },
+      "additionalProperties": false
+    },
+    "digitalAccessConsent": {
+      "type": "object",
+      "$comment": "RUFADAA (Revised Uniform Fiduciary Access to Digital Assets Act) — adopted by ~47 US states. Controls whether fiduciaries can access digital assets.",
+      "properties": {
+        "consentGiven": { "type": "boolean" },
+        "scope": { "type": "string", "enum": ["full_access", "limited_access", "no_access"] },
+        "designatedRecipientPersonId": { "type": "string", "format": "uuid" },
+        "onlineToolDirective": {
+          "type": "boolean",
+          "$comment": "Whether the user set access directives via the platform's own tool (takes priority under RUFADAA)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "passesOutsideEstate": {
+      "type": "boolean",
+      "$comment": "True if this asset passes outside probate (beneficiary designation, POD, TOD). NOT distributed under the will."
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "name", "category"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/jurisdiction.json",
+  "title": "Jurisdiction",
+  "description": "A legal jurisdiction identified by ISO 3166 codes.",
+  "type": "object",
+  "properties": {
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2"
+    },
+    "subdivision": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}-[A-Z0-9]{1,6}$",
+      "$comment": "ISO 3166-2. Most codes 2-3 chars; some historic codes longer.",
+      "description": "ISO 3166-2 subdivision code (e.g. GB-SCT, US-CA)"
+    },
+    "legalSystem": {
+      "type": "string",
+      "enum": [
+        "common_law",
+        "civil_law",
+        "mixed",
+        "religious",
+        "customary",
+        "religious_islamic",
+        "religious_jewish",
+        "religious_hindu",
+        "religious_canon",
+        "plural"
+      ],
+      "$comment": "'plural' for dual civil/religious systems (Malaysia, Pakistan, Israel, Nigeria). Use 'religious_*' when identifying a specific religious legal system as an adjudicating authority."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable jurisdiction name (e.g. 'Scotland', 'California')"
+    }
+  },
+  "required": ["country"],
+  "additionalProperties": false
+}

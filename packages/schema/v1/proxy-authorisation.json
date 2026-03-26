@@ -1,0 +1,64 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/proxy-authorisation.json",
+  "title": "Proxy Authorisation",
+  "description": "Authorises a proxy to act on behalf of a testator — information gathering, communication, negotiation, or full decision-making. Includes consent record with cultural consent methods.",
+  "type": "object",
+  "$defs": {
+    "ConsentRecord": {
+      "type": "object",
+      "properties": {
+        "consentGiven": { "type": "boolean" },
+        "consentDate": { "type": "string", "format": "date" },
+        "consentMethod": {
+          "type": "string",
+          "enum": [
+            "in_person_verbal", "in_person_written", "video_recorded",
+            "witnessed_verbal", "phone_recorded", "assumed_cultural_norm"
+          ]
+        },
+        "witnesses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "role": {
+                "type": "string",
+                "$comment": "Provenance — e.g. 'family_elder', 'solicitor', 'community_leader', 'imam'."
+              },
+              "witnessedDate": { "type": "string", "format": "date" }
+            },
+            "required": ["personId"],
+            "additionalProperties": false
+          }
+        },
+        "documentRef": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["consentGiven"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "proxyPersonId": { "type": "string", "format": "uuid" },
+    "testatorPersonId": { "type": "string", "format": "uuid" },
+    "scope": {
+      "type": "string",
+      "enum": ["full", "information_gathering", "communication", "negotiation", "decision_making"]
+    },
+    "consentRecord": { "$ref": "#/$defs/ConsentRecord" },
+    "dealerNegotiationPermitted": { "type": "boolean" },
+    "startDate": { "type": "string", "format": "date" },
+    "expiryDate": { "type": "string", "format": "date" },
+    "revocationDate": { "type": "string", "format": "date" },
+    "auditTrailEnabled": { "type": "boolean" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "proxyPersonId", "testatorPersonId", "scope", "consentRecord"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

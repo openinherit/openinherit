@@ -1,0 +1,22 @@
+{
+  "name": "PRC China",
+  "id": "https://openinherit.org/v1/extensions/prc-china.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "CN",
+  "legalSystems": [
+    "civil_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "PRC Civil Code Book Six (Succession), Regulations on Household Registration (hukou)",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "Forced heirship (first/second order heirs), hukou registration, notarised succession certificates, cross-border HK/PRC asset handling."
+}

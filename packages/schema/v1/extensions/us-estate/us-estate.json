@@ -1,0 +1,101 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/us-estate.json",
+  "title": "US Estate Extension",
+  "description": "US-specific estate planning: community/separate property regimes, elective share, homestead exemptions, per stirpes variants, no-contest clauses, pretermitted heir statutes, RUFADAA, and Louisiana forced heirship.",
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "pattern": "^US-[A-Z]{2}$",
+      "$comment": "ISO 3166-2 US-XX"
+    },
+    "propertyRegime": {
+      "type": "string",
+      "enum": [
+        "community_property",
+        "community_property_with_survivorship",
+        "separate_property",
+        "quasi_community"
+      ]
+    },
+    "electiveShareDetails": {
+      "type": "object",
+      "properties": {
+        "available": { "type": "boolean" },
+        "electedPercentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "augmentedEstateIncludes": { "type": "string" },
+        "statute": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "homesteadExemptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "propertyId": { "type": "string", "format": "uuid" },
+          "exemptionAmount": { "$ref": "../../common/money.json" },
+          "constitutional": { "type": "boolean" },
+          "notes": { "type": "string" }
+        },
+        "required": ["propertyId"],
+        "additionalProperties": false
+      }
+    },
+    "perStirpesVariant": {
+      "type": "string",
+      "enum": [
+        "strict_per_stirpes",
+        "modern_per_stirpes",
+        "per_capita_at_each_generation"
+      ]
+    },
+    "noContestEnforceable": { "type": "boolean" },
+    "pretermittedHeirStatute": { "type": "string" },
+    "rufadaaAdopted": {
+      "type": "boolean",
+      "$comment": "Revised Uniform Fiduciary Access to Digital Assets Act"
+    },
+    "louisianaForcedHeirship": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "eligibleChildren": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "personId": { "type": "string", "format": "uuid" },
+              "ageOrCondition": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "reservedPortion": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "basis": {
+          "type": "string",
+          "enum": ["fixed", "conditional"]
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["state"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

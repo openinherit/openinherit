@@ -1,0 +1,54 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/nonprobate-transfer.json",
+  "title": "Nonprobate Transfer",
+  "description": "Assets that pass outside the probate estate — revocable trusts, TOD deeds, POD accounts, JTWROS, beneficiary designations, superannuation/CPF/EPF nominations.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "revocable_trust", "tod_deed", "pod_account",
+        "jtwros", "tenancy_by_entirety", "beneficiary_designation",
+        "life_insurance_nomination", "superannuation_nomination",
+        "cpf_nomination", "epf_nomination", "mandatory_savings_nomination"
+      ],
+      "$comment": "superannuation_nomination = Australian super. cpf_nomination = Singapore CPF. epf_nomination = Malaysian EPF. mandatory_savings_nomination = generic for other national provident funds."
+    },
+    "designationType": { "type": "string" },
+    "description": { "type": "string" },
+    "trustId": { "type": "string", "format": "uuid" },
+    "propertyId": { "type": "string", "format": "uuid" },
+    "assetIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "beneficiaryPersonIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "contingentBeneficiaryPersonIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "survivingOwnerPersonIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "passesOutsideEstate": { "type": "boolean" },
+    "bindingNomination": {
+      "type": "boolean",
+      "$comment": "Whether the nomination is binding on the fund trustee. Australian super nominations may be binding or non-binding."
+    },
+    "nominationExpiryDate": { "type": "string", "format": "date" },
+    "recordingReference": { "type": "string" },
+    "jurisdiction": { "$ref": "common/jurisdiction.json" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "passesOutsideEstate"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

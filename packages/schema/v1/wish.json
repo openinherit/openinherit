@@ -1,0 +1,36 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/wish.json",
+  "title": "Wish",
+  "description": "A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": {
+      "type": "string",
+      "enum": ["funeral", "letter", "care", "distribution", "digital", "pets", "general"]
+    },
+    "title": { "type": "string" },
+    "content": { "type": "string" },
+    "bindingNature": {
+      "type": "string",
+      "enum": ["non_binding", "culturally_obligatory", "religiously_obligatory", "legally_binding"]
+    },
+    "addresseePersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Person this wish is addressed to"
+    },
+    "relatedAssetId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Asset this wish relates to"
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "title"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

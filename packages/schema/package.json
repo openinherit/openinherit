@@ -1,0 +1,35 @@
+{
+  "name": "@openinherit/schema",
+  "version": "1.0.0",
+  "description": "INHERIT estate planning data standard — JSON Schema, JSON-LD context, and reference data",
+  "type": "module",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openinherit/openinherit.git",
+    "directory": "packages/schema"
+  },
+  "homepage": "https://github.com/openinherit/openinherit",
+  "exports": {
+    "./v1/*": "./v1/*",
+    "./extensions-registry.json": "./extensions-registry.json",
+    "./reference-data/*": "./reference-data/*"
+  },
+  "files": [
+    "v1",
+    "extensions-registry.json",
+    "reference-data"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "inherit",
+    "estate-planning",
+    "json-schema",
+    "probate",
+    "wills",
+    "trusts",
+    "open-data"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://openinherit.org/v1/extensions-registry-schema.json",
+  "version": "1.0.0",
+  "extensions": [
+    {
+      "id": "https://openinherit.org/v1/extensions/uk-england-wales.json",
+      "name": "UK England & Wales",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "GB-ENG",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/uk-england-wales/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/us-estate.json",
+      "name": "US Estate",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "US",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/us-estate/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/canada.json",
+      "name": "Canada",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "CA",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/canada/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/australia-nz.json",
+      "name": "Australia & New Zealand",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "AU",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/australia-nz/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/eu-succession.json",
+      "name": "EU Succession",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "EU",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/eu-succession/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/japan.json",
+      "name": "Japan",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "JP",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/japan/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/prc-china.json",
+      "name": "PRC China",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "CN",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/prc-china/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/singapore-malaysia.json",
+      "name": "Singapore & Malaysia",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "SG",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/singapore-malaysia/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/latin-america.json",
+      "name": "Latin America",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "BR",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/latin-america/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/islamic.json",
+      "name": "Islamic Succession",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "SA",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/islamic/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/jewish.json",
+      "name": "Jewish Law",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "IL",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/jewish/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/india-hindu.json",
+      "name": "India Hindu Succession",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "IN",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/india-hindu/"
+    },
+    {
+      "id": "https://openinherit.org/v1/extensions/africa-customary.json",
+      "name": "Africa Customary Succession",
+      "tier": "core",
+      "maturity": "draft",
+      "jurisdiction": "ZA",
+      "repo": "openinherit/openinherit",
+      "path": "v1/extensions/africa-customary/"
+    }
+  ]
+}

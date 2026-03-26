@@ -1,0 +1,258 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/person.json",
+  "title": "Person",
+  "description": "A person involved in the estate. Schema.org name alignment. Any Unicode script. Supports CJK phonetic readings, chieftaincy titles, clan/lineage identifiers, dual legal personalities, and tax residency across multiple jurisdictions.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "givenName": {
+      "type": "string",
+      "minLength": 1,
+      "description": "First/given name (Schema.org: givenName)"
+    },
+    "familyName": {
+      "type": "string",
+      "minLength": 1,
+      "$comment": "Optional — Tamil naming uses a single name. Systems must handle absent familyName.",
+      "description": "Last/family/surname (Schema.org: familyName)"
+    },
+    "additionalName": {
+      "type": "string",
+      "description": "Middle name(s) (Schema.org: additionalName)"
+    },
+    "preferredName": {
+      "type": "string",
+      "description": "Name the person prefers to be called"
+    },
+    "phoneticReading": {
+      "type": "object",
+      "$comment": "Required for CJK names. Japanese: furigana/romaji. Chinese: pinyin. Korean: romanisation. Ensures names can be read by non-native systems.",
+      "properties": {
+        "givenName": {
+          "type": "string"
+        },
+        "familyName": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "titles": {
+      "type": "array",
+      "$comment": "Chieftaincy titles (Nigerian), honorifics (Japanese), caste/clan titles (Indian), religious titles, academic degrees.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "chieftaincy",
+              "traditional",
+              "religious",
+              "professional",
+              "honorific",
+              "clan",
+              "academic",
+              "military",
+              "other"
+            ]
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "clanOrLineage": {
+      "type": "string",
+      "$comment": "Tribal clan, Indian gotra/caste, family lineage. Determines inheritance rights in customary/Hindu systems."
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of birth"
+    },
+    "dateOfDeath": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of death (if deceased)"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "non_binary",
+        "other",
+        "prefer_not_to_say",
+        "unknown"
+      ],
+      "$comment": "Optional but needed for gender-dependent inheritance (Islamic faraid, Hindu succession pre-2005). Halachic/Islamic gender categories available via x-inherit-* extensions."
+    },
+    "domicile": {
+      "$ref": "common/jurisdiction.json",
+      "$comment": "Domicile (not residence/nationality) determines succession law for moveables in conflict-of-laws. A British citizen domiciled in France has moveables governed by French forced heirship."
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "testator",
+          "beneficiary",
+          "executor",
+          "guardian",
+          "trustee",
+          "witness",
+          "attorney",
+          "proxy",
+          "protector",
+          "enforcer"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "$comment": "Core roles define the person's function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both 'executor' (core) and 'karta' (x-inherit-india-hindu). Extensions should NOT attempt to add values to this enum."
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number (E.164 recommended)"
+        },
+        "address": {
+          "$ref": "common/address.json"
+        }
+      },
+      "additionalProperties": false
+    },
+    "identifiers": {
+      "type": "array",
+      "items": {
+        "$ref": "common/identifier.json"
+      },
+      "description": "External identifiers (passport, national ID, etc.)"
+    },
+    "ritualName": {
+      "type": "object",
+      "$comment": "Structured religious name. Hebrew: 'Dovid ben Avraham'. Arabic nasab: 'Ahmed ibn Muhammad'. Hindu: gotra + name. Used for halachic documents, Shariah court filings, religious ceremonies.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The full ritual/religious name"
+        },
+        "patronymic": {
+          "type": "string",
+          "description": "Patronymic element (ben/bat, ibn/bint, etc.)"
+        },
+        "nameSystem": {
+          "type": "string",
+          "description": "Naming tradition: hebrew, arabic_nasab, hindu, buddhist, etc."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "legalPersonalities": {
+      "type": "array",
+      "$comment": "A person can have different legal identities across systems. Under statutory law: property owner. Under customary law: okpara (first son) with custodial authority. Under religious law: a Kohen.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": {
+            "type": "string",
+            "enum": [
+              "statutory",
+              "customary",
+              "religious",
+              "traditional"
+            ]
+          },
+          "role": {
+            "type": "string"
+          },
+          "jurisdiction": {
+            "$ref": "common/jurisdiction.json"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "system",
+          "role"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "taxResidency": {
+      "type": "array",
+      "$comment": "Tax residency in one or more jurisdictions. Handles FATCA (US), CRS, JP/US estate tax treaty, expat tax. A person may be tax-resident in multiple jurisdictions simultaneously.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "jurisdiction": {
+            "$ref": "common/jurisdiction.json"
+          },
+          "taxpayerIdentifier": {
+            "type": "string",
+            "$comment": "SSN (US), TFN (AU), My Number (JP), NINO (UK)"
+          },
+          "treatyPosition": {
+            "type": "string",
+            "$comment": "Relevant treaty claim, e.g., 'US-JP Estate Tax Treaty Art. 4'"
+          },
+          "fatcaStatus": {
+            "type": "string",
+            "enum": [
+              "us_person",
+              "non_us_person",
+              "exempt",
+              "unknown"
+            ],
+            "$comment": "FATCA classification. US persons have worldwide reporting obligations."
+          }
+        },
+        "required": [
+          "jurisdiction"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag for preferred language"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "givenName",
+    "roles"
+  ],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

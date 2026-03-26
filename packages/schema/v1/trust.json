@@ -1,0 +1,170 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/trust.json",
+  "title": "Trust",
+  "description": "A trust instrument — testamentary or inter vivos. Covers discretionary, bare, life interest, charitable, nil rate band, waqf (Islamic endowment), and offshore structures with governance features (reserved powers, flee clauses, protector powers).",
+  "type": "object",
+  "$defs": {
+    "TrustAppointee": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "role": {
+          "type": "string",
+          "enum": ["trustee", "protector", "enforcer"]
+        }
+      },
+      "required": ["personId", "role"],
+      "additionalProperties": false
+    },
+    "TrustBeneficiary": {
+      "type": "object",
+      "properties": {
+        "personId": { "type": "string", "format": "uuid" },
+        "classDefinition": { "type": "string" },
+        "organisationName": { "type": "string" },
+        "interestType": {
+          "type": "string",
+          "enum": ["income", "capital", "both", "discretionary"]
+        }
+      },
+      "required": ["interestType"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "discretionary", "life_interest", "bare",
+        "accumulation_and_maintenance", "disabled_persons",
+        "charitable", "nil_rate_band", "waqf", "other"
+      ]
+    },
+    "trustees": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TrustAppointee" },
+      "minItems": 1
+    },
+    "beneficiaries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TrustBeneficiary" },
+      "minItems": 1
+    },
+    "settlor": { "type": "string", "format": "uuid" },
+    "isTestamentary": { "type": "boolean" },
+    "createdDate": { "type": "string", "format": "date" },
+    "creationType": {
+      "type": "string",
+      "enum": ["testamentary", "inter_vivos_revocable", "inter_vivos_irrevocable"]
+    },
+    "revocability": {
+      "type": "string",
+      "enum": ["revocable", "irrevocable", "perpetual"],
+      "$comment": "Distinct from creationType. A trust created as inter_vivos_revocable may become irrevocable on the settlor's death. perpetual = waqf and certain Cayman STAR trusts."
+    },
+    "perpetual": {
+      "type": "boolean",
+      "$comment": "True for waqf and certain offshore perpetual trusts."
+    },
+    "vestingAge": { "type": "integer", "minimum": 0 },
+    "vestingDate": { "type": "string", "format": "date" },
+    "vestingConditions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "contingentInterests": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "trustPeriod": { "type": "string" },
+    "governingLaw": { "$ref": "common/jurisdiction.json" },
+    "reservedPowers": {
+      "type": "array",
+      "$comment": "Powers retained by the settlor or granted to a third party. Common in BVI VISTA trusts, Jersey trusts, and Cayman STAR trusts.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "powerType": {
+            "type": "string",
+            "enum": [
+              "investment", "distribution", "amendment", "revocation",
+              "addition_of_beneficiaries", "removal_of_trustees", "change_of_governing_law"
+            ]
+          },
+          "heldByPersonId": { "type": "string", "format": "uuid" },
+          "conditions": { "type": "string" }
+        },
+        "required": ["powerType"],
+        "additionalProperties": false
+      }
+    },
+    "fleeClause": {
+      "type": "object",
+      "$comment": "Clause allowing automatic change of trust situs if triggering events occur (e.g., change of law, political instability). Standard in offshore trusts.",
+      "properties": {
+        "present": { "type": "boolean" },
+        "triggerEvents": { "type": "array", "items": { "type": "string" } },
+        "destinationJurisdiction": { "$ref": "common/jurisdiction.json" },
+        "automaticOrDiscretionary": { "type": "string", "enum": ["automatic", "discretionary"] }
+      },
+      "additionalProperties": false
+    },
+    "protectorPowers": {
+      "type": "array",
+      "$comment": "Specific powers held by the trust protector. Cayman STAR trusts REQUIRE an enforcer. Jersey/Guernsey trusts commonly have protectors.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "powerType": {
+            "type": "string",
+            "enum": [
+              "consent_to_distribution", "remove_trustee", "appoint_trustee",
+              "change_governing_law", "veto_investment", "add_beneficiary",
+              "exclude_beneficiary", "enforce_purpose"
+            ]
+          },
+          "protectorPersonId": { "type": "string", "format": "uuid" },
+          "exerciseConditions": { "type": "string" }
+        },
+        "required": ["powerType", "protectorPersonId"],
+        "additionalProperties": false
+      }
+    },
+    "jurisdictionalRecognition": {
+      "type": "array",
+      "$comment": "How different jurisdictions recognise this trust. Critical for offshore trusts used by HK/Singapore/Geneva clients.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "jurisdiction": { "$ref": "common/jurisdiction.json" },
+          "recognised": { "type": "boolean" },
+          "recognisedAs": { "type": "string", "$comment": "e.g., 'transparent for tax' or 'opaque entity'" },
+          "hagueTrustConventionApplies": { "type": "boolean", "$comment": "Switzerland ratified; France did not." },
+          "notes": { "type": "string" }
+        },
+        "required": ["jurisdiction", "recognised"],
+        "additionalProperties": false
+      }
+    },
+    "assetProtectionFeatures": {
+      "type": "object",
+      "$comment": "For Cook Islands, Nevis, BVI, and domestic US asset protection trusts.",
+      "properties": {
+        "selfSettled": { "type": "boolean", "$comment": "True if the settlor is also a beneficiary. Affects creditor claims." },
+        "spendthriftClause": { "type": "boolean" },
+        "fraudulentTransferLookback": { "type": "string", "$comment": "Lookback period for fraudulent transfer claims (e.g., '2 years' for Cook Islands, '6 years' for BVI)." },
+        "domesticationDate": { "type": "string", "format": "date", "$comment": "If an offshore trust was domesticated (moved onshore)." }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "name", "type", "trustees", "beneficiaries"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

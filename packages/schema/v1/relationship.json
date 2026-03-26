@@ -1,0 +1,372 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/relationship.json",
+  "title": "Relationship",
+  "description": "Spousal/partnership relationship. N-partner support (no structural two-partner limit). Event-based timeline (status derived from events). No gendered role names. Financial instruments with MAHR/KETUBAH subtype validation. Cross-jurisdiction recognition for dual civil/religious status.",
+  "type": "object",
+  "$defs": {
+    "Partner": {
+      "type": "object",
+      "properties": {
+        "personId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Reference to a Person.id"
+        },
+        "displayLabel": {
+          "type": "string",
+          "description": "Optional non-gendered label (e.g. 'First Wife', 'Partner A')"
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Position in partner list (1-based)"
+        }
+      },
+      "required": [
+        "personId",
+        "ordinal"
+      ],
+      "additionalProperties": false
+    },
+    "RelationshipEvent": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "CEREMONY",
+            "REGISTRATION",
+            "ENGAGEMENT",
+            "MARRIAGE_CONTRACT",
+            "PROPERTY_REGIME_CHANGE",
+            "SEPARATION_INFORMAL",
+            "SEPARATION_LEGAL",
+            "DIVORCE_FILED",
+            "DIVORCE_FINALISED",
+            "FINANCIAL_ORDER",
+            "ANNULMENT",
+            "DISSOLUTION",
+            "DEATH_OF_PARTNER",
+            "RECONCILIATION",
+            "VOID_DECLARATION",
+            "MAHR_PAYMENT",
+            "LOBOLA_PAYMENT"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date"
+        },
+        "jurisdiction": {
+          "$ref": "common/jurisdiction.json"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "date"
+      ],
+      "additionalProperties": false
+    },
+    "FinancialInstrument": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "MAHR",
+            "KETUBAH",
+            "LOBOLA",
+            "PRENUPTIAL_AGREEMENT",
+            "POSTNUPTIAL_AGREEMENT",
+            "MARRIAGE_SETTLEMENT"
+          ]
+        },
+        "value": {
+          "$ref": "common/money.json"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "AGREED",
+            "PAID",
+            "PARTIALLY_PAID",
+            "DEFERRED",
+            "DISPUTED",
+            "WAIVED"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "documentRef": {
+          "type": "string",
+          "description": "Reference to a Document.id"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "inheritanceImpact": {
+          "type": "string",
+          "description": "How this affects inheritance distribution"
+        },
+        "maharDetails": {
+          "type": "object",
+          "$comment": "Required when type is MAHR. Structured mahr data for Islamic estates.",
+          "properties": {
+            "maharType": {
+              "type": "string",
+              "enum": [
+                "prompt",
+                "deferred",
+                "combination"
+              ]
+            },
+            "recipientPersonId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "linkedLiabilityId": {
+              "type": "string",
+              "format": "uuid",
+              "$comment": "Links to the Liability entity representing this mahr as an estate debt"
+            }
+          },
+          "additionalProperties": false
+        },
+        "ketubahDetails": {
+          "type": "object",
+          "$comment": "Required when type is KETUBAH. Structured ketubah data for Jewish estates.",
+          "properties": {
+            "principalAmount": {
+              "$ref": "common/money.json",
+              "$comment": "Ikkar ketubah — standard amount (200 zuz for virgin, 100 for widow/divorcee)"
+            },
+            "tosefetAmount": {
+              "$ref": "common/money.json",
+              "$comment": "Tosefet ketubah — groom's additional amount"
+            },
+            "nedunya": {
+              "$ref": "common/money.json",
+              "$comment": "Dowry brought by the bride"
+            },
+            "brideStatus": {
+              "type": "string",
+              "enum": [
+                "virgin",
+                "widow",
+                "divorcee"
+              ]
+            },
+            "witnessPersonIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "officiatingRabbi": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "lobolaDetails": {
+          "type": "object",
+          "$comment": "Structured lobola data for African customary estates.",
+          "properties": {
+            "negotiatedWith": {
+              "type": "string",
+              "$comment": "Family or person lobola was negotiated with"
+            },
+            "includesLivestock": {
+              "type": "boolean"
+            },
+            "livestockCount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "$comment": "MAHR requires maharDetails",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "MAHR"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "maharDetails"
+            ]
+          }
+        },
+        {
+          "$comment": "KETUBAH requires ketubahDetails",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "KETUBAH"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "ketubahDetails"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "JurisdictionalRecognition": {
+      "type": "object",
+      "$comment": "How a jurisdiction recognises this relationship. Enables modelling of civil/religious status divergence (e.g. agunah: civilly divorced but halachically married).",
+      "properties": {
+        "jurisdiction": {
+          "$ref": "common/jurisdiction.json"
+        },
+        "recognised": {
+          "type": "boolean"
+        },
+        "recognisedAs": {
+          "type": "string",
+          "description": "What this jurisdiction recognises it as (if different)"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "jurisdiction",
+        "recognised"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "MARRIAGE_CIVIL",
+        "MARRIAGE_RELIGIOUS",
+        "MARRIAGE_CUSTOMARY",
+        "MARRIAGE_COMMON_LAW",
+        "CIVIL_PARTNERSHIP",
+        "CIVIL_UNION",
+        "DOMESTIC_PARTNERSHIP",
+        "DE_FACTO",
+        "COHABITATION",
+        "ENGAGEMENT"
+      ],
+      "$comment": "Religious subtypes (nikah, kiddushin, hindu_vivah) go in religiousSubtype. MARRIAGE_CUSTOMARY covers customary unions."
+    },
+    "religiousSubtype": {
+      "type": "string",
+      "$comment": "Specific religious marriage form: nikah, kiddushin, hindu_vivah, anand_karaj (Sikh), etc. Only meaningful when type is MARRIAGE_RELIGIOUS."
+    },
+    "selfDeclaredType": {
+      "type": "string",
+      "description": "How the parties themselves describe this relationship"
+    },
+    "partners": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Partner"
+      },
+      "minItems": 2,
+      "description": "The people in this relationship. Minimum 2, no structural upper limit."
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RelationshipEvent"
+      },
+      "description": "Chronological events determining relationship status"
+    },
+    "currentStatus": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "SEPARATED_INFORMAL",
+        "SEPARATED_LEGAL",
+        "DIVORCED",
+        "ANNULLED",
+        "DISSOLVED",
+        "WIDOWED",
+        "VOID",
+        "PUTATIVE"
+      ],
+      "$comment": "Convenience denormalisation. The authoritative status SHOULD be derived from the most recent event in the events array. Producers MUST keep this consistent with the event timeline. Consumers SHOULD derive from events when events are present."
+    },
+    "jurisdiction": {
+      "$ref": "common/jurisdiction.json",
+      "description": "Primary jurisdiction where this relationship was formed"
+    },
+    "jurisdictionalRecognition": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/JurisdictionalRecognition"
+      },
+      "description": "How other jurisdictions recognise (or don't) this relationship"
+    },
+    "financialInstruments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FinancialInstrument"
+      },
+      "description": "Mahr, ketubah, lobola, prenuptial agreements, etc."
+    },
+    "propertyRegime": {
+      "type": "string",
+      "enum": [
+        "COMMUNITY_OF_PROPERTY",
+        "SEPARATION_OF_PROPERTY",
+        "COMMUNITY_OF_ACQUESTS",
+        "DEFERRED_COMMUNITY",
+        "SEPARATE_AS_MODIFIED",
+        "ISLAMIC_DOWER",
+        "US_COMMUNITY_PROPERTY",
+        "US_COMMUNITY_WITH_SURVIVORSHIP",
+        "US_QUASI_COMMUNITY",
+        "HINDU_SEPARATE"
+      ],
+      "description": "The marital property regime"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "partners"
+  ],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

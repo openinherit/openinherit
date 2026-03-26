@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/identifier.json",
+  "title": "Identifier",
+  "description": "A typed external identifier. Use 'system' to namespace (e.g. 'urn:hmrc:nino').",
+  "type": "object",
+  "properties": {
+    "system": {
+      "type": "string",
+      "description": "Namespace URI or name"
+    },
+    "value": {
+      "type": "string",
+      "description": "The identifier value"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type label (e.g. 'passport', 'national_insurance', 'charity_number')"
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

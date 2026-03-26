@@ -1,0 +1,146 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/extensions/australia-nz.json",
+  "title": "Australia & New Zealand Extension",
+  "description": "Succession rules for AU and NZ: superannuation binding death benefit nominations, family provision claims, Aboriginal/Torres Strait Islander land, NZ Property (Relationships) Act, testamentary promises, and Maori land under Te Ture Whenua.",
+  "type": "object",
+  "$defs": {
+    "SuperannuationNomination": {
+      "type": "object",
+      "properties": {
+        "assetId": { "type": "string", "format": "uuid" },
+        "fundType": {
+          "type": "string",
+          "enum": ["smsf", "industry", "retail", "public_sector", "corporate"]
+        },
+        "nominationType": {
+          "type": "string",
+          "enum": ["bdbn_lapsing", "bdbn_non_lapsing", "non_binding", "reversionary_pension"]
+        },
+        "binding": { "type": "boolean" },
+        "expiryDate": { "type": "string", "format": "date" },
+        "expiryRule": { "type": "string" },
+        "trusteeDiscretion": { "type": "boolean" },
+        "nominatedPersonIds": {
+          "type": "array",
+          "items": { "type": "string", "format": "uuid" }
+        },
+        "taxableComponent": { "$ref": "../../common/money.json" },
+        "taxFreeComponent": { "$ref": "../../common/money.json" },
+        "notes": { "type": "string" }
+      },
+      "required": ["assetId", "nominationType"],
+      "additionalProperties": false
+    },
+    "FamilyProvisionClaim": {
+      "type": "object",
+      "properties": {
+        "claimantPersonId": { "type": "string", "format": "uuid" },
+        "relationship": { "type": "string" },
+        "statute": { "type": "string" },
+        "eligibleUnderStatute": { "type": "boolean" },
+        "limitationPeriod": { "type": "string" },
+        "notionalEstateEngaged": {
+          "type": "boolean",
+          "$comment": "NSW-specific"
+        },
+        "claimFiled": { "type": "boolean" },
+        "filedDate": { "type": "string", "format": "date" },
+        "outcome": {
+          "type": "string",
+          "enum": ["pending", "upheld", "dismissed", "settled"]
+        },
+        "notes": { "type": "string" }
+      },
+      "required": ["claimantPersonId"],
+      "additionalProperties": false
+    },
+    "AboriginalLandDetails": {
+      "type": "object",
+      "properties": {
+        "propertyId": { "type": "string", "format": "uuid" },
+        "landType": {
+          "type": "string",
+          "enum": ["native_title", "alra", "aboriginal_freehold", "ilua", "torres_strait"]
+        },
+        "nativeTitleDetermination": { "type": "string" },
+        "landCouncil": { "type": "string" },
+        "successionRestrictions": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["propertyId", "landType"],
+      "additionalProperties": false
+    },
+    "NZPropertyRelationshipsAct": {
+      "type": "object",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "relationshipProperty": { "$ref": "../../common/money.json" },
+        "separateProperty": { "$ref": "../../common/money.json" },
+        "optingOutAgreement": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "TestamentaryPromise": {
+      "type": "object",
+      "properties": {
+        "claimantPersonId": { "type": "string", "format": "uuid" },
+        "promiseDescription": { "type": "string" },
+        "statute": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["claimantPersonId"],
+      "additionalProperties": false
+    },
+    "MaoriLandDetails": {
+      "type": "object",
+      "properties": {
+        "propertyId": { "type": "string", "format": "uuid" },
+        "landBlockIdentifier": { "type": "string" },
+        "maoriLandCourtReference": { "type": "string" },
+        "successionUnderTeTureWhenua": { "type": "boolean" }
+      },
+      "required": ["propertyId"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "enum": [
+        "AU-NSW", "AU-VIC", "AU-QLD", "AU-WA", "AU-SA",
+        "AU-TAS", "AU-ACT", "AU-NT", "NZ"
+      ]
+    },
+    "superannuationNominations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SuperannuationNomination" }
+    },
+    "familyProvisionClaims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/FamilyProvisionClaim" }
+    },
+    "aboriginalLandDetails": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AboriginalLandDetails" }
+    },
+    "nzPRA": { "$ref": "#/$defs/NZPropertyRelationshipsAct" },
+    "testamentaryPromises": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TestamentaryPromise" }
+    },
+    "maoriLandDetails": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/MaoriLandDetails" }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["jurisdiction"],
+  "minProperties": 1,
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/kinship.json",
+  "title": "Kinship",
+  "description": "A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/india-hindu.json.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "PARENT_CHILD_BIOLOGICAL",
+        "PARENT_CHILD_ADOPTED",
+        "PARENT_CHILD_STEP",
+        "PARENT_CHILD_FOSTER",
+        "PARENT_CHILD_ACKNOWLEDGED",
+        "SIBLING",
+        "HALF_SIBLING_PATERNAL",
+        "HALF_SIBLING_MATERNAL",
+        "STEP_SIBLING",
+        "GRANDPARENT_GRANDCHILD",
+        "UNCLE_NEPHEW",
+        "AUNT_NEPHEW"
+      ],
+      "$comment": "HALF_SIBLING_PATERNAL = same father, different mother. HALF_SIBLING_MATERNAL = same mother, different father. Critical for Islamic faraid — paternal half-siblings inherit differently from maternal half-siblings. UNCLE_NEPHEW/AUNT_NEPHEW: supports matrilineal African succession (maternal uncle inherits) and Islamic ta'sib hierarchy (paternal uncle's son). PARENT_CHILD_ACKNOWLEDGED: father acknowledges a child of uncertain parentage — relevant for Islamic inheritance."
+    },
+    "fromPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Parent/elder person in the kinship (Person.id)"
+    },
+    "toPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Child/younger person in the kinship (Person.id)"
+    },
+    "legalStatus": {
+      "type": "string",
+      "enum": ["recognised", "contested", "pending", "unrecognised"],
+      "description": "Legal recognition status of this familial bond"
+    },
+    "legitimacy": {
+      "type": "string",
+      "enum": ["legitimate", "illegitimate", "legitimated", "not_applicable"],
+      "$comment": "Affects inheritance in Islamic law (illegitimate children don't inherit via faraid), some African customary systems, and pre-1970 English law. Use 'not_applicable' where the distinction has been abolished."
+    },
+    "adoptionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of adoption order (for PARENT_CHILD_ADOPTED)"
+    },
+    "courtOrderRef": {
+      "type": "string",
+      "description": "Court order or adoption certificate reference"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": ["id", "type", "fromPersonId", "toPersonId"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

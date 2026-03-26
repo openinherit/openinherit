@@ -1,0 +1,376 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/estate.json",
+  "title": "Estate",
+  "description": "The root estate record — will, intestacy, or trust-based succession plan. Contains testator details, jurisdiction, will formalities, forced heirship, probate grants, death record, multi-jurisdiction administration, and tax treaty positions.",
+  "type": "object",
+  "$defs": {
+    "Codicil": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "date": { "type": "string", "format": "date" },
+        "description": { "type": "string" },
+        "attestation": { "$ref": "attestation.json" },
+        "documentId": { "type": "string", "format": "uuid" }
+      },
+      "required": ["id", "date"],
+      "additionalProperties": false
+    },
+    "TestamentaryCapacity": {
+      "type": "object",
+      "properties": {
+        "assessed": { "type": "boolean" },
+        "assessmentDate": { "type": "string", "format": "date" },
+        "assessorName": { "type": "string" },
+        "assessorRole": { "type": "string" },
+        "capacityConfirmed": { "type": "boolean" },
+        "goldenRuleComplied": {
+          "type": "boolean",
+          "$comment": "The 'golden rule' (Kenward v Adams [1975]) — elderly/seriously ill testators should have a medical practitioner assess capacity."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ForcedHeirship": {
+      "type": "object",
+      "properties": {
+        "applies": { "type": "boolean" },
+        "reservedPortion": { "type": "number", "minimum": 0, "maximum": 100 },
+        "disposableQuota": { "type": "number", "minimum": 0, "maximum": 100 },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "claimNature": {
+          "type": "string",
+          "enum": ["property_share", "cash_claim", "usufruct", "court_discretion"]
+        },
+        "calculationBasis": {
+          "type": "string",
+          "enum": ["fixed", "per_child_sliding", "court_discretion", "conditional"]
+        },
+        "applicableTo": {
+          "type": "string",
+          "enum": ["children_only", "children_and_spouse", "all_descendants", "all_heirs"]
+        },
+        "deferralRule": { "type": "string" },
+        "effectiveDate": {
+          "type": "string",
+          "format": "date",
+          "$comment": "When these forced heirship rules took effect. Swiss 2023 reform: 2023-01-01."
+        },
+        "reformVersion": {
+          "type": "string",
+          "$comment": "e.g., 'Swiss Code 2023 revision', 'French loi 2006-728'."
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "AdjudicatingBody": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "secular_court", "religious_court", "beth_din", "shariah_court",
+            "tribal_court", "family_court", "family_council", "community_elders",
+            "partition_meeting", "karta_decision", "maori_land_court", "high_court"
+          ]
+        },
+        "name": { "type": "string" },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "caseReference": { "type": "string" },
+        "authoritative": { "type": "boolean" }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "ParallelDistribution": {
+      "type": "object",
+      "properties": {
+        "system": { "type": "string" },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "description": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["system"],
+      "additionalProperties": false
+    },
+    "ProbateGrant": {
+      "type": "object",
+      "properties": {
+        "grantType": { "type": "string" },
+        "grantDate": { "type": "string", "format": "date" },
+        "grantReference": { "type": "string" },
+        "issuingCourt": { "type": "string" },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "DeathRecord": {
+      "type": "object",
+      "properties": {
+        "dateOfDeath": { "type": "string", "format": "date" },
+        "placeOfDeath": { "type": "string" },
+        "deathCertificateRef": { "type": "string" },
+        "domicileAtDeath": { "$ref": "common/jurisdiction.json" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "SuccessionConflict": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "systems": { "type": "array", "items": { "type": "string" } },
+        "resolutionStatus": {
+          "type": "string",
+          "enum": ["unresolved", "resolved", "pending_court", "pending_arbitration"]
+        },
+        "notes": { "type": "string" }
+      },
+      "required": ["description"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "testatorPersonId": { "type": "string", "format": "uuid" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "locked", "archived"]
+    },
+    "jurisdiction": { "$ref": "common/jurisdiction.json" },
+    "willType": {
+      "type": "string",
+      "enum": [
+        "secular", "religious", "dual", "composite",
+        "oral_witnessed", "oral_customary", "holographic",
+        "notarised", "privileged_will"
+      ]
+    },
+    "extensionWillType": {
+      "type": "string",
+      "$comment": "Non-core will types (e.g. jihi_shosho for Japanese holographic wills). Extension schemas validate."
+    },
+    "companionEstateId": {
+      "type": "string",
+      "format": "uuid",
+      "$comment": "For dual-system estates — links secular and religious estate records."
+    },
+    "primaryInstrument": {
+      "type": "string",
+      "enum": ["will", "revocable_trust", "both", "intestacy"]
+    },
+    "defaultPropertyRegime": {
+      "type": "string",
+      "enum": [
+        "community_property", "separate_property", "equitable_distribution",
+        "deferred_community", "universal_community", "participation_in_acquisitions",
+        "islamic_dower"
+      ]
+    },
+    "totalEstimatedValue": { "$ref": "common/money.json" },
+    "attestation": { "$ref": "attestation.json" },
+    "testamentaryCapacity": { "$ref": "#/$defs/TestamentaryCapacity" },
+    "codicils": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Codicil" }
+    },
+    "revokesDocumentIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" }
+    },
+    "revocationClause": { "type": "boolean" },
+    "forcedHeirship": { "$ref": "#/$defs/ForcedHeirship" },
+    "adjudicatingBodies": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AdjudicatingBody" }
+    },
+    "parallelDistributions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ParallelDistribution" }
+    },
+    "probateGrant": { "$ref": "#/$defs/ProbateGrant" },
+    "deathRecord": { "$ref": "#/$defs/DeathRecord" },
+    "successionConflicts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/SuccessionConflict" }
+    },
+    "choiceOfLaw": {
+      "type": "object",
+      "$comment": "Brussels IV Regulation choice of law. Allows EU nationals to choose their nationality's law for succession.",
+      "properties": {
+        "chosenLaw": { "$ref": "common/jurisdiction.json" },
+        "basis": { "type": "string" },
+        "documentRef": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "electiveShareRight": {
+      "type": "object",
+      "$comment": "US — surviving spouse's right to elect against the will.",
+      "properties": {
+        "available": { "type": "boolean" },
+        "electedAmount": { "$ref": "common/money.json" },
+        "statute": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "priorMatrimonialClaim": {
+      "type": "object",
+      "properties": {
+        "exists": { "type": "boolean" },
+        "description": { "type": "string" },
+        "claimantPersonId": { "type": "string", "format": "uuid" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "noContestClause": {
+      "type": "object",
+      "$comment": "In terrorem clause — beneficiary forfeits gift if they challenge the will.",
+      "properties": {
+        "present": { "type": "boolean" },
+        "enforceability": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "pretermittedHeirClaims": {
+      "type": "array",
+      "$comment": "Claims by children born/adopted after the will was made.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claimantPersonId": { "type": "string", "format": "uuid" },
+          "status": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "testamentaryPromises": {
+      "type": "array",
+      "$comment": "NZ — claims under the Law Reform (Testamentary Promises) Act 1949.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "claimantPersonId": { "type": "string", "format": "uuid" },
+          "promiseDescription": { "type": "string" },
+          "status": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "judicialVariationPower": {
+      "type": "object",
+      "$comment": "UK/NZ — court power to vary a will under the Inheritance (Provision for Family and Dependants) Act 1975 or equivalent.",
+      "properties": {
+        "available": { "type": "boolean" },
+        "statute": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "commorientesRule": {
+      "type": "object",
+      "$comment": "Rule determining order of death when people die in the same event. Varies by jurisdiction.",
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "rule": { "type": "string" },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ancillaryProbate": {
+      "type": "array",
+      "$comment": "Multi-jurisdiction estate administration. Each entry represents one jurisdiction's administration.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "jurisdiction": { "$ref": "common/jurisdiction.json" },
+          "fiduciaryPersonId": { "type": "string", "format": "uuid" },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "applied", "granted", "completed", "waived"]
+          },
+          "grantReference": { "type": "string" },
+          "localCounsel": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["jurisdiction"],
+        "additionalProperties": false
+      }
+    },
+    "registrations": {
+      "type": "array",
+      "$comment": "Will registries worldwide (DIFC Wills Service Centre, UK Probate Registry, etc.).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "registry": { "type": "string" },
+          "registrationNumber": { "type": "string" },
+          "jurisdictionScope": { "type": "string" },
+          "registrationDate": { "type": "string", "format": "date" }
+        },
+        "required": ["registry"],
+        "additionalProperties": false
+      }
+    },
+    "reportingCurrency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "$comment": "ISO 4217 currency for probate reporting."
+    },
+    "conversionRates": {
+      "type": "array",
+      "$comment": "Exchange rates used for estate valuation in cross-border estates.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fromCurrency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+          "toCurrency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+          "rate": { "type": "number", "exclusiveMinimum": 0 },
+          "rateDate": { "type": "string", "format": "date" },
+          "source": { "type": "string" }
+        },
+        "required": ["fromCurrency", "toCurrency", "rate", "rateDate"],
+        "additionalProperties": false
+      }
+    },
+    "taxTreatyPositions": {
+      "type": "array",
+      "$comment": "Bilateral tax treaty claims relevant to the estate.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "treaty": { "type": "string" },
+          "primaryTaxingJurisdiction": { "$ref": "common/jurisdiction.json" },
+          "claimedCredits": { "type": "string" },
+          "relevantArticle": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "required": ["treaty"],
+        "additionalProperties": false
+      }
+    },
+    "suggestedPractitionerNeeds": {
+      "type": "array",
+      "items": { "type": "string" },
+      "$comment": "Informational. Activity codes computed from estate complexity — e.g. trust_preparation, cross_border, iht_planning. Canonical taxonomy at openinherit.org/reference/practitioner-activities.json."
+    },
+    "createdAt": { "type": "string", "format": "date" },
+    "lastModifiedAt": { "type": "string", "format": "date" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "testatorPersonId", "status", "jurisdiction", "createdAt", "lastModifiedAt"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/money.json",
+  "$comment": "Consumers must look up the ISO 4217 exponent for the currency code. JPY/KRW: exponent 0 (amount IS face value). KWD/BHD/OMR: exponent 3. Most currencies: exponent 2.",
+  "title": "Money",
+  "description": "Monetary value in integer minor currency units with ISO 4217 code. Never floating point.",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "description": "Value in smallest currency unit (e.g. 32500 = £325.00)"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "description": "ISO 4217 three-letter code"
+    }
+  },
+  "required": ["amount", "currency"],
+  "additionalProperties": false
+}

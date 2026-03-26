@@ -1,0 +1,192 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/bequest.json",
+  "title": "Bequest",
+  "description": "A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah).",
+  "type": "object",
+  "$defs": {
+    "BeneficiaryOrganisation": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["charity", "company", "unincorporated_association", "trust", "other"]
+        },
+        "registrationNumber": { "type": "string" },
+        "jurisdiction": { "$ref": "common/jurisdiction.json" }
+      },
+      "required": ["name", "type"],
+      "additionalProperties": false
+    },
+    "LifeInterest": {
+      "type": "object",
+      "properties": {
+        "tenantForLifeId": { "type": "string", "format": "uuid" },
+        "remaindermanId": { "type": "string", "format": "uuid" },
+        "remaindermanClassDefinition": { "type": "string" },
+        "interestType": {
+          "type": "string",
+          "enum": ["use_and_income", "income_only", "use_only", "protective", "right_of_residence"]
+        }
+      },
+      "required": ["tenantForLifeId", "interestType"],
+      "additionalProperties": false
+    },
+    "Substitution": {
+      "type": "object",
+      "properties": {
+        "beneficiaryId": { "type": "string", "format": "uuid" },
+        "classDefinition": { "type": "string" },
+        "beneficiaryOrganisation": { "$ref": "#/$defs/BeneficiaryOrganisation" },
+        "condition": { "type": "string" },
+        "perStirpes": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "PostDeathAction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["disclaimer", "deed_of_variation", "appropriation", "assent"]
+        },
+        "date": { "type": "string", "format": "date" },
+        "description": { "type": "string" },
+        "documentId": { "type": "string", "format": "uuid" }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "InheritanceResponse": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "string",
+          "enum": ["accepted", "renounced", "qualified_acceptance", "pending"]
+        },
+        "responseDate": { "type": "string", "format": "date" },
+        "responsePersonId": { "type": "string", "format": "uuid" },
+        "courtFiled": { "type": "boolean" },
+        "deadlineDate": { "type": "string", "format": "date" }
+      },
+      "required": ["response"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": {
+      "type": "string",
+      "enum": ["specific", "pecuniary", "demonstrative", "general", "residuary", "life_interest", "class"]
+    },
+    "extensionType": {
+      "type": "string",
+      "$comment": "Non-core bequest types (e.g. wasiyya, halachic_matanah). When set, extension schemas handle validation."
+    },
+    "beneficiaryId": { "type": "string", "format": "uuid" },
+    "beneficiaryOrganisation": { "$ref": "#/$defs/BeneficiaryOrganisation" },
+    "classDefinition": {
+      "type": "string",
+      "$comment": "Natural-language description of the class of beneficiaries (e.g. 'All my grandchildren living at my death')."
+    },
+    "lifeInterest": { "$ref": "#/$defs/LifeInterest" },
+    "amount": { "$ref": "common/money.json" },
+    "sharePercentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "description": { "type": "string" },
+    "sourceAssetId": {
+      "type": "string",
+      "format": "uuid",
+      "$comment": "For demonstrative bequests — the asset from which the amount should be paid."
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "$comment": "Conditions that must be met before the bequest takes effect."
+    },
+    "substitutions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Substitution" }
+    },
+    "hotchpot": {
+      "type": "boolean",
+      "$comment": "Whether lifetime gifts to the beneficiary should be brought into account when calculating their share."
+    },
+    "distributionMethod": {
+      "type": "string",
+      "enum": ["per_capita", "per_stirpes", "modified_per_stirpes", "per_capita_at_each_generation", "halachic_yerusha"]
+    },
+    "predeceaseRule": {
+      "type": "string",
+      "enum": ["lapse", "per_stirpes", "substitution", "accrual", "statutory_default"],
+      "$comment": "What happens if the beneficiary predeceases the testator. lapse = gift fails. per_stirpes = passes to beneficiary's issue. substitution = passes to named substitute. accrual = redistributed among surviving co-beneficiaries. statutory_default = jurisdiction's default rule applies."
+    },
+    "constrainedBy": {
+      "type": "string",
+      "enum": ["testamentary_freedom", "customary_rule", "forced_heirship", "religious_rule", "coparcenary_survivorship"]
+    },
+    "customaryOverride": {
+      "type": "boolean",
+      "$comment": "Whether customary/religious law overrides testamentary freedom for this bequest."
+    },
+    "postDeathActions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/PostDeathAction" }
+    },
+    "inheritanceResponse": { "$ref": "#/$defs/InheritanceResponse" },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type"],
+  "allOf": [
+    {
+      "$comment": "Core types (specific, pecuniary, demonstrative, general, residuary) require beneficiaryId OR beneficiaryOrganisation. When extensionType is set, extension schema handles validation.",
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["specific", "pecuniary", "demonstrative", "general", "residuary"]
+          }
+        },
+        "required": ["type"],
+        "not": { "required": ["extensionType"] }
+      },
+      "then": {
+        "anyOf": [
+          { "required": ["beneficiaryId"] },
+          { "required": ["beneficiaryOrganisation"] }
+        ]
+      }
+    },
+    {
+      "$comment": "Class bequests require classDefinition.",
+      "if": {
+        "properties": {
+          "type": { "const": "class" }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["classDefinition"]
+      }
+    },
+    {
+      "$comment": "Life interest bequests require lifeInterest object.",
+      "if": {
+        "properties": {
+          "type": { "const": "life_interest" }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "required": ["lifeInterest"]
+      }
+    }
+  ],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

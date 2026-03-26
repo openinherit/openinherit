@@ -1,0 +1,23 @@
+{
+  "name": "Singapore & Malaysia",
+  "id": "https://openinherit.org/v1/extensions/singapore-malaysia.json",
+  "version": "1.0.0",
+  "inherit": ">=1.0.0 <2.0.0",
+  "maturity": "draft",
+  "jurisdiction": "SG",
+  "legalSystems": [
+    "common_law",
+    "islamic_law"
+  ],
+  "maintainers": [
+    {
+      "name": "Testate Technologies",
+      "organisation": "Testate Technologies Ltd",
+      "role": "lead"
+    }
+  ],
+  "lastVerified": "2026-03-26",
+  "dataProvenance": "Intestate Succession Act (SG), Administration of Muslim Law Act (SG), Distribution Act 1958 (MY)",
+  "responsibleOrganisation": "Testate Technologies Ltd",
+  "description": "ISA intestate distribution, AMLA Islamic distribution, CPF/EPF nominations, Malaysian Distribution Act, Shariah court jurisdiction."
+}

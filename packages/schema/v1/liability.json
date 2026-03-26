@@ -1,0 +1,52 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/liability.json",
+  "title": "Liability",
+  "description": "A debt or financial obligation. Includes mortgages, loans, credit cards, and cultural obligations (mahr, ketubah debt, lobola) that are priority debts in certain jurisdictions.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "mortgage", "personal_loan", "credit_card", "overdraft",
+        "student_loan", "car_finance", "hire_purchase",
+        "mahr", "ketubah_debt", "lobola",
+        "tax_liability", "funeral_costs", "care_fees", "mezonot",
+        "other"
+      ],
+      "$comment": "mahr = Islamic deferred bridal gift (priority debt). ketubah_debt = Jewish marriage contract obligation. lobola = African customary bride price. mezonot = Jewish widow's maintenance obligation."
+    },
+    "creditor": {
+      "type": "string",
+      "description": "Name of the creditor or institution"
+    },
+    "amount": {
+      "$ref": "common/money.json",
+      "description": "Outstanding balance"
+    },
+    "securedAgainst": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Property.id or Asset.id this liability is secured against"
+    },
+    "monthlyPayment": { "$ref": "common/money.json" },
+    "interestRate": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Annual interest rate as percentage (e.g. 4.5 = 4.5%)"
+    },
+    "startDate": { "type": "string", "format": "date" },
+    "endDate": { "type": "string", "format": "date" },
+    "accountReference": {
+      "type": "string",
+      "description": "Account or reference number"
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "type", "amount"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}
