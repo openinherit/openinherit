@@ -50,6 +50,33 @@ pnpm run generate
 
 This produces TypeScript types and API client stubs in `generated/typescript/`.
 
+### Install via npm
+
+```bash
+# Schema files (JSON Schema, JSON-LD context, reference data)
+pnpm add @openinherit/schema
+
+# TypeScript types and API client
+pnpm add @openinherit/sdk
+```
+
+**Using the schema package:**
+
+```javascript
+// Import a JSON Schema file
+import estate from '@openinherit/schema/v1/estate.json' with { type: 'json' };
+
+// Import reference data
+import activities from '@openinherit/schema/reference-data/practitioner-activities.json' with { type: 'json' };
+```
+
+**Using the SDK:**
+
+```typescript
+import { type Estate, type Person } from '@openinherit/sdk';
+import { createEstate, listEstates } from '@openinherit/sdk/reference';
+```
+
 ---
 
 ## Schema Overview
