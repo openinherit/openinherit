@@ -1,0 +1,70 @@
+[
+  {
+    "description": "estate schema",
+    "schema": { "$ref": "https://openinherit.org/v1/estate.json" },
+    "tests": [
+      {
+        "description": "valid minimal estate",
+        "data": {
+          "id": "e1000001-0000-0000-0000-000000000001",
+          "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
+          "status": "draft",
+          "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
+          "createdAt": "2025-01-15",
+          "lastModifiedAt": "2025-01-15"
+        },
+        "valid": true
+      },
+      {
+        "description": "valid estate with optional fields",
+        "data": {
+          "id": "e1000001-0000-0000-0000-000000000002",
+          "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
+          "status": "active",
+          "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
+          "createdAt": "2025-01-15",
+          "lastModifiedAt": "2025-06-01",
+          "willType": "secular",
+          "primaryInstrument": "will",
+          "defaultPropertyRegime": "separate_property",
+          "totalEstimatedValue": { "amount": 250000000, "currency": "GBP" }
+        },
+        "valid": true
+      },
+      {
+        "description": "invalid — missing testatorPersonId",
+        "data": {
+          "id": "e1000001-0000-0000-0000-000000000001",
+          "status": "draft",
+          "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
+          "createdAt": "2025-01-15",
+          "lastModifiedAt": "2025-01-15"
+        },
+        "valid": false
+      },
+      {
+        "description": "invalid — unknown status value",
+        "data": {
+          "id": "e1000001-0000-0000-0000-000000000001",
+          "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
+          "status": "deleted",
+          "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
+          "createdAt": "2025-01-15",
+          "lastModifiedAt": "2025-01-15"
+        },
+        "valid": false
+      },
+      {
+        "description": "invalid — missing jurisdiction",
+        "data": {
+          "id": "e1000001-0000-0000-0000-000000000001",
+          "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
+          "status": "draft",
+          "createdAt": "2025-01-15",
+          "lastModifiedAt": "2025-01-15"
+        },
+        "valid": false
+      }
+    ]
+  }
+]
