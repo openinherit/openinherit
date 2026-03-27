@@ -1,10 +1,12 @@
 # INHERIT Roadmap
 
-## Current: v1.0 (March 2026)
+## Current: v1.1.0 (March 2026)
+
+*Published to npm as `@openinherit/schema@1.1.0` and `@openinherit/sdk@1.1.0`.*
 
 ### Core Standard
 - 20 core entity schemas (18 original + asset-collection + asset-interest)
-- 6 common type schemas (money, address, jurisdiction, temporal-rule, identifier, visibility)
+- 7 common type schemas (money, address, jurisdiction, temporal-rule, identifier, visibility, media)
 - 13 jurisdiction/cultural extensions (all draft)
 - OpenAPI 3.1 schema bundle + 109-endpoint Reference REST API
 - `schemaVersion` field on root document for version detection
@@ -43,7 +45,15 @@
 - Legal tech integration guide (Clio, LEAP, Actionstep, PracticePanther)
 - Partnership details with concrete expectations
 
-## Next: v1.1 (target Q3 2026)
+### Schema.org Alignment (new in v1.1)
+- Renamed bare `type` fields to qualified names: `bequestType`, `liabilityType`, `wishType`, `kinshipType`, `transferType`, `trustType`
+- Standardised cross-reference naming (`guardian.personId` matches `executor.personId`)
+- `common/media.json` with `viewType` enum (overview, identification, condition, provenance, serial_number, etc.)
+- Images on assets, properties, and collections (replaces minimal Photo type)
+- Asset enrichments: `description`, `purchaseDate`, `originalPackaging`, `custodian`, `conditionSystem`, `conditionGrade`
+- Document entity linking via `entityType` + `entityId`
+
+## Next: v1.2 (target Q3 2026)
 
 - Promote first schemas to stable (requires two independent implementations — MFI is the first)
 - Level 3 conformance validation (extension-specific field checking)

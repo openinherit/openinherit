@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-03-27
+
 ### Added
 - `common/media.json` — new common type for media attachments (photographs, videos, document scans) with `viewType` enum for structured visual documentation
 - `images` property on `asset.json` — replaces `photos`, now references `common/media.json` with full media support
