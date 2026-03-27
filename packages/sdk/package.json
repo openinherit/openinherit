@@ -1,6 +1,6 @@
 {
   "name": "@openinherit/sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "INHERIT estate planning SDK — TypeScript types and API client stubs",
   "type": "module",
   "license": "Apache-2.0",
