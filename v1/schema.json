@@ -105,6 +105,16 @@
       "items": { "$ref": "asset.json" },
       "description": "Non-property assets — financial accounts, personal property, vehicles, digital assets, etc."
     },
+    "assetCollections": {
+      "type": "array",
+      "items": { "$ref": "asset-collection.json" },
+      "description": "Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value."
+    },
+    "assetInterests": {
+      "type": "array",
+      "items": { "$ref": "asset-interest.json" },
+      "description": "Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation."
+    },
     "liabilities": {
       "type": "array",
       "items": { "$ref": "liability.json" },
