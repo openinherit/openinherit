@@ -21,7 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Self-hosted scanner guide (`docs/self-hosted-scanner.md`) — run extraction on your own infrastructure
 - Concrete partnership expectations in `docs/partners/becoming-a-partner.md` — time commitment, exclusivity, marketing, consulting support
 - Legal review status section in `docs/extension-guide.md` — Reviewed / Legislation-based / Community tiers
-- Legal tech integration guide (`docs/legal-tech-integration.md`) — field mappings for Clio, LEAP, Actionstep, PracticePanther
+- Enum reference (`docs/enum-reference.md`) — comprehensive table of all enum values across all 16 core schemas
 
 ## [1.0.0] — 2026-03-26
 

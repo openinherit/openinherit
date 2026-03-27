@@ -99,7 +99,7 @@ const person = {
 };
 ```
 
-**Valid person roles:** `testator`, `beneficiary`, `executor`, `guardian`, `trustee`, `witness`, `attorney`, `proxy`, `protector`, `enforcer`.
+**Valid person roles:** See [Enum Reference](./enum-reference.md#person) for the complete list of valid roles and all other enum values across all schemas.
 
 ---
 
@@ -305,3 +305,4 @@ When Level 3 checking is available, it will verify that jurisdiction-required fi
 - [Understanding conditional validation (if/then/else)](https://www.learnjsonschema.com/2020-12/applicator/if/) — how INHERIT expresses conditional requirements
 - [Understanding $ref (cross-schema references)](https://www.learnjsonschema.com/2020-12/core/ref/) — how INHERIT schemas reference shared definitions
 - [INHERIT validation example](../examples/validate-document.ts) — working TypeScript code that implements Level 1 + Level 2 validation
+- [Enum Reference](./enum-reference.md) — complete list of all valid enum values across all schemas
