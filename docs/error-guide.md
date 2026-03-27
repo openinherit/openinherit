@@ -227,6 +227,12 @@ const bequest = {
 
 ---
 
+## More Level 1 Examples
+
+For additional Level 1 error scenarios (wrong date format, invalid email, UUID format on reference fields, required arrays, jurisdiction codes, conditional `if/then` failures), see [Additional Level 1 Error Examples](./error-guide-additional.md).
+
+---
+
 ## Level 2 Errors (Referential Integrity)
 
 Level 2 errors occur when cross-references within the document point to entities that don't exist. These are caught by the referential integrity checker, not by JSON Schema.
