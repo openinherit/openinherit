@@ -205,15 +205,45 @@ export type ValidationResult = {
  * Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish).
  */
 export type Attestation2 = {
+    /**
+     * Date the will or document was executed (signed and witnessed).
+     */
     date?: string;
+    /**
+     * Person IDs of the witnesses. Most jurisdictions require at least two witnesses. Some (e.g. holographic wills) require none.
+     */
     witnessPersonIds?: Array<string>;
+    /**
+     * The method by which the will or document was executed.
+     */
     method?: 'in_person' | 'video' | 'remote' | 'none' | 'kinyan_sudar' | 'kinyan_agav' | 'seal_based' | 'inkan_registered';
+    /**
+     * The form of attestation used.
+     */
     attestationType?: 'written_signed' | 'oral_witnessed' | 'oral_community' | 'seal_based';
+    /**
+     * Whether a solicitor or legal professional supervised the execution. Reduces (but does not eliminate) the risk of challenges.
+     */
     solicitorSupervised?: boolean;
+    /**
+     * Whether the testator signed (or acknowledged their signature) in the presence of both witnesses simultaneously. Required under the Wills Act 1837 s.9(c).
+     */
     testatorSignedInPresenceOfWitnesses?: boolean;
+    /**
+     * Whether each witness signed in the presence of the testator. Required under the Wills Act 1837 s.9(d).
+     */
     witnessesSignedInPresenceOfTestator?: boolean;
+    /**
+     * Whether a conflict check was performed to ensure no witness is a beneficiary. Under English law, a beneficiary-witness loses their gift (Wills Act 1837 s.15).
+     */
     witnessConflictCheck?: boolean;
+    /**
+     * The legal standard applied when checking for witness conflicts.
+     */
     witnessConflictCheckScope?: 'english_law' | 'halachic_broad' | 'shariah_standard' | 'civil_law_standard' | 'customary_oral' | 'community_testimony';
+    /**
+     * Additional notes on attestation — unusual circumstances, concerns about formalities, or cultural context.
+     */
     notes?: string;
     [key: string]: unknown | string | Array<string> | 'in_person' | 'video' | 'remote' | 'none' | 'kinyan_sudar' | 'kinyan_agav' | 'seal_based' | 'inkan_registered' | 'written_signed' | 'oral_witnessed' | 'oral_community' | 'seal_based' | boolean | 'english_law' | 'halachic_broad' | 'shariah_standard' | 'civil_law_standard' | 'customary_oral' | 'community_testimony' | string | undefined;
 };
@@ -221,20 +251,23 @@ export type Attestation2 = {
 /**
  * Jurisdiction
  *
- * A legal jurisdiction identified by ISO 3166 codes.
+ * A legal jurisdiction identified by ISO 3166 codes. Succession law varies not just by country but by subdivision — Scotland differs from England and Wales, and US states have radically different rules.
  */
 export type Jurisdiction2 = {
     /**
-     * ISO 3166-1 alpha-2
+     * ISO 3166-1 alpha-2 country code. Always uppercase, exactly two letters.
      */
     country: string;
     /**
-     * ISO 3166-2 subdivision code (e.g. GB-SCT, US-CA)
+     * ISO 3166-2 subdivision code identifying a state, province, or territory with its own succession law.
      */
     subdivision?: string;
+    /**
+     * The legal tradition governing succession in this jurisdiction. Determines which rules apply to inheritance, forced heirship, and estate administration.
+     */
     legalSystem?: 'common_law' | 'civil_law' | 'mixed' | 'religious' | 'customary' | 'religious_islamic' | 'religious_jewish' | 'religious_hindu' | 'religious_canon' | 'plural';
     /**
-     * Human-readable jurisdiction name (e.g. 'Scotland', 'California')
+     * Human-readable jurisdiction name for display purposes. Not authoritative — the country and subdivision codes are the canonical identifiers.
      */
     name?: string;
 };
@@ -246,11 +279,11 @@ export type Jurisdiction2 = {
  */
 export type Money2 = {
     /**
-     * Value in smallest currency unit (e.g. 32500 = £325.00)
+     * Value in the smallest currency unit (pence, cents, sen). The consumer must apply the ISO 4217 exponent to convert to a display value.
      */
     amount: number;
     /**
-     * ISO 4217 three-letter code
+     * ISO 4217 three-letter currency code. Use the code for the currency of the amount, not the reporting currency.
      */
     currency: string;
 };
@@ -1083,49 +1116,67 @@ export type Address2 = {
      */
     formattedAddress?: string;
     /**
-     * Street number and name.
+     * Street number and name. For Japanese addresses, use the block and building number (chōme-ban-gō).
      */
     streetAddress?: string;
     /**
-     * Flat, suite, building, floor
+     * Secondary address line — flat, suite, building, or floor. Use when the primary street address is insufficient.
      */
     addressLine2?: string;
     /**
-     * City, town, village, or ward
+     * City, town, village, or ward. For Japanese addresses, this is the city or special ward (ku).
      */
     addressLocality?: string;
     /**
-     * State, prefecture, province, county
+     * State, prefecture, province, or county. The administrative division below national level.
      */
     addressRegion?: string;
+    /**
+     * Postal or ZIP code. Format varies by country — UK postcodes, US ZIP codes, Japanese 〒 codes, etc.
+     */
     postalCode?: string;
     /**
-     * ISO 3166-1 alpha-2
+     * ISO 3166-1 alpha-2 country code. Always uppercase.
      */
     addressCountry?: string;
+    /**
+     * Geographic latitude in decimal degrees. Useful for properties in jurisdictions without formal addressing systems.
+     */
     latitude?: number;
+    /**
+     * Geographic longitude in decimal degrees. Pair with latitude for precise property location.
+     */
     longitude?: number;
+    /**
+     * A nearby landmark used to locate the address. Essential in jurisdictions without formal street addressing — India, Nigeria, and rural areas worldwide.
+     */
     landmark?: string;
+    /**
+     * Free-form directions to reach the address when no formal address system exists. Common in rural communities across Africa, South Asia, and the Pacific Islands.
+     */
     directionNotes?: string;
+    /**
+     * The addressing convention that governs the display order of this address. Defaults to 'western' if omitted.
+     */
     addressOrder?: 'western' | 'japanese' | 'indian' | 'arabic' | 'custom';
 };
 
 /**
  * Identifier
  *
- * A typed external identifier. Use 'system' to namespace (e.g. 'urn:hmrc:nino').
+ * A typed external identifier. Use 'system' to namespace identifiers and prevent collisions across jurisdictions and organisations.
  */
 export type Identifier2 = {
     /**
-     * Namespace URI or name
+     * Namespace URI or name identifying the issuing authority or system. Use URN format where possible for unambiguous identification.
      */
     system?: string;
     /**
-     * The identifier value
+     * The identifier value itself. Format depends on the system — may include hyphens, spaces, or check digits as appropriate.
      */
     value: string;
     /**
-     * Type label (e.g. 'passport', 'national_insurance', 'charity_number')
+     * Human-readable type label describing what kind of identifier this is.
      */
     type?: string;
 };
@@ -1387,98 +1438,200 @@ export type Person2 = {
  * A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/india-hindu.json.
  */
 export type Kinship2 = {
+    /**
+     * Unique identifier for this kinship bond within the INHERIT document.
+     */
     id: string;
+    /**
+     * The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems.
+     */
     type: 'PARENT_CHILD_BIOLOGICAL' | 'PARENT_CHILD_ADOPTED' | 'PARENT_CHILD_STEP' | 'PARENT_CHILD_FOSTER' | 'PARENT_CHILD_ACKNOWLEDGED' | 'SIBLING' | 'HALF_SIBLING_PATERNAL' | 'HALF_SIBLING_MATERNAL' | 'STEP_SIBLING' | 'GRANDPARENT_GRANDCHILD' | 'UNCLE_NEPHEW' | 'AUNT_NEPHEW';
     /**
-     * Parent/elder person in the kinship (Person.id)
+     * The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent.
      */
     fromPersonId: string;
     /**
-     * Child/younger person in the kinship (Person.id)
+     * The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child.
      */
     toPersonId: string;
     /**
-     * Legal recognition status of this familial bond
+     * The legal recognition status of this familial bond.
      */
     legalStatus?: 'recognised' | 'contested' | 'pending' | 'unrecognised';
+    /**
+     * Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems.
+     */
     legitimacy?: 'legitimate' | 'illegitimate' | 'legitimated' | 'not_applicable';
     /**
-     * Date of adoption order (for PARENT_CHILD_ADOPTED)
+     * Date of the adoption order, for PARENT_CHILD_ADOPTED kinships.
      */
     adoptionDate?: string;
     /**
-     * Court order or adoption certificate reference
+     * Court order reference or adoption certificate number.
      */
     courtOrderRef?: string;
+    /**
+     * Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition.
+     */
     notes?: string;
     [key: string]: unknown | string | 'PARENT_CHILD_BIOLOGICAL' | 'PARENT_CHILD_ADOPTED' | 'PARENT_CHILD_STEP' | 'PARENT_CHILD_FOSTER' | 'PARENT_CHILD_ACKNOWLEDGED' | 'SIBLING' | 'HALF_SIBLING_PATERNAL' | 'HALF_SIBLING_MATERNAL' | 'STEP_SIBLING' | 'GRANDPARENT_GRANDCHILD' | 'UNCLE_NEPHEW' | 'AUNT_NEPHEW' | 'recognised' | 'contested' | 'pending' | 'unrecognised' | 'legitimate' | 'illegitimate' | 'legitimated' | 'not_applicable' | string | string | undefined;
 };
 
+/**
+ * A partner in the relationship. Uses non-gendered terminology and ordinal positioning.
+ */
 export type Partner = {
     /**
-     * Reference to a Person.id
+     * Reference to a Person.id.
      */
     personId: string;
     /**
-     * Optional non-gendered label (e.g. 'First Wife', 'Partner A')
+     * Optional non-gendered label for display purposes. Avoids gendered terms like 'husband' and 'wife'.
      */
     displayLabel?: string;
     /**
-     * Position in partner list (1-based)
+     * Position in the partner list (1-based). Determines default display order.
      */
     ordinal: number;
 };
 
+/**
+ * A chronological event in the relationship timeline. The current relationship status is derived from the most recent event.
+ */
 export type RelationshipEvent = {
+    /**
+     * The type of relationship event.
+     */
     type: 'CEREMONY' | 'REGISTRATION' | 'ENGAGEMENT' | 'MARRIAGE_CONTRACT' | 'PROPERTY_REGIME_CHANGE' | 'SEPARATION_INFORMAL' | 'SEPARATION_LEGAL' | 'DIVORCE_FILED' | 'DIVORCE_FINALISED' | 'FINANCIAL_ORDER' | 'ANNULMENT' | 'DISSOLUTION' | 'DEATH_OF_PARTNER' | 'RECONCILIATION' | 'VOID_DECLARATION' | 'MAHR_PAYMENT' | 'LOBOLA_PAYMENT';
     /**
-     * ISO 8601 date
+     * Date this event occurred.
      */
     date: string;
+    /**
+     * Jurisdiction where this event took place or was registered.
+     */
     jurisdiction?: Jurisdiction2;
+    /**
+     * Additional context about this event.
+     */
     notes?: string;
 };
 
+/**
+ * How a specific jurisdiction recognises (or fails to recognise) this relationship. Critical for modelling civil/religious status divergence.
+ */
 export type JurisdictionalRecognition = {
+    /**
+     * The jurisdiction whose recognition status is recorded.
+     */
     jurisdiction: Jurisdiction2;
+    /**
+     * Whether this jurisdiction recognises the relationship.
+     */
     recognised: boolean;
     /**
-     * What this jurisdiction recognises it as (if different)
+     * What this jurisdiction recognises the relationship as, if different from its declared type.
      */
     recognisedAs?: string;
+    /**
+     * Additional context on recognition.
+     */
     notes?: string;
 };
 
+/**
+ * A financial instrument associated with the relationship — mahr, ketubah, lobola, prenuptial agreement, or marriage settlement.
+ */
 export type FinancialInstrument = unknown & {
+    /**
+     * The type of financial instrument.
+     */
     type: 'MAHR' | 'KETUBAH' | 'LOBOLA' | 'PRENUPTIAL_AGREEMENT' | 'POSTNUPTIAL_AGREEMENT' | 'MARRIAGE_SETTLEMENT';
+    /**
+     * Monetary value of the instrument, in minor currency units.
+     */
     value?: Money2;
+    /**
+     * Payment status of this financial instrument.
+     */
     status?: 'AGREED' | 'PAID' | 'PARTIALLY_PAID' | 'DEFERRED' | 'DISPUTED' | 'WAIVED';
+    /**
+     * Free-text description of the instrument.
+     */
     description?: string;
     /**
-     * Reference to a Document.id
+     * Reference to a Document.id storing the instrument.
      */
     documentRef?: string;
+    /**
+     * Date the instrument was signed or executed.
+     */
     date?: string;
     /**
-     * How this affects inheritance distribution
+     * How this instrument affects inheritance distribution.
      */
     inheritanceImpact?: string;
+    /**
+     * Structured mahr details. Required when the financial instrument type is MAHR.
+     */
     maharDetails?: {
+        /**
+         * Whether the mahr is prompt, deferred, or a combination.
+         */
         maharType?: 'prompt' | 'deferred' | 'combination';
+        /**
+         * Reference to the Person.id of the mahr recipient (the wife).
+         */
         recipientPersonId?: string;
+        /**
+         * Reference to the Liability.id representing the deferred mahr as an estate debt.
+         */
         linkedLiabilityId?: string;
     };
+    /**
+     * Structured ketubah details. Required when the financial instrument type is KETUBAH.
+     */
     ketubahDetails?: {
+        /**
+         * The ikkar ketubah — the standard principal amount.
+         */
         principalAmount?: Money2;
+        /**
+         * The tosefet ketubah — the groom's voluntary additional amount.
+         */
         tosefetAmount?: Money2;
+        /**
+         * The nedunya — dowry brought by the bride into the marriage.
+         */
         nedunya?: Money2;
+        /**
+         * The bride's status at the time of marriage, which determines the ikkar amount.
+         */
         brideStatus?: 'virgin' | 'widow' | 'divorcee';
+        /**
+         * Person IDs of the ketubah witnesses. Under halacha, witnesses must be male, adult, and observant.
+         */
         witnessPersonIds?: Array<string>;
+        /**
+         * Name of the rabbi who officiated the ceremony.
+         */
         officiatingRabbi?: string;
     };
+    /**
+     * Structured lobola details for African customary marriages.
+     */
     lobolaDetails?: {
+        /**
+         * The family or person with whom the lobola was negotiated.
+         */
         negotiatedWith?: string;
+        /**
+         * Whether the lobola includes livestock (cattle are traditional in many Southern African customs).
+         */
         includesLivestock?: boolean;
+        /**
+         * Number of livestock included in the lobola.
+         */
         livestockCount?: number;
     };
 };
@@ -1489,38 +1642,53 @@ export type FinancialInstrument = unknown & {
  * Spousal/partnership relationship. N-partner support (no structural two-partner limit). Event-based timeline (status derived from events). No gendered role names. Financial instruments with MAHR/KETUBAH subtype validation. Cross-jurisdiction recognition for dual civil/religious status.
  */
 export type Relationship2 = {
+    /**
+     * Unique identifier for this relationship within the INHERIT document.
+     */
     id: string;
+    /**
+     * The legal form of the relationship.
+     */
     type: 'MARRIAGE_CIVIL' | 'MARRIAGE_RELIGIOUS' | 'MARRIAGE_CUSTOMARY' | 'MARRIAGE_COMMON_LAW' | 'CIVIL_PARTNERSHIP' | 'CIVIL_UNION' | 'DOMESTIC_PARTNERSHIP' | 'DE_FACTO' | 'COHABITATION' | 'ENGAGEMENT';
+    /**
+     * The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS.
+     */
     religiousSubtype?: string;
     /**
-     * How the parties themselves describe this relationship
+     * How the parties themselves describe this relationship, which may differ from the legal classification.
      */
     selfDeclaredType?: string;
     /**
-     * The people in this relationship. Minimum 2, no structural upper limit.
+     * The people in this relationship. Minimum 2, no structural upper limit — supports polygamous marriages valid in their jurisdiction.
      */
     partners: Array<Partner>;
     /**
-     * Chronological events determining relationship status
+     * Chronological events determining relationship status. The authoritative status should be derived from the most recent event.
      */
     events?: Array<RelationshipEvent>;
+    /**
+     * The current status of the relationship. A convenience denormalisation — consumers should derive from the events array when available.
+     */
     currentStatus?: 'ACTIVE' | 'SEPARATED_INFORMAL' | 'SEPARATED_LEGAL' | 'DIVORCED' | 'ANNULLED' | 'DISSOLVED' | 'WIDOWED' | 'VOID' | 'PUTATIVE';
     /**
-     * Primary jurisdiction where this relationship was formed
+     * Primary jurisdiction where this relationship was formed or registered.
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * How other jurisdictions recognise (or don't) this relationship
+     * How other jurisdictions recognise (or do not recognise) this relationship. Essential for cross-border estates.
      */
     jurisdictionalRecognition?: Array<JurisdictionalRecognition>;
     /**
-     * Mahr, ketubah, lobola, prenuptial agreements, etc.
+     * Financial instruments associated with this relationship — mahr, ketubah, lobola, prenuptial agreements, etc.
      */
     financialInstruments?: Array<FinancialInstrument>;
     /**
-     * The marital property regime
+     * The marital property regime governing this relationship. Determines which assets the testator may freely dispose of.
      */
     propertyRegime?: 'COMMUNITY_OF_PROPERTY' | 'SEPARATION_OF_PROPERTY' | 'COMMUNITY_OF_ACQUESTS' | 'DEFERRED_COMMUNITY' | 'SEPARATE_AS_MODIFIED' | 'ISLAMIC_DOWER' | 'US_COMMUNITY_PROPERTY' | 'US_COMMUNITY_WITH_SURVIVORSHIP' | 'US_QUASI_COMMUNITY' | 'HINDU_SEPARATE';
+    /**
+     * Free-text notes about this relationship.
+     */
     notes?: string;
     [key: string]: unknown | string | 'MARRIAGE_CIVIL' | 'MARRIAGE_RELIGIOUS' | 'MARRIAGE_CUSTOMARY' | 'MARRIAGE_COMMON_LAW' | 'CIVIL_PARTNERSHIP' | 'CIVIL_UNION' | 'DOMESTIC_PARTNERSHIP' | 'DE_FACTO' | 'COHABITATION' | 'ENGAGEMENT' | string | Array<Partner> | Array<RelationshipEvent> | 'ACTIVE' | 'SEPARATED_INFORMAL' | 'SEPARATED_LEGAL' | 'DIVORCED' | 'ANNULLED' | 'DISSOLVED' | 'WIDOWED' | 'VOID' | 'PUTATIVE' | Jurisdiction2 | Array<JurisdictionalRecognition> | Array<FinancialInstrument> | 'COMMUNITY_OF_PROPERTY' | 'SEPARATION_OF_PROPERTY' | 'COMMUNITY_OF_ACQUESTS' | 'DEFERRED_COMMUNITY' | 'SEPARATE_AS_MODIFIED' | 'ISLAMIC_DOWER' | 'US_COMMUNITY_PROPERTY' | 'US_COMMUNITY_WITH_SURVIVORSHIP' | 'US_QUASI_COMMUNITY' | 'HINDU_SEPARATE' | undefined;
 };
@@ -1531,69 +1699,222 @@ export type Relationship2 = {
  * Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings.
  */
 export type Property2 = {
+    /**
+     * Unique identifier for this property within the INHERIT document.
+     */
     id: string;
     /**
-     * Display name (e.g. 'Family Home', '42 Acacia Avenue')
+     * Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate.
      */
     name: string;
+    /**
+     * The type of property. UK-centric terms are used as defaults — map to local equivalents as needed.
+     */
     propertyType?: 'detached_house' | 'semi_detached_house' | 'terraced_house' | 'flat' | 'maisonette' | 'bungalow' | 'cottage' | 'farmhouse' | 'barn_conversion' | 'land' | 'commercial' | 'mixed_use' | 'houseboat' | 'mobile_home' | 'other';
+    /**
+     * Physical address of the property.
+     */
     address?: Address2;
+    /**
+     * Owner's estimate of the property's current market value, in minor currency units.
+     */
     estimatedValue?: Money2;
+    /**
+     * Professional surveyor or valuer's assessment of the property value, in minor currency units.
+     */
     professionalValuation?: Money2;
+    /**
+     * Date the most recent valuation (estimated or professional) was performed.
+     */
     valuationDate?: string;
+    /**
+     * Level of confidence in the stated valuation.
+     */
     valuationConfidence?: 'estimated' | 'professional' | 'probate' | 'unknown';
+    /**
+     * Whether this is the testator's primary residence. Relevant for residence nil rate band (UK), homestead exemption (US), and similar tax reliefs.
+     */
     isPrimaryResidence?: boolean;
+    /**
+     * How ownership of this property is legally structured.
+     */
     ownershipType?: 'sole' | 'joint_tenants' | 'tenants_in_common' | 'trust' | 'tenancy_by_entirety';
+    /**
+     * The testator's ownership share as a percentage. For joint tenants, typically 50% for two co-owners. For tenants in common, may be any split.
+     */
     ownershipPercentage?: number;
+    /**
+     * The cultural or legal model of ownership. Goes beyond the simple legal title to capture communal and customary ownership forms.
+     */
     ownershipModel?: 'individual' | 'joint' | 'communal_family' | 'huf_coparcenary' | 'tribal' | 'government_vested' | 'trust_held';
+    /**
+     * How the property was acquired. Determines which succession law applies in India and other jurisdictions.
+     */
     acquisitionType?: 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed';
+    /**
+     * The legal basis on which the property is held. Varies dramatically by jurisdiction.
+     */
     tenureType?: 'freehold' | 'leasehold' | 'certificate_of_occupancy' | 'customary_right_of_occupancy' | 'communal' | 'government_allocated' | 'traditional_authority_granted' | 'informal_unregistered';
+    /**
+     * Whether this property is formally registered with a land authority.
+     */
     registrationStatus?: 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented';
+    /**
+     * The type of evidence available to prove ownership. In many jurisdictions, informal evidence is the only kind available.
+     */
     ownershipEvidence?: 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none';
+    /**
+     * The succession law governing this specific property. For immoveable property, this is typically the law of the place where the property is situated (lex rei sitae).
+     */
     applicableSuccessionLaw?: {
+        /**
+         * Jurisdiction whose succession law governs this property.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Name of the applicable law.
+         */
         lawName?: string;
+        /**
+         * Specific section of the law that applies.
+         */
         section?: string;
     };
+    /**
+     * Reference to the Person.id of the current custodian of communal or family property. The custodian manages but does not own the property.
+     */
     custodianPersonId?: string;
+    /**
+     * How this property passes on the owner's death. May differ from the general estate succession rule.
+     */
     successionRule?: 'testamentary' | 'intestacy' | 'customary_eldest_son' | 'customary_family_council' | 'customary_matrilineal' | 'survivorship' | 'not_individually_bequeathable';
+    /**
+     * Whether government or regulatory consent is required to transfer this property. Common in Nigeria (governor's consent) and for agricultural land in parts of India.
+     */
     governmentConsentRequired?: boolean;
+    /**
+     * Whether this property is classified as immoveable, moveable, or mixed. Determines which conflict-of-laws rules apply.
+     */
     mobilityType?: 'immoveable' | 'moveable' | 'mixed';
+    /**
+     * Outstanding mortgage balance in minor currency units. If the property is mortgage-free, omit this field.
+     */
     mortgageOutstanding?: Money2;
+    /**
+     * Marital property character classification for US community property states. Determines whether the testator may dispose of the entire property or only their half.
+     */
     characterClassification?: 'community' | 'separate' | 'quasi_community' | 'mixed' | 'not_applicable';
+    /**
+     * US homestead exemption status. Protects the primary residence from creditors and may restrict the testator's ability to devise the property.
+     */
     homesteadStatus?: {
+        /**
+         * Whether this property qualifies as a homestead.
+         */
         isHomestead?: boolean;
+        /**
+         * Dollar value of the homestead exemption, if capped.
+         */
         exemptionAmount?: Money2;
+        /**
+         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states.
+         */
         exemptionUnlimited?: boolean;
+        /**
+         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children.
+         */
         deviseRestriction?: boolean;
+        /**
+         * Additional notes on homestead status.
+         */
         notes?: string;
     };
+    /**
+     * Whether this property passes outside the probate estate — typically via joint tenancy with right of survivorship, a transfer-on-death deed, or a trust.
+     */
     passesOutsideEstate?: boolean;
+    /**
+     * A life estate imposed by statute rather than by the will. The surviving spouse or other protected person has a right to occupy for life.
+     */
     statutoryLifeEstate?: {
+        /**
+         * Reference to the Person.id of the life estate beneficiary.
+         */
         beneficiaryPersonId?: string;
+        /**
+         * The statutory basis for this life estate.
+         */
         basis?: string;
+        /**
+         * Any conditions on the life estate.
+         */
         conditions?: string;
     };
+    /**
+     * Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations.
+     */
     notes?: string;
     [key: string]: unknown | string | string | 'detached_house' | 'semi_detached_house' | 'terraced_house' | 'flat' | 'maisonette' | 'bungalow' | 'cottage' | 'farmhouse' | 'barn_conversion' | 'land' | 'commercial' | 'mixed_use' | 'houseboat' | 'mobile_home' | 'other' | Address2 | Money2 | string | 'estimated' | 'professional' | 'probate' | 'unknown' | boolean | 'sole' | 'joint_tenants' | 'tenants_in_common' | 'trust' | 'tenancy_by_entirety' | number | 'individual' | 'joint' | 'communal_family' | 'huf_coparcenary' | 'tribal' | 'government_vested' | 'trust_held' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'freehold' | 'leasehold' | 'certificate_of_occupancy' | 'customary_right_of_occupancy' | 'communal' | 'government_allocated' | 'traditional_authority_granted' | 'informal_unregistered' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
+        /**
+         * Jurisdiction whose succession law governs this property.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Name of the applicable law.
+         */
         lawName?: string;
+        /**
+         * Specific section of the law that applies.
+         */
         section?: string;
     } | 'testamentary' | 'intestacy' | 'customary_eldest_son' | 'customary_family_council' | 'customary_matrilineal' | 'survivorship' | 'not_individually_bequeathable' | 'immoveable' | 'moveable' | 'mixed' | 'community' | 'separate' | 'quasi_community' | 'mixed' | 'not_applicable' | {
+        /**
+         * Whether this property qualifies as a homestead.
+         */
         isHomestead?: boolean;
+        /**
+         * Dollar value of the homestead exemption, if capped.
+         */
         exemptionAmount?: Money2;
+        /**
+         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states.
+         */
         exemptionUnlimited?: boolean;
+        /**
+         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children.
+         */
         deviseRestriction?: boolean;
+        /**
+         * Additional notes on homestead status.
+         */
         notes?: string;
     } | {
+        /**
+         * Reference to the Person.id of the life estate beneficiary.
+         */
         beneficiaryPersonId?: string;
+        /**
+         * The statutory basis for this life estate.
+         */
         basis?: string;
+        /**
+         * Any conditions on the life estate.
+         */
         conditions?: string;
     } | string | undefined;
 };
 
+/**
+ * A photograph of the asset, useful for identification during probate and for insurance claims.
+ */
 export type Photo = {
+    /**
+     * URI pointing to the photo. May be an S3 URI, HTTPS URL, or other storage reference.
+     */
     url: string;
+    /**
+     * Descriptive caption for the photograph.
+     */
     caption?: string;
 };
 
@@ -1603,173 +1924,197 @@ export type Photo = {
  * A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.
  */
 export type Asset2 = {
+    /**
+     * Unique identifier for this asset within the INHERIT document.
+     */
     id: string;
     /**
-     * Display name for this asset
+     * Display name for this asset. Should be specific enough to identify the item during probate.
      */
     name: string;
+    /**
+     * The broad category of this asset. Determines which additional details may be relevant.
+     */
     category: 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other';
+    /**
+     * More specific classification within the category. Free text to accommodate jurisdiction-specific asset types.
+     */
     subcategory?: string;
+    /**
+     * Owner's estimate of the asset's current value, in minor currency units.
+     */
     estimatedValue?: Money2;
+    /**
+     * Professional valuation of the asset, in minor currency units.
+     */
     professionalValuation?: Money2;
+    /**
+     * Date of the most recent valuation.
+     */
     valuationDate?: string;
+    /**
+     * Level of confidence in the stated valuation.
+     */
     valuationConfidence?: 'estimated' | 'professional' | 'probate' | 'unknown';
+    /**
+     * Physical condition of the asset. Use 'not_applicable' for financial assets where condition is meaningless.
+     */
     condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable';
+    /**
+     * Number of items if this represents multiple identical or similar items.
+     */
     quantity?: number;
     /**
-     * Where this asset is stored or held
+     * Where this asset is physically stored or held — a bank, safe, property, or institution.
      */
     location?: string;
     /**
-     * Reference to a Property.id if located at a property
+     * Reference to a Property.id if this asset is located at a specific property in the estate.
      */
     propertyId?: string;
     /**
-     * Serial numbers, account numbers, policy refs, etc.
+     * External identifiers — serial numbers, account numbers, policy references, registration numbers, etc.
      */
     identifiers?: Array<Identifier2>;
+    /**
+     * Photographs of this asset for identification and valuation purposes.
+     */
     photos?: Array<Photo>;
+    /**
+     * Whether the asset was held at death, is receivable post-death, or is contingent on a future event.
+     */
     possessionStatus?: 'possessed_at_death' | 'receivable' | 'contingent';
+    /**
+     * Whether this asset is classified as immoveable or moveable property. Affects which conflict-of-laws rules apply in cross-border estates.
+     */
     mobilityType?: 'immoveable' | 'moveable' | 'mixed';
+    /**
+     * How this asset was acquired. Determines succession rules in Indian and other customary systems.
+     */
     acquisitionType?: 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed';
+    /**
+     * Whether ownership of this asset is formally registered or documented.
+     */
     registrationStatus?: 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented';
+    /**
+     * The type of evidence available to prove ownership of this asset.
+     */
     ownershipEvidence?: 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none';
+    /**
+     * The succession law governing this specific asset, if different from the general estate law.
+     */
     applicableSuccessionLaw?: {
+        /**
+         * Jurisdiction whose succession law governs this asset.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Name of the applicable law.
+         */
         lawName?: string;
+        /**
+         * Specific section of the law.
+         */
         section?: string;
     };
+    /**
+     * Named beneficiary designation for this asset. Assets with beneficiary designations pass outside the probate estate — the will does not control their distribution.
+     */
     beneficiaryDesignation?: {
+        /**
+         * Person IDs of the primary beneficiaries.
+         */
         primaryBeneficiaryPersonIds?: Array<string>;
+        /**
+         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease).
+         */
         contingentBeneficiaryPersonIds?: Array<string>;
+        /**
+         * The type of beneficiary designation.
+         */
         designationType?: 'retirement_account' | 'life_insurance' | 'superannuation' | 'pod_account' | 'other';
+        /**
+         * Reference to the NonprobateTransfer entity that tracks this designation.
+         */
         linkedNonprobateTransferId?: string;
     };
+    /**
+     * Digital access consent under RUFADAA or equivalent legislation. Governs whether executors and fiduciaries can access the deceased's digital accounts and assets.
+     */
     digitalAccessConsent?: {
+        /**
+         * Whether the account holder has given consent for fiduciary access.
+         */
         consentGiven?: boolean;
+        /**
+         * The scope of access granted to fiduciaries.
+         */
         scope?: 'full_access' | 'limited_access' | 'no_access';
+        /**
+         * Reference to the Person.id designated to receive access to this digital asset.
+         */
         designatedRecipientPersonId?: string;
+        /**
+         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.
+         */
         onlineToolDirective?: boolean;
     };
     /**
-     * Links this asset to an asset collection
+     * Whether this asset passes outside the probate estate. Beneficiary designations, POD accounts, and jointly held assets typically bypass the will.
      */
-    collectionId?: string;
-    /**
-     * How this asset relates to a companion estate. Determines sync behaviour and visibility between linked estates.
-     */
-    ownershipCategory?: 'joint' | 'sole_partner_interest' | 'sole_no_partner_interest' | 'sole';
     passesOutsideEstate?: boolean;
+    /**
+     * Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields.
+     */
     notes?: string;
     [key: string]: unknown | string | string | 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'probate' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Photo> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
+        /**
+         * Jurisdiction whose succession law governs this asset.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Name of the applicable law.
+         */
         lawName?: string;
+        /**
+         * Specific section of the law.
+         */
         section?: string;
     } | {
+        /**
+         * Person IDs of the primary beneficiaries.
+         */
         primaryBeneficiaryPersonIds?: Array<string>;
+        /**
+         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease).
+         */
         contingentBeneficiaryPersonIds?: Array<string>;
+        /**
+         * The type of beneficiary designation.
+         */
         designationType?: 'retirement_account' | 'life_insurance' | 'superannuation' | 'pod_account' | 'other';
+        /**
+         * Reference to the NonprobateTransfer entity that tracks this designation.
+         */
         linkedNonprobateTransferId?: string;
     } | {
+        /**
+         * Whether the account holder has given consent for fiduciary access.
+         */
         consentGiven?: boolean;
+        /**
+         * The scope of access granted to fiduciaries.
+         */
         scope?: 'full_access' | 'limited_access' | 'no_access';
+        /**
+         * Reference to the Person.id designated to receive access to this digital asset.
+         */
         designatedRecipientPersonId?: string;
+        /**
+         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.
+         */
         onlineToolDirective?: boolean;
-    } | 'joint' | 'sole_partner_interest' | 'sole_no_partner_interest' | 'sole' | boolean | undefined;
-};
-
-/**
- * Asset Collection
- *
- * A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set.
- */
-export type AssetCollection = {
-    /**
-     * Unique identifier for this asset collection
-     */
-    id: string;
-    /**
-     * The estate this collection belongs to
-     */
-    estateId: string;
-    /**
-     * Display name for this collection
-     */
-    name: string;
-    /**
-     * Context for family members and dealers about the collection's scope, provenance, or significance
-     */
-    description?: string;
-    /**
-     * The primary category of items in this collection
-     */
-    category?: 'model_railways' | 'vinyl_records' | 'art' | 'jewellery' | 'wine' | 'stamps' | 'coins' | 'books' | 'musical_instruments' | 'fishing_gear' | 'handbags' | 'power_tools' | 'watches' | 'ceramics' | 'memorabilia' | 'other';
-    /**
-     * Estimated total value of the collection as a whole
-     */
-    estimatedValue?: Money2;
-    /**
-     * How the estimated value was determined
-     */
-    valuationSource?: 'self_estimated' | 'dealer_valuation' | 'auction_estimate' | 'insurance_value';
-    /**
-     * Date the valuation was performed or last updated
-     */
-    valuationDate?: string;
-    /**
-     * Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc.
-     */
-    disposalWishes?: string;
-    /**
-     * Any additional notes about this collection
-     */
-    notes?: string;
-    [key: string]: unknown | string | string | string | 'model_railways' | 'vinyl_records' | 'art' | 'jewellery' | 'wine' | 'stamps' | 'coins' | 'books' | 'musical_instruments' | 'fishing_gear' | 'handbags' | 'power_tools' | 'watches' | 'ceramics' | 'memorabilia' | 'other' | Money2 | 'self_estimated' | 'dealer_valuation' | 'auction_estimate' | 'insurance_value' | string | undefined;
-};
-
-/**
- * Asset Interest
- *
- * Captures informal beneficiary interest in an asset or collection — pre-bequest soft preferences. Not legally binding. Helps the testator understand who wants what before making formal bequests.
- */
-export type AssetInterest = {
-    /**
-     * Unique identifier for this interest record
-     */
-    id: string;
-    /**
-     * The estate this interest relates to
-     */
-    estateId: string;
-    /**
-     * Reference to a specific Asset.id, if the interest is in a single asset
-     */
-    assetId?: string | null;
-    /**
-     * Reference to an AssetCollection.id, if the interest is in an entire collection
-     */
-    collectionId?: string | null;
-    /**
-     * The person expressing interest (must be a Person.id with a beneficiary role)
-     */
-    personId: string;
-    /**
-     * How strongly the beneficiary has expressed interest
-     */
-    interestLevel: 'mentioned' | 'expressed_interest' | 'strongly_wants' | 'agreed';
-    /**
-     * How this interest was communicated or recorded
-     */
-    sourceType?: 'family_conversation' | 'written_request' | 'chat_message' | 'proxy_reported' | 'testator_observed' | 'manual';
-    /**
-     * Whether the testator has seen and acknowledged this interest
-     */
-    testatorAcknowledged?: boolean;
-    /**
-     * Additional context about this interest
-     */
-    notes?: string;
-    [key: string]: unknown | string | string | null | string | null | 'mentioned' | 'expressed_interest' | 'strongly_wants' | 'agreed' | 'family_conversation' | 'written_request' | 'chat_message' | 'proxy_reported' | 'testator_observed' | 'manual' | boolean | string | undefined;
+    } | boolean | undefined;
 };
 
 /**
@@ -1778,69 +2123,168 @@ export type AssetInterest = {
  * A debt or financial obligation. Includes mortgages, loans, credit cards, and cultural obligations (mahr, ketubah debt, lobola) that are priority debts in certain jurisdictions.
  */
 export type Liability2 = {
+    /**
+     * Unique identifier for this liability within the INHERIT document.
+     */
     id: string;
+    /**
+     * The category of liability. Cultural and religious obligations are included because they are priority debts in their respective legal systems.
+     */
     type: 'mortgage' | 'personal_loan' | 'credit_card' | 'overdraft' | 'student_loan' | 'car_finance' | 'hire_purchase' | 'mahr' | 'ketubah_debt' | 'lobola' | 'tax_liability' | 'funeral_costs' | 'care_fees' | 'mezonot' | 'other';
     /**
-     * Name of the creditor or institution
+     * Name of the creditor, institution, or person to whom the debt is owed.
      */
     creditor?: string;
     /**
-     * Outstanding balance
+     * Outstanding balance of this liability in minor currency units.
      */
     amount: Money2;
     /**
-     * Reference to a Property.id or Asset.id this liability is secured against
+     * Reference to a Property.id or Asset.id that this liability is secured against. Unsecured debts should omit this field.
      */
     securedAgainst?: string;
+    /**
+     * Regular monthly payment amount in minor currency units, if applicable.
+     */
     monthlyPayment?: Money2;
     /**
-     * Annual interest rate as percentage (e.g. 4.5 = 4.5%)
+     * Annual interest rate as a percentage (e.g. 4.5 means 4.5% per annum). Zero for interest-free debts.
      */
     interestRate?: number;
+    /**
+     * Date the liability was incurred or the agreement began.
+     */
     startDate?: string;
+    /**
+     * Date the liability is expected to be repaid in full, if known.
+     */
     endDate?: string;
     /**
-     * Account or reference number
+     * Account number, reference number, or policy number for this liability.
      */
     accountReference?: string;
+    /**
+     * Free-text notes about this liability. Use for payment protection insurance, disputes, or special arrangements.
+     */
     notes?: string;
     [key: string]: unknown | string | 'mortgage' | 'personal_loan' | 'credit_card' | 'overdraft' | 'student_loan' | 'car_finance' | 'hire_purchase' | 'mahr' | 'ketubah_debt' | 'lobola' | 'tax_liability' | 'funeral_costs' | 'care_fees' | 'mezonot' | 'other' | string | Money2 | number | string | undefined;
 };
 
+/**
+ * An organisation that receives a bequest — charity, company, trust, or unincorporated association.
+ */
 export type BeneficiaryOrganisation = {
+    /**
+     * Name of the beneficiary organisation.
+     */
     name: string;
+    /**
+     * The legal form of the organisation.
+     */
     type: 'charity' | 'company' | 'unincorporated_association' | 'trust' | 'other';
+    /**
+     * Charity registration number, company number, or other official registration.
+     */
     registrationNumber?: string;
+    /**
+     * Jurisdiction where the organisation is registered.
+     */
     jurisdiction?: Jurisdiction2;
 };
 
+/**
+ * Details of a life interest — one person enjoys the asset during their lifetime, then it passes to the remainderman.
+ */
 export type LifeInterest = {
+    /**
+     * Reference to the Person.id who holds the life interest.
+     */
     tenantForLifeId: string;
+    /**
+     * Reference to the Person.id who receives the asset after the life interest ends.
+     */
     remaindermanId?: string;
+    /**
+     * Natural-language description of the remainderman class if not a named individual.
+     */
     remaindermanClassDefinition?: string;
+    /**
+     * The scope of the life interest.
+     */
     interestType: 'use_and_income' | 'income_only' | 'use_only' | 'protective' | 'right_of_residence';
 };
 
+/**
+ * A substitute beneficiary who receives the bequest if the primary beneficiary cannot (e.g. predeceases the testator).
+ */
 export type Substitution = {
+    /**
+     * Reference to the Person.id of the substitute beneficiary.
+     */
     beneficiaryId?: string;
+    /**
+     * Natural-language description of the substitute class.
+     */
     classDefinition?: string;
+    /**
+     * Substitute organisation if the substitution is to a charity or company.
+     */
     beneficiaryOrganisation?: BeneficiaryOrganisation;
+    /**
+     * The condition that triggers this substitution.
+     */
     condition?: string;
+    /**
+     * Whether the substitution is per stirpes — passing to the deceased beneficiary's descendants by representation.
+     */
     perStirpes?: boolean;
 };
 
+/**
+ * An action taken after death that modifies the bequest — disclaimer, deed of variation, appropriation, or assent.
+ */
 export type PostDeathAction = {
+    /**
+     * The type of post-death action.
+     */
     type: 'disclaimer' | 'deed_of_variation' | 'appropriation' | 'assent';
+    /**
+     * Date the action was taken.
+     */
     date?: string;
+    /**
+     * Description of the action taken.
+     */
     description?: string;
+    /**
+     * Reference to the Document entity recording this action.
+     */
     documentId?: string;
 };
 
+/**
+ * The beneficiary's response to the inheritance — acceptance, renunciation, or qualified acceptance. In civil law jurisdictions, acceptance may be required within a time limit.
+ */
 export type InheritanceResponse = {
+    /**
+     * The beneficiary's formal response to the inheritance.
+     */
     response: 'accepted' | 'renounced' | 'qualified_acceptance' | 'pending';
+    /**
+     * Date the response was made.
+     */
     responseDate?: string;
+    /**
+     * Reference to the Person.id of the respondent.
+     */
     responsePersonId?: string;
+    /**
+     * Whether the response was filed with a court (required in some jurisdictions).
+     */
     courtFiled?: boolean;
+    /**
+     * Statutory deadline for responding (e.g. 3 months in Japan, 4 months in France).
+     */
     deadlineDate?: string;
 };
 
@@ -1850,39 +2294,126 @@ export type InheritanceResponse = {
  * A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah).
  */
 export type Bequest2 = unknown & {
+    /**
+     * Unique identifier for this bequest within the INHERIT document.
+     */
     id: string;
+    /**
+     * The category of bequest.
+     */
     type: 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class';
+    /**
+     * Extension-specific bequest type not covered by the core enum. Validated by the relevant extension schema.
+     */
     extensionType?: string;
+    /**
+     * Reference to the Person.id of the individual beneficiary.
+     */
     beneficiaryId?: string;
+    /**
+     * Organisation receiving this bequest, if not an individual.
+     */
     beneficiaryOrganisation?: BeneficiaryOrganisation;
+    /**
+     * Natural-language definition of the beneficiary class. Required for class bequests. Must be precise enough for executors to identify all members.
+     */
     classDefinition?: string;
+    /**
+     * Life interest details, required when type is 'life_interest'.
+     */
     lifeInterest?: LifeInterest;
+    /**
+     * Cash amount for pecuniary and demonstrative bequests, in minor currency units.
+     */
     amount?: Money2;
+    /**
+     * Percentage share of the residuary estate or a specified fund.
+     */
     sharePercentage?: number;
+    /**
+     * Free-text description of the bequest — what is being given.
+     */
     description?: string;
+    /**
+     * Reference to the Asset.id from which a demonstrative bequest should be paid.
+     */
     sourceAssetId?: string;
+    /**
+     * Conditions precedent that must be satisfied before the beneficiary receives this bequest.
+     */
     conditions?: Array<string>;
+    /**
+     * Substitute beneficiaries in case the primary beneficiary cannot receive the gift.
+     */
     substitutions?: Array<Substitution>;
+    /**
+     * Whether lifetime gifts (advances) to the beneficiary are brought into account when calculating their share. Common in intestacy and some wills.
+     */
     hotchpot?: boolean;
+    /**
+     * How the bequest is distributed among multiple beneficiaries.
+     */
     distributionMethod?: 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha';
+    /**
+     * What happens if the beneficiary dies before the testator.
+     */
     predeceaseRule?: 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default';
+    /**
+     * Which legal principle constrains this bequest, if any.
+     */
     constrainedBy?: 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship';
+    /**
+     * Whether customary or religious law overrides the testator's freedom to dispose of this gift as they wish.
+     */
     customaryOverride?: boolean;
+    /**
+     * Post-death actions that modified this bequest — disclaimers, deeds of variation, appropriations.
+     */
     postDeathActions?: Array<PostDeathAction>;
+    /**
+     * The beneficiary's formal response to this inheritance, if applicable.
+     */
     inheritanceResponse?: InheritanceResponse;
+    /**
+     * Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.
+     */
     notes?: string;
     [key: string]: unknown | string | 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class' | string | BeneficiaryOrganisation | LifeInterest | Money2 | number | Array<string> | Array<Substitution> | boolean | 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha' | 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default' | 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship' | Array<PostDeathAction> | InheritanceResponse | undefined;
 };
 
+/**
+ * A person appointed to a governance role in the trust — trustee, protector, or enforcer.
+ */
 export type TrustAppointee = {
+    /**
+     * Reference to the Person.id of the appointee.
+     */
     personId: string;
+    /**
+     * The governance role this person holds in the trust.
+     */
     role: 'trustee' | 'protector' | 'enforcer';
 };
 
+/**
+ * A beneficiary of the trust — may be a named individual, a class, or an organisation.
+ */
 export type TrustBeneficiary = {
+    /**
+     * Reference to the Person.id of the beneficiary, if a named individual.
+     */
     personId?: string;
+    /**
+     * Natural-language description of the beneficiary class.
+     */
     classDefinition?: string;
+    /**
+     * Name of the organisation beneficiary.
+     */
     organisationName?: string;
+    /**
+     * The nature of this beneficiary's interest in the trust.
+     */
     interestType: 'income' | 'capital' | 'both' | 'discretionary';
 };
 
@@ -1892,76 +2423,259 @@ export type TrustBeneficiary = {
  * A trust instrument — testamentary or inter vivos. Covers discretionary, bare, life interest, charitable, nil rate band, waqf (Islamic endowment), and offshore structures with governance features (reserved powers, flee clauses, protector powers).
  */
 export type Trust2 = {
+    /**
+     * Unique identifier for this trust within the INHERIT document.
+     */
     id: string;
+    /**
+     * Name of the trust, as it appears in the trust instrument.
+     */
     name: string;
+    /**
+     * The category of trust.
+     */
     type: 'discretionary' | 'life_interest' | 'bare' | 'accumulation_and_maintenance' | 'disabled_persons' | 'charitable' | 'nil_rate_band' | 'waqf' | 'other';
+    /**
+     * Persons appointed as trustees, protectors, or enforcers of this trust.
+     */
     trustees: Array<TrustAppointee>;
+    /**
+     * Beneficiaries of the trust — named individuals, classes, or organisations.
+     */
     beneficiaries: Array<TrustBeneficiary>;
+    /**
+     * Reference to the Person.id of the settlor (the person who created and funded the trust).
+     */
     settlor?: string;
+    /**
+     * Whether the trust is created by the will (testamentary) or was established during the settlor's lifetime (inter vivos).
+     */
     isTestamentary?: boolean;
+    /**
+     * Date the trust instrument was executed.
+     */
     createdDate?: string;
+    /**
+     * How the trust was created.
+     */
     creationType?: 'testamentary' | 'inter_vivos_revocable' | 'inter_vivos_irrevocable';
+    /**
+     * Whether the trust can be revoked, and whether it is perpetual.
+     */
     revocability?: 'revocable' | 'irrevocable' | 'perpetual';
+    /**
+     * Whether the trust is perpetual (has no fixed end date). Waqf endowments and certain offshore trusts are perpetual by nature.
+     */
     perpetual?: boolean;
+    /**
+     * Age at which the beneficiary's interest vests absolutely (for A&M trusts and bare trusts for minors).
+     */
     vestingAge?: number;
+    /**
+     * Fixed date on which the trust vests, if not age-based.
+     */
     vestingDate?: string;
+    /**
+     * Conditions that must be met for the trust to vest.
+     */
     vestingConditions?: Array<string>;
+    /**
+     * Interests in the trust that are contingent on future events.
+     */
     contingentInterests?: Array<string>;
+    /**
+     * The trust period or perpetuity period, if applicable. In England and Wales, the statutory perpetuity period is 125 years (Perpetuities and Accumulations Act 2009).
+     */
     trustPeriod?: string;
+    /**
+     * The jurisdiction whose law governs this trust.
+     */
     governingLaw?: Jurisdiction2;
+    /**
+     * Powers reserved by the settlor or granted to a third party. Offshore trusts frequently include reserved powers over investment or distributions.
+     */
     reservedPowers?: Array<{
+        /**
+         * The type of reserved power.
+         */
         powerType: 'investment' | 'distribution' | 'amendment' | 'revocation' | 'addition_of_beneficiaries' | 'removal_of_trustees' | 'change_of_governing_law';
+        /**
+         * Reference to the Person.id who holds this power.
+         */
         heldByPersonId?: string;
+        /**
+         * Any conditions on the exercise of this power.
+         */
         conditions?: string;
     }>;
+    /**
+     * A flee clause allowing automatic or discretionary change of trust situs when triggering events occur. Standard in offshore trust planning.
+     */
     fleeClause?: {
+        /**
+         * Whether the trust contains a flee clause.
+         */
         present?: boolean;
+        /**
+         * Events that trigger the flee clause.
+         */
         triggerEvents?: Array<string>;
+        /**
+         * The jurisdiction the trust flees to when triggered.
+         */
         destinationJurisdiction?: Jurisdiction2;
+        /**
+         * Whether the flee is triggered automatically or at trustee discretion.
+         */
         automaticOrDiscretionary?: 'automatic' | 'discretionary';
     };
+    /**
+     * Powers held by the trust protector or enforcer. Offshore trusts commonly use protectors to oversee trustees.
+     */
     protectorPowers?: Array<{
+        /**
+         * The type of protector or enforcer power.
+         */
         powerType: 'consent_to_distribution' | 'remove_trustee' | 'appoint_trustee' | 'change_governing_law' | 'veto_investment' | 'add_beneficiary' | 'exclude_beneficiary' | 'enforce_purpose';
+        /**
+         * Reference to the Person.id who holds this power.
+         */
         protectorPersonId: string;
+        /**
+         * Conditions on how this power may be exercised.
+         */
         exerciseConditions?: string;
     }>;
+    /**
+     * How different jurisdictions recognise (or fail to recognise) this trust. Critical for cross-border trust structures.
+     */
     jurisdictionalRecognition?: Array<{
+        /**
+         * The jurisdiction whose recognition status is recorded.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Whether this jurisdiction recognises the trust.
+         */
         recognised: boolean;
+        /**
+         * How the jurisdiction characterises the trust for legal and tax purposes.
+         */
         recognisedAs?: string;
+        /**
+         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts.
+         */
         hagueTrustConventionApplies?: boolean;
+        /**
+         * Additional context on recognition in this jurisdiction.
+         */
         notes?: string;
     }>;
+    /**
+     * Asset protection features of the trust. Relevant for Cook Islands, Nevis, BVI, and domestic US asset protection trusts (Delaware, Nevada, South Dakota).
+     */
     assetProtectionFeatures?: {
+        /**
+         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions.
+         */
         selfSettled?: boolean;
+        /**
+         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest.
+         */
         spendthriftClause?: boolean;
+        /**
+         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction.
+         */
         fraudulentTransferLookback?: string;
+        /**
+         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable.
+         */
         domesticationDate?: string;
     };
+    /**
+     * Free-text notes about this trust. Use for trustee succession plans, special investment mandates, or other non-structured information.
+     */
     notes?: string;
     [key: string]: unknown | string | string | 'discretionary' | 'life_interest' | 'bare' | 'accumulation_and_maintenance' | 'disabled_persons' | 'charitable' | 'nil_rate_band' | 'waqf' | 'other' | Array<TrustAppointee> | Array<TrustBeneficiary> | boolean | string | 'testamentary' | 'inter_vivos_revocable' | 'inter_vivos_irrevocable' | 'revocable' | 'irrevocable' | 'perpetual' | number | Array<string> | Array<string> | Jurisdiction2 | Array<{
+        /**
+         * The type of reserved power.
+         */
         powerType: 'investment' | 'distribution' | 'amendment' | 'revocation' | 'addition_of_beneficiaries' | 'removal_of_trustees' | 'change_of_governing_law';
+        /**
+         * Reference to the Person.id who holds this power.
+         */
         heldByPersonId?: string;
+        /**
+         * Any conditions on the exercise of this power.
+         */
         conditions?: string;
     }> | {
+        /**
+         * Whether the trust contains a flee clause.
+         */
         present?: boolean;
+        /**
+         * Events that trigger the flee clause.
+         */
         triggerEvents?: Array<string>;
+        /**
+         * The jurisdiction the trust flees to when triggered.
+         */
         destinationJurisdiction?: Jurisdiction2;
+        /**
+         * Whether the flee is triggered automatically or at trustee discretion.
+         */
         automaticOrDiscretionary?: 'automatic' | 'discretionary';
     } | Array<{
+        /**
+         * The type of protector or enforcer power.
+         */
         powerType: 'consent_to_distribution' | 'remove_trustee' | 'appoint_trustee' | 'change_governing_law' | 'veto_investment' | 'add_beneficiary' | 'exclude_beneficiary' | 'enforce_purpose';
+        /**
+         * Reference to the Person.id who holds this power.
+         */
         protectorPersonId: string;
+        /**
+         * Conditions on how this power may be exercised.
+         */
         exerciseConditions?: string;
     }> | Array<{
+        /**
+         * The jurisdiction whose recognition status is recorded.
+         */
         jurisdiction: Jurisdiction2;
+        /**
+         * Whether this jurisdiction recognises the trust.
+         */
         recognised: boolean;
+        /**
+         * How the jurisdiction characterises the trust for legal and tax purposes.
+         */
         recognisedAs?: string;
+        /**
+         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts.
+         */
         hagueTrustConventionApplies?: boolean;
+        /**
+         * Additional context on recognition in this jurisdiction.
+         */
         notes?: string;
     }> | {
+        /**
+         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions.
+         */
         selfSettled?: boolean;
+        /**
+         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest.
+         */
         spendthriftClause?: boolean;
+        /**
+         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction.
+         */
         fraudulentTransferLookback?: string;
+        /**
+         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable.
+         */
         domesticationDate?: string;
     } | undefined;
 };
@@ -1972,21 +2686,45 @@ export type Trust2 = {
  * A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed.
  */
 export type Executor2 = {
+    /**
+     * Unique identifier for this executor appointment within the INHERIT document.
+     */
     id: string;
     /**
-     * Reference to a Person.id
+     * Reference to the Person.id of the appointed executor or administrator.
      */
     personId: string;
+    /**
+     * The executor's role in the estate administration.
+     */
     role: 'primary' | 'secondary' | 'substitute' | 'administrator' | 'administrator_with_will_annexed';
+    /**
+     * Whether this executor is a professional (solicitor, accountant, trust corporation). Professional executors typically charge fees.
+     */
     isProfessional?: boolean;
     /**
-     * Firm name if the executor is a professional (solicitor, accountant, trust corporation)
+     * Name of the professional firm, if the executor is acting in a professional capacity.
      */
     firmName?: string;
+    /**
+     * The type of grant issued by the court authorising this person to act.
+     */
     grantType?: 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'resealing' | 'european_certificate_of_succession';
+    /**
+     * Date the grant was issued.
+     */
     grantDate?: string;
+    /**
+     * Court reference number for the grant.
+     */
     grantReference?: string;
+    /**
+     * Name of the court or registry that issued the grant.
+     */
     issuingCourt?: string;
+    /**
+     * Free-text notes about this executor appointment — reservations, renunciations, or special circumstances.
+     */
     notes?: string;
     [key: string]: unknown | string | 'primary' | 'secondary' | 'substitute' | 'administrator' | 'administrator_with_will_annexed' | boolean | string | 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'resealing' | 'european_certificate_of_succession' | string | undefined;
 };
@@ -1997,20 +2735,41 @@ export type Executor2 = {
  * A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined.
  */
 export type Guardian2 = {
+    /**
+     * Unique identifier for this guardian appointment within the INHERIT document.
+     */
     id: string;
     /**
-     * Reference to the guardian Person.id
+     * Reference to the Person.id of the guardian being appointed.
      */
     guardianPersonId: string;
     /**
-     * Reference to the child Person.id
+     * Reference to the Person.id of the child this guardian is appointed for.
      */
     childPersonId: string;
+    /**
+     * The guardian's priority in the appointment.
+     */
     role: 'primary' | 'secondary' | 'substitute';
+    /**
+     * How this guardian was appointed.
+     */
     appointmentType: 'testamentary' | 'parental_responsibility' | 'court_appointed' | 'shariah_court_appointed' | 'community_appointed' | 'religious_court_appointed';
+    /**
+     * The structure of the guardianship arrangement.
+     */
     guardianshipStructure?: 'individual' | 'collective' | 'rotating' | 'family_council_determined';
+    /**
+     * Reference to the family council decision that appointed this guardian, if the appointment was council-determined.
+     */
     familyCouncilDecisionRef?: string;
+    /**
+     * Conditions on the guardianship — when it takes effect, any restrictions, or circumstances under which it lapses.
+     */
     conditions?: string;
+    /**
+     * Free-text notes about this guardianship appointment.
+     */
     notes?: string;
     [key: string]: unknown | string | 'primary' | 'secondary' | 'substitute' | 'testamentary' | 'parental_responsibility' | 'court_appointed' | 'shariah_court_appointed' | 'community_appointed' | 'religious_court_appointed' | 'individual' | 'collective' | 'rotating' | 'family_council_determined' | string | undefined;
 };
@@ -2021,19 +2780,37 @@ export type Guardian2 = {
  * A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences.
  */
 export type Wish2 = {
+    /**
+     * Unique identifier for this wish within the INHERIT document.
+     */
     id: string;
+    /**
+     * The category of wish. Wishes may be non-binding in law but culturally or religiously obligatory.
+     */
     type: 'funeral' | 'letter' | 'care' | 'distribution' | 'digital' | 'pets' | 'general';
+    /**
+     * A short descriptive title for this wish.
+     */
     title: string;
+    /**
+     * The full text content of the wish. May be lengthy for letters of wishes.
+     */
     content?: string;
+    /**
+     * The legal or moral force of this wish. Most wishes are non-binding but may carry significant cultural or religious weight.
+     */
     bindingNature?: 'non_binding' | 'culturally_obligatory' | 'religiously_obligatory' | 'legally_binding';
     /**
-     * Person this wish is addressed to
+     * Reference to the Person.id this wish is addressed to — typically an executor, guardian, or family member.
      */
     addresseePersonId?: string;
     /**
-     * Asset this wish relates to
+     * Reference to an Asset.id this wish relates to (e.g. a pet, a digital account, a specific item).
      */
     relatedAssetId?: string;
+    /**
+     * Additional notes about this wish.
+     */
     notes?: string;
     [key: string]: unknown | string | 'funeral' | 'letter' | 'care' | 'distribution' | 'digital' | 'pets' | 'general' | string | 'non_binding' | 'culturally_obligatory' | 'religiously_obligatory' | 'legally_binding' | undefined;
 };
@@ -2044,17 +2821,41 @@ export type Wish2 = {
  * A document associated with an estate — wills, codicils, trust deeds, and religious documents (shtar_chov, ketubah_document, nikah_nama, etc.). Type is a free string (minLength 1) to accommodate jurisdiction-specific and religious document types.
  */
 export type Document2 = {
+    /**
+     * Unique identifier for this document within the INHERIT document.
+     */
     id: string;
+    /**
+     * The type of document. Free-form text to accommodate the enormous variety of estate-related documents across jurisdictions and legal traditions.
+     */
     type: string;
+    /**
+     * Human-readable title of the document.
+     */
     title: string;
+    /**
+     * File format or extension. Use lowercase without a leading dot.
+     */
     fileFormat?: string;
     /**
-     * Storage reference (e.g. S3 URI, file path, or external system reference)
+     * Storage reference — an S3 URI, file path, external system reference, or document management system identifier.
      */
     storageRef?: string;
+    /**
+     * File size in bytes. Zero for metadata-only entries where the document content is stored externally.
+     */
     fileSizeBytes?: number;
+    /**
+     * MIME type of the document file.
+     */
     mimeType?: string;
+    /**
+     * Date the document was created or executed.
+     */
     createdDate?: string;
+    /**
+     * Free-text notes about this document. Use for provenance, authenticity concerns, or handling instructions.
+     */
     notes?: string;
     [key: string]: unknown | string | string | string | number | string | undefined;
 };
@@ -2065,35 +2866,113 @@ export type Document2 = {
  * Assets that pass outside the probate estate — revocable trusts, TOD deeds, POD accounts, JTWROS, beneficiary designations, superannuation/CPF/EPF nominations.
  */
 export type NonprobateTransfer2 = {
+    /**
+     * Unique identifier for this nonprobate transfer within the INHERIT document.
+     */
     id: string;
+    /**
+     * The mechanism by which this asset passes outside the probate estate.
+     */
     type: 'revocable_trust' | 'tod_deed' | 'pod_account' | 'jtwros' | 'tenancy_by_entirety' | 'beneficiary_designation' | 'life_insurance_nomination' | 'superannuation_nomination' | 'cpf_nomination' | 'epf_nomination' | 'mandatory_savings_nomination';
+    /**
+     * More specific description of the transfer mechanism.
+     */
     designationType?: string;
+    /**
+     * Free-text description of the nonprobate transfer.
+     */
     description?: string;
+    /**
+     * Reference to a Trust.id if this transfer is via a revocable trust.
+     */
     trustId?: string;
+    /**
+     * Reference to a Property.id if this transfer relates to real estate (e.g. TOD deed, JTWROS property).
+     */
     propertyId?: string;
+    /**
+     * References to Asset.id(s) that pass via this nonprobate transfer.
+     */
     assetIds?: Array<string>;
+    /**
+     * Person IDs of the primary beneficiaries or surviving owners who receive the asset.
+     */
     beneficiaryPersonIds?: Array<string>;
+    /**
+     * Person IDs of contingent beneficiaries who receive if the primary beneficiaries predecease.
+     */
     contingentBeneficiaryPersonIds?: Array<string>;
+    /**
+     * Person IDs of surviving joint owners for JTWROS and tenancy by entirety transfers.
+     */
     survivingOwnerPersonIds?: Array<string>;
+    /**
+     * Confirmation that this asset passes outside the probate estate. Should always be true for nonprobate transfers.
+     */
     passesOutsideEstate: boolean;
+    /**
+     * Whether the beneficiary nomination is legally binding on the fund trustee. Australian superannuation nominations may be binding (valid for 3 years) or non-binding (trustee has discretion).
+     */
     bindingNomination?: boolean;
+    /**
+     * Date the nomination expires, if applicable. Australian binding nominations expire after 3 years and must be renewed.
+     */
     nominationExpiryDate?: string;
+    /**
+     * Recording or filing reference for the transfer instrument (e.g. county recorder reference for a TOD deed).
+     */
     recordingReference?: string;
+    /**
+     * Jurisdiction governing this nonprobate transfer.
+     */
     jurisdiction?: Jurisdiction2;
+    /**
+     * Free-text notes about this nonprobate transfer.
+     */
     notes?: string;
     [key: string]: unknown | string | 'revocable_trust' | 'tod_deed' | 'pod_account' | 'jtwros' | 'tenancy_by_entirety' | 'beneficiary_designation' | 'life_insurance_nomination' | 'superannuation_nomination' | 'cpf_nomination' | 'epf_nomination' | 'mandatory_savings_nomination' | string | Array<string> | Array<string> | Array<string> | Array<string> | boolean | string | Jurisdiction2 | undefined;
 };
 
+/**
+ * Record of the testator's consent to proxy authorisation. Supports formal, informal, and culturally appropriate consent methods.
+ */
 export type ConsentRecord = {
+    /**
+     * Whether the testator has given consent for the proxy to act on their behalf.
+     */
     consentGiven: boolean;
+    /**
+     * Date consent was given.
+     */
     consentDate?: string;
+    /**
+     * The method by which consent was obtained.
+     */
     consentMethod?: 'in_person_verbal' | 'in_person_written' | 'video_recorded' | 'witnessed_verbal' | 'phone_recorded' | 'assumed_cultural_norm';
+    /**
+     * Witnesses to the consent, if any.
+     */
     witnesses?: Array<{
+        /**
+         * Reference to the Person.id of the witness.
+         */
         personId: string;
+        /**
+         * The role or capacity in which the person witnessed the consent.
+         */
         role?: string;
+        /**
+         * Date this person witnessed the consent.
+         */
         witnessedDate?: string;
     }>;
+    /**
+     * Reference to a document recording the consent.
+     */
     documentRef?: string;
+    /**
+     * Additional notes about the consent.
+     */
     notes?: string;
 };
 
@@ -2103,54 +2982,137 @@ export type ConsentRecord = {
  * Authorises a proxy to act on behalf of a testator — information gathering, communication, negotiation, or full decision-making. Includes consent record with cultural consent methods.
  */
 export type ProxyAuthorisation2 = {
+    /**
+     * Unique identifier for this proxy authorisation within the INHERIT document.
+     */
     id: string;
+    /**
+     * Reference to the Person.id of the authorised proxy.
+     */
     proxyPersonId: string;
+    /**
+     * Reference to the Person.id of the testator granting the authorisation.
+     */
     testatorPersonId: string;
+    /**
+     * The scope of authority granted to the proxy.
+     */
     scope: 'full' | 'information_gathering' | 'communication' | 'negotiation' | 'decision_making';
+    /**
+     * Record of the testator's consent to this proxy authorisation.
+     */
     consentRecord: ConsentRecord;
+    /**
+     * Whether the proxy is specifically authorised to negotiate with dealers and third parties interested in estate assets.
+     */
     dealerNegotiationPermitted?: boolean;
+    /**
+     * Date from which the proxy authorisation is effective.
+     */
     startDate?: string;
+    /**
+     * Date on which the proxy authorisation expires, if time-limited.
+     */
     expiryDate?: string;
+    /**
+     * Date the proxy authorisation was revoked by the testator, if applicable.
+     */
     revocationDate?: string;
+    /**
+     * Whether all actions taken by the proxy should be logged for audit purposes.
+     */
     auditTrailEnabled?: boolean;
+    /**
+     * Free-text notes about this proxy authorisation.
+     */
     notes?: string;
     [key: string]: unknown | string | 'full' | 'information_gathering' | 'communication' | 'negotiation' | 'decision_making' | ConsentRecord | boolean | string | string | undefined;
 };
 
+/**
+ * A third party expressing interest in purchasing or acquiring estate assets.
+ */
 export type InterestedParty = {
+    /**
+     * Reference to a Person.id if the interested party is an individual in the people array.
+     */
     personId?: string;
+    /**
+     * Name of the interested party — individual or organisation.
+     */
     name: string;
+    /**
+     * The type of interested party.
+     */
     type: 'art_dealer' | 'antique_dealer' | 'property_investor' | 'auction_house' | 'gallery' | 'private_collector' | 'museum' | 'institution' | 'charity' | 'developer' | 'fund_manager' | 'family_office' | 'estate_agent' | 'solicitor_firm' | 'other';
+    /**
+     * Contact details for the interested party.
+     */
     contactDetails?: string;
 };
 
+/**
+ * A specific asset or property that the interested party wants to acquire.
+ */
 export type AssetInterestItem = {
+    /**
+     * Reference to an Asset.id.
+     */
     assetId?: string;
+    /**
+     * Reference to a Property.id.
+     */
     propertyId?: string;
+    /**
+     * How strong the interested party's intent is.
+     */
     interestLevel?: 'exploratory' | 'moderate' | 'strong' | 'committed';
 };
 
 export type CollectionInterest = unknown & {
+    /**
+     * Name of the collection.
+     */
     name?: string;
+    /**
+     * Asset IDs that make up this collection.
+     */
     assetIds?: Array<string>;
+    /**
+     * Property IDs that make up this collection.
+     */
     propertyIds?: Array<string>;
+    /**
+     * Additional notes about the collection interest.
+     */
     notes?: string;
 };
 
+/**
+ * Details of a specific offer made by the interested party.
+ */
 export type OfferDetails = {
+    /**
+     * The offer amount in minor currency units.
+     */
     amount?: Money2;
+    /**
+     * Conditions attached to the offer.
+     */
     conditions?: Array<string>;
+    /**
+     * Date the offer expires.
+     */
     validUntil?: string;
+    /**
+     * Date the offer was made.
+     */
     offerDate?: string;
+    /**
+     * Reference to the document containing the offer.
+     */
     documentRef?: string;
 };
-
-/**
- * Visibility
- *
- * Reusable visibility level controlling which parties can see an entity. Used across dealer interests, asset interests, and other privacy-sensitive records.
- */
-export type Visibility = 'testator_only' | 'proxy_visible' | 'companion_visible' | 'executor_visible' | 'beneficiary_visible' | 'all_parties';
 
 /**
  * Dealer Interest
@@ -2158,22 +3120,55 @@ export type Visibility = 'testator_only' | 'proxy_visible' | 'companion_visible'
  * Level D data — records third-party interest in estate assets (art dealers, property investors, collectors). Privacy-controlled. Managed via proxy authorisation.
  */
 export type DealerInterest2 = {
+    /**
+     * Unique identifier for this dealer interest record within the INHERIT document.
+     */
     id: string;
+    /**
+     * The third party expressing interest in estate assets.
+     */
     interestedParty: InterestedParty;
+    /**
+     * Specific assets or properties the interested party wants to acquire.
+     */
     assets?: Array<AssetInterestItem>;
+    /**
+     * Interest in a collection of assets as a whole.
+     */
     collection?: CollectionInterest;
+    /**
+     * Current status of the offer or expression of interest.
+     */
     offerStatus: 'standing_interest' | 'verbal_offer' | 'written_offer' | 'formal_valuation' | 'conditional_offer' | 'accepted' | 'declined' | 'expired' | 'withdrawn';
+    /**
+     * Details of a specific offer, if one has been made.
+     */
     offerDetails?: OfferDetails;
+    /**
+     * The testator's disposition towards selling this asset.
+     */
     testatorDisposition?: 'willing_to_sell' | 'prefer_not_to_sell' | 'hold_for_executor' | 'deferred_to_family' | 'promised_to_institution' | 'undecided';
+    /**
+     * Reference to a Bequest.id if this asset is also subject to a bequest. A dealer interest and a bequest may conflict.
+     */
     linkedBequestId?: string;
     /**
-     * Controls which parties can see this dealer interest record
+     * Who may see this dealer interest record. Privacy is critical — the testator may not want family to know about dealer approaches.
      */
-    privacyLevel: Visibility;
+    privacyLevel: 'testator_only' | 'proxy_visible' | 'executor_visible' | 'all_parties';
+    /**
+     * Who initiated the communication about this potential transaction.
+     */
     communicationInitiatedBy?: 'buyer' | 'testator' | 'proxy' | 'executor';
+    /**
+     * Reference to the ProxyAuthorisation.id that governs this dealer interest — the proxy managing the negotiation.
+     */
     managedByProxyId?: string;
+    /**
+     * Free-text notes about this dealer interest.
+     */
     notes?: string;
-    [key: string]: unknown | string | InterestedParty | Array<AssetInterestItem> | CollectionInterest | 'standing_interest' | 'verbal_offer' | 'written_offer' | 'formal_valuation' | 'conditional_offer' | 'accepted' | 'declined' | 'expired' | 'withdrawn' | OfferDetails | 'willing_to_sell' | 'prefer_not_to_sell' | 'hold_for_executor' | 'deferred_to_family' | 'promised_to_institution' | 'undecided' | Visibility | 'buyer' | 'testator' | 'proxy' | 'executor' | string | undefined;
+    [key: string]: unknown | string | InterestedParty | Array<AssetInterestItem> | CollectionInterest | 'standing_interest' | 'verbal_offer' | 'written_offer' | 'formal_valuation' | 'conditional_offer' | 'accepted' | 'declined' | 'expired' | 'withdrawn' | OfferDetails | 'willing_to_sell' | 'prefer_not_to_sell' | 'hold_for_executor' | 'deferred_to_family' | 'promised_to_institution' | 'undecided' | 'testator_only' | 'proxy_visible' | 'executor_visible' | 'all_parties' | 'buyer' | 'testator' | 'proxy' | 'executor' | string | undefined;
 };
 
 /**
@@ -2182,51 +3177,151 @@ export type DealerInterest2 = {
  * Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.
  */
 export type Schema = {
+    /**
+     * Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document.
+     */
     inherit: 'https://openinherit.org/v1/schema.json';
+    /**
+     * Major version number of the INHERIT schema. Always 1 for v1 documents.
+     */
     version: 1;
     /**
      * Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.
      */
     schemaVersion?: string;
+    /**
+     * Date this document was exported from the producing system.
+     */
     exportedAt?: string;
+    /**
+     * The person who exported or prepared this document.
+     */
     exportedBy?: {
+        /**
+         * Name of the person who exported the document.
+         */
         name?: string;
+        /**
+         * Email address of the person who exported the document.
+         */
         email?: string;
+        /**
+         * Organisation the exporter works for.
+         */
         organisationName?: string;
     };
+    /**
+     * The software that generated this INHERIT document.
+     */
     generator?: {
+        /**
+         * Name of the generating software.
+         */
         name: string;
+        /**
+         * Version of the generating software.
+         */
         version?: string;
+        /**
+         * URL of the generating software or organisation.
+         */
         url?: string;
     };
+    /**
+     * The single estate record for this document.
+     */
     estate: Estate2;
+    /**
+     * All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc.
+     */
     people: Array<Person2>;
+    /**
+     * Familial bonds between people in the estate. Essential for intestacy calculations.
+     */
     kinships: Array<Kinship2>;
+    /**
+     * Spousal and partnership relationships. Determines marital property rights and surviving spouse claims.
+     */
     relationships: Array<Relationship2>;
+    /**
+     * Real estate owned or partly owned by the testator.
+     */
     properties: Array<Property2>;
+    /**
+     * Non-property assets — financial accounts, personal property, vehicles, digital assets, etc.
+     */
     assets: Array<Asset2>;
-    assetCollections: Array<AssetCollection>;
-    assetInterests: Array<AssetInterest>;
+    /**
+     * Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt).
+     */
     liabilities: Array<Liability2>;
+    /**
+     * Dispositions of property or money in the will.
+     */
     bequests: Array<Bequest2>;
+    /**
+     * Trusts — testamentary or inter vivos — associated with the estate.
+     */
     trusts: Array<Trust2>;
+    /**
+     * Persons appointed to administer the estate.
+     */
     executors: Array<Executor2>;
+    /**
+     * Guardian appointments for minor children.
+     */
     guardians: Array<Guardian2>;
+    /**
+     * Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate.
+     */
     wishes: Array<Wish2>;
+    /**
+     * Documents associated with the estate — wills, codicils, trust deeds, certificates.
+     */
     documents: Array<Document2>;
+    /**
+     * Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations.
+     */
     nonprobateTransfers: Array<NonprobateTransfer2>;
+    /**
+     * Authorisations for proxies to act on behalf of the testator.
+     */
     proxyAuthorisations: Array<ProxyAuthorisation2>;
+    /**
+     * Third-party interest in estate assets — dealers, investors, collectors.
+     */
     dealerInterests: Array<DealerInterest2>;
+    /**
+     * URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
+     */
     extensions?: Array<string>;
     [key: string]: unknown | 'https://openinherit.org/v1/schema.json' | 1 | string | string | {
+        /**
+         * Name of the person who exported the document.
+         */
         name?: string;
+        /**
+         * Email address of the person who exported the document.
+         */
         email?: string;
+        /**
+         * Organisation the exporter works for.
+         */
         organisationName?: string;
     } | {
+        /**
+         * Name of the generating software.
+         */
         name: string;
+        /**
+         * Version of the generating software.
+         */
         version?: string;
+        /**
+         * URL of the generating software or organisation.
+         */
         url?: string;
-    } | Estate2 | Array<Person2> | Array<Kinship2> | Array<Relationship2> | Array<Property2> | Array<Asset2> | Array<AssetCollection> | Array<AssetInterest> | Array<Liability2> | Array<Bequest2> | Array<Trust2> | Array<Executor2> | Array<Guardian2> | Array<Wish2> | Array<Document2> | Array<NonprobateTransfer2> | Array<ProxyAuthorisation2> | Array<DealerInterest2> | Array<string> | undefined;
+    } | Estate2 | Array<Person2> | Array<Kinship2> | Array<Relationship2> | Array<Property2> | Array<Asset2> | Array<Liability2> | Array<Bequest2> | Array<Trust2> | Array<Executor2> | Array<Guardian2> | Array<Wish2> | Array<Document2> | Array<NonprobateTransfer2> | Array<ProxyAuthorisation2> | Array<DealerInterest2> | Array<string> | undefined;
 };
 
 /**
@@ -2236,27 +3331,36 @@ export type Schema = {
  */
 export type TemporalRule2 = {
     /**
-     * The actual rule value. Can be a number (tax rate, threshold amount in minor units), boolean (rule applies/doesn't), string (enum value, fraction), or object (complex rule).
+     * The actual rule value — a number (tax rate, threshold in minor units), boolean (rule applies or not), string (enum value, fraction), or object (complex rule). The consumer must interpret this in context.
      */
     value: number | boolean | string | {
         [key: string]: unknown;
     };
     /**
-     * ISO 8601 date when this value came/comes into effect
+     * The date from which this rule value takes effect. For enacted legislation, this is the commencement date, not the date of royal assent.
      */
     effectiveFrom: string;
     /**
-     * ISO 8601 date when this value was/will be superseded. null = currently in effect.
+     * The date this rule value was or will be superseded. Null means it is currently in effect with no known end date.
      */
     effectiveUntil?: string | null;
+    /**
+     * The legislative status of this rule. Only 'enacted' rules are legally binding — all others are prospective.
+     */
     status: 'enacted' | 'royal_assent' | 'bill_stage' | 'consultation' | 'announced';
     /**
-     * The previous value of this rule, for computing deltas. null if this is the first known value.
+     * The previous value of this rule, for computing deltas and understanding the direction of change. Null if this is the first known value.
      */
     predecessorValue?: number | boolean | string | {
         [key: string]: unknown;
     } | null;
+    /**
+     * Citation for the legislation that establishes this rule value. Include act name, section, and year.
+     */
     legislativeReference?: string;
+    /**
+     * Free-text commentary on this rule value — transitional provisions, known ambiguities, or political context.
+     */
     notes?: string;
 };
 
