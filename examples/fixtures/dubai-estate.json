@@ -186,5 +186,7 @@
   "nonprobateTransfers": [],
   "proxyAuthorisations": [],
   "dealerInterests": [],
-  "extensions": []
+  "extensions": [],
+  "assetCollections": [],
+  "assetInterests": []
 }
