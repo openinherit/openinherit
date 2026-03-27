@@ -500,7 +500,11 @@ export type Estate2 = {
  */
 export type Address2 = {
     /**
-     * Street number and name
+     * The full address as a single formatted string, suitable for display. Preserves the original representation from the source document. Must not be the sole address representation — always populate structured fields where possible.
+     */
+    formattedAddress?: string;
+    /**
+     * Street number and name.
      */
     streetAddress?: string;
     /**
@@ -1365,6 +1369,10 @@ export type DealerInterest2 = {
 export type Schema = {
     inherit: 'https://openinherit.org/v1/schema.json';
     version: 1;
+    /**
+     * Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.
+     */
+    schemaVersion?: string;
     exportedAt?: string;
     exportedBy?: {
         name?: string;
@@ -1393,7 +1401,7 @@ export type Schema = {
     proxyAuthorisations: Array<ProxyAuthorisation2>;
     dealerInterests: Array<DealerInterest2>;
     extensions?: Array<string>;
-    [key: string]: unknown | 'https://openinherit.org/v1/schema.json' | 1 | string | {
+    [key: string]: unknown | 'https://openinherit.org/v1/schema.json' | 1 | string | string | {
         name?: string;
         email?: string;
         organisationName?: string;

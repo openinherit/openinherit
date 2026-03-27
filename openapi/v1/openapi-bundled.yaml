@@ -1042,9 +1042,20 @@ components:
       description: A physical address. Culturally neutral — supports any global addressing convention.
       type: object
       properties:
+        formattedAddress:
+          type: string
+          description: The full address as a single formatted string, suitable for display. Preserves the original representation from the source document. Must not be the sole address representation — always populate structured fields where possible.
+          examples:
+            - 13 Park Avenue, Flint, Flintshire CH6 5DW
+            - 123 Main Street, Apt 4B, New York, NY 10001
+            - 〒100-0001 東京都千代田区千代田1-1
         streetAddress:
           type: string
-          description: Street number and name
+          description: Street number and name.
+          examples:
+            - 13 Park Avenue
+            - 123 Main Street, Apt 4B
+            - 千代田1-1
         addressLine2:
           type: string
           description: Flat, suite, building, floor
@@ -3618,6 +3629,13 @@ components:
         version:
           type: integer
           const: 1
+        schemaVersion:
+          type: string
+          description: Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.
+          pattern: ^\d+\.\d+\.\d+$
+          examples:
+            - 1.0.0
+            - 1.1.0
         exportedAt:
           type: string
           format: date
