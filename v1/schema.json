@@ -61,6 +61,14 @@
       "type": "array",
       "items": { "$ref": "asset.json" }
     },
+    "assetCollections": {
+      "type": "array",
+      "items": { "$ref": "asset-collection.json" }
+    },
+    "assetInterests": {
+      "type": "array",
+      "items": { "$ref": "asset-interest.json" }
+    },
     "liabilities": {
       "type": "array",
       "items": { "$ref": "liability.json" }
@@ -110,6 +118,7 @@
   "required": [
     "inherit", "version", "estate",
     "people", "kinships", "relationships", "properties", "assets",
+    "assetCollections", "assetInterests",
     "liabilities", "bequests", "trusts", "executors", "guardians",
     "wishes", "documents", "nonprobateTransfers", "proxyAuthorisations",
     "dealerInterests"

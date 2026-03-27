@@ -98,8 +98,8 @@
     },
     "linkedBequestId": { "type": "string", "format": "uuid" },
     "privacyLevel": {
-      "type": "string",
-      "enum": ["testator_only", "proxy_visible", "executor_visible", "all_parties"]
+      "$ref": "common/visibility.json",
+      "description": "Controls which parties can see this dealer interest record"
     },
     "communicationInitiatedBy": {
       "type": "string",
