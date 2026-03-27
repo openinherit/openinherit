@@ -2968,6 +2968,73 @@ components:
       patternProperties:
         ^x-inherit-: {}
       unevaluatedProperties: false
+    media:
+      $schema: https://openinherit.org/v1/dialect.json
+      $id: https://openinherit.org/v1/common/media.json
+      title: Media
+      description: A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records.
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URI pointing to the media file. May be an HTTPS URL, S3 URI, or other storage reference.
+          examples:
+            - https://storage.example.com/photos/ring-001.jpg
+            - s3://estate-docs/assets/painting.jpg
+        caption:
+          type: string
+          description: Human-readable description of what this media shows.
+          examples:
+            - Front view of the engagement ring
+            - Walk-through video of the model railway layout
+            - Scan of the GIA diamond certificate
+        mediaType:
+          type: string
+          description: MIME type of the media file. Maps to Schema.org encodingFormat.
+          examples:
+            - image/jpeg
+            - image/png
+            - video/mp4
+            - application/pdf
+          $comment: 'Common values: image/jpeg, image/png, image/webp (photos), video/mp4, video/quicktime (videos), application/pdf (document scans, certificates).'
+        viewType:
+          type: string
+          enum:
+            - overview
+            - identification
+            - condition
+            - provenance
+            - maker_mark
+            - serial_number
+            - damage
+            - scale_reference
+            - label
+            - certificate
+            - receipt
+            - environment
+          description: The purpose of this media — what question does it answer? Enables executors and dealers to find specific documentation without scrolling through galleries.
+          $comment: 'overview: general view showing the whole item in context. identification: close-up of the feature that identifies this specific item (catalogue number, hallmark, label). condition: shows current condition, wear, patina. provenance: documentation of ownership history (receipts, auction records). maker_mark: manufacturer''s mark, stamp, or signature. serial_number: close-up of serial/chassis/reference number. damage: specific damage, repairs, or defects. scale_reference: item photographed alongside a ruler or known object for size. label: product label, wine label, stamp on reverse. certificate: valuation certificate, authenticity certificate, gemological report. receipt: purchase receipt or invoice. environment: the storage environment (wine cellar temperature, gun cabinet, display case).'
+          examples:
+            - overview
+            - identification
+            - condition
+            - serial_number
+        takenAt:
+          type: string
+          format: date-time
+          description: When this media was captured. Useful for establishing condition at a point in time.
+          examples:
+            - '2026-03-15T14:30:00Z'
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: URI for a smaller preview version of the media. Maps to Schema.org thumbnail.
+          examples:
+            - https://storage.example.com/thumbnails/ring-001-thumb.jpg
+      required:
+        - url
+      additionalProperties: false
     property:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/property.json
@@ -3301,59 +3368,23 @@ components:
           examples:
             - Grade II listed building — consent required for any alterations
             - Boundary dispute with neighbour ongoing since 2022
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/media'
+          description: Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation.
       required:
         - id
         - name
       patternProperties:
         ^x-inherit-: {}
       unevaluatedProperties: false
-    Photo:
-      type: object
-      description: A photograph of the asset, useful for identification during probate and for insurance claims.
-      properties:
-        url:
-          type: string
-          format: uri
-          description: URI pointing to the photo. May be an S3 URI, HTTPS URL, or other storage reference.
-          examples:
-            - https://storage.example.com/photos/ring-001.jpg
-            - s3://estate-docs/assets/painting.jpg
-        caption:
-          type: string
-          description: Descriptive caption for the photograph.
-          examples:
-            - Front view of the engagement ring
-            - Oil painting, signed lower right
-      required:
-        - url
-      additionalProperties: false
     asset:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/asset.json
       title: Asset
       description: 'A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.'
       type: object
-      $defs:
-        Photo:
-          type: object
-          description: A photograph of the asset, useful for identification during probate and for insurance claims.
-          properties:
-            url:
-              type: string
-              format: uri
-              description: URI pointing to the photo. May be an S3 URI, HTTPS URL, or other storage reference.
-              examples:
-                - https://storage.example.com/photos/ring-001.jpg
-                - s3://estate-docs/assets/painting.jpg
-            caption:
-              type: string
-              description: Descriptive caption for the photograph.
-              examples:
-                - Front view of the engagement ring
-                - Oil painting, signed lower right
-          required:
-            - url
-          additionalProperties: false
       properties:
         id:
           type: string
@@ -3493,11 +3524,11 @@ components:
                 type: bank_account
             - - value: 'DVLA: AB12 CDE'
                 type: vehicle_registration
-        photos:
+        images:
           type: array
           items:
-            $ref: '#/components/schemas/Photo'
-          description: Photographs of this asset for identification and valuation purposes.
+            $ref: '#/components/schemas/media'
+          description: Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers.
         possessionStatus:
           type: string
           enum:
@@ -3664,6 +3695,88 @@ components:
           examples:
             - Belonged to great-grandmother — significant sentimental value to the family
             - Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death
+        description:
+          type: string
+          description: Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form.
+          examples:
+            - OO gauge Hornby R3456 Class 66 locomotive in EWS livery, DCC fitted, with original box and instructions
+            - 18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G
+        purchaseDate:
+          type: string
+          format: date
+          description: Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate.
+          examples:
+            - '2015-06-20'
+            - '1998-12-25'
+        originalPackaging:
+          type: string
+          enum:
+            - complete
+            - partial
+            - box_only
+            - papers_only
+            - none
+            - unknown
+          description: Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains.
+          $comment: 'complete: original box, papers/certificates, all accessories present. partial: some original packaging elements present. box_only: original box but no papers. papers_only: certificates/papers but no box. none: no original packaging. unknown: packaging status not assessed.'
+          examples:
+            - complete
+            - none
+            - unknown
+        custodian:
+          type: object
+          description: Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact.
+          properties:
+            name:
+              type: string
+              description: Name of the person or organisation holding the asset.
+              examples:
+                - London City Bond
+                - Barclays Bank, Manchester branch
+                - Sotheby's (on consignment)
+            contactEmail:
+              type: string
+              format: email
+              description: Email address for the custodian.
+            contactPhone:
+              type: string
+              description: Phone number for the custodian.
+              examples:
+                - +44 20 7293 5000
+            relationship:
+              type: string
+              description: The nature of the custodial relationship.
+              examples:
+                - bonded storage
+                - safe deposit box
+                - repair/service
+                - consignment
+                - loan
+                - pawn
+            reference:
+              type: string
+              description: Account or reference number with the custodian.
+              examples:
+                - 'Account #LC-2024-5678'
+                - Box 247
+                - 'Repair ticket #R-4521'
+          additionalProperties: false
+        conditionSystem:
+          type: string
+          description: The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field.
+          $comment: 'goldmine: Goldmine Grading Standard for vinyl records (M/NM/VG+/VG/G+/G/F/P). sheldon: Sheldon scale for coins (1-70, where 70 is perfect). ags: American Gem Society for gemstones (0-10). bsc: British Standards for antiques. gia: Gemological Institute of America for diamonds.'
+          examples:
+            - goldmine
+            - sheldon
+            - gia
+        conditionGrade:
+          type: string
+          description: The specific grade within the conditionSystem. Meaningful only when conditionSystem is set.
+          examples:
+            - VG+
+            - MS-65
+            - VS1
+            - Fine
       required:
         - id
         - name
@@ -5068,6 +5181,26 @@ components:
           examples:
             - Original held by Irwin Mitchell LLP, Manchester
             - Certified copy — original lost in 2020 house fire
+        entityType:
+          type: string
+          description: 'The type of entity this document relates to. Combined with entityId, creates a contextual link: ''this PDF is the valuation certificate for asset X''.'
+          examples:
+            - asset
+            - property
+            - person
+            - estate
+            - asset-collection
+        entityId:
+          type: string
+          format: uuid
+          description: The ID of the entity this document relates to. Combined with entityType, links the document to its subject.
+          examples:
+            - a1b2c3d4-0000-4000-a000-000000000001
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/media'
+          description: Scans or photographs of this document — useful when the original is a physical paper document.
       required:
         - id
         - type

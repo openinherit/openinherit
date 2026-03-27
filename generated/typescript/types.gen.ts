@@ -1694,6 +1694,38 @@ export type Relationship2 = {
 };
 
 /**
+ * Media
+ *
+ * A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records.
+ */
+export type Media = {
+    /**
+     * URI pointing to the media file. May be an HTTPS URL, S3 URI, or other storage reference.
+     */
+    url: string;
+    /**
+     * Human-readable description of what this media shows.
+     */
+    caption?: string;
+    /**
+     * MIME type of the media file. Maps to Schema.org encodingFormat.
+     */
+    mediaType?: string;
+    /**
+     * The purpose of this media — what question does it answer? Enables executors and dealers to find specific documentation without scrolling through galleries.
+     */
+    viewType?: 'overview' | 'identification' | 'condition' | 'provenance' | 'maker_mark' | 'serial_number' | 'damage' | 'scale_reference' | 'label' | 'certificate' | 'receipt' | 'environment';
+    /**
+     * When this media was captured. Useful for establishing condition at a point in time.
+     */
+    takenAt?: string;
+    /**
+     * URI for a smaller preview version of the media. Maps to Schema.org thumbnail.
+     */
+    thumbnailUrl?: string;
+};
+
+/**
  * Property
  *
  * Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings.
@@ -1854,6 +1886,10 @@ export type Property2 = {
      * Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations.
      */
     notes?: string;
+    /**
+     * Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation.
+     */
+    images?: Array<Media>;
     [key: string]: unknown | string | string | 'detached_house' | 'semi_detached_house' | 'terraced_house' | 'flat' | 'maisonette' | 'bungalow' | 'cottage' | 'farmhouse' | 'barn_conversion' | 'land' | 'commercial' | 'mixed_use' | 'houseboat' | 'mobile_home' | 'other' | Address2 | Money2 | string | 'estimated' | 'professional' | 'probate' | 'unknown' | boolean | 'sole' | 'joint_tenants' | 'tenants_in_common' | 'trust' | 'tenancy_by_entirety' | number | 'individual' | 'joint' | 'communal_family' | 'huf_coparcenary' | 'tribal' | 'government_vested' | 'trust_held' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'freehold' | 'leasehold' | 'certificate_of_occupancy' | 'customary_right_of_occupancy' | 'communal' | 'government_allocated' | 'traditional_authority_granted' | 'informal_unregistered' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
         /**
          * Jurisdiction whose succession law governs this property.
@@ -1901,21 +1937,7 @@ export type Property2 = {
          * Any conditions on the life estate.
          */
         conditions?: string;
-    } | string | undefined;
-};
-
-/**
- * A photograph of the asset, useful for identification during probate and for insurance claims.
- */
-export type Photo = {
-    /**
-     * URI pointing to the photo. May be an S3 URI, HTTPS URL, or other storage reference.
-     */
-    url: string;
-    /**
-     * Descriptive caption for the photograph.
-     */
-    caption?: string;
+    } | string | Array<Media> | undefined;
 };
 
 /**
@@ -1977,9 +1999,9 @@ export type Asset2 = {
      */
     identifiers?: Array<Identifier2>;
     /**
-     * Photographs of this asset for identification and valuation purposes.
+     * Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers.
      */
-    photos?: Array<Photo>;
+    images?: Array<Media>;
     /**
      * Whether the asset was held at death, is receivable post-death, or is contingent on a future event.
      */
@@ -2067,7 +2089,52 @@ export type Asset2 = {
      * Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields.
      */
     notes?: string;
-    [key: string]: unknown | string | string | 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'probate' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Photo> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
+    /**
+     * Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form.
+     */
+    description?: string;
+    /**
+     * Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate.
+     */
+    purchaseDate?: string;
+    /**
+     * Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains.
+     */
+    originalPackaging?: 'complete' | 'partial' | 'box_only' | 'papers_only' | 'none' | 'unknown';
+    /**
+     * Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact.
+     */
+    custodian?: {
+        /**
+         * Name of the person or organisation holding the asset.
+         */
+        name?: string;
+        /**
+         * Email address for the custodian.
+         */
+        contactEmail?: string;
+        /**
+         * Phone number for the custodian.
+         */
+        contactPhone?: string;
+        /**
+         * The nature of the custodial relationship.
+         */
+        relationship?: string;
+        /**
+         * Account or reference number with the custodian.
+         */
+        reference?: string;
+    };
+    /**
+     * The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field.
+     */
+    conditionSystem?: string;
+    /**
+     * The specific grade within the conditionSystem. Meaningful only when conditionSystem is set.
+     */
+    conditionGrade?: string;
+    [key: string]: unknown | string | string | 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'probate' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Media> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
         /**
          * Jurisdiction whose succession law governs this asset.
          */
@@ -2114,7 +2181,28 @@ export type Asset2 = {
          * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.
          */
         onlineToolDirective?: boolean;
-    } | boolean | undefined;
+    } | boolean | 'complete' | 'partial' | 'box_only' | 'papers_only' | 'none' | 'unknown' | {
+        /**
+         * Name of the person or organisation holding the asset.
+         */
+        name?: string;
+        /**
+         * Email address for the custodian.
+         */
+        contactEmail?: string;
+        /**
+         * Phone number for the custodian.
+         */
+        contactPhone?: string;
+        /**
+         * The nature of the custodial relationship.
+         */
+        relationship?: string;
+        /**
+         * Account or reference number with the custodian.
+         */
+        reference?: string;
+    } | undefined;
 };
 
 /**
@@ -2857,7 +2945,19 @@ export type Document2 = {
      * Free-text notes about this document. Use for provenance, authenticity concerns, or handling instructions.
      */
     notes?: string;
-    [key: string]: unknown | string | string | string | number | string | undefined;
+    /**
+     * The type of entity this document relates to. Combined with entityId, creates a contextual link: 'this PDF is the valuation certificate for asset X'.
+     */
+    entityType?: string;
+    /**
+     * The ID of the entity this document relates to. Combined with entityType, links the document to its subject.
+     */
+    entityId?: string;
+    /**
+     * Scans or photographs of this document — useful when the original is a physical paper document.
+     */
+    images?: Array<Media>;
+    [key: string]: unknown | string | string | string | number | string | Array<Media> | undefined;
 };
 
 /**
