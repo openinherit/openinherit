@@ -10,7 +10,7 @@ All agent wrapper files (`CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions
 
 ### What is INHERIT?
 
-INHERIT is an open estate data interchange standard for structured estate planning information. It defines 18 core entity schemas, 5 common types (money, address, jurisdiction, contact, metadata), and 13 jurisdiction/cultural extensions — enabling estate planning data to move between software systems, legal professionals, and AI tools across 7 legal traditions (common law, civil law, mixed, religious, customary, socialist, and hybrid).
+INHERIT is an open estate data interchange standard for structured estate planning information. It defines 20 core entity schemas, 7 common types (money, address, jurisdiction, temporal-rule, identifier, visibility, media), and 13 jurisdiction/cultural extensions — enabling estate planning data to move between software systems, legal professionals, and AI tools across 7 legal traditions (common law, civil law, mixed, religious, customary, socialist, and hybrid).
 
 ### The Minimum Viable Estate
 

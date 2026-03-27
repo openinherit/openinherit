@@ -1,0 +1,84 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/asset-collection.json",
+  "title": "Asset Collection",
+  "description": "A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this asset collection",
+      "examples": ["b7e2c4a1-3f8d-4e9b-a1c2-d3e4f5a6b7c8"]
+    },
+    "estateId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The estate this collection belongs to",
+      "examples": ["a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name for this collection",
+      "examples": ["Model railway collection", "Vinyl record library", "Japanese woodblock prints"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Context for family members and dealers about the collection's scope, provenance, or significance",
+      "examples": ["OO gauge collection started in 1985, mostly Hornby with some Lima coaches. Layout stored in the loft at Oakfield Road."]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "model_railways", "vinyl_records", "art", "jewellery", "wine",
+        "stamps", "coins", "books", "musical_instruments", "fishing_gear",
+        "handbags", "power_tools", "watches", "ceramics", "memorabilia",
+        "other"
+      ],
+      "$comment": "Broad category for the collection. Use 'other' for niche collections (e.g. vintage typewriters, fountain pens). Individual assets within the collection may have more specific categories.",
+      "description": "The primary category of items in this collection",
+      "examples": ["model_railways", "vinyl_records", "art"]
+    },
+    "estimatedValue": {
+      "$ref": "common/money.json",
+      "description": "Estimated total value of the collection as a whole",
+      "examples": [{ "amount": 1500000, "currency": "GBP" }]
+    },
+    "valuationSource": {
+      "type": "string",
+      "enum": [
+        "self_estimated", "dealer_valuation", "auction_estimate", "insurance_value"
+      ],
+      "$comment": "self_estimated = owner's own guess. dealer_valuation = assessed by a specialist dealer. auction_estimate = provided by an auction house. insurance_value = the insured replacement value.",
+      "description": "How the estimated value was determined",
+      "examples": ["dealer_valuation"]
+    },
+    "valuationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the valuation was performed or last updated",
+      "examples": ["2025-11-15"]
+    },
+    "disposalWishes": {
+      "type": "string",
+      "description": "Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc.",
+      "examples": ["Keep together if possible. Contact Dave at Manchester Model Railway Club — he knows the right dealers. Do not sell on eBay individually."]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Any additional notes about this collection",
+      "examples": ["Insurance policy with Hiscox, ref HX-2024-1234. Photos in Google Drive folder 'Railway Collection'."]
+    },
+    "images": {
+      "type": "array",
+      "items": { "$ref": "common/media.json" },
+      "description": "Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection."
+    }
+  },
+  "required": ["id", "estateId", "name"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

@@ -29,8 +29,8 @@ Each INHERIT schema has a maturity level that determines what changes are permit
 
 ### Current Status (v1.0)
 
-- **13 core entity schemas:** candidate maturity
-- **5 common type schemas:** candidate maturity
+- **20 core entity schemas:** candidate maturity
+- **7 common type schemas:** candidate maturity
 - **13 extension schemas:** draft maturity
 
 Promotion to stable requires two independent implementations using the schema in production.

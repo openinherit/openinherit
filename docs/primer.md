@@ -221,14 +221,14 @@ James leaves the house to Catherine and GBP 10,000 to Oliver:
   "bequests": [
     {
       "id": "b0000000-0000-0000-0000-000000000001",
-      "type": "specific",
+      "bequestType": "specific",
       "beneficiaryId": "a0000000-0000-0000-0000-000000000002",
       "description": "My property at 42 Acacia Avenue, Bristol",
       "propertyId": "p0000000-0000-0000-0000-000000000001"
     },
     {
       "id": "b0000000-0000-0000-0000-000000000002",
-      "type": "pecuniary",
+      "bequestType": "pecuniary",
       "beneficiaryId": "a0000000-0000-0000-0000-000000000003",
       "amount": { "amount": 1000000, "currency": "GBP" }
     }
@@ -236,7 +236,7 @@ James leaves the house to Catherine and GBP 10,000 to Oliver:
 }
 ```
 
-Bequest types include: `specific` (named item), `pecuniary` (cash sum), `general`, `demonstrative`, `residuary`, `class`, and `contingent`.
+Bequest `bequestType` values include: `specific` (named item), `pecuniary` (cash sum), `general`, `demonstrative`, `residuary`, `class`, and `contingent`.
 
 ```typescript
 // Using @openinherit/sdk types
@@ -244,7 +244,7 @@ import type { Bequest } from '@openinherit/sdk';
 
 const houseToWife: Bequest = {
   id: 'b0000000-0000-0000-0000-000000000001',
-  type: 'specific',
+  bequestType: 'specific',
   beneficiaryId: 'a0000000-0000-0000-0000-000000000002',
   description: 'My property at 42 Acacia Avenue, Bristol',
   propertyId: 'p0000000-0000-0000-0000-000000000001',
@@ -252,7 +252,7 @@ const houseToWife: Bequest = {
 
 const cashToSon: Bequest = {
   id: 'b0000000-0000-0000-0000-000000000002',
-  type: 'pecuniary',
+  bequestType: 'pecuniary',
   beneficiaryId: 'a0000000-0000-0000-0000-000000000003',
   amount: { amount: 1000000, currency: 'GBP' },
 };

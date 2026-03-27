@@ -272,7 +272,7 @@ const estate = {
 
 ```typescript
 const assets = [
-  { id: "asset-uuid-1", assetType: "investment", description: "ISA portfolio" },
+  { id: "asset-uuid-1", category: "investment", description: "ISA portfolio" },
 ];
 
 // Wrong — references a non-existent asset

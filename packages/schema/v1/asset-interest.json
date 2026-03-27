@@ -1,0 +1,72 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/asset-interest.json",
+  "title": "Asset Interest",
+  "description": "Captures informal beneficiary interest in an asset or collection — pre-bequest soft preferences. Not legally binding. Helps the testator understand who wants what before making formal bequests.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this interest record",
+      "examples": ["c3d4e5f6-a7b8-9012-cdef-3456789abcde"]
+    },
+    "estateId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The estate this interest relates to",
+      "examples": ["a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+    },
+    "assetId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Reference to a specific Asset.id, if the interest is in a single asset",
+      "examples": ["d4e5f6a7-b8c9-0123-def4-56789abcdef0"]
+    },
+    "collectionId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Reference to an AssetCollection.id, if the interest is in an entire collection",
+      "examples": ["b7e2c4a1-3f8d-4e9b-a1c2-d3e4f5a6b7c8"]
+    },
+    "personId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The person expressing interest (must be a Person.id with a beneficiary role)",
+      "examples": ["e5f6a7b8-c9d0-1234-ef56-789abcdef012"]
+    },
+    "interestLevel": {
+      "type": "string",
+      "enum": ["mentioned", "expressed_interest", "strongly_wants", "agreed"],
+      "$comment": "mentioned = came up in conversation but no strong feeling. expressed_interest = person said they'd like it. strongly_wants = person has made it clear this matters to them. agreed = testator and beneficiary have informally agreed.",
+      "description": "How strongly the beneficiary has expressed interest",
+      "examples": ["expressed_interest", "agreed"]
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "family_conversation", "written_request", "chat_message",
+        "proxy_reported", "testator_observed", "manual"
+      ],
+      "$comment": "family_conversation = mentioned during a family discussion. written_request = beneficiary put it in writing. chat_message = expressed via the platform's messaging. proxy_reported = a proxy relayed the interest on behalf of the beneficiary. testator_observed = testator noticed the person's attachment without them asking. manual = entered directly by the testator or proxy.",
+      "description": "How this interest was communicated or recorded",
+      "examples": ["family_conversation", "testator_observed"]
+    },
+    "testatorAcknowledged": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the testator has seen and acknowledged this interest",
+      "examples": [true, false]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional context about this interest",
+      "examples": ["Sarah mentioned at Christmas 2024 that she'd love Mum's engagement ring. Mum seemed pleased."]
+    }
+  },
+  "required": ["id", "estateId", "personId", "interestLevel"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

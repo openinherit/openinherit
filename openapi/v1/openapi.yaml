@@ -8,7 +8,7 @@ info:
     Jewish, Hindu, Japanese, and African customary legal traditions.
 
     This document serves two purposes:
-    1. Schema bundle — all 36 JSON Schemas as OpenAPI components for
+    1. Schema bundle — all 40 JSON Schemas as OpenAPI components for
        TypeScript type generation, Zod schema generation, and SDK creation
     2. Validation endpoint — a reference endpoint for document validation
 
