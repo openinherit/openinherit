@@ -7,6 +7,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- `common/media.json` — new common type for media attachments (photographs, videos, document scans) with `viewType` enum for structured visual documentation
+- `images` property on `asset.json` — replaces `photos`, now references `common/media.json` with full media support
+- `images` property on `property.json` — photographs and videos of properties
+- `images` property on `asset-collection.json` — overview media for collections
+- `images` property on `document.json` — scans and photographs of physical documents
+- `description` field on `asset.json` — structured description distinct from free-form notes
+- `purchaseDate` field on `asset.json` — acquisition date for CGT, insurance, and provenance
+- `originalPackaging` field on `asset.json` — packaging completeness enum (affects value 20-40%)
+- `custodian` object on `asset.json` — third-party holder details (bank, storage, repairer, gallery)
+- `conditionSystem` and `conditionGrade` fields on `asset.json` — domain-specific grading (Goldmine, Sheldon, GIA, etc.)
+- `entityType` and `entityId` fields on `document.json` — contextual linking of documents to their subject entities
+
+### Removed
+- `$defs.Photo` from `asset.json` — replaced by `common/media.json`
+- `photos` property from `asset.json` — replaced by `images`
+
 - Companion estate design document (`docs/companion-estates.md`) — vocabulary, lifecycle, sync rules, decoupling semantics, malicious deletion protection (#10)
 - `companionLinkStatus`, `linkedAt`, `decoupledAt` fields on `estate.json` — companion link lifecycle tracking (#10)
 - `ownershipCategory` field on `asset.json` — joint/sole/partner-interest classification for companion estates (#10)

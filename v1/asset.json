@@ -4,27 +4,6 @@
   "title": "Asset",
   "description": "A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.",
   "type": "object",
-  "$defs": {
-    "Photo": {
-      "type": "object",
-      "description": "A photograph of the asset, useful for identification during probate and for insurance claims.",
-      "properties": {
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "URI pointing to the photo. May be an S3 URI, HTTPS URL, or other storage reference.",
-          "examples": ["https://storage.example.com/photos/ring-001.jpg", "s3://estate-docs/assets/painting.jpg"]
-        },
-        "caption": {
-          "type": "string",
-          "description": "Descriptive caption for the photograph.",
-          "examples": ["Front view of the engagement ring", "Oil painting, signed lower right"]
-        }
-      },
-      "required": ["url"],
-      "additionalProperties": false
-    }
-  },
   "properties": {
     "id": {
       "type": "string",
@@ -113,10 +92,10 @@
         [{"value": "DVLA: AB12 CDE", "type": "vehicle_registration"}]
       ]
     },
-    "photos": {
+    "images": {
       "type": "array",
-      "items": { "$ref": "#/$defs/Photo" },
-      "description": "Photographs of this asset for identification and valuation purposes."
+      "items": { "$ref": "common/media.json" },
+      "description": "Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers."
     },
     "possessionStatus": {
       "type": "string",
@@ -249,6 +228,67 @@
       "type": "string",
       "description": "Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields.",
       "examples": ["Belonged to great-grandmother — significant sentimental value to the family", "Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form.",
+      "examples": ["OO gauge Hornby R3456 Class 66 locomotive in EWS livery, DCC fitted, with original box and instructions", "18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G"]
+    },
+    "purchaseDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate.",
+      "examples": ["2015-06-20", "1998-12-25"]
+    },
+    "originalPackaging": {
+      "type": "string",
+      "enum": ["complete", "partial", "box_only", "papers_only", "none", "unknown"],
+      "description": "Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains.",
+      "$comment": "complete: original box, papers/certificates, all accessories present. partial: some original packaging elements present. box_only: original box but no papers. papers_only: certificates/papers but no box. none: no original packaging. unknown: packaging status not assessed.",
+      "examples": ["complete", "none", "unknown"]
+    },
+    "custodian": {
+      "type": "object",
+      "description": "Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the person or organisation holding the asset.",
+          "examples": ["London City Bond", "Barclays Bank, Manchester branch", "Sotheby's (on consignment)"]
+        },
+        "contactEmail": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address for the custodian."
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "Phone number for the custodian.",
+          "examples": ["+44 20 7293 5000"]
+        },
+        "relationship": {
+          "type": "string",
+          "description": "The nature of the custodial relationship.",
+          "examples": ["bonded storage", "safe deposit box", "repair/service", "consignment", "loan", "pawn"]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Account or reference number with the custodian.",
+          "examples": ["Account #LC-2024-5678", "Box 247", "Repair ticket #R-4521"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "conditionSystem": {
+      "type": "string",
+      "description": "The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field.",
+      "$comment": "goldmine: Goldmine Grading Standard for vinyl records (M/NM/VG+/VG/G+/G/F/P). sheldon: Sheldon scale for coins (1-70, where 70 is perfect). ags: American Gem Society for gemstones (0-10). bsc: British Standards for antiques. gia: Gemological Institute of America for diamonds.",
+      "examples": ["goldmine", "sheldon", "gia"]
+    },
+    "conditionGrade": {
+      "type": "string",
+      "description": "The specific grade within the conditionSystem. Meaningful only when conditionSystem is set.",
+      "examples": ["VG+", "MS-65", "VS1", "Fine"]
     }
   },
   "required": ["id", "name", "category"],

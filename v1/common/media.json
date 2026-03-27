@@ -1,0 +1,47 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/media.json",
+  "title": "Media",
+  "description": "A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records.",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI pointing to the media file. May be an HTTPS URL, S3 URI, or other storage reference.",
+      "examples": ["https://storage.example.com/photos/ring-001.jpg", "s3://estate-docs/assets/painting.jpg"]
+    },
+    "caption": {
+      "type": "string",
+      "description": "Human-readable description of what this media shows.",
+      "examples": ["Front view of the engagement ring", "Walk-through video of the model railway layout", "Scan of the GIA diamond certificate"]
+    },
+    "mediaType": {
+      "type": "string",
+      "description": "MIME type of the media file. Maps to Schema.org encodingFormat.",
+      "examples": ["image/jpeg", "image/png", "video/mp4", "application/pdf"],
+      "$comment": "Common values: image/jpeg, image/png, image/webp (photos), video/mp4, video/quicktime (videos), application/pdf (document scans, certificates)."
+    },
+    "viewType": {
+      "type": "string",
+      "enum": ["overview", "identification", "condition", "provenance", "maker_mark", "serial_number", "damage", "scale_reference", "label", "certificate", "receipt", "environment"],
+      "description": "The purpose of this media — what question does it answer? Enables executors and dealers to find specific documentation without scrolling through galleries.",
+      "$comment": "overview: general view showing the whole item in context. identification: close-up of the feature that identifies this specific item (catalogue number, hallmark, label). condition: shows current condition, wear, patina. provenance: documentation of ownership history (receipts, auction records). maker_mark: manufacturer's mark, stamp, or signature. serial_number: close-up of serial/chassis/reference number. damage: specific damage, repairs, or defects. scale_reference: item photographed alongside a ruler or known object for size. label: product label, wine label, stamp on reverse. certificate: valuation certificate, authenticity certificate, gemological report. receipt: purchase receipt or invoice. environment: the storage environment (wine cellar temperature, gun cabinet, display case).",
+      "examples": ["overview", "identification", "condition", "serial_number"]
+    },
+    "takenAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this media was captured. Useful for establishing condition at a point in time.",
+      "examples": ["2026-03-15T14:30:00Z"]
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URI for a smaller preview version of the media. Maps to Schema.org thumbnail.",
+      "examples": ["https://storage.example.com/thumbnails/ring-001-thumb.jpg"]
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}

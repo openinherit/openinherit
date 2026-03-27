@@ -256,6 +256,11 @@
       "type": "string",
       "description": "Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations.",
       "examples": ["Grade II listed building — consent required for any alterations", "Boundary dispute with neighbour ongoing since 2022"]
+    },
+    "images": {
+      "type": "array",
+      "items": { "$ref": "common/media.json" },
+      "description": "Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation."
     }
   },
   "required": ["id", "name"],

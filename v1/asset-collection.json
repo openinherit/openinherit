@@ -69,6 +69,11 @@
       "type": "string",
       "description": "Any additional notes about this collection",
       "examples": ["Insurance policy with Hiscox, ref HX-2024-1234. Photos in Google Drive folder 'Railway Collection'."]
+    },
+    "images": {
+      "type": "array",
+      "items": { "$ref": "common/media.json" },
+      "description": "Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection."
     }
   },
   "required": ["id", "estateId", "name"],
