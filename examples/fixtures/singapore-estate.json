@@ -1,0 +1,176 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000005-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000005-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "SG",
+      "legalSystem": "mixed",
+      "name": "Singapore"
+    },
+    "notes": "Singapore's CPF (Central Provident Fund) monies do NOT form part of the estate. CPF savings are distributed according to the CPF nomination or, if no nomination exists, under the intestacy rules of the Intestate Succession Act (for non-Muslims) or faraid (for Muslims). An HDB flat held under joint tenancy passes by survivorship.",
+    "createdAt": "2026-02-10",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000005-0000-4000-a000-000000000001",
+      "givenName": "Wei Ming",
+      "familyName": "Tan",
+      "dateOfBirth": "1970-01-20",
+      "roles": [
+        "testator"
+      ],
+      "contact": {
+        "address": {
+          "streetAddress": "Block 123 Lorong 1 Toa Payoh",
+          "addressLine2": "#08-456",
+          "addressLocality": "Toa Payoh",
+          "postalCode": "310123",
+          "addressCountry": "SG"
+        }
+      }
+    },
+    {
+      "id": "a1000005-0000-4000-a000-000000000002",
+      "givenName": "Shu Fen",
+      "familyName": "Lim",
+      "dateOfBirth": "1972-08-05",
+      "roles": [
+        "beneficiary",
+        "executor"
+      ]
+    },
+    {
+      "id": "a1000005-0000-4000-a000-000000000003",
+      "givenName": "Jia Hao",
+      "familyName": "Tan",
+      "dateOfBirth": "2000-12-15",
+      "roles": [
+        "beneficiary"
+      ]
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000005-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000005-0000-4000-a000-000000000001",
+      "toPersonId": "a1000005-0000-4000-a000-000000000003"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000005-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_CIVIL",
+      "partners": [
+        {
+          "personId": "a1000005-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000005-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "SG"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000005-0000-4000-a000-000000000001",
+      "name": "HDB Flat, Block 123 Toa Payoh",
+      "propertyType": "flat",
+      "tenureType": "leasehold",
+      "ownershipType": "joint_tenants",
+      "isPrimaryResidence": true,
+      "estimatedValue": {
+        "amount": 55000000,
+        "currency": "SGD"
+      },
+      "passesOutsideEstate": true,
+      "address": {
+        "streetAddress": "Block 123 Lorong 1 Toa Payoh",
+        "addressLine2": "#08-456",
+        "addressLocality": "Toa Payoh",
+        "postalCode": "310123",
+        "addressCountry": "SG"
+      },
+      "notes": "HDB flat held as joint tenants with Shu Fen. Passes by survivorship — not part of the probate estate."
+    }
+  ],
+  "assets": [
+    {
+      "id": "51000005-0000-4000-a000-000000000001",
+      "name": "CPF Account (Ordinary, Special, Medisave)",
+      "category": "pension",
+      "estimatedValue": {
+        "amount": 32000000,
+        "currency": "SGD"
+      },
+      "passesOutsideEstate": true,
+      "notes": "CPF savings are NOT part of the estate. Distribution follows the CPF nomination made with the CPF Board."
+    },
+    {
+      "id": "51000005-0000-4000-a000-000000000002",
+      "name": "POSB Savings Account",
+      "category": "savings_account",
+      "estimatedValue": {
+        "amount": 8000000,
+        "currency": "SGD"
+      }
+    }
+  ],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000005-0000-4000-a000-000000000001",
+      "type": "residuary",
+      "beneficiaryId": "a1000005-0000-4000-a000-000000000002",
+      "description": "I give the residue of my estate to my wife Lim Shu Fen."
+    }
+  ],
+  "trusts": [],
+  "executors": [
+    {
+      "id": "e1000005-0000-4000-a000-000000000001",
+      "personId": "a1000005-0000-4000-a000-000000000002",
+      "role": "primary"
+    }
+  ],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [
+    {
+      "id": "a2000005-0000-4000-a000-000000000001",
+      "type": "cpf_nomination",
+      "passesOutsideEstate": true,
+      "assetIds": [
+        "51000005-0000-4000-a000-000000000001"
+      ],
+      "beneficiaryPersonIds": [
+        "a1000005-0000-4000-a000-000000000002",
+        "a1000005-0000-4000-a000-000000000003"
+      ],
+      "bindingNomination": true,
+      "description": "CPF nomination: 50% to Shu Fen, 50% to Jia Hao.",
+      "jurisdiction": {
+        "country": "SG"
+      }
+    }
+  ],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

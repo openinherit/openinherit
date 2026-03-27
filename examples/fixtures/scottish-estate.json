@@ -1,0 +1,155 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000003-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000003-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "GB",
+      "subdivision": "GB-SCT",
+      "legalSystem": "mixed",
+      "name": "Scotland"
+    },
+    "forcedHeirship": {
+      "applies": true,
+      "claimNature": "cash_claim",
+      "applicableTo": "children_and_spouse",
+      "notes": "Scottish legal rights (legitim + jus relictae) apply to moveable estate only. Heritable property (land and buildings) is freely bequeathable. Prior rights (dwelling up to £473,000, furnishings up to £29,000, cash up to £50,000) are taken first from the estate."
+    },
+    "notes": "Scottish succession law differs significantly from English law. The Succession (Scotland) Act 1964 governs intestate succession and legal rights. Prior rights are a creature of intestacy but inform estate planning even when a will exists.",
+    "createdAt": "2026-03-15",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000003-0000-4000-a000-000000000001",
+      "givenName": "Alistair",
+      "familyName": "MacGregor",
+      "dateOfBirth": "1962-11-08",
+      "roles": [
+        "testator"
+      ],
+      "domicile": {
+        "country": "GB",
+        "subdivision": "GB-SCT",
+        "name": "Scotland"
+      }
+    },
+    {
+      "id": "a1000003-0000-4000-a000-000000000002",
+      "givenName": "Fiona",
+      "familyName": "MacGregor",
+      "dateOfBirth": "1965-04-19",
+      "roles": [
+        "beneficiary",
+        "executor"
+      ]
+    },
+    {
+      "id": "a1000003-0000-4000-a000-000000000003",
+      "givenName": "Hamish",
+      "familyName": "MacGregor",
+      "dateOfBirth": "1990-08-25",
+      "roles": [
+        "beneficiary"
+      ]
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000003-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000003-0000-4000-a000-000000000001",
+      "toPersonId": "a1000003-0000-4000-a000-000000000003"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000003-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_CIVIL",
+      "partners": [
+        {
+          "personId": "a1000003-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000003-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "GB",
+        "subdivision": "GB-SCT"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000003-0000-4000-a000-000000000001",
+      "name": "Glenmore Farmhouse, Perthshire",
+      "propertyType": "farmhouse",
+      "tenureType": "freehold",
+      "isPrimaryResidence": true,
+      "ownershipType": "sole",
+      "estimatedValue": {
+        "amount": 35000000,
+        "currency": "GBP"
+      },
+      "address": {
+        "addressLocality": "Crieff",
+        "addressRegion": "Perth and Kinross",
+        "postalCode": "PH7 3AA",
+        "addressCountry": "GB"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "51000003-0000-4000-a000-000000000001",
+      "name": "Royal Bank of Scotland Current Account",
+      "category": "bank_account",
+      "estimatedValue": {
+        "amount": 4200000,
+        "currency": "GBP"
+      }
+    }
+  ],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000003-0000-4000-a000-000000000001",
+      "type": "specific",
+      "beneficiaryId": "a1000003-0000-4000-a000-000000000002",
+      "description": "I give my farmhouse at Glenmore, Perthshire to my wife Fiona MacGregor."
+    },
+    {
+      "id": "b1000003-0000-4000-a000-000000000002",
+      "type": "residuary",
+      "beneficiaryId": "a1000003-0000-4000-a000-000000000002",
+      "description": "I give the residue of my estate to my wife Fiona MacGregor.",
+      "notes": "Hamish retains the right to claim legitim (one-third of the net moveable estate) under Scots law regardless of this residuary bequest."
+    }
+  ],
+  "trusts": [],
+  "executors": [
+    {
+      "id": "e1000003-0000-4000-a000-000000000001",
+      "personId": "a1000003-0000-4000-a000-000000000002",
+      "role": "primary"
+    }
+  ],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

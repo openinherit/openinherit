@@ -1,0 +1,173 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000007-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000007-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "IN",
+      "subdivision": "IN-MH",
+      "legalSystem": "mixed",
+      "name": "Maharashtra"
+    },
+    "notes": "Indian succession is governed by personal law based on religion. For Hindus: the Hindu Succession Act 1956 (as amended in 2005) governs both testamentary and intestate succession. The 2005 amendment gave daughters equal coparcenary rights in HUF property. Self-acquired property can be willed freely; ancestral coparcenary property devolves by survivorship among coparceners.",
+    "createdAt": "2026-02-20",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000007-0000-4000-a000-000000000001",
+      "givenName": "Rajesh",
+      "familyName": "Sharma",
+      "dateOfBirth": "1958-04-10",
+      "roles": [
+        "testator"
+      ],
+      "contact": {
+        "address": {
+          "streetAddress": "14 Carter Road",
+          "addressLocality": "Bandra West",
+          "addressRegion": "Maharashtra",
+          "postalCode": "400050",
+          "addressCountry": "IN",
+          "landmark": "Near Mount Mary Church"
+        }
+      }
+    },
+    {
+      "id": "a1000007-0000-4000-a000-000000000002",
+      "givenName": "Priya",
+      "familyName": "Sharma",
+      "dateOfBirth": "1962-09-28",
+      "roles": [
+        "beneficiary"
+      ]
+    },
+    {
+      "id": "a1000007-0000-4000-a000-000000000003",
+      "givenName": "Arjun",
+      "familyName": "Sharma",
+      "dateOfBirth": "1988-01-15",
+      "roles": [
+        "beneficiary",
+        "executor"
+      ]
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000007-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000007-0000-4000-a000-000000000001",
+      "toPersonId": "a1000007-0000-4000-a000-000000000003"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000007-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_RELIGIOUS",
+      "religiousSubtype": "hindu_vivah",
+      "partners": [
+        {
+          "personId": "a1000007-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000007-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "IN",
+        "subdivision": "IN-MH"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000007-0000-4000-a000-000000000001",
+      "name": "14 Carter Road, Bandra West, Mumbai",
+      "propertyType": "flat",
+      "tenureType": "freehold",
+      "isPrimaryResidence": true,
+      "ownershipModel": "huf_coparcenary",
+      "acquisitionType": "ancestral_joint",
+      "estimatedValue": {
+        "amount": 2500000000,
+        "currency": "INR"
+      },
+      "successionRule": "survivorship",
+      "applicableSuccessionLaw": {
+        "jurisdiction": {
+          "country": "IN",
+          "subdivision": "IN-MH"
+        },
+        "lawName": "Hindu Succession Act 1956",
+        "section": "s.6 (coparcenary property — as amended 2005)"
+      },
+      "address": {
+        "streetAddress": "14 Carter Road",
+        "addressLocality": "Bandra West",
+        "addressRegion": "Maharashtra",
+        "postalCode": "400050",
+        "addressCountry": "IN",
+        "landmark": "Near Mount Mary Church"
+      },
+      "notes": "HUF coparcenary property devolves by survivorship. The karta cannot will away the coparcenary interest — only his notional share on partition is bequeathable."
+    }
+  ],
+  "assets": [
+    {
+      "id": "51000007-0000-4000-a000-000000000001",
+      "name": "Gold Jewellery (Priya's Stridhan)",
+      "category": "jewellery",
+      "acquisitionType": "stridhan",
+      "estimatedValue": {
+        "amount": 1500000000,
+        "currency": "INR"
+      },
+      "notes": "Stridhan — Priya's absolute property under Hindu law. Not part of Rajesh's bequeathable estate. Includes wedding jewellery and gifts received at marriage."
+    },
+    {
+      "id": "51000007-0000-4000-a000-000000000002",
+      "name": "State Bank of India Savings Account",
+      "category": "savings_account",
+      "estimatedValue": {
+        "amount": 300000000,
+        "currency": "INR"
+      }
+    }
+  ],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000007-0000-4000-a000-000000000001",
+      "type": "residuary",
+      "beneficiaryId": "a1000007-0000-4000-a000-000000000002",
+      "description": "I give the residue of my self-acquired property to my wife Priya Sharma.",
+      "notes": "This bequest covers self-acquired property only. Coparcenary property devolves by survivorship and is outside the scope of this will."
+    }
+  ],
+  "trusts": [],
+  "executors": [
+    {
+      "id": "e1000007-0000-4000-a000-000000000001",
+      "personId": "a1000007-0000-4000-a000-000000000003",
+      "role": "primary"
+    }
+  ],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

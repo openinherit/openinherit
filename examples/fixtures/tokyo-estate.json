@@ -1,0 +1,170 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000006-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000006-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "JP",
+      "legalSystem": "civil_law",
+      "name": "Japan"
+    },
+    "forcedHeirship": {
+      "applies": true,
+      "reservedPortion": 50,
+      "disposableQuota": 50,
+      "claimNature": "cash_claim",
+      "calculationBasis": "per_child_sliding",
+      "applicableTo": "children_and_spouse",
+      "effectiveDate": "2019-07-01",
+      "reformVersion": "2018 Civil Code reform (Act No. 72 of 2018)",
+      "notes": "Iryubun is one-half of the statutory intestate share for each heir. Hanako's iryubun = 1/2 × 1/2 = 1/4 of estate. Ichirō's iryubun = 1/2 × 1/2 = 1/4. Since 2019, the claim is monetary — heirs cannot demand co-ownership of specific assets."
+    },
+    "notes": "Japanese succession is governed by the Civil Code (民法). A will (遺言) can be holographic (自筆証書遺言/jihi shosho), notarised (公正証書遺言/kōsei shosho), or sealed (秘密証書遺言). The 2018 reform simplified holographic wills and converted iryubun to a cash claim.",
+    "createdAt": "2026-02-01",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000006-0000-4000-a000-000000000001",
+      "givenName": "Tarō",
+      "familyName": "Tanaka",
+      "phoneticReading": {
+        "givenName": "たろう",
+        "familyName": "たなか"
+      },
+      "dateOfBirth": "1960-03-15",
+      "roles": [
+        "testator"
+      ],
+      "language": "ja",
+      "contact": {
+        "address": {
+          "addressCountry": "JP",
+          "addressRegion": "Tokyo",
+          "addressLocality": "Minato-ku",
+          "streetAddress": "Akasaka 1-2-3",
+          "postalCode": "107-0052",
+          "addressOrder": "japanese"
+        }
+      }
+    },
+    {
+      "id": "a1000006-0000-4000-a000-000000000002",
+      "givenName": "Hanako",
+      "familyName": "Tanaka",
+      "phoneticReading": {
+        "givenName": "はなこ",
+        "familyName": "たなか"
+      },
+      "dateOfBirth": "1963-07-22",
+      "roles": [
+        "beneficiary",
+        "executor"
+      ],
+      "language": "ja"
+    },
+    {
+      "id": "a1000006-0000-4000-a000-000000000003",
+      "givenName": "Ichirō",
+      "familyName": "Tanaka",
+      "phoneticReading": {
+        "givenName": "いちろう",
+        "familyName": "たなか"
+      },
+      "dateOfBirth": "1990-11-05",
+      "roles": [
+        "beneficiary"
+      ],
+      "language": "ja"
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000006-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000006-0000-4000-a000-000000000001",
+      "toPersonId": "a1000006-0000-4000-a000-000000000003"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000006-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_CIVIL",
+      "partners": [
+        {
+          "personId": "a1000006-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000006-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "JP"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000006-0000-4000-a000-000000000001",
+      "name": "Akasaka Residence, Minato-ku",
+      "propertyType": "flat",
+      "tenureType": "freehold",
+      "isPrimaryResidence": true,
+      "ownershipType": "sole",
+      "estimatedValue": {
+        "amount": 85000000,
+        "currency": "JPY"
+      },
+      "address": {
+        "addressCountry": "JP",
+        "addressRegion": "Tokyo",
+        "addressLocality": "Minato-ku",
+        "streetAddress": "Akasaka 1-2-3",
+        "postalCode": "107-0052",
+        "addressOrder": "japanese"
+      },
+      "notes": "JPY has ISO 4217 exponent 0 — the amount field IS the face value. 85,000,000 JPY = amount 85000000."
+    }
+  ],
+  "assets": [],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000006-0000-4000-a000-000000000001",
+      "type": "specific",
+      "beneficiaryId": "a1000006-0000-4000-a000-000000000002",
+      "description": "I give my apartment at Akasaka 1-2-3, Minato-ku, Tokyo to my wife Hanako."
+    },
+    {
+      "id": "b1000006-0000-4000-a000-000000000002",
+      "type": "residuary",
+      "beneficiaryId": "a1000006-0000-4000-a000-000000000002",
+      "description": "I give the residue of my estate to my wife Hanako."
+    }
+  ],
+  "trusts": [],
+  "executors": [
+    {
+      "id": "e1000006-0000-4000-a000-000000000001",
+      "personId": "a1000006-0000-4000-a000-000000000002",
+      "role": "primary"
+    }
+  ],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

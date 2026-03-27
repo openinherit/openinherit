@@ -1,0 +1,221 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000004-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000004-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "US",
+      "subdivision": "US-NY",
+      "legalSystem": "common_law",
+      "name": "New York"
+    },
+    "primaryInstrument": "revocable_trust",
+    "electiveShareRight": {
+      "available": true,
+      "statute": "EPTL §5-1.1-A",
+      "notes": "New York's elective share reaches into revocable trusts and other testamentary substitutes. Lisa is aware of her right but has not elected."
+    },
+    "notes": "In New York, a revocable living trust is commonly used as the primary estate planning instrument to avoid probate. The pour-over will directs any probate assets into the trust.",
+    "createdAt": "2026-01-15",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000004-0000-4000-a000-000000000001",
+      "givenName": "Robert",
+      "familyName": "Chen",
+      "dateOfBirth": "1975-02-28",
+      "roles": [
+        "testator"
+      ],
+      "contact": {
+        "address": {
+          "streetAddress": "450 Park Avenue",
+          "addressLine2": "Apt 12B",
+          "addressLocality": "New York",
+          "addressRegion": "New York",
+          "postalCode": "10022",
+          "addressCountry": "US"
+        }
+      }
+    },
+    {
+      "id": "a1000004-0000-4000-a000-000000000002",
+      "givenName": "Lisa",
+      "familyName": "Chen",
+      "dateOfBirth": "1978-06-15",
+      "roles": [
+        "beneficiary",
+        "trustee"
+      ]
+    },
+    {
+      "id": "a1000004-0000-4000-a000-000000000003",
+      "givenName": "David",
+      "familyName": "Chen",
+      "dateOfBirth": "2005-10-01",
+      "roles": [
+        "beneficiary"
+      ]
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000004-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000004-0000-4000-a000-000000000001",
+      "toPersonId": "a1000004-0000-4000-a000-000000000003"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000004-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_CIVIL",
+      "partners": [
+        {
+          "personId": "a1000004-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000004-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "US",
+        "subdivision": "US-NY"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000004-0000-4000-a000-000000000001",
+      "name": "450 Park Avenue, Apt 12B, Manhattan",
+      "propertyType": "flat",
+      "tenureType": "freehold",
+      "isPrimaryResidence": true,
+      "ownershipType": "sole",
+      "estimatedValue": {
+        "amount": 185000000,
+        "currency": "USD"
+      },
+      "address": {
+        "streetAddress": "450 Park Avenue",
+        "addressLine2": "Apt 12B",
+        "addressLocality": "New York",
+        "addressRegion": "New York",
+        "postalCode": "10022",
+        "addressCountry": "US"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "51000004-0000-4000-a000-000000000001",
+      "name": "Fidelity 401(k) Retirement Account",
+      "category": "pension",
+      "estimatedValue": {
+        "amount": 42000000,
+        "currency": "USD"
+      },
+      "passesOutsideEstate": true,
+      "beneficiaryDesignation": {
+        "primaryBeneficiaryPersonIds": [
+          "a1000004-0000-4000-a000-000000000002"
+        ],
+        "contingentBeneficiaryPersonIds": [
+          "a1000004-0000-4000-a000-000000000003"
+        ],
+        "designationType": "retirement_account"
+      }
+    }
+  ],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000004-0000-4000-a000-000000000001",
+      "type": "residuary",
+      "beneficiaryId": "a1000004-0000-4000-a000-000000000002",
+      "description": "I give the residue of my probate estate to the trustee of the Chen Family Revocable Trust."
+    }
+  ],
+  "trusts": [
+    {
+      "id": "71000004-0000-4000-a000-000000000001",
+      "name": "Chen Family Revocable Trust",
+      "type": "discretionary",
+      "creationType": "inter_vivos_revocable",
+      "revocability": "revocable",
+      "settlor": "a1000004-0000-4000-a000-000000000001",
+      "trustees": [
+        {
+          "personId": "a1000004-0000-4000-a000-000000000002",
+          "role": "trustee"
+        }
+      ],
+      "beneficiaries": [
+        {
+          "personId": "a1000004-0000-4000-a000-000000000002",
+          "interestType": "income"
+        },
+        {
+          "personId": "a1000004-0000-4000-a000-000000000003",
+          "interestType": "capital"
+        }
+      ],
+      "vestingAge": 25,
+      "governingLaw": {
+        "country": "US",
+        "subdivision": "US-NY"
+      },
+      "notes": "On Robert's death, the trust becomes irrevocable. Lisa receives income for life; David receives capital when he attains age 25."
+    }
+  ],
+  "executors": [],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [
+    {
+      "id": "a2000004-0000-4000-a000-000000000001",
+      "type": "revocable_trust",
+      "passesOutsideEstate": true,
+      "trustId": "71000004-0000-4000-a000-000000000001",
+      "description": "Assets held in the Chen Family Revocable Trust pass outside probate.",
+      "jurisdiction": {
+        "country": "US",
+        "subdivision": "US-NY"
+      }
+    },
+    {
+      "id": "a2000004-0000-4000-a000-000000000002",
+      "type": "beneficiary_designation",
+      "passesOutsideEstate": true,
+      "assetIds": [
+        "51000004-0000-4000-a000-000000000001"
+      ],
+      "beneficiaryPersonIds": [
+        "a1000004-0000-4000-a000-000000000002"
+      ],
+      "contingentBeneficiaryPersonIds": [
+        "a1000004-0000-4000-a000-000000000003"
+      ],
+      "description": "Fidelity 401(k) passes to Lisa as primary beneficiary, David as contingent.",
+      "jurisdiction": {
+        "country": "US",
+        "subdivision": "US-NY"
+      }
+    }
+  ],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

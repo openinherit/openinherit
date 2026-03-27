@@ -1,0 +1,58 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000009-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000009-0000-4000-a000-000000000001",
+    "status": "draft",
+    "jurisdiction": {
+      "country": "GB",
+      "subdivision": "GB-ENG",
+      "legalSystem": "common_law",
+      "name": "England & Wales"
+    },
+    "createdAt": "2026-03-27",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000009-0000-4000-a000-000000000001",
+      "givenName": "William",
+      "familyName": "Hartley",
+      "roles": [
+        "testator"
+      ]
+    }
+  ],
+  "kinships": [],
+  "relationships": [],
+  "properties": [],
+  "assets": [],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000009-0000-4000-a000-000000000001",
+      "type": "pecuniary",
+      "beneficiaryId": "00000000-0000-4000-a000-999999999999",
+      "amount": {
+        "amount": 500000,
+        "currency": "GBP"
+      },
+      "description": "I give £5,000 to a person who does not exist in the people array."
+    }
+  ],
+  "trusts": [],
+  "executors": [],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

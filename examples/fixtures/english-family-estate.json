@@ -1,0 +1,195 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000002-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000002-0000-4000-a000-000000000001",
+    "status": "active",
+    "jurisdiction": {
+      "country": "GB",
+      "subdivision": "GB-ENG",
+      "legalSystem": "common_law",
+      "name": "England & Wales"
+    },
+    "revocationClause": true,
+    "notes": "England & Wales has full testamentary freedom — no forced heirship. However, the Inheritance (Provision for Family and Dependants) Act 1975 allows dependants to claim reasonable financial provision from the estate.",
+    "createdAt": "2026-03-01",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000002-0000-4000-a000-000000000001",
+      "givenName": "James",
+      "familyName": "Ashford",
+      "dateOfBirth": "1968-05-14",
+      "roles": [
+        "testator"
+      ],
+      "contact": {
+        "address": {
+          "streetAddress": "42 Acacia Avenue",
+          "addressLocality": "Bristol",
+          "addressRegion": "Bristol",
+          "postalCode": "BS8 1AB",
+          "addressCountry": "GB"
+        }
+      }
+    },
+    {
+      "id": "a1000002-0000-4000-a000-000000000002",
+      "givenName": "Catherine",
+      "familyName": "Ashford",
+      "dateOfBirth": "1970-09-22",
+      "roles": [
+        "beneficiary",
+        "executor"
+      ]
+    },
+    {
+      "id": "a1000002-0000-4000-a000-000000000003",
+      "givenName": "Oliver",
+      "familyName": "Ashford",
+      "dateOfBirth": "1995-03-11",
+      "roles": [
+        "beneficiary"
+      ]
+    },
+    {
+      "id": "a1000002-0000-4000-a000-000000000004",
+      "givenName": "Emily",
+      "familyName": "Ashford",
+      "dateOfBirth": "2015-07-03",
+      "roles": [
+        "beneficiary"
+      ]
+    },
+    {
+      "id": "a1000002-0000-4000-a000-000000000005",
+      "givenName": "Sarah",
+      "familyName": "Mitchell",
+      "roles": [
+        "guardian"
+      ]
+    }
+  ],
+  "kinships": [
+    {
+      "id": "c1000002-0000-4000-a000-000000000001",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000002-0000-4000-a000-000000000001",
+      "toPersonId": "a1000002-0000-4000-a000-000000000003"
+    },
+    {
+      "id": "c1000002-0000-4000-a000-000000000002",
+      "type": "PARENT_CHILD_BIOLOGICAL",
+      "fromPersonId": "a1000002-0000-4000-a000-000000000001",
+      "toPersonId": "a1000002-0000-4000-a000-000000000004"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "d1000002-0000-4000-a000-000000000001",
+      "type": "MARRIAGE_CIVIL",
+      "partners": [
+        {
+          "personId": "a1000002-0000-4000-a000-000000000001",
+          "ordinal": 1
+        },
+        {
+          "personId": "a1000002-0000-4000-a000-000000000002",
+          "ordinal": 2
+        }
+      ],
+      "currentStatus": "ACTIVE",
+      "jurisdiction": {
+        "country": "GB",
+        "subdivision": "GB-ENG"
+      }
+    }
+  ],
+  "properties": [
+    {
+      "id": "f1000002-0000-4000-a000-000000000001",
+      "name": "42 Acacia Avenue, Bristol",
+      "propertyType": "detached_house",
+      "tenureType": "freehold",
+      "isPrimaryResidence": true,
+      "ownershipType": "sole",
+      "estimatedValue": {
+        "amount": 45000000,
+        "currency": "GBP"
+      },
+      "address": {
+        "streetAddress": "42 Acacia Avenue",
+        "addressLocality": "Bristol",
+        "addressRegion": "Bristol",
+        "postalCode": "BS8 1AB",
+        "addressCountry": "GB"
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "51000002-0000-4000-a000-000000000001",
+      "name": "Barclays Savings Account",
+      "category": "savings_account",
+      "estimatedValue": {
+        "amount": 8500000,
+        "currency": "GBP"
+      }
+    }
+  ],
+  "liabilities": [],
+  "bequests": [
+    {
+      "id": "b1000002-0000-4000-a000-000000000001",
+      "type": "specific",
+      "beneficiaryId": "a1000002-0000-4000-a000-000000000002",
+      "description": "I give my property at 42 Acacia Avenue, Bristol to my wife Catherine Ashford absolutely."
+    },
+    {
+      "id": "b1000002-0000-4000-a000-000000000002",
+      "type": "pecuniary",
+      "beneficiaryId": "a1000002-0000-4000-a000-000000000003",
+      "amount": {
+        "amount": 1000000,
+        "currency": "GBP"
+      },
+      "description": "I give the sum of ten thousand pounds (£10,000) to my son Oliver Ashford."
+    },
+    {
+      "id": "b1000002-0000-4000-a000-000000000003",
+      "type": "residuary",
+      "beneficiaryId": "a1000002-0000-4000-a000-000000000002",
+      "description": "I give the residue of my estate to my wife Catherine Ashford."
+    }
+  ],
+  "trusts": [],
+  "executors": [
+    {
+      "id": "e1000002-0000-4000-a000-000000000001",
+      "personId": "a1000002-0000-4000-a000-000000000002",
+      "role": "primary"
+    }
+  ],
+  "guardians": [
+    {
+      "id": "91000002-0000-4000-a000-000000000001",
+      "guardianPersonId": "a1000002-0000-4000-a000-000000000005",
+      "childPersonId": "a1000002-0000-4000-a000-000000000004",
+      "role": "primary",
+      "appointmentType": "testamentary"
+    }
+  ],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}

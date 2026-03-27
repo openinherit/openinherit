@@ -1,0 +1,47 @@
+{
+  "inherit": "https://openinherit.org/v1/schema.json",
+  "version": 1,
+  "exportedAt": "2026-03-27",
+  "generator": {
+    "name": "INHERIT Examples",
+    "version": "1.0.0"
+  },
+  "estate": {
+    "id": "e0000001-0000-4000-a000-000000000001",
+    "testatorPersonId": "a1000001-0000-4000-a000-000000000001",
+    "status": "draft",
+    "jurisdiction": {
+      "country": "GB",
+      "subdivision": "GB-ENG",
+      "legalSystem": "common_law",
+      "name": "England & Wales"
+    },
+    "createdAt": "2026-03-27",
+    "lastModifiedAt": "2026-03-27"
+  },
+  "people": [
+    {
+      "id": "a1000001-0000-4000-a000-000000000001",
+      "givenName": "James",
+      "familyName": "Ashford",
+      "roles": [
+        "testator"
+      ]
+    }
+  ],
+  "kinships": [],
+  "relationships": [],
+  "properties": [],
+  "assets": [],
+  "liabilities": [],
+  "bequests": [],
+  "trusts": [],
+  "executors": [],
+  "guardians": [],
+  "wishes": [],
+  "documents": [],
+  "nonprobateTransfers": [],
+  "proxyAuthorisations": [],
+  "dealerInterests": [],
+  "extensions": []
+}
