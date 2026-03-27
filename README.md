@@ -3,6 +3,8 @@
 [![Licence: Apache 2.0](https://img.shields.io/badge/licence-Apache%202.0-blue.svg)](LICENSE)
 [![CI: Schema Validation](https://github.com/openinherit/openinherit/actions/workflows/validate-schemas.yml/badge.svg)](https://github.com/openinherit/openinherit/actions/workflows/validate-schemas.yml)
 [![CI: Tests](https://github.com/openinherit/openinherit/actions/workflows/run-tests.yml/badge.svg)](https://github.com/openinherit/openinherit/actions/workflows/run-tests.yml)
+[![npm: @openinherit/schema](https://img.shields.io/npm/v/@openinherit/schema)](https://www.npmjs.com/package/@openinherit/schema)
+[![npm: @openinherit/sdk](https://img.shields.io/npm/v/@openinherit/sdk)](https://www.npmjs.com/package/@openinherit/sdk)
 
 > **"Clarity changes families."**
 
@@ -79,6 +81,18 @@ import { createEstate, listEstates } from '@openinherit/sdk/reference';
 
 ---
 
+## What Next?
+
+- **New to INHERIT?** Read the [Primer](docs/primer.md)
+- **Want code examples?** See [examples/](examples/) — TypeScript and Python
+- **Building with AI?** Read the [AI Integration Guide](docs/ai-guide.md)
+- **Hit a validation error?** See the [Error Guide](docs/error-guide.md)
+- **Exploring the API?** Visit the [Swagger API Explorer](https://openinherit.github.io/openinherit/swagger/)
+- **Global examples?** See [examples/fixtures/](examples/fixtures/) — 9 estates across 7 jurisdictions
+- **What's coming next?** See the [Roadmap](ROADMAP.md)
+
+---
+
 ## Schema Overview
 
 ### Core Entities (18)
@@ -144,6 +158,16 @@ import { createEstate, listEstates } from '@openinherit/sdk/reference';
 
 ---
 
+## Conformance Testing
+
+If you are building an INHERIT implementation, use the example fixtures in `examples/fixtures/` as conformance tests. Your application should be able to:
+
+1. Import each fixture without errors
+2. Re-export it without data loss
+3. Pass Level 1 and Level 2 validation on the output
+
+---
+
 ## Extension Ecosystem
 
 Extensions add jurisdiction-specific and cultural fields to core schemas. Each extension lives in its own subdirectory with an `extension.json` manifest describing its maintainers, legal sources, and compatibility range.
@@ -158,6 +182,14 @@ See the [Extension Guide](docs/extension-guide.md) for how to create and maintai
 
 ---
 
+## Data Handling
+
+INHERIT is a data interchange format. It defines the structure of estate planning documents — it does not transmit, store, or process personal data. Applications that use INHERIT are responsible for their own data handling, encryption, access control, and regulatory compliance.
+
+The INHERIT JSON format is designed to be stored, transmitted, and processed by your own systems under your own data protection policies.
+
+---
+
 ## Documentation
 
 - [Primer](docs/primer.md) — narrative walkthrough for newcomers
@@ -167,6 +199,20 @@ See the [Extension Guide](docs/extension-guide.md) for how to create and maintai
 - [Becoming a Partner](docs/partners/becoming-a-partner.md) — jurisdiction partnership programme
 - [Governance](GOVERNANCE.md) — how the standard evolves
 - [Contributing](CONTRIBUTING.md) — how to contribute
+- [AI Integration Guide](docs/ai-guide.md) — building with AI, extraction prompts, guardrails
+- [Error Guide](docs/error-guide.md) — validation errors explained with fixes
+- [Migration Guide](docs/migration-guide.md) — migrating from databases, spreadsheets, other formats
+- [Roadmap](ROADMAP.md) — what's coming next
+
+A formal W3C-style specification document is planned after the standard achieves two independent implementations. See the [Roadmap](ROADMAP.md).
+
+---
+
+## Contributors Welcome
+
+We welcome contributions from anyone. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Looking for a first contribution? Check the issues labelled [`good-first-issue`](https://github.com/openinherit/openinherit/labels/good-first-issue).
 
 ---
 
@@ -193,3 +239,5 @@ INHERIT's design draws from established open standards and data engineering prac
 | [Schema.org](https://schema.org/) | Additive-only within version, pending-to-core promotion path |
 | [W3C](https://www.w3.org/) | Two-implementation requirement before stable |
 | Itelman & Viotti, *Unifying Business, Data, and Code* (O'Reilly, 2024) | Four-facet data product model, schema immutability, custom vocabulary roadmap |
+
+For comprehensive JSON Schema 2020-12 keyword documentation with common pitfalls and examples, see [learnjsonschema.com](https://www.learnjsonschema.com/2020-12/).

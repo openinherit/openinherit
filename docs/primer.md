@@ -23,6 +23,8 @@ Every INHERIT document is a data product with four facets:
 3. **Meaning** — What each field means: `description` fields, `$comment` annotations, this primer
 4. **Context** — Who created it and when: `exportedBy`, `generator`, `exportedAt`, extension manifests with `lastVerified` and `dataProvenance`
 
+> **Tip:** INHERIT uses JSON Schema 2020-12 with format assertion. For keyword-level documentation, see [learnjsonschema.com](https://www.learnjsonschema.com/2020-12/). For format validation specifics, see the [format assertion page](https://www.learnjsonschema.com/2020-12/format-assertion/).
+
 ## Worked Example: Building an INHERIT Document
 
 Let's build a valid INHERIT document from scratch. We'll model a simple English estate: James Ashford, aged 60, leaving his house to his wife and a cash gift to his son.
@@ -42,6 +44,17 @@ Every INHERIT document starts with a root envelope:
 - `inherit` points to the schema version
 - `version` is always `1` for INHERIT v1
 - `exportedAt` is when the document was created
+
+```typescript
+// Using @openinherit/sdk types
+import type { InheritDocument } from '@openinherit/sdk';
+
+const envelope: Pick<InheritDocument, 'inherit' | 'version' | 'exportedAt'> = {
+  inherit: 'https://openinherit.org/v1/schema.json',
+  version: 1,
+  exportedAt: '2026-03-26',
+};
+```
 
 ### Step 2: The estate
 
@@ -64,6 +77,20 @@ Key points:
 - All IDs are UUIDs (enforced by the schema)
 - `testatorPersonId` references a person we'll define next
 - `jurisdiction` uses ISO 3166 codes
+
+```typescript
+// Using @openinherit/sdk types
+import type { Estate } from '@openinherit/sdk';
+
+const estate: Estate = {
+  id: 'e1000000-0000-0000-0000-000000000001',
+  testatorPersonId: 'a0000000-0000-0000-0000-000000000001',
+  status: 'draft',
+  jurisdiction: { country: 'GB', subdivision: 'GB-ENG' },
+  createdAt: '2026-03-26',
+  lastModifiedAt: '2026-03-26',
+};
+```
 
 ### Step 3: The people
 
@@ -105,6 +132,41 @@ Every person referenced anywhere must appear in the `people` array:
 
 A person can have multiple roles — Catherine is both a beneficiary and an executor.
 
+```typescript
+// Using @openinherit/sdk types
+import type { Person } from '@openinherit/sdk';
+
+const testator: Person = {
+  id: 'a0000000-0000-0000-0000-000000000001',
+  givenName: 'James',
+  familyName: 'Ashford',
+  dateOfBirth: '1965-04-12',
+  roles: ['testator'],
+  contact: {
+    address: {
+      streetAddress: '42 Acacia Avenue',
+      addressLocality: 'Bristol',
+      postalCode: 'BS1 4AA',
+      addressCountry: 'GB',
+    },
+  },
+};
+
+const catherine: Person = {
+  id: 'a0000000-0000-0000-0000-000000000002',
+  givenName: 'Catherine',
+  familyName: 'Ashford',
+  roles: ['beneficiary', 'executor'],
+};
+
+const oliver: Person = {
+  id: 'a0000000-0000-0000-0000-000000000003',
+  givenName: 'Oliver',
+  familyName: 'Ashford',
+  roles: ['beneficiary'],
+};
+```
+
 ### Step 4: The property
 
 James owns a house:
@@ -130,6 +192,25 @@ James owns a house:
 ```
 
 Note: monetary amounts are **integer minor units** (pennies). `45000000` = GBP 450,000.00.
+
+```typescript
+// Using @openinherit/sdk types
+import type { Property } from '@openinherit/sdk';
+
+const house: Property = {
+  id: 'p0000000-0000-0000-0000-000000000001',
+  name: '42 Acacia Avenue',
+  propertyType: 'residential',
+  tenure: 'freehold',
+  estimatedValue: { amount: 45000000, currency: 'GBP' },
+  address: {
+    streetAddress: '42 Acacia Avenue',
+    addressLocality: 'Bristol',
+    postalCode: 'BS1 4AA',
+    addressCountry: 'GB',
+  },
+};
+```
 
 ### Step 5: The bequests
 
@@ -157,6 +238,26 @@ James leaves the house to Catherine and GBP 10,000 to Oliver:
 
 Bequest types include: `specific` (named item), `pecuniary` (cash sum), `general`, `demonstrative`, `residuary`, `class`, and `contingent`.
 
+```typescript
+// Using @openinherit/sdk types
+import type { Bequest } from '@openinherit/sdk';
+
+const houseToWife: Bequest = {
+  id: 'b0000000-0000-0000-0000-000000000001',
+  type: 'specific',
+  beneficiaryId: 'a0000000-0000-0000-0000-000000000002',
+  description: 'My property at 42 Acacia Avenue, Bristol',
+  propertyId: 'p0000000-0000-0000-0000-000000000001',
+};
+
+const cashToSon: Bequest = {
+  id: 'b0000000-0000-0000-0000-000000000002',
+  type: 'pecuniary',
+  beneficiaryId: 'a0000000-0000-0000-0000-000000000003',
+  amount: { amount: 1000000, currency: 'GBP' },
+};
+```
+
 ### Step 6: The executor
 
 Catherine is named executor:
@@ -172,6 +273,18 @@ Catherine is named executor:
     }
   ]
 }
+```
+
+```typescript
+// Using @openinherit/sdk types
+import type { Executor } from '@openinherit/sdk';
+
+const executor: Executor = {
+  id: 'x0000000-0000-0000-0000-000000000001',
+  personId: 'a0000000-0000-0000-0000-000000000002',
+  role: 'executor',
+  priority: 1,
+};
 ```
 
 ### The complete document
