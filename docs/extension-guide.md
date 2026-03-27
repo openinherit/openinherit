@@ -114,3 +114,19 @@ When you review your extension against current legislation:
 4. Submit a PR with the changes
 
 This is particularly important for temporal data (tax thresholds, exemption amounts) that changes with legislation.
+
+## Legal Review Status
+
+Each extension has a review status indicating the level of legal verification:
+
+| Status | Meaning |
+|--------|---------|
+| **Reviewed** | Reviewed by a qualified practitioner in this jurisdiction |
+| **Legislation-based** | Based on published legislation, not yet reviewed by a practitioner |
+| **Community** | Community-contributed, not formally reviewed |
+
+All 13 core extensions currently have status: **Legislation-based**. They were authored using published legislation as the primary source and verified against official government publications.
+
+As jurisdiction partners are onboarded, their extensions will move to **Reviewed** status. This means a qualified legal practitioner in the jurisdiction has confirmed the extension accurately represents current succession law, tax thresholds, and procedural requirements.
+
+Community extensions submitted via pull request start at **Community** status and may be promoted to **Legislation-based** after the maintainers verify the legal sources cited.
