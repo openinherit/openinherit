@@ -1,0 +1,89 @@
+{
+  "target": "../../../v1/common/identifier.json",
+  "tests": [
+    {
+      "description": "valid — minimal (value only, no system or type)",
+      "data": {
+        "value": "AB123456C"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — UK National Insurance number with system and type",
+      "data": {
+        "system": "urn:hmrc:nino",
+        "value": "AB123456C",
+        "type": "national_insurance"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Japanese My Number identifier",
+      "data": {
+        "system": "urn:jpn:my-number",
+        "value": "1234 5678 9012",
+        "type": "national_id"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Indian Aadhaar number",
+      "data": {
+        "system": "urn:uidai:aadhaar",
+        "value": "1234 5678 9012",
+        "type": "national_id"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — US Social Security Number",
+      "data": {
+        "system": "urn:ssa:ssn",
+        "value": "123-45-6789",
+        "type": "social_security"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — UK charity commission number",
+      "data": {
+        "system": "urn:charity-commission:number",
+        "value": "SC012345",
+        "type": "charity_number"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Korean resident registration number",
+      "data": {
+        "system": "urn:krn:rrn",
+        "value": "800101-1234567",
+        "type": "national_id"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required value",
+      "data": {
+        "system": "urn:hmrc:nino",
+        "type": "national_insurance"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — additional property not allowed",
+      "data": {
+        "value": "AB123456C",
+        "issuer": "HMRC"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — value is not a string (number)",
+      "data": {
+        "value": 123456789
+      },
+      "valid": false
+    }
+  ]
+}
