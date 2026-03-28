@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -33,20 +34,12 @@ jobs:
       - name: Generate graph data
         run: pnpm run graph:data
 
-      - name: Check for changes
-        id: changes
-        run: |
-          git add dist/
-          if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit artefacts
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: regenerate bundled schema and graph data"
-          git push
+      - name: Create PR with artefacts
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: regenerate bundled schema and graph data"
+          title: "chore: regenerate bundled schema and graph data"
+          body: "Automated update of `dist/` artefacts after schema changes."
+          branch: chore/regenerate-dist
+          add-paths: dist/
+          delete-branch: true
