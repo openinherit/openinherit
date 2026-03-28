@@ -2165,11 +2165,11 @@ export type Asset2 = {
      */
     name: string;
     /**
-     * The broad category of this asset. Determines which additional details may be relevant.
+     * Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category.
      */
-    category: 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other';
+    category: 'financial' | 'property_contents' | 'vehicle' | 'jewellery_watches' | 'art' | 'antiques' | 'collectibles' | 'musical_instruments' | 'books_manuscripts' | 'wine_spirits' | 'clothing_textiles' | 'firearms_sporting' | 'digital' | 'business' | 'islamic_financial' | 'other';
     /**
-     * More specific classification within the category. Free text to accommodate jurisdiction-specific asset types.
+     * Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → 'pension', collectibles → 'model_railways', vehicle → 'classic_vehicle'.
      */
     subcategory?: string;
     /**
@@ -2693,7 +2693,7 @@ export type Asset2 = {
          */
         collectibility?: 'likely' | 'uncertain' | 'doubtful' | 'uncollectible';
     };
-    [key: string]: unknown | string | string | 'bank_account' | 'savings_account' | 'investment' | 'pension' | 'shares' | 'premium_bonds' | 'cryptocurrency' | 'insurance' | 'vehicle' | 'jewellery' | 'art' | 'antiques' | 'collectibles' | 'furniture' | 'electronics' | 'musical_instruments' | 'books' | 'clothing' | 'kitchenware' | 'sports_equipment' | 'firearms' | 'wine_and_spirits' | 'tools' | 'garden_and_outdoor' | 'business_interest' | 'intellectual_property' | 'domain_name' | 'social_media_account' | 'digital_subscription' | 'sukuk' | 'takaful' | 'islamic_deposit' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'official' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Media> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
+    [key: string]: unknown | string | string | 'financial' | 'property_contents' | 'vehicle' | 'jewellery_watches' | 'art' | 'antiques' | 'collectibles' | 'musical_instruments' | 'books_manuscripts' | 'wine_spirits' | 'clothing_textiles' | 'firearms_sporting' | 'digital' | 'business' | 'islamic_financial' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'official' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Media> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
         /**
          * Jurisdiction whose succession law governs this asset.
          */

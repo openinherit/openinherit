@@ -3591,49 +3591,32 @@ components:
         category:
           type: string
           enum:
-            - bank_account
-            - savings_account
-            - investment
-            - pension
-            - shares
-            - premium_bonds
-            - cryptocurrency
-            - insurance
+            - financial
+            - property_contents
             - vehicle
-            - jewellery
+            - jewellery_watches
             - art
             - antiques
             - collectibles
-            - furniture
-            - electronics
             - musical_instruments
-            - books
-            - clothing
-            - kitchenware
-            - sports_equipment
-            - firearms
-            - wine_and_spirits
-            - tools
-            - garden_and_outdoor
-            - business_interest
-            - intellectual_property
-            - domain_name
-            - social_media_account
-            - digital_subscription
-            - sukuk
-            - takaful
-            - islamic_deposit
+            - books_manuscripts
+            - wine_spirits
+            - clothing_textiles
+            - firearms_sporting
+            - digital
+            - business
+            - islamic_financial
             - other
-          $comment: 'bank_account: current or checking account. savings_account: deposit or savings account. investment: stocks, bonds, funds, ISAs. pension: occupational or personal pension. shares: individual company shares. premium_bonds: UK NS&I Premium Bonds. cryptocurrency: Bitcoin, Ethereum, etc. insurance: life insurance or endowment. vehicle: car, motorcycle, boat, etc. jewellery: rings, necklaces, watches. art: paintings, sculptures, prints. antiques: items of historical value. collectibles: stamps, coins, memorabilia. furniture: household furniture. electronics: computers, phones, cameras. musical_instruments: pianos, guitars, etc. books: valuable or collectible books. clothing: valuable clothing items. kitchenware: valuable kitchen items. sports_equipment: golf clubs, etc. firearms: shotguns, rifles (require licensing). wine_and_spirits: wine collections, rare spirits. tools: workshop tools and equipment. garden_and_outdoor: garden machinery, outdoor equipment. business_interest: share in a business or partnership. intellectual_property: patents, copyrights, trademarks. domain_name: internet domain names. social_media_account: accounts with commercial value. digital_subscription: transferable digital subscriptions. sukuk: Islamic bond — an internationally recognised financial instrument type defined by AAOIFI (Accounting and Auditing Organization for Islamic Financial Institutions) standards, traded on major exchanges (London, Dubai, Kuala Lumpur) and regulated by secular financial authorities. Not a religious classification. takaful: Islamic insurance — an internationally recognised financial instrument type defined by AAOIFI standards and regulated by insurance authorities in 40+ jurisdictions including the UK (PRA/FCA), Malaysia (BNM), and UAE (CBUAE). Not a religious classification. islamic_deposit: Shariah-compliant deposit account — a regulated banking product offered by licensed banks under secular banking supervision, structured to comply with AAOIFI standards. Not a religious classification. other: any asset not covered above.'
-          description: The broad category of this asset. Determines which additional details may be relevant.
+          $comment: 'Top-level categories from the INHERIT Product Taxonomy (derived from the Standard Product Taxonomy, MIT licence). financial: bank accounts, savings, investments, pensions, shares, bonds, cryptocurrency, insurance. property_contents: furniture, kitchenware, electronics, tools, garden and outdoor items. vehicle: cars, motorcycles, boats, caravans, classic vehicles. jewellery_watches: jewellery, watches, precious stones, costume jewellery. art: paintings, sculptures, prints, photography, mixed media. antiques: antique furniture, ceramics, silverware, clocks. collectibles: stamps, coins, model railways, vinyl records, trading cards, memorabilia. musical_instruments: pianos, guitars, orchestral instruments, vintage instruments. books_manuscripts: rare books, first editions, manuscripts, maps. wine_spirits: wine collections, whisky, spirits, cellar contents. clothing_textiles: designer clothing, vintage fashion, textiles, rugs. firearms_sporting: firearms (require licensing), sporting equipment, fishing tackle. digital: domain names, social media accounts, subscriptions, digital media, crypto wallets. business: business interests, partnerships, intellectual property, stock compensation. islamic_financial: sukuk, takaful, Islamic deposits — internationally recognized financial instruments defined by AAOIFI standards and regulated by secular financial authorities. other: any asset not covered above. Use the subcategory field for finer classification — valid subcategories per category are listed in reference-data/category-guidance.json.'
+          description: Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category.
           examples:
-            - bank_account
-            - jewellery
+            - financial
+            - collectibles
             - vehicle
-            - cryptocurrency
+            - jewellery_watches
         subcategory:
           type: string
-          description: More specific classification within the category. Free text to accommodate jurisdiction-specific asset types.
+          description: 'Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → ''pension'', collectibles → ''model_railways'', vehicle → ''classic_vehicle''.'
           examples:
             - engagement ring
             - ISA
