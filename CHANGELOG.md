@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added (AI-Native + #34)
+- JSON-LD context file (`v1/context/inherit-v1.jsonld`) — Schema.org, FIBO, Wikidata, GS1 linked data
+- `@context` optional property on root schema — enables JSON-LD processing
+- `legacyContacts` array on root schema (#34) — digital inheritance for living collectors
+- `v1/catalogue.json` — catalogue-only root schema for living collectors (#34)
+- Agent decomposition: `searchTerms`, `comparableSearchProfile`, `suggestedSubcategory` on assets
+- Per-field `confidenceScores` on assets and people — AI extraction confidence 0-100
+- `valuationReliability` on assets — numeric trustworthiness companion to categorical enum
+- `lastVerifiedAt` and `verifiedBy` on assets — verification tracking
+- `matchScore` on valuation comparables — numeric 0-100 companion to matchConfidence enum
+- `humanVerdict` and `rejectionReason` on valuation comparables — agent feedback loop
+- `reference-data/enum-descriptions.json` — structured enum descriptions with agent hints
+- `reference-data/agent-task-definitions.json` — multi-agent task protocol
+- `reference-data/agent-output-schema.json` — standardised agent output format
+- `docs/cultural-sensitivity.md` — cultural sensitivity statement
+- `examples/fixtures/catalogue-only.json` — Bill Frith model railway catalogue fixture
+
 ### Added (Steps 1-3: Product Taxonomy & Category Infrastructure)
 - INHERIT Product Taxonomy — 16 top-level categories replacing 33 ad-hoc values (step 1)
 - `subcategory` field on asset.json — freeform finer classification within top-level category (step 1)

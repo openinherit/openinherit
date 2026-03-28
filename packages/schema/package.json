@@ -1,6 +1,6 @@
 {
   "name": "@openinherit/schema",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "INHERIT estate planning data standard — JSON Schema, JSON-LD context, and reference data",
   "type": "module",
   "license": "Apache-2.0",
