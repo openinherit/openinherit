@@ -1,0 +1,10 @@
+{
+  "title": "INHERIT v1 Schema",
+  "description": "Open data standard for estate, inheritance, and catalogue data",
+  "github": "openinherit/openinherit",
+  "website": "https://openinherit.org",
+  "defaultDialect": "https://openinherit.org/v1/dialect.json",
+  "path": "./v1",
+  "extension": [".json"],
+  "ignore": ["./v1/context"]
+}
