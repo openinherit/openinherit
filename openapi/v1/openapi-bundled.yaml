@@ -186,18 +186,18 @@ components:
       description: Latin American succession — legítima, forced heirship, fourths system
       x-inherit-maturity: draft
       $ref: '#/components/schemas/latin-america'
-    ExtensionIslamic:
+    ExtensionIslamicSuccession:
       description: Faraid — fixed shares, residuary, awl/radd, wasiyya, waqf
       x-inherit-maturity: draft
-      $ref: '#/components/schemas/islamic'
-    ExtensionJewish:
+      $ref: '#/components/schemas/islamic-succession'
+    ExtensionJewishSuccession:
       description: Halachic inheritance — bekhor, mezonot, kinyan
       x-inherit-maturity: draft
-      $ref: '#/components/schemas/jewish'
-    ExtensionIndiaHindu:
+      $ref: '#/components/schemas/jewish-succession'
+    ExtensionHinduSuccession:
       description: Hindu succession — Mitakshara/Dayabhaga, HUF, stridhan
       x-inherit-maturity: draft
-      $ref: '#/components/schemas/india-hindu'
+      $ref: '#/components/schemas/hindu-succession'
     ExtensionAfricaCustomary:
       description: Customary succession — patrilineal/matrilineal, family council, lobola
       x-inherit-maturity: draft
@@ -8524,6 +8524,7 @@ components:
     islamic-succession:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json
+      $comment: This extension implements succession rules derived from Islamic law as codified in specific jurisdictions. The extension name references the legal tradition, not the personal religious beliefs of any individual. A person of any faith (or none) may be subject to these rules depending on their jurisdiction of domicile.
       title: Islamic Succession Extension
       description: 'Faraid (Islamic inheritance) rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf details, and priority debts including mahr.'
       type: object
@@ -8877,6 +8878,7 @@ components:
     jewish-succession:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/extensions/jewish-succession/jewish-succession.json
+      $comment: This extension implements succession rules derived from Jewish law as codified in specific jurisdictions. The extension name references the legal tradition, not the personal religious beliefs of any individual. A person of any faith (or none) may be subject to these rules depending on their jurisdiction of domicile.
       title: Jewish Succession Extension
       description: Halachic inheritance rules including heir classification, bekhor (firstborn) double-share, mezonot (maintenance), kinyan (acquisition), and bequest classification under Jewish law.
       type: object
@@ -9134,6 +9136,7 @@ components:
     hindu-succession:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json
+      $comment: This extension implements succession rules derived from Hindu law as codified in specific jurisdictions. The extension name references the legal tradition, not the personal religious beliefs of any individual. A person of any faith (or none) may be subject to these rules depending on their jurisdiction of domicile.
       title: Hindu Succession Extension
       description: 'Hindu succession law specifics: Mitakshara/Dayabhaga schools, HUF coparcenary, heir classifications under the Hindu Succession Act 1956, stridhan assets, agricultural land ceiling rules, and NRI complications.'
       type: object

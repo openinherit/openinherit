@@ -167,17 +167,17 @@ export type ExtensionLatinAmerica = LatinAmerica;
 /**
  * Faraid — fixed shares, residuary, awl/radd, wasiyya, waqf
  */
-export type ExtensionIslamic = Islamic;
+export type ExtensionIslamicSuccession = IslamicSuccession;
 
 /**
  * Halachic inheritance — bekhor, mezonot, kinyan
  */
-export type ExtensionJewish = Jewish;
+export type ExtensionJewishSuccession = JewishSuccession;
 
 /**
  * Hindu succession — Mitakshara/Dayabhaga, HUF, stridhan
  */
-export type ExtensionIndiaHindu = IndiaHindu;
+export type ExtensionHinduSuccession = HinduSuccession;
 
 /**
  * Customary succession — patrilineal/matrilineal, family council, lobola
@@ -4160,7 +4160,7 @@ export type PriorityDebt = {
  *
  * Faraid (Islamic inheritance) rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf details, and priority debts including mahr.
  */
-export type Islamic = {
+export type IslamicSuccession = {
     school: 'hanafi' | 'shafii' | 'maliki' | 'hanbali' | 'jafari' | 'ibadi' | 'zahiri';
     faraidApplies?: boolean;
     heirClassifications?: Array<HeirClassification>;
@@ -4243,11 +4243,11 @@ export type BequestClassification = {
 };
 
 /**
- * Jewish Law Extension
+ * Jewish Succession Extension
  *
  * Halachic inheritance rules including heir classification, bekhor (firstborn) double-share, mezonot (maintenance), kinyan (acquisition), and bequest classification under Jewish law.
  */
-export type Jewish = {
+export type JewishSuccession = {
     denomination: 'orthodox' | 'conservative' | 'reform' | 'reconstructionist' | 'traditional' | 'unaffiliated';
     halachicHeirs?: Array<HalachicHeir>;
     mezonotDetails?: MezonotDetails;
@@ -4288,11 +4288,11 @@ export type StridhanAsset = {
 };
 
 /**
- * India Hindu Succession Extension
+ * Hindu Succession Extension
  *
  * Hindu succession law specifics: Mitakshara/Dayabhaga schools, HUF coparcenary, heir classifications under the Hindu Succession Act 1956, stridhan assets, agricultural land ceiling rules, and NRI complications.
  */
-export type IndiaHindu = {
+export type HinduSuccession = {
     applicableLaw: 'hindu_succession_act_1956' | 'indian_succession_act_1925' | 'muslim_personal_law' | 'special_marriage_act' | 'parsi_succession' | 'goa_civil_code';
     school?: 'mitakshara' | 'dayabhaga';
     hufDetails?: HufDetails;
