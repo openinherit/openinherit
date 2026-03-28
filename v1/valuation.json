@@ -64,6 +64,23 @@
           "type": "string",
           "description": "Free-text notes explaining the comparison — differences, adjustments, or caveats.",
           "examples": ["Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%", "US sale — add 5% for UK market premium on this brand"]
+        },
+        "matchScore": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support."
+        },
+        "humanVerdict": {
+          "type": "string",
+          "enum": ["accepted", "rejected", "adjusted", "not_reviewed"],
+          "$comment": "accepted: human confirmed this is a good comparable. rejected: human said this is not comparable. adjusted: human accepted but modified the match. not_reviewed: no human has reviewed this yet.",
+          "description": "Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches."
+        },
+        "rejectionReason": {
+          "type": "string",
+          "description": "Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch.",
+          "examples": ["Wrong gauge — this is HO not OO", "Repainted model, not original livery"]
         }
       },
       "additionalProperties": false
@@ -135,7 +152,7 @@
     "comparables": {
       "type": "array",
       "items": { "$ref": "#/$defs/Comparable" },
-      "description": "Comparable sales or listings used to support this valuation. Building a library of comparables strengthens the evidential basis for probate, tax, and insurance purposes."
+      "description": "Comparable items found on marketplaces — used to support the valuation. Agent-generated comparables should include matchScore for quantitative filtering and will accumulate humanVerdict feedback over time."
     },
     "notes": {
       "type": "string",
