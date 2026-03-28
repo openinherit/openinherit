@@ -7,54 +7,133 @@
   "$defs": {
     "ConsentRecord": {
       "type": "object",
+      "description": "Record of the testator's consent to proxy authorisation. Supports formal, informal, and culturally appropriate consent methods.",
       "properties": {
-        "consentGiven": { "type": "boolean" },
-        "consentDate": { "type": "string", "format": "date" },
+        "consentGiven": {
+          "type": "boolean",
+          "description": "Whether the testator has given consent for the proxy to act on their behalf.",
+          "examples": [true]
+        },
+        "consentDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date consent was given.",
+          "examples": ["2025-03-15"]
+        },
         "consentMethod": {
           "type": "string",
           "enum": [
             "in_person_verbal", "in_person_written", "video_recorded",
             "witnessed_verbal", "phone_recorded", "assumed_cultural_norm"
-          ]
+          ],
+          "$comment": "in_person_verbal: verbal consent given face to face. in_person_written: written consent signed in person. video_recorded: consent recorded via video. witnessed_verbal: verbal consent in the presence of witnesses. phone_recorded: consent given and recorded over the telephone. assumed_cultural_norm: consent assumed under cultural norms where explicit consent is not customary (e.g. eldest son acts for the family). Use with caution — document the cultural basis.",
+          "description": "The method by which consent was obtained.",
+          "examples": ["in_person_written", "witnessed_verbal"]
         },
         "witnesses": {
           "type": "array",
+          "description": "Witnesses to the consent, if any.",
           "items": {
             "type": "object",
             "properties": {
-              "personId": { "type": "string", "format": "uuid" },
+              "personId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Reference to the Person.id of the witness."
+              },
               "role": {
                 "type": "string",
-                "$comment": "Provenance — e.g. 'family_elder', 'solicitor', 'community_leader', 'imam'."
+                "$comment": "Provenance — e.g. 'family_elder', 'solicitor', 'community_leader', 'imam'.",
+                "description": "The role or capacity in which the person witnessed the consent.",
+                "examples": ["solicitor", "family_elder", "community_leader", "imam"]
               },
-              "witnessedDate": { "type": "string", "format": "date" }
+              "witnessedDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Date this person witnessed the consent.",
+                "examples": ["2025-03-15"]
+              }
             },
             "required": ["personId"],
             "additionalProperties": false
           }
         },
-        "documentRef": { "type": "string" },
-        "notes": { "type": "string" }
+        "documentRef": {
+          "type": "string",
+          "description": "Reference to a document recording the consent.",
+          "examples": ["DOC-2025-CONSENT-001"]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes about the consent.",
+          "examples": ["Consent given in the presence of solicitor and two family elders"]
+        }
       },
       "required": ["consentGiven"],
       "additionalProperties": false
     }
   },
   "properties": {
-    "id": { "type": "string", "format": "uuid" },
-    "proxyPersonId": { "type": "string", "format": "uuid" },
-    "testatorPersonId": { "type": "string", "format": "uuid" },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this proxy authorisation within the INHERIT document.",
+      "examples": ["d6e7f8a9-b0c1-2345-d678-9abcdef01234"]
+    },
+    "proxyPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the Person.id of the authorised proxy."
+    },
+    "testatorPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the Person.id of the testator granting the authorisation."
+    },
     "scope": {
       "type": "string",
-      "enum": ["full", "information_gathering", "communication", "negotiation", "decision_making"]
+      "enum": ["full", "information_gathering", "communication", "negotiation", "decision_making"],
+      "$comment": "full: proxy may act in all capacities. information_gathering: proxy may only gather information about the estate. communication: proxy may communicate with professionals and family on the testator's behalf. negotiation: proxy may negotiate with dealers, professionals, and other parties. decision_making: proxy may make binding decisions on the testator's behalf.",
+      "description": "The scope of authority granted to the proxy.",
+      "examples": ["information_gathering", "full"]
     },
-    "consentRecord": { "$ref": "#/$defs/ConsentRecord" },
-    "dealerNegotiationPermitted": { "type": "boolean" },
-    "startDate": { "type": "string", "format": "date" },
-    "expiryDate": { "type": "string", "format": "date" },
-    "revocationDate": { "type": "string", "format": "date" },
-    "auditTrailEnabled": { "type": "boolean" },
-    "notes": { "type": "string" }
+    "consentRecord": {
+      "$ref": "#/$defs/ConsentRecord",
+      "description": "Record of the testator's consent to this proxy authorisation."
+    },
+    "dealerNegotiationPermitted": {
+      "type": "boolean",
+      "description": "Whether the proxy is specifically authorised to negotiate with dealers and third parties interested in estate assets.",
+      "examples": [true, false]
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date from which the proxy authorisation is effective.",
+      "examples": ["2025-03-15"]
+    },
+    "expiryDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date on which the proxy authorisation expires, if time-limited.",
+      "examples": ["2026-03-15"]
+    },
+    "revocationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the proxy authorisation was revoked by the testator, if applicable.",
+      "examples": ["2025-09-01"]
+    },
+    "auditTrailEnabled": {
+      "type": "boolean",
+      "description": "Whether all actions taken by the proxy should be logged for audit purposes.",
+      "examples": [true]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this proxy authorisation.",
+      "examples": ["Proxy is testator's daughter — authorised to liaise with Bonhams regarding the art collection", "Revoked after family disagreement — replaced by new proxy authorisation"]
+    }
   },
   "required": ["id", "proxyPersonId", "testatorPersonId", "scope", "consentRecord"],
   "patternProperties": {

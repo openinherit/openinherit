@@ -2,19 +2,21 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/common/jurisdiction.json",
   "title": "Jurisdiction",
-  "description": "A legal jurisdiction identified by ISO 3166 codes.",
+  "description": "A legal jurisdiction identified by ISO 3166 codes. Succession law varies not just by country but by subdivision — Scotland differs from England and Wales, and US states have radically different rules.",
   "type": "object",
   "properties": {
     "country": {
       "type": "string",
       "pattern": "^[A-Z]{2}$",
-      "description": "ISO 3166-1 alpha-2"
+      "description": "ISO 3166-1 alpha-2 country code. Always uppercase, exactly two letters.",
+      "examples": ["GB", "US", "JP", "IN", "NG", "AE", "SG", "AU"]
     },
     "subdivision": {
       "type": "string",
       "pattern": "^[A-Z]{2}-[A-Z0-9]{1,6}$",
       "$comment": "ISO 3166-2. Most codes 2-3 chars; some historic codes longer.",
-      "description": "ISO 3166-2 subdivision code (e.g. GB-SCT, US-CA)"
+      "description": "ISO 3166-2 subdivision code identifying a state, province, or territory with its own succession law.",
+      "examples": ["GB-SCT", "GB-ENG", "US-CA", "US-TX", "AU-NSW", "IN-MH", "NG-LA"]
     },
     "legalSystem": {
       "type": "string",
@@ -30,11 +32,14 @@
         "religious_canon",
         "plural"
       ],
-      "$comment": "'plural' for dual civil/religious systems (Malaysia, Pakistan, Israel, Nigeria). Use 'religious_*' when identifying a specific religious legal system as an adjudicating authority."
+      "$comment": "common_law: judge-made precedent (England and Wales, most US states, Australia). civil_law: codified statute (France, Germany, Japan, most of continental Europe). mixed: hybrid of common and civil law (Scotland, South Africa, Louisiana). religious: governed by religious law (not further specified). customary: indigenous or tribal customary law. religious_islamic: Islamic Shariah succession rules (faraid). religious_jewish: Jewish halachic succession law. religious_hindu: Hindu succession law (HSA 1956 in India). religious_canon: Canon law of the Catholic or Orthodox Church. plural: multiple legal systems operating in parallel (Malaysia, Pakistan, Israel, Nigeria).",
+      "description": "The legal tradition governing succession in this jurisdiction. Determines which rules apply to inheritance, forced heirship, and estate administration.",
+      "examples": ["common_law", "civil_law", "plural"]
     },
     "name": {
       "type": "string",
-      "description": "Human-readable jurisdiction name (e.g. 'Scotland', 'California')"
+      "description": "Human-readable jurisdiction name for display purposes. Not authoritative — the country and subdivision codes are the canonical identifiers.",
+      "examples": ["Scotland", "California", "New South Wales", "Maharashtra", "Lagos"]
     }
   },
   "required": ["country"],

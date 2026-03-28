@@ -5,7 +5,7 @@
 *Published to npm as `@openinherit/schema@1.1.0` and `@openinherit/sdk@1.1.0`.*
 
 ### Core Standard
-- 20 core entity schemas (18 original + asset-collection + asset-interest)
+- 22 core entity schemas (20 original + valuation + lifetime-transfer)
 - 7 common type schemas (money, address, jurisdiction, temporal-rule, identifier, visibility, media)
 - 13 jurisdiction/cultural extensions (all draft)
 - OpenAPI 3.1 schema bundle + 109-endpoint Reference REST API
@@ -13,7 +13,7 @@
 - Versioning and compatibility policy (draft/candidate/stable maturity levels)
 
 ### Schema Quality
-- Human-readable `description` on every field across all 23 core schemas
+- Human-readable `description` on every field across all 29 core + common schemas
 - `examples` with internationally diverse values on every property
 - `$comment` explaining every enum value in plain language
 - `formattedAddress` on addresses (structured + display string)

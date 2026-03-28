@@ -7,7 +7,11 @@
   "properties": {
     "id": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "description": "Unique identifier for this nonprobate transfer within the INHERIT document.",
+      "examples": [
+        "c5d6e7f8-a9b0-1234-c567-89abcdef0123"
+      ]
     },
     "transferType": {
       "type": "string",
@@ -24,69 +28,115 @@
         "epf_nomination",
         "mandatory_savings_nomination"
       ],
-      "$comment": "superannuation_nomination = Australian super. cpf_nomination = Singapore CPF. epf_nomination = Malaysian EPF. mandatory_savings_nomination = generic for other national provident funds."
+      "$comment": "revocable_trust: assets in a revocable (living) trust pass to beneficiaries outside probate. tod_deed: transfer-on-death deed — property transfers automatically on death (US states). pod_account: payable-on-death bank account. jtwros: joint tenancy with right of survivorship — deceased's share passes automatically to survivor(s). tenancy_by_entirety: US spousal joint tenancy — creditor-protected. beneficiary_designation: named beneficiary on a financial account. life_insurance_nomination: named beneficiary on a life insurance policy. superannuation_nomination: Australian superannuation death benefit nomination. cpf_nomination: Singapore Central Provident Fund nomination. epf_nomination: Malaysian Employees Provident Fund nomination. mandatory_savings_nomination: generic for other national provident fund nominations.",
+      "description": "The mechanism by which this asset passes outside the probate estate.",
+      "examples": [
+        "jtwros",
+        "life_insurance_nomination",
+        "superannuation_nomination"
+      ]
     },
     "designationType": {
-      "type": "string"
+      "type": "string",
+      "description": "More specific description of the transfer mechanism.",
+      "examples": [
+        "JTWROS bank account",
+        "TOD deed on investment property",
+        "Binding death benefit nomination"
+      ]
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "description": "Free-text description of the nonprobate transfer.",
+      "examples": [
+        "Joint bank account with spouse — passes by survivorship",
+        "Life insurance policy with Aviva — daughter named as sole beneficiary"
+      ]
     },
     "trustId": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "description": "Reference to a Trust.id if this transfer is via a revocable trust."
     },
     "propertyId": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "description": "Reference to a Property.id if this transfer relates to real estate (e.g. TOD deed, JTWROS property)."
     },
     "assetIds": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
-      }
+      },
+      "description": "References to Asset.id(s) that pass via this nonprobate transfer."
     },
     "beneficiaryPersonIds": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
-      }
+      },
+      "description": "Person IDs of the primary beneficiaries or surviving owners who receive the asset."
     },
     "contingentBeneficiaryPersonIds": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
-      }
+      },
+      "description": "Person IDs of contingent beneficiaries who receive if the primary beneficiaries predecease."
     },
     "survivingOwnerPersonIds": {
       "type": "array",
       "items": {
         "type": "string",
         "format": "uuid"
-      }
+      },
+      "description": "Person IDs of surviving joint owners for JTWROS and tenancy by entirety transfers."
     },
     "passesOutsideEstate": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Confirmation that this asset passes outside the probate estate. Should always be true for nonprobate transfers.",
+      "examples": [
+        true
+      ]
     },
     "bindingNomination": {
       "type": "boolean",
-      "$comment": "Whether the nomination is binding on the fund trustee. Australian super nominations may be binding or non-binding."
+      "$comment": "Whether the nomination is binding on the fund trustee. Australian super nominations may be binding or non-binding.",
+      "description": "Whether the beneficiary nomination is legally binding on the fund trustee. Australian superannuation nominations may be binding (valid for 3 years) or non-binding (trustee has discretion).",
+      "examples": [
+        true,
+        false
+      ]
     },
     "nominationExpiryDate": {
       "type": "string",
-      "format": "date"
+      "format": "date",
+      "description": "Date the nomination expires, if applicable. Australian binding nominations expire after 3 years and must be renewed.",
+      "examples": [
+        "2027-06-15"
+      ]
     },
     "recordingReference": {
-      "type": "string"
+      "type": "string",
+      "description": "Recording or filing reference for the transfer instrument (e.g. county recorder reference for a TOD deed).",
+      "examples": [
+        "RECORDER-2024-TOD-001234"
+      ]
     },
     "jurisdiction": {
-      "$ref": "common/jurisdiction.json"
+      "$ref": "common/jurisdiction.json",
+      "description": "Jurisdiction governing this nonprobate transfer."
     },
     "notes": {
-      "type": "string"
+      "type": "string",
+      "description": "Free-text notes about this nonprobate transfer.",
+      "examples": [
+        "Binding nomination renewed March 2024 — expires March 2027",
+        "TOD deed recorded in Los Angeles County"
+      ]
     }
   },
   "required": [

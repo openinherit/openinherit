@@ -20,7 +20,7 @@
       "applies": true,
       "claimNature": "cash_claim",
       "applicableTo": "children_and_spouse",
-      "notes": "Scottish legal rights (legitim + jus relictae) apply to moveable estate only. Heritable property (land and buildings) is freely bequeathable. Prior rights (dwelling up to £473,000, furnishings up to £29,000, cash up to £50,000) are taken first from the estate."
+      "notes": "Scottish legal rights (legitim + jus relictae) apply to moveable estate only. Heritable property (land and buildings) is freely bequeathable. Prior rights (dwelling up to \u00a3473,000, furnishings up to \u00a329,000, cash up to \u00a350,000) are taken first from the estate."
     },
     "notes": "Scottish succession law differs significantly from English law. The Succession (Scotland) Act 1964 governs intestate succession and legal rights. Prior rights are a creature of intestacy but inform estate planning even when a will exists.",
     "createdAt": "2026-03-15",
@@ -153,5 +153,7 @@
   "dealerInterests": [],
   "extensions": [],
   "assetCollections": [],
-  "assetInterests": []
+  "assetInterests": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

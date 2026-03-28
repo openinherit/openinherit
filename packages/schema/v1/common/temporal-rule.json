@@ -7,39 +7,49 @@
   "type": "object",
   "properties": {
     "value": {
-      "description": "The actual rule value. Can be a number (tax rate, threshold amount in minor units), boolean (rule applies/doesn't), string (enum value, fraction), or object (complex rule).",
+      "description": "The actual rule value — a number (tax rate, threshold in minor units), boolean (rule applies or not), string (enum value, fraction), or object (complex rule). The consumer must interpret this in context.",
       "type": ["number", "boolean", "string", "object"],
-      "$comment": "JSON Schema 'number' includes integers. Do not add 'integer' separately — oneOf would fail because a value like 50 matches both."
+      "$comment": "JSON Schema 'number' includes integers. Do not add 'integer' separately — oneOf would fail because a value like 50 matches both.",
+      "examples": [32500000, true, "0.75", "per_child_sliding"]
     },
     "effectiveFrom": {
       "type": "string",
       "format": "date",
-      "description": "ISO 8601 date when this value came/comes into effect"
+      "description": "The date from which this rule value takes effect. For enacted legislation, this is the commencement date, not the date of royal assent.",
+      "examples": ["2023-01-01", "2024-04-06", "2027-01-01"]
     },
     "effectiveUntil": {
       "oneOf": [
         { "type": "string", "format": "date" },
         { "type": "null" }
       ],
-      "description": "ISO 8601 date when this value was/will be superseded. null = currently in effect.",
-      "$comment": "null = no known end date (current rule). A date = superseded on that date."
+      "description": "The date this rule value was or will be superseded. Null means it is currently in effect with no known end date.",
+      "$comment": "null = no known end date (current rule). A date = superseded on that date.",
+      "examples": ["2024-04-05", null]
     },
     "status": {
       "type": "string",
       "enum": ["enacted", "royal_assent", "bill_stage", "consultation", "announced"],
-      "$comment": "enacted = in force. royal_assent = passed but not yet commenced. bill_stage = in parliamentary/congressional process. consultation = proposed, seeking feedback. announced = government has announced intent but no legislation drafted."
+      "$comment": "enacted: in force and legally binding. royal_assent: passed by legislature but not yet commenced. bill_stage: currently progressing through parliament or congress. consultation: proposed rule under public consultation. announced: government has stated intent but no formal legislation exists.",
+      "description": "The legislative status of this rule. Only 'enacted' rules are legally binding — all others are prospective.",
+      "examples": ["enacted", "bill_stage"]
     },
     "predecessorValue": {
-      "description": "The previous value of this rule, for computing deltas. null if this is the first known value.",
+      "description": "The previous value of this rule, for computing deltas and understanding the direction of change. Null if this is the first known value.",
       "type": ["number", "boolean", "string", "object", "null"],
-      "$comment": "Same type flexibility as 'value', plus null for the first known value."
+      "$comment": "Same type flexibility as 'value', plus null for the first known value.",
+      "examples": [25000000, null]
     },
     "legislativeReference": {
       "type": "string",
-      "$comment": "e.g. 'Finance Act 2027 s.12', 'Swiss Civil Code Art. 471 (2023 revision)', 'Inheritance Tax Act 1984 s.7'"
+      "$comment": "e.g. 'Finance Act 2027 s.12', 'Swiss Civil Code Art. 471 (2023 revision)', 'Inheritance Tax Act 1984 s.7'",
+      "description": "Citation for the legislation that establishes this rule value. Include act name, section, and year.",
+      "examples": ["Inheritance Tax Act 1984 s.7", "Swiss Civil Code Art. 471 (2023 revision)", "Finance Act 2027 s.12"]
     },
     "notes": {
-      "type": "string"
+      "type": "string",
+      "description": "Free-text commentary on this rule value — transitional provisions, known ambiguities, or political context.",
+      "examples": ["Frozen at this level since 2009 — widely expected to increase in next Budget"]
     }
   },
   "required": ["value", "effectiveFrom", "status"],

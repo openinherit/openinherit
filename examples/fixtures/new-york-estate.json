@@ -19,7 +19,7 @@
     "primaryInstrument": "revocable_trust",
     "electiveShareRight": {
       "available": true,
-      "statute": "EPTL §5-1.1-A",
+      "statute": "EPTL \u00a75-1.1-A",
       "notes": "New York's elective share reaches into revocable trusts and other testamentary substitutes. Lisa is aware of her right but has not elected."
     },
     "notes": "In New York, a revocable living trust is commonly used as the primary estate planning instrument to avoid probate. The pour-over will directs any probate assets into the trust.",
@@ -219,5 +219,7 @@
   "dealerInterests": [],
   "extensions": [],
   "assetCollections": [],
-  "assetInterests": []
+  "assetInterests": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

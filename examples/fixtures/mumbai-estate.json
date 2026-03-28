@@ -110,7 +110,7 @@
           "subdivision": "IN-MH"
         },
         "lawName": "Hindu Succession Act 1956",
-        "section": "s.6 (coparcenary property — as amended 2005)"
+        "section": "s.6 (coparcenary property \u2014 as amended 2005)"
       },
       "address": {
         "streetAddress": "14 Carter Road",
@@ -120,7 +120,7 @@
         "addressCountry": "IN",
         "landmark": "Near Mount Mary Church"
       },
-      "notes": "HUF coparcenary property devolves by survivorship. The karta cannot will away the coparcenary interest — only his notional share on partition is bequeathable."
+      "notes": "HUF coparcenary property devolves by survivorship. The karta cannot will away the coparcenary interest \u2014 only his notional share on partition is bequeathable."
     }
   ],
   "assets": [
@@ -133,7 +133,7 @@
         "amount": 1500000000,
         "currency": "INR"
       },
-      "notes": "Stridhan — Priya's absolute property under Hindu law. Not part of Rajesh's bequeathable estate. Includes wedding jewellery and gifts received at marriage."
+      "notes": "Stridhan \u2014 Priya's absolute property under Hindu law. Not part of Rajesh's bequeathable estate. Includes wedding jewellery and gifts received at marriage."
     },
     {
       "id": "51000007-0000-4000-a000-000000000002",
@@ -171,5 +171,7 @@
   "dealerInterests": [],
   "extensions": [],
   "assetCollections": [],
-  "assetInterests": []
+  "assetInterests": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

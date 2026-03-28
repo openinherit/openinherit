@@ -6,7 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+- `valuation.json` — new entity for multiple valuations per asset/property/collection with comparables array (step 5)
+- `lifetime-transfer.json` — new entity for gift/transfer tax calculations across 10 jurisdictions (step 6)
+- 8 intangible asset sub-objects on `asset.json`: shareholding, businessInterest, pension, insurancePolicy, coOwnership, intellectualProperty, stockCompensation, debtReceivable (step 5.5)
+- `urgency` and `urgencyReason` fields on `asset.json` — executor priority (step 8)
+- `containedInAssetId` on `asset.json` — hierarchical asset nesting (#26)
+- `insurance` object on `asset.json` — coverage details (#19)
+- `purchasedFrom` on `asset.json` — provenance tracking (#34)
+- `dataProvenance` and `importSources` on root schema — data origin tracking (step 4)
+- Per-entity `dataProvenance` and `importSourceId` overrides on `asset.json` (step 4)
+- `disposalStrategy`, `minimumAcceptableValue`, `preferredDisposalMethod`, `specialistDealerNotes` on `asset-collection.json` (step 7)
+- `executionDate` on `estate.json` — will execution date (step 9)
+- `administration` object on `estate.json` — full administration tracking with distributions, tax clearance (step 14)
+- `valuations` and `lifetimeTransfers` arrays on root schema
+- `localPropertyTypes`, `localTenureTypes`, `localGrantTypes` arrays on UK extension (step 11)
+- `succession_certificate`, `certificate_of_inheritance`, `court_appointment` grant types on executor (step 12)
+- 7 companion reference datasets: tax-thresholds, tax-rates, gift-exemptions, relief-rules, pension-types, form-requirements, local-term-mappings (step 3.5 + 13)
+
 ### Changed
+- Estate `status` enum: `draft`/`active`/`locked`/`archived` replaced with `planning`/`confirmed`/`pre_probate`/`in_administration`/`distributed`/`closed` (step 14)
+- `propertyType` slimmed from 15 UK-specific values to 10 territory-neutral universals (step 10)
+- `tenureType` slimmed from 8 UK-specific values to 6 territory-neutral universals (step 10)
+- `valuationConfidence` renamed `probate` to `official` (step 10)
+- `solicitor_firm` renamed to `legal_practice` in dealer-interest (step 12)
 - Renamed `islamic` extension to `islamic-succession` — references legal tradition, not personal religious belief
 - Renamed `jewish` extension to `jewish-succession` — references legal tradition, not personal religious belief
 - Renamed `india-hindu` extension to `hindu-succession` — references the Hindu Succession Act, not personal religious belief

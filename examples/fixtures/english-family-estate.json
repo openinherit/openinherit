@@ -17,7 +17,7 @@
       "name": "England & Wales"
     },
     "revocationClause": true,
-    "notes": "England & Wales has full testamentary freedom — no forced heirship. However, the Inheritance (Provision for Family and Dependants) Act 1975 allows dependants to claim reasonable financial provision from the estate.",
+    "notes": "England & Wales has full testamentary freedom \u2014 no forced heirship. However, the Inheritance (Provision for Family and Dependants) Act 1975 allows dependants to claim reasonable financial provision from the estate.",
     "createdAt": "2026-03-01",
     "lastModifiedAt": "2026-03-27"
   },
@@ -160,7 +160,7 @@
         "amount": 1000000,
         "currency": "GBP"
       },
-      "description": "I give the sum of ten thousand pounds (£10,000) to my son Oliver Ashford."
+      "description": "I give the sum of ten thousand pounds (\u00a310,000) to my son Oliver Ashford."
     },
     {
       "id": "b1000002-0000-4000-a000-000000000003",
@@ -193,5 +193,7 @@
   "dealerInterests": [],
   "extensions": [],
   "assetCollections": [],
-  "assetInterests": []
+  "assetInterests": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

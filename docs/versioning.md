@@ -29,7 +29,7 @@ Each INHERIT schema has a maturity level that determines what changes are permit
 
 ### Current Status (v1.0)
 
-- **20 core entity schemas:** candidate maturity
+- **22 core entity schemas:** candidate maturity (20 original candidate + 2 new draft: valuation, lifetime-transfer)
 - **7 common type schemas:** candidate maturity
 - **13 extension schemas:** draft maturity
 

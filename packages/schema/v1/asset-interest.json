@@ -61,7 +61,7 @@
     "notes": {
       "type": "string",
       "description": "Additional context about this interest",
-      "examples": ["Sarah mentioned at Christmas 2024 that she'd love Mum's engagement ring. Mum seemed pleased."]
+      "examples": ["Sarah mentioned at Christmas 2024 that she'd love Mum's engagement ring. Mum seemed pleased.", "Haruki has always admired the woodblock print collection — discussed at Obon 2024.", "Amara expressed strong interest in the family compound during the last family council meeting."]
     }
   },
   "required": ["id", "estateId", "personId", "interestLevel"],

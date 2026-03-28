@@ -7,20 +7,23 @@
   "$defs": {
     "Partner": {
       "type": "object",
+      "description": "A partner in the relationship. Uses non-gendered terminology and ordinal positioning.",
       "properties": {
         "personId": {
           "type": "string",
           "format": "uuid",
-          "description": "Reference to a Person.id"
+          "description": "Reference to a Person.id."
         },
         "displayLabel": {
           "type": "string",
-          "description": "Optional non-gendered label (e.g. 'First Wife', 'Partner A')"
+          "description": "Optional non-gendered label for display purposes. Avoids gendered terms like 'husband' and 'wife'.",
+          "examples": ["First Wife", "Partner A", "Spouse 1"]
         },
         "ordinal": {
           "type": "integer",
           "minimum": 1,
-          "description": "Position in partner list (1-based)"
+          "description": "Position in the partner list (1-based). Determines default display order.",
+          "examples": [1, 2, 3]
         }
       },
       "required": [
@@ -31,6 +34,7 @@
     },
     "RelationshipEvent": {
       "type": "object",
+      "description": "A chronological event in the relationship timeline. The current relationship status is derived from the most recent event.",
       "properties": {
         "type": {
           "type": "string",
@@ -52,18 +56,24 @@
             "VOID_DECLARATION",
             "MAHR_PAYMENT",
             "LOBOLA_PAYMENT"
-          ]
+          ],
+          "$comment": "CEREMONY: religious or cultural ceremony (nikah, kiddushin, Hindu vivah). REGISTRATION: civil registration with the state. ENGAGEMENT: formal engagement or betrothal. MARRIAGE_CONTRACT: prenuptial or postnuptial agreement signed. PROPERTY_REGIME_CHANGE: change to the marital property regime. SEPARATION_INFORMAL: partners separated without legal proceedings. SEPARATION_LEGAL: legal separation (judicial or by deed). DIVORCE_FILED: divorce proceedings initiated. DIVORCE_FINALISED: divorce absolute/final. FINANCIAL_ORDER: court financial order (consent order, clean break). ANNULMENT: marriage declared void or voidable and annulled. DISSOLUTION: civil partnership dissolved. DEATH_OF_PARTNER: one partner has died. RECONCILIATION: separated partners have reconciled. VOID_DECLARATION: court declares the marriage void ab initio. MAHR_PAYMENT: payment of Islamic mahr (prompt or deferred). LOBOLA_PAYMENT: payment of African customary bride price.",
+          "description": "The type of relationship event."
         },
         "date": {
           "type": "string",
           "format": "date",
-          "description": "ISO 8601 date"
+          "description": "Date this event occurred.",
+          "examples": ["2015-06-20", "2024-03-15"]
         },
         "jurisdiction": {
-          "$ref": "common/jurisdiction.json"
+          "$ref": "common/jurisdiction.json",
+          "description": "Jurisdiction where this event took place or was registered."
         },
         "notes": {
-          "type": "string"
+          "type": "string",
+          "description": "Additional context about this event.",
+          "examples": ["Nikah ceremony held at the East London Mosque", "Decree absolute received"]
         }
       },
       "required": [
@@ -74,6 +84,7 @@
     },
     "FinancialInstrument": {
       "type": "object",
+      "description": "A financial instrument associated with the relationship — mahr, ketubah, lobola, prenuptial agreement, or marriage settlement.",
       "properties": {
         "type": {
           "type": "string",
@@ -84,10 +95,13 @@
             "PRENUPTIAL_AGREEMENT",
             "POSTNUPTIAL_AGREEMENT",
             "MARRIAGE_SETTLEMENT"
-          ]
+          ],
+          "$comment": "MAHR: Islamic bridal gift — a legally recognised financial obligation enforceable in Shariah courts and in secular family/probate courts in 50+ jurisdictions. May be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — a legally recognised financial obligation enforceable in Israeli rabbinical courts and treated as a binding contract by secular courts in the UK, US, Canada, and Australia. Establishes the groom's obligations. LOBOLA: African customary bride price — a legally recognised financial obligation under the Recognition of Customary Marriages Act 1998 (South Africa) and equivalent statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. Paid from the groom's family to the bride's family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.",
+          "description": "The type of financial instrument."
         },
         "value": {
-          "$ref": "common/money.json"
+          "$ref": "common/money.json",
+          "description": "Monetary value of the instrument, in minor currency units."
         },
         "status": {
           "type": "string",
@@ -98,26 +112,36 @@
             "DEFERRED",
             "DISPUTED",
             "WAIVED"
-          ]
+          ],
+          "$comment": "AGREED: terms agreed but not yet paid. PAID: fully paid. PARTIALLY_PAID: some payment made, balance outstanding. DEFERRED: payment deferred to a future event (death, divorce). DISPUTED: terms or amount in dispute. WAIVED: obligation waived by the receiving party.",
+          "description": "Payment status of this financial instrument.",
+          "examples": ["DEFERRED", "PAID"]
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "Free-text description of the instrument.",
+          "examples": ["Deferred mahr of 50,000 AED", "Prenuptial agreement governing UK and French assets"]
         },
         "documentRef": {
           "type": "string",
-          "description": "Reference to a Document.id"
+          "description": "Reference to a Document.id storing the instrument.",
+          "examples": ["DOC-2015-KETUBAH-001"]
         },
         "date": {
           "type": "string",
-          "format": "date"
+          "format": "date",
+          "description": "Date the instrument was signed or executed.",
+          "examples": ["2015-06-20"]
         },
         "inheritanceImpact": {
           "type": "string",
-          "description": "How this affects inheritance distribution"
+          "description": "How this instrument affects inheritance distribution.",
+          "examples": ["Deferred mahr is a priority debt — paid before inheritance distribution", "Prenuptial ring-fences pre-marital assets from the estate"]
         },
         "maharDetails": {
           "type": "object",
           "$comment": "Required when type is MAHR. Structured mahr data for Islamic estates.",
+          "description": "Structured mahr details. Required when the financial instrument type is MAHR.",
           "properties": {
             "maharType": {
               "type": "string",
@@ -125,16 +149,21 @@
                 "prompt",
                 "deferred",
                 "combination"
-              ]
+              ],
+              "$comment": "prompt: paid at the time of marriage (muajjal). deferred: payable on death or divorce (mu'ajjal). combination: partly prompt, partly deferred.",
+              "description": "Whether the mahr is prompt, deferred, or a combination.",
+              "examples": ["deferred", "combination"]
             },
             "recipientPersonId": {
               "type": "string",
-              "format": "uuid"
+              "format": "uuid",
+              "description": "Reference to the Person.id of the mahr recipient (the wife)."
             },
             "linkedLiabilityId": {
               "type": "string",
               "format": "uuid",
-              "$comment": "Links to the Liability entity representing this mahr as an estate debt"
+              "$comment": "Links to the Liability entity representing this mahr as an estate debt",
+              "description": "Reference to the Liability.id representing the deferred mahr as an estate debt."
             }
           },
           "additionalProperties": false
@@ -142,18 +171,22 @@
         "ketubahDetails": {
           "type": "object",
           "$comment": "Required when type is KETUBAH. Structured ketubah data for Jewish estates.",
+          "description": "Structured ketubah details. Required when the financial instrument type is KETUBAH.",
           "properties": {
             "principalAmount": {
               "$ref": "common/money.json",
-              "$comment": "Ikkar ketubah — standard amount (200 zuz for virgin, 100 for widow/divorcee)"
+              "$comment": "Ikkar ketubah — standard amount (200 zuz for virgin, 100 for widow/divorcee)",
+              "description": "The ikkar ketubah — the standard principal amount."
             },
             "tosefetAmount": {
               "$ref": "common/money.json",
-              "$comment": "Tosefet ketubah — groom's additional amount"
+              "$comment": "Tosefet ketubah — groom's additional amount",
+              "description": "The tosefet ketubah — the groom's voluntary additional amount."
             },
             "nedunya": {
               "$ref": "common/money.json",
-              "$comment": "Dowry brought by the bride"
+              "$comment": "Dowry brought by the bride",
+              "description": "The nedunya — dowry brought by the bride into the marriage."
             },
             "brideStatus": {
               "type": "string",
@@ -161,17 +194,22 @@
                 "virgin",
                 "widow",
                 "divorcee"
-              ]
+              ],
+              "$comment": "virgin: betulah — determines the ikkar amount (200 zuz). widow: almanah — ikkar amount is 100 zuz. divorcee: gerushah — ikkar amount is 100 zuz.",
+              "description": "The bride's status at the time of marriage, which determines the ikkar amount."
             },
             "witnessPersonIds": {
               "type": "array",
               "items": {
                 "type": "string",
                 "format": "uuid"
-              }
+              },
+              "description": "Person IDs of the ketubah witnesses. Under halacha, witnesses must be male, adult, and observant."
             },
             "officiatingRabbi": {
-              "type": "string"
+              "type": "string",
+              "description": "Name of the rabbi who officiated the ceremony.",
+              "examples": ["Rabbi David Goldstein", "Rabbi Miriam Berkowitz", "Rabbi Yosef Ben-Ami"]
             }
           },
           "additionalProperties": false
@@ -179,17 +217,24 @@
         "lobolaDetails": {
           "type": "object",
           "$comment": "Structured lobola data for African customary estates.",
+          "description": "Structured lobola details for African customary marriages.",
           "properties": {
             "negotiatedWith": {
               "type": "string",
-              "$comment": "Family or person lobola was negotiated with"
+              "$comment": "Family or person lobola was negotiated with",
+              "description": "The family or person with whom the lobola was negotiated.",
+              "examples": ["Nkosi family, Johannesburg", "Chief Okafor, Enugu", "Mensah family, Accra"]
             },
             "includesLivestock": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Whether the lobola includes livestock (cattle are traditional in many Southern African customs).",
+              "examples": [true, false]
             },
             "livestockCount": {
               "type": "integer",
-              "minimum": 0
+              "minimum": 0,
+              "description": "Number of livestock included in the lobola.",
+              "examples": [11, 6]
             }
           },
           "additionalProperties": false
@@ -241,19 +286,26 @@
     "JurisdictionalRecognition": {
       "type": "object",
       "$comment": "How a jurisdiction recognises this relationship. Enables modelling of civil/religious status divergence (e.g. agunah: civilly divorced but halachically married).",
+      "description": "How a specific jurisdiction recognises (or fails to recognise) this relationship. Critical for modelling civil/religious status divergence.",
       "properties": {
         "jurisdiction": {
-          "$ref": "common/jurisdiction.json"
+          "$ref": "common/jurisdiction.json",
+          "description": "The jurisdiction whose recognition status is recorded."
         },
         "recognised": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Whether this jurisdiction recognises the relationship.",
+          "examples": [true, false]
         },
         "recognisedAs": {
           "type": "string",
-          "description": "What this jurisdiction recognises it as (if different)"
+          "description": "What this jurisdiction recognises the relationship as, if different from its declared type.",
+          "examples": ["civil partnership", "cohabitation", "marriage"]
         },
         "notes": {
-          "type": "string"
+          "type": "string",
+          "description": "Additional context on recognition.",
+          "examples": ["Civilly divorced but halachically married (agunah situation)", "Same-sex marriage not recognised — treated as cohabitation"]
         }
       },
       "required": [
@@ -266,7 +318,9 @@
   "properties": {
     "id": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "description": "Unique identifier for this relationship within the INHERIT document.",
+      "examples": ["f2a3b4c5-d6e7-8901-f234-56789abcdef0"]
     },
     "type": {
       "type": "string",
@@ -282,15 +336,20 @@
         "COHABITATION",
         "ENGAGEMENT"
       ],
-      "$comment": "Religious subtypes (nikah, kiddushin, hindu_vivah) go in religiousSubtype. MARRIAGE_CUSTOMARY covers customary unions."
+      "$comment": "MARRIAGE_CIVIL: marriage registered with the state. MARRIAGE_RELIGIOUS: marriage conducted under religious law (use religiousSubtype for specifics). MARRIAGE_CUSTOMARY: marriage valid under customary law (e.g. African customary marriage). MARRIAGE_COMMON_LAW: common-law marriage recognised by the jurisdiction (not all do). CIVIL_PARTNERSHIP: civil partnership (UK, Germany pre-2017, etc.). CIVIL_UNION: civil union (US states, France PACS, etc.). DOMESTIC_PARTNERSHIP: domestic partnership registration. DE_FACTO: de facto or common-law relationship recognised for succession (Australia, NZ). COHABITATION: cohabitation without legal recognition — may still affect claims in some jurisdictions. ENGAGEMENT: formal engagement or betrothal — relevant for lobola and mahr negotiations. Religious subtypes (nikah, kiddushin, hindu_vivah) go in religiousSubtype. MARRIAGE_CUSTOMARY covers customary unions.",
+      "description": "The legal form of the relationship.",
+      "examples": ["MARRIAGE_CIVIL", "MARRIAGE_RELIGIOUS", "DE_FACTO"]
     },
     "religiousSubtype": {
       "type": "string",
-      "$comment": "Specific religious marriage form: nikah, kiddushin, hindu_vivah, anand_karaj (Sikh), etc. Only meaningful when type is MARRIAGE_RELIGIOUS."
+      "$comment": "Legal relationship categories recognised by specific jurisdictions, not religious labels. nikah: Islamic marriage contract — a legally binding civil contract in 50+ jurisdictions (all OIC member states, plus recognised for succession purposes in UK, US, Canada, Australia, Singapore). kiddushin: Jewish marriage — legally binding in Israel; recognised as a valid marriage for succession in UK/US/Canada where properly registered. hindu_vivah: Hindu marriage — legally binding under Hindu Marriage Act 1955 (India), recognised in UK/Singapore/Malaysia. anand_karaj: Sikh marriage — legally binding under Anand Marriage Act 1909 (India), recognised in UK/Canada. Only meaningful when type is MARRIAGE_RELIGIOUS.",
+      "description": "The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS.",
+      "examples": ["nikah", "kiddushin", "hindu_vivah", "anand_karaj"]
     },
     "selfDeclaredType": {
       "type": "string",
-      "description": "How the parties themselves describe this relationship"
+      "description": "How the parties themselves describe this relationship, which may differ from the legal classification.",
+      "examples": ["married", "partners", "life companions"]
     },
     "partners": {
       "type": "array",
@@ -298,14 +357,14 @@
         "$ref": "#/$defs/Partner"
       },
       "minItems": 2,
-      "description": "The people in this relationship. Minimum 2, no structural upper limit."
+      "description": "The people in this relationship. Minimum 2, no structural upper limit — supports polygamous marriages valid in their jurisdiction."
     },
     "events": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/RelationshipEvent"
       },
-      "description": "Chronological events determining relationship status"
+      "description": "Chronological events determining relationship status. The authoritative status should be derived from the most recent event."
     },
     "currentStatus": {
       "type": "string",
@@ -320,25 +379,27 @@
         "VOID",
         "PUTATIVE"
       ],
-      "$comment": "Convenience denormalisation. The authoritative status SHOULD be derived from the most recent event in the events array. Producers MUST keep this consistent with the event timeline. Consumers SHOULD derive from events when events are present."
+      "$comment": "ACTIVE: relationship is current and subsisting. SEPARATED_INFORMAL: partners are separated without legal proceedings. SEPARATED_LEGAL: legally separated by court order or deed. DIVORCED: marriage has been dissolved by divorce. ANNULLED: marriage has been annulled (void or voidable). DISSOLVED: civil partnership has been dissolved. WIDOWED: one partner has died. VOID: marriage declared void ab initio — never legally existed. PUTATIVE: marriage is void but at least one party believed it was valid — may confer limited inheritance rights in some jurisdictions. Convenience denormalisation. The authoritative status SHOULD be derived from the most recent event in the events array. Producers MUST keep this consistent with the event timeline. Consumers SHOULD derive from events when events are present.",
+      "description": "The current status of the relationship. A convenience denormalisation — consumers should derive from the events array when available.",
+      "examples": ["ACTIVE", "DIVORCED", "WIDOWED"]
     },
     "jurisdiction": {
       "$ref": "common/jurisdiction.json",
-      "description": "Primary jurisdiction where this relationship was formed"
+      "description": "Primary jurisdiction where this relationship was formed or registered."
     },
     "jurisdictionalRecognition": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/JurisdictionalRecognition"
       },
-      "description": "How other jurisdictions recognise (or don't) this relationship"
+      "description": "How other jurisdictions recognise (or do not recognise) this relationship. Essential for cross-border estates."
     },
     "financialInstruments": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/FinancialInstrument"
       },
-      "description": "Mahr, ketubah, lobola, prenuptial agreements, etc."
+      "description": "Financial instruments associated with this relationship — mahr, ketubah, lobola, prenuptial agreements, etc."
     },
     "propertyRegime": {
       "type": "string",
@@ -354,10 +415,14 @@
         "US_QUASI_COMMUNITY",
         "HINDU_SEPARATE"
       ],
-      "description": "The marital property regime"
+      "$comment": "COMMUNITY_OF_PROPERTY: all assets jointly owned from marriage (South Africa default). SEPARATION_OF_PROPERTY: each partner owns what they acquire (England and Wales, Japan). COMMUNITY_OF_ACQUESTS: assets acquired during marriage are joint, pre-marital assets remain separate (France default). DEFERRED_COMMUNITY: assets are separate during marriage but shared on dissolution (Scandinavia, Germany). SEPARATE_AS_MODIFIED: separate property modified by prenuptial agreement. ISLAMIC_DOWER: property is separate; wife has deferred mahr claim. US_COMMUNITY_PROPERTY: 50/50 community property (CA, TX, AZ, WA, NV, NM, LA, ID, WI). US_COMMUNITY_WITH_SURVIVORSHIP: community property with right of survivorship (TX, AK, AZ, NV, WI). US_QUASI_COMMUNITY: California-specific — property acquired elsewhere treated as community on death. HINDU_SEPARATE: Hindu law — property is separate, but coparcenary property has survivorship rules.",
+      "description": "The marital property regime governing this relationship. Determines which assets the testator may freely dispose of.",
+      "examples": ["SEPARATION_OF_PROPERTY", "US_COMMUNITY_PROPERTY", "COMMUNITY_OF_ACQUESTS"]
     },
     "notes": {
-      "type": "string"
+      "type": "string",
+      "description": "Free-text notes about this relationship.",
+      "examples": ["Polygamous marriage valid under Nigerian customary law", "Agunah situation — civilly divorced in 2020 but get (Jewish divorce) not yet given"]
     }
   },
   "required": [

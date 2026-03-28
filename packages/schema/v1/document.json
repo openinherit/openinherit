@@ -5,28 +5,73 @@
   "description": "A document associated with an estate — wills, codicils, trust deeds, and religious documents (shtar_chov, ketubah_document, nikah_nama, etc.). Type is a free string (minLength 1) to accommodate jurisdiction-specific and religious document types.",
   "type": "object",
   "properties": {
-    "id": { "type": "string", "format": "uuid" },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this document within the INHERIT document.",
+      "examples": ["b4c5d6e7-f8a9-0123-b456-789abcdef012"]
+    },
     "type": {
       "type": "string",
       "minLength": 1,
-      "$comment": "Free string — common values include: will, codicil, trust_deed, grant_of_probate, death_certificate, shtar_chov, ketubah_document, nikah_nama, waqfiyyah, deed_of_variation, power_of_attorney."
+      "$comment": "Free string — common values include: will, codicil, trust_deed, grant_of_probate, death_certificate, shtar_chov, ketubah_document, nikah_nama, waqfiyyah, deed_of_variation, power_of_attorney.",
+      "description": "The type of document. Free-form text to accommodate the enormous variety of estate-related documents across jurisdictions and legal traditions.",
+      "examples": ["will", "codicil", "trust_deed", "grant_of_probate", "death_certificate", "nikah_nama", "ketubah_document", "deed_of_variation"]
     },
-    "title": { "type": "string" },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title of the document.",
+      "examples": ["Last Will and Testament of James Davies", "First Codicil dated 15 June 2024", "Nikah Nama — Ahmed and Fatimah", "遺言書 — 田中裕子", "Will of Amara Okonkwo", "Testament de Priya Sharma"]
+    },
     "fileFormat": {
       "type": "string",
-      "$comment": "File extension or format identifier (e.g. pdf, docx, jpg)."
+      "$comment": "File extension or format identifier (e.g. pdf, docx, jpg).",
+      "description": "File format or extension. Use lowercase without a leading dot.",
+      "examples": ["pdf", "docx", "jpg", "png", "tiff"]
     },
     "storageRef": {
       "type": "string",
-      "description": "Storage reference (e.g. S3 URI, file path, or external system reference)"
+      "description": "Storage reference — an S3 URI, file path, external system reference, or document management system identifier.",
+      "examples": ["s3://estate-docs/wills/davies-2024.pdf", "DMS/2024/EST/001234", "/vault/wills/tanaka-2025.pdf"]
     },
     "fileSizeBytes": {
       "type": "integer",
-      "minimum": 0
+      "minimum": 0,
+      "description": "File size in bytes. Zero for metadata-only entries where the document content is stored externally.",
+      "examples": [245760, 1048576, 0]
     },
-    "mimeType": { "type": "string" },
-    "createdDate": { "type": "string", "format": "date" },
-    "notes": { "type": "string" }
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the document file.",
+      "examples": ["application/pdf", "image/jpeg", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
+    },
+    "createdDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the document was created or executed.",
+      "examples": ["2024-06-15", "2025-01-20"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this document. Use for provenance, authenticity concerns, or handling instructions.",
+      "examples": ["Original held by Irwin Mitchell LLP, Manchester", "Certified copy — original lost in 2020 house fire"]
+    },
+    "entityType": {
+      "type": "string",
+      "description": "The type of entity this document relates to. Combined with entityId, creates a contextual link: 'this PDF is the valuation certificate for asset X'.",
+      "examples": ["asset", "property", "person", "estate", "asset-collection"]
+    },
+    "entityId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The ID of the entity this document relates to. Combined with entityType, links the document to its subject.",
+      "examples": ["a1b2c3d4-0000-4000-a000-000000000001"]
+    },
+    "images": {
+      "type": "array",
+      "items": { "$ref": "common/media.json" },
+      "description": "Scans or photographs of this document — useful when the original is a physical paper document."
+    }
   },
   "required": ["id", "type", "title"],
   "patternProperties": {

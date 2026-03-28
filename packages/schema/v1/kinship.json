@@ -7,7 +7,11 @@
   "properties": {
     "id": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "description": "Unique identifier for this kinship bond within the INHERIT document.",
+      "examples": [
+        "a3b4c5d6-e7f8-9012-a345-6789abcdef01"
+      ]
     },
     "kinshipType": {
       "type": "string",
@@ -25,17 +29,23 @@
         "UNCLE_NEPHEW",
         "AUNT_NEPHEW"
       ],
-      "$comment": "HALF_SIBLING_PATERNAL = same father, different mother. HALF_SIBLING_MATERNAL = same mother, different father. Critical for Islamic faraid — paternal half-siblings inherit differently from maternal half-siblings. UNCLE_NEPHEW/AUNT_NEPHEW: supports matrilineal African succession (maternal uncle inherits) and Islamic ta'sib hierarchy (paternal uncle's son). PARENT_CHILD_ACKNOWLEDGED: father acknowledges a child of uncertain parentage — relevant for Islamic inheritance."
+      "$comment": "PARENT_CHILD_BIOLOGICAL: natural parent-child relationship. PARENT_CHILD_ADOPTED: legally adopted child — treated as biological for most inheritance purposes. PARENT_CHILD_STEP: stepchild — typically no automatic inheritance rights unless adopted. PARENT_CHILD_FOSTER: foster child — rarely has inheritance rights. PARENT_CHILD_ACKNOWLEDGED: father acknowledges a child of uncertain parentage — relevant for Islamic inheritance. SIBLING: full sibling (same two parents). HALF_SIBLING_PATERNAL: same father, different mother — critical for Islamic faraid where paternal half-siblings inherit differently from maternal half-siblings. HALF_SIBLING_MATERNAL: same mother, different father — inherits differently from paternal half-siblings under Islamic law. STEP_SIBLING: child of a parent's spouse from a different relationship. GRANDPARENT_GRANDCHILD: grandparent to grandchild relationship. UNCLE_NEPHEW: uncle to nephew/niece — supports matrilineal African succession (maternal uncle inherits) and Islamic ta'sib hierarchy. AUNT_NEPHEW: aunt to nephew/niece — relevant for matrilineal succession systems.",
+      "description": "The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems.",
+      "examples": [
+        "PARENT_CHILD_BIOLOGICAL",
+        "SIBLING",
+        "HALF_SIBLING_PATERNAL"
+      ]
     },
     "fromPersonId": {
       "type": "string",
       "format": "uuid",
-      "description": "Parent/elder person in the kinship (Person.id)"
+      "description": "The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent."
     },
     "toPersonId": {
       "type": "string",
       "format": "uuid",
-      "description": "Child/younger person in the kinship (Person.id)"
+      "description": "The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child."
     },
     "legalStatus": {
       "type": "string",
@@ -45,7 +55,12 @@
         "pending",
         "unrecognised"
       ],
-      "description": "Legal recognition status of this familial bond"
+      "$comment": "recognised: the kinship is legally established and accepted. contested: the kinship is disputed (e.g. paternity challenge). pending: legal proceedings are underway to establish the kinship. unrecognised: the kinship exists in fact but is not legally recognised.",
+      "description": "The legal recognition status of this familial bond.",
+      "examples": [
+        "recognised",
+        "contested"
+      ]
     },
     "legitimacy": {
       "type": "string",
@@ -55,19 +70,36 @@
         "legitimated",
         "not_applicable"
       ],
-      "$comment": "Affects inheritance in Islamic law (illegitimate children don't inherit via faraid), some African customary systems, and pre-1970 English law. Use 'not_applicable' where the distinction has been abolished."
+      "$comment": "legitimate: child born within a recognised marriage. illegitimate: child born outside marriage — affects inheritance in Islamic law (illegitimate children do not inherit via faraid), some African customary systems, and pre-1970 English law. legitimated: born illegitimate but subsequently legitimated (e.g. by parents' later marriage). not_applicable: the jurisdiction has abolished the distinction between legitimate and illegitimate children.",
+      "description": "Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems.",
+      "examples": [
+        "legitimate",
+        "not_applicable"
+      ]
     },
     "adoptionDate": {
       "type": "string",
       "format": "date",
-      "description": "Date of adoption order (for PARENT_CHILD_ADOPTED)"
+      "description": "Date of the adoption order, for PARENT_CHILD_ADOPTED kinships.",
+      "examples": [
+        "2018-07-15"
+      ]
     },
     "courtOrderRef": {
       "type": "string",
-      "description": "Court order or adoption certificate reference"
+      "description": "Court order reference or adoption certificate number.",
+      "examples": [
+        "ADOPT/2018/MC/001234",
+        "FC-2020-001567"
+      ]
     },
     "notes": {
-      "type": "string"
+      "type": "string",
+      "description": "Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition.",
+      "examples": [
+        "Paternity established by DNA test in 2022",
+        "Child acknowledged by father under Islamic law — inheritance rights confirmed"
+      ]
     }
   },
   "required": [

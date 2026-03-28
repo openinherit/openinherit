@@ -106,7 +106,7 @@
         "postalCode": "310123",
         "addressCountry": "SG"
       },
-      "notes": "HDB flat held as joint tenants with Shu Fen. Passes by survivorship — not part of the probate estate."
+      "notes": "HDB flat held as joint tenants with Shu Fen. Passes by survivorship \u2014 not part of the probate estate."
     }
   ],
   "assets": [
@@ -174,5 +174,7 @@
   "dealerInterests": [],
   "extensions": [],
   "assetCollections": [],
-  "assetInterests": []
+  "assetInterests": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

@@ -22,9 +22,9 @@
       "claimNature": "cash_claim",
       "calculationBasis": "per_child_sliding",
       "applicableTo": "children_and_spouse",
-      "notes": "Korean Civil Code Articles 1112-1118 govern the yuryubun (유류분) — the legally reserved portion. A spouse and lineal descendants may claim one-half of their statutory intestate share. Lineal ascendants and siblings may claim one-third. The yuryubun claim is monetary and must be exercised within one year of learning of the infringement, or within ten years of the testator's death."
+      "notes": "Korean Civil Code Articles 1112-1118 govern the yuryubun (\uc720\ub958\ubd84) \u2014 the legally reserved portion. A spouse and lineal descendants may claim one-half of their statutory intestate share. Lineal ascendants and siblings may claim one-third. The yuryubun claim is monetary and must be exercised within one year of learning of the infringement, or within ten years of the testator's death."
     },
-    "notes": "Korean succession is governed by the Korean Civil Code (민법), Book V: Succession (Articles 1000-1118). A will (유언) may be holographic (자필증서), audio/video recorded (녹음), notarised (공정증서), sealed (비밀증서), or orally dictated (구수증서). Intestate shares follow Article 1009: a spouse receives 1.5× a child's share. The Family Court (가정법원) handles probate. Korea has no inheritance tax exemption for the primary residence — estate tax applies to worldwide assets.",
+    "notes": "Korean succession is governed by the Korean Civil Code (\ubbfc\ubc95), Book V: Succession (Articles 1000-1118). A will (\uc720\uc5b8) may be holographic (\uc790\ud544\uc99d\uc11c), audio/video recorded (\ub179\uc74c), notarised (\uacf5\uc815\uc99d\uc11c), sealed (\ube44\ubc00\uc99d\uc11c), or orally dictated (\uad6c\uc218\uc99d\uc11c). Intestate shares follow Article 1009: a spouse receives 1.5\u00d7 a child's share. The Family Court (\uac00\uc815\ubc95\uc6d0) handles probate. Korea has no inheritance tax exemption for the primary residence \u2014 estate tax applies to worldwide assets.",
     "createdAt": "2026-01-15",
     "lastModifiedAt": "2026-03-27"
   },
@@ -34,8 +34,8 @@
       "givenName": "Soo-jin",
       "familyName": "Kim",
       "phoneticReading": {
-        "givenName": "수진",
-        "familyName": "김"
+        "givenName": "\uc218\uc9c4",
+        "familyName": "\uae40"
       },
       "dateOfBirth": "1965-04-10",
       "roles": [
@@ -58,8 +58,8 @@
       "givenName": "Min-ho",
       "familyName": "Park",
       "phoneticReading": {
-        "givenName": "민호",
-        "familyName": "박"
+        "givenName": "\ubbfc\ud638",
+        "familyName": "\ubc15"
       },
       "dateOfBirth": "1967-09-22",
       "roles": [
@@ -73,8 +73,8 @@
       "givenName": "Ji-yeon",
       "familyName": "Kim",
       "phoneticReading": {
-        "givenName": "지연",
-        "familyName": "김"
+        "givenName": "\uc9c0\uc5f0",
+        "familyName": "\uae40"
       },
       "dateOfBirth": "1995-06-18",
       "roles": [
@@ -131,7 +131,7 @@
         "postalCode": "06236",
         "addressOrder": "japanese"
       },
-      "notes": "KRW has ISO 4217 exponent 0 — the amount field IS the face value. 1,800,000,000 KRW ≈ ₩1.8 billion (approx. USD 1.35M). Korean apartment ownership is full ownership (소유권) of the unit plus a proportional share of the common areas and land. This is distinct from jeonse tenants who hold a deposit right, not ownership."
+      "notes": "KRW has ISO 4217 exponent 0 \u2014 the amount field IS the face value. 1,800,000,000 KRW \u2248 \u20a91.8 billion (approx. USD 1.35M). Korean apartment ownership is full ownership (\uc18c\uc720\uad8c) of the unit plus a proportional share of the common areas and land. This is distinct from jeonse tenants who hold a deposit right, not ownership."
     }
   ],
   "assets": [
@@ -143,7 +143,7 @@
         "amount": 450000000,
         "currency": "KRW"
       },
-      "notes": "₩450,000,000 held in a Shinhan Bank savings account. Korean bank accounts are frozen upon death — the Family Court must issue a certificate of inheritance (상속재산분할협의서) or court order before funds are released."
+      "notes": "\u20a9450,000,000 held in a Shinhan Bank savings account. Korean bank accounts are frozen upon death \u2014 the Family Court must issue a certificate of inheritance (\uc0c1\uc18d\uc7ac\uc0b0\ubd84\ud560\ud611\uc758\uc11c) or court order before funds are released."
     },
     {
       "id": "51000010-0000-4000-a000-000000000002",
@@ -153,18 +153,18 @@
         "amount": 300000000,
         "currency": "KRW"
       },
-      "notes": "₩300,000,000 in Korean equities and ETFs held at Samsung Securities."
+      "notes": "\u20a9300,000,000 in Korean equities and ETFs held at Samsung Securities."
     },
     {
       "id": "51000010-0000-4000-a000-000000000003",
-      "name": "Jeonse (전세) Deposit — Mapo-gu Apartment",
+      "name": "Jeonse (\uc804\uc138) Deposit \u2014 Mapo-gu Apartment",
       "category": "other",
       "subcategory": "jeonse_deposit",
       "estimatedValue": {
         "amount": 500000000,
         "currency": "KRW"
       },
-      "notes": "Jeonse (전세) is a uniquely Korean housing deposit system where a tenant pays a large lump-sum deposit (typically 50-80% of the property value) instead of monthly rent. The landlord returns the full deposit at the end of the lease (usually 2 years). The jeonse deposit is a receivable asset of the estate — the executor must arrange return from the landlord upon lease termination. Under the Housing Lease Protection Act (주택임대차보호법), the deposit has priority-creditor protection if the lease was registered. Categorised as 'other' with subcategory 'jeonse_deposit' because no standard asset category covers this Korean-specific concept."
+      "notes": "Jeonse (\uc804\uc138) is a uniquely Korean housing deposit system where a tenant pays a large lump-sum deposit (typically 50-80% of the property value) instead of monthly rent. The landlord returns the full deposit at the end of the lease (usually 2 years). The jeonse deposit is a receivable asset of the estate \u2014 the executor must arrange return from the landlord upon lease termination. Under the Housing Lease Protection Act (\uc8fc\ud0dd\uc784\ub300\ucc28\ubcf4\ud638\ubc95), the deposit has priority-creditor protection if the lease was registered. Categorised as 'other' with subcategory 'jeonse_deposit' because no standard asset category covers this Korean-specific concept."
     }
   ],
   "assetCollections": [],
@@ -176,7 +176,7 @@
       "bequestType": "specific",
       "beneficiaryId": "a1000010-0000-4000-a000-000000000002",
       "description": "I give my apartment at Teheran-ro 152, Gangnam-gu, Seoul to my husband Park Min-ho.",
-      "notes": "Under Korean Civil Code Article 1009, the surviving spouse's intestate share is 1.5× a child's share. By specifically bequeathing the apartment, the testator ensures Min-ho receives the primary residence without the need for partition proceedings (상속재산분할)."
+      "notes": "Under Korean Civil Code Article 1009, the surviving spouse's intestate share is 1.5\u00d7 a child's share. By specifically bequeathing the apartment, the testator ensures Min-ho receives the primary residence without the need for partition proceedings (\uc0c1\uc18d\uc7ac\uc0b0\ubd84\ud560)."
     },
     {
       "id": "b1000010-0000-4000-a000-000000000002",
@@ -199,5 +199,7 @@
   "nonprobateTransfers": [],
   "proxyAuthorisations": [],
   "dealerInterests": [],
-  "extensions": []
+  "extensions": [],
+  "valuations": [],
+  "lifetimeTransfers": []
 }

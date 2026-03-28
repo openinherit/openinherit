@@ -2,20 +2,23 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/common/identifier.json",
   "title": "Identifier",
-  "description": "A typed external identifier. Use 'system' to namespace (e.g. 'urn:hmrc:nino').",
+  "description": "A typed external identifier. Use 'system' to namespace identifiers and prevent collisions across jurisdictions and organisations.",
   "type": "object",
   "properties": {
     "system": {
       "type": "string",
-      "description": "Namespace URI or name"
+      "description": "Namespace URI or name identifying the issuing authority or system. Use URN format where possible for unambiguous identification.",
+      "examples": ["urn:hmrc:nino", "urn:ssa:ssn", "urn:jpn:my-number", "urn:aus:tfn", "urn:charity-commission:number"]
     },
     "value": {
       "type": "string",
-      "description": "The identifier value"
+      "description": "The identifier value itself. Format depends on the system — may include hyphens, spaces, or check digits as appropriate.",
+      "examples": ["AB123456C", "123-45-6789", "1234 5678 9012", "SC012345"]
     },
     "type": {
       "type": "string",
-      "description": "Type label (e.g. 'passport', 'national_insurance', 'charity_number')"
+      "description": "Human-readable type label describing what kind of identifier this is.",
+      "examples": ["passport", "national_insurance", "social_security", "charity_number", "driving_licence", "tax_file_number"]
     }
   },
   "required": ["value"],
