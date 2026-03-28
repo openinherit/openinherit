@@ -202,47 +202,47 @@ export type ValidationResult = {
 /**
  * Attestation
  *
- * Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish).
+ * Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish)
  */
 export type Attestation2 = {
     /**
-     * Date the will or document was executed (signed and witnessed).
+     * Date the will or document was executed (signed and witnessed)
      */
     date?: string;
     /**
-     * Person IDs of the witnesses. Most jurisdictions require at least two witnesses. Some (e.g. holographic wills) require none.
+     * Person IDs of the witnesses. Most jurisdictions require at least two witnesses. Some (e.g. holographic wills) require none
      */
     witnessPersonIds?: Array<string>;
     /**
-     * The method by which the will or document was executed.
+     * The method by which the will or document was executed
      */
     method?: 'in_person' | 'video' | 'remote' | 'none' | 'kinyan_sudar' | 'kinyan_agav' | 'seal_based' | 'inkan_registered';
     /**
-     * The form of attestation used.
+     * The form of attestation used
      */
     attestationType?: 'written_signed' | 'oral_witnessed' | 'oral_community' | 'seal_based';
     /**
-     * Whether a solicitor or legal professional supervised the execution. Reduces (but does not eliminate) the risk of challenges.
+     * Whether a solicitor or legal professional supervised the execution. Reduces (but does not eliminate) the risk of challenges
      */
     solicitorSupervised?: boolean;
     /**
-     * Whether the testator signed (or acknowledged their signature) in the presence of both witnesses simultaneously. Required under the Wills Act 1837 s.9(c).
+     * Whether the testator signed (or acknowledged their signature) in the presence of both witnesses simultaneously. Required under the Wills Act 1837 s.9(c)
      */
     testatorSignedInPresenceOfWitnesses?: boolean;
     /**
-     * Whether each witness signed in the presence of the testator. Required under the Wills Act 1837 s.9(d).
+     * Whether each witness signed in the presence of the testator. Required under the Wills Act 1837 s.9(d)
      */
     witnessesSignedInPresenceOfTestator?: boolean;
     /**
-     * Whether a conflict check was performed to ensure no witness is a beneficiary. Under English law, a beneficiary-witness loses their gift (Wills Act 1837 s.15).
+     * Whether a conflict check was performed to ensure no witness is a beneficiary. Under English law, a beneficiary-witness loses their gift (Wills Act 1837 s.15)
      */
     witnessConflictCheck?: boolean;
     /**
-     * The legal standard applied when checking for witness conflicts.
+     * The legal standard applied when checking for witness conflicts
      */
     witnessConflictCheckScope?: 'english_law' | 'halachic_broad' | 'shariah_standard' | 'civil_law_standard' | 'customary_oral' | 'community_testimony';
     /**
-     * Additional notes on attestation — unusual circumstances, concerns about formalities, or cultural context.
+     * Additional notes on attestation — unusual circumstances, concerns about formalities, or cultural context
      */
     notes?: string;
     [key: string]: unknown | string | Array<string> | 'in_person' | 'video' | 'remote' | 'none' | 'kinyan_sudar' | 'kinyan_agav' | 'seal_based' | 'inkan_registered' | 'written_signed' | 'oral_witnessed' | 'oral_community' | 'seal_based' | boolean | 'english_law' | 'halachic_broad' | 'shariah_standard' | 'civil_law_standard' | 'customary_oral' | 'community_testimony' | string | undefined;
@@ -251,23 +251,23 @@ export type Attestation2 = {
 /**
  * Jurisdiction
  *
- * A legal jurisdiction identified by ISO 3166 codes. Succession law varies not just by country but by subdivision — Scotland differs from England and Wales, and US states have radically different rules.
+ * A legal jurisdiction identified by ISO 3166 codes. Succession law varies not just by country but by subdivision — Scotland differs from England and Wales, and US states have radically different rules
  */
 export type Jurisdiction2 = {
     /**
-     * ISO 3166-1 alpha-2 country code. Always uppercase, exactly two letters.
+     * ISO 3166-1 alpha-2 country code. Always uppercase, exactly two letters
      */
     country: string;
     /**
-     * ISO 3166-2 subdivision code identifying a state, province, or territory with its own succession law.
+     * ISO 3166-2 subdivision code identifying a state, province, or territory with its own succession law
      */
     subdivision?: string;
     /**
-     * The legal tradition governing succession in this jurisdiction. Determines which rules apply to inheritance, forced heirship, and estate administration.
+     * The legal tradition governing succession in this jurisdiction. Determines which rules apply to inheritance, forced heirship, and estate administration
      */
     legalSystem?: 'common_law' | 'civil_law' | 'mixed' | 'religious' | 'customary' | 'religious_islamic' | 'religious_jewish' | 'religious_hindu' | 'religious_canon' | 'plural';
     /**
-     * Human-readable jurisdiction name for display purposes. Not authoritative — the country and subdivision codes are the canonical identifiers.
+     * Human-readable jurisdiction name for display purposes. Not authoritative — the country and subdivision codes are the canonical identifiers
      */
     name?: string;
 };
@@ -275,251 +275,251 @@ export type Jurisdiction2 = {
 /**
  * Money
  *
- * Monetary value in integer minor currency units with ISO 4217 code. Never floating point.
+ * Monetary value in integer minor currency units with ISO 4217 code. Never floating point
  */
 export type Money2 = {
     /**
-     * Value in the smallest currency unit (pence, cents, sen). The consumer must apply the ISO 4217 exponent to convert to a display value.
+     * Value in the smallest currency unit (pence, cents, sen). The consumer must apply the ISO 4217 exponent to convert to a display value
      */
     amount: number;
     /**
-     * ISO 4217 three-letter currency code. Use the code for the currency of the amount, not the reporting currency.
+     * ISO 4217 three-letter currency code. Use the code for the currency of the amount, not the reporting currency
      */
     currency: string;
 };
 
 /**
- * Record of testamentary capacity assessment. The testator must understand the nature of making a will, the extent of their estate, and the claims of those they are excluding.
+ * Record of testamentary capacity assessment. The testator must understand the nature of making a will, the extent of their estate, and the claims of those they are excluding
  */
 export type TestamentaryCapacity = {
     /**
-     * Whether a capacity assessment was carried out.
+     * Whether a capacity assessment was carried out
      */
     assessed?: boolean;
     /**
-     * Date the capacity assessment took place.
+     * Date the capacity assessment took place
      */
     assessmentDate?: string;
     /**
-     * Name of the person who assessed capacity.
+     * Name of the person who assessed capacity
      */
     assessorName?: string;
     /**
-     * Professional role of the assessor — typically a GP, psychiatrist, or solicitor.
+     * Professional role of the assessor — typically a GP, psychiatrist, or solicitor
      */
     assessorRole?: string;
     /**
-     * Whether the assessor confirmed the testator has testamentary capacity.
+     * Whether the assessor confirmed the testator has testamentary capacity
      */
     capacityConfirmed?: boolean;
     /**
-     * Whether the 'golden rule' was followed — a medical practitioner assessing capacity for elderly or seriously ill testators.
+     * Whether the 'golden rule' was followed — a medical practitioner assessing capacity for elderly or seriously ill testators
      */
     goldenRuleComplied?: boolean;
     /**
-     * Additional notes on the capacity assessment.
+     * Additional notes on the capacity assessment
      */
     notes?: string;
 };
 
 /**
- * An amendment to an existing will. Codicils must be executed with the same formalities as the will itself.
+ * An amendment to an existing will. Codicils must be executed with the same formalities as the will itself
  */
 export type Codicil = {
     /**
-     * Unique identifier for this codicil.
+     * Unique identifier for this codicil
      */
     id: string;
     /**
-     * Date the codicil was executed.
+     * Date the codicil was executed
      */
     date: string;
     /**
-     * Summary of what this codicil changes in the original will.
+     * Summary of what this codicil changes in the original will
      */
     description?: string;
     /**
-     * Execution formalities for this codicil.
+     * Execution formalities for this codicil
      */
     attestation?: Attestation2;
     /**
-     * Reference to the Document entity storing the codicil text.
+     * Reference to the Document entity storing the codicil text
      */
     documentId?: string;
 };
 
 /**
- * Forced heirship regime details. Many civil law jurisdictions reserve a portion of the estate for certain heirs regardless of the will.
+ * Forced heirship regime details. Many civil law jurisdictions reserve a portion of the estate for certain heirs regardless of the will
  */
 export type ForcedHeirship = {
     /**
-     * Whether forced heirship rules apply to this estate.
+     * Whether forced heirship rules apply to this estate
      */
     applies?: boolean;
     /**
-     * Percentage of the estate reserved for protected heirs. In France, this is 50% for one child, 66.67% for two, 75% for three or more.
+     * Percentage of the estate reserved for protected heirs. In France, this is 50% for one child, 66.67% for two, 75% for three or more
      */
     reservedPortion?: number;
     /**
-     * Percentage of the estate the testator may freely dispose of by will.
+     * Percentage of the estate the testator may freely dispose of by will
      */
     disposableQuota?: number;
     /**
-     * The jurisdiction whose forced heirship rules apply.
+     * The jurisdiction whose forced heirship rules apply
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * The legal nature of the forced heir's claim — whether they receive property, cash, or a court-determined provision.
+     * The legal nature of the forced heir's claim — whether they receive property, cash, or a court-determined provision
      */
     claimNature?: 'property_share' | 'cash_claim' | 'usufruct' | 'court_discretion';
     /**
-     * How the reserved portion is calculated.
+     * How the reserved portion is calculated
      */
     calculationBasis?: 'fixed' | 'per_child_sliding' | 'court_discretion' | 'conditional';
     /**
-     * Which categories of heir are protected by forced heirship.
+     * Which categories of heir are protected by forced heirship
      */
     applicableTo?: 'children_only' | 'children_and_spouse' | 'all_descendants' | 'all_heirs';
     /**
-     * Rule for deferring forced heirship claims — e.g. life interest to surviving spouse with remainder to children.
+     * Rule for deferring forced heirship claims — e.g. life interest to surviving spouse with remainder to children
      */
     deferralRule?: string;
     /**
-     * Date when the applicable forced heirship rules came into force. Important for reform transitions.
+     * Date when the applicable forced heirship rules came into force. Important for reform transitions
      */
     effectiveDate?: string;
     /**
-     * The specific legislative reform establishing these rules.
+     * The specific legislative reform establishing these rules
      */
     reformVersion?: string;
     /**
-     * Additional notes on forced heirship — exceptions, pending challenges, or reform context.
+     * Additional notes on forced heirship — exceptions, pending challenges, or reform context
      */
     notes?: string;
 };
 
 /**
- * A court or authority with jurisdiction over this estate or part of it. Plural legal systems may have multiple adjudicating bodies for the same estate.
+ * A court or authority with jurisdiction over this estate or part of it. Plural legal systems may have multiple adjudicating bodies for the same estate
  */
 export type AdjudicatingBody = {
     /**
-     * The type of adjudicating body.
+     * The type of adjudicating body
      */
     type: 'secular_court' | 'religious_court' | 'beth_din' | 'shariah_court' | 'tribal_court' | 'family_court' | 'family_council' | 'community_elders' | 'partition_meeting' | 'karta_decision' | 'maori_land_court' | 'high_court';
     /**
-     * Name of the specific court or body.
+     * Name of the specific court or body
      */
     name?: string;
     /**
-     * Jurisdiction this adjudicating body operates in.
+     * Jurisdiction this adjudicating body operates in
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Case or filing reference number.
+     * Case or filing reference number
      */
     caseReference?: string;
     /**
-     * Whether this body's decisions are binding. A beth din ruling may be persuasive but not enforceable without secular court recognition.
+     * Whether this body's decisions are binding. A beth din ruling may be persuasive but not enforceable without secular court recognition
      */
     authoritative?: boolean;
 };
 
 /**
- * A parallel distribution scheme operating alongside the primary estate distribution. Common in plural legal systems where statutory and customary/religious distributions run concurrently.
+ * A parallel distribution scheme operating alongside the primary estate distribution. Common in plural legal systems where statutory and customary/religious distributions run concurrently
  */
 export type ParallelDistribution = {
     /**
-     * The legal system governing this parallel distribution.
+     * The legal system governing this parallel distribution
      */
     system: string;
     /**
-     * Jurisdiction where this parallel distribution applies.
+     * Jurisdiction where this parallel distribution applies
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Summary of how this system distributes the estate.
+     * Summary of how this system distributes the estate
      */
     description?: string;
     /**
-     * Additional context or conflict notes.
+     * Additional context or conflict notes
      */
     notes?: string;
 };
 
 /**
- * A grant of probate or letters of administration issued by a court. Without a grant, executors have no legal authority to administer the estate.
+ * A grant of probate or letters of administration issued by a court. Without a grant, executors have no legal authority to administer the estate
  */
 export type ProbateGrant = {
     /**
-     * The type of grant issued.
+     * The type of grant issued
      */
     grantType?: string;
     /**
-     * Date the grant was issued by the court.
+     * Date the grant was issued by the court
      */
     grantDate?: string;
     /**
-     * Court reference number for the grant.
+     * Court reference number for the grant
      */
     grantReference?: string;
     /**
-     * Name of the court or registry that issued the grant.
+     * Name of the court or registry that issued the grant
      */
     issuingCourt?: string;
     /**
-     * Jurisdiction that issued this grant.
+     * Jurisdiction that issued this grant
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Additional notes about the grant.
+     * Additional notes about the grant
      */
     notes?: string;
 };
 
 /**
- * Details of the testator's death. Establishes the date from which succession takes effect and the domicile at death (which determines governing law for moveables).
+ * Details of the testator's death. Establishes the date from which succession takes effect and the domicile at death (which determines governing law for moveables)
  */
 export type DeathRecord = {
     /**
-     * Date of death in ISO 8601 format.
+     * Date of death in ISO 8601 format
      */
     dateOfDeath?: string;
     /**
-     * Place where death occurred.
+     * Place where death occurred
      */
     placeOfDeath?: string;
     /**
-     * Death certificate reference number.
+     * Death certificate reference number
      */
     deathCertificateRef?: string;
     /**
-     * The testator's domicile at the time of death. This determines which succession law governs moveable property.
+     * The testator's domicile at the time of death. This determines which succession law governs moveable property
      */
     domicileAtDeath?: Jurisdiction2;
     /**
-     * Additional notes about the death record.
+     * Additional notes about the death record
      */
     notes?: string;
 };
 
 /**
- * A conflict between legal systems regarding succession for this estate. Common in plural jurisdictions and cross-border estates.
+ * A conflict between legal systems regarding succession for this estate. Common in plural jurisdictions and cross-border estates
  */
 export type SuccessionConflict = {
     /**
-     * Summary of the conflict between legal systems.
+     * Summary of the conflict between legal systems
      */
     description: string;
     /**
-     * The legal systems in conflict.
+     * The legal systems in conflict
      */
     systems?: Array<string>;
     /**
-     * Current status of this conflict.
+     * Current status of this conflict
      */
     resolutionStatus?: 'unresolved' | 'resolved' | 'pending_court' | 'pending_arbitration';
     /**
-     * Additional context or resolution details.
+     * Additional context or resolution details
      */
     notes?: string;
 };
@@ -527,785 +527,785 @@ export type SuccessionConflict = {
 /**
  * Estate
  *
- * The root estate record — will, intestacy, or trust-based succession plan. Contains testator details, jurisdiction, will formalities, forced heirship, probate grants, death record, multi-jurisdiction administration, and tax treaty positions.
+ * The root estate record — will, intestacy, or trust-based succession plan. Contains testator details, jurisdiction, will formalities, forced heirship, probate grants, death record, multi-jurisdiction administration, and tax treaty positions
  */
 export type Estate2 = {
     /**
-     * Unique identifier for this estate record.
+     * Unique identifier for this estate record
      */
     id: string;
     /**
-     * Reference to the Person.id of the testator (the person whose estate this is).
+     * Reference to the Person.id of the testator (the person whose estate this is)
      */
     testatorPersonId: string;
     /**
-     * The lifecycle status of this estate record. Progresses from planning through to closure.
+     * The lifecycle status of this estate record. Progresses from planning through to closure
      */
     status: 'planning' | 'confirmed' | 'pre_probate' | 'in_administration' | 'distributed' | 'closed';
     /**
-     * Primary jurisdiction governing this estate. For cross-border estates, this is the domiciliary jurisdiction.
+     * Primary jurisdiction governing this estate. For cross-border estates, this is the domiciliary jurisdiction
      */
     jurisdiction: Jurisdiction2;
     /**
-     * The type of will governing this estate. Determines which formality rules apply.
+     * The type of will governing this estate. Determines which formality rules apply
      */
     willType?: 'secular' | 'religious' | 'dual' | 'composite' | 'oral_witnessed' | 'oral_customary' | 'holographic' | 'notarised' | 'privileged_will';
     /**
-     * Extension-specific will type not covered by the core enum. Validated by the relevant extension schema.
+     * Extension-specific will type not covered by the core enum. Validated by the relevant extension schema
      */
     extensionWillType?: string;
     /**
-     * Links to a companion estate record — either a parallel estate under a different legal system, or a household companion's estate.
+     * Links to a companion estate record — either a parallel estate under a different legal system, or a household companion's estate
      */
     companionEstateId?: string;
     /**
-     * Current state of the companion estate link. Absent if the estate has never been linked to a companion.
+     * Current state of the companion estate link. Absent if the estate has never been linked to a companion
      */
     companionLinkStatus?: 'invited' | 'active' | 'decoupling' | 'decoupled';
     /**
-     * ISO 8601 date when the companion link became active.
+     * ISO 8601 date when the companion link became active
      */
     linkedAt?: string;
     /**
-     * ISO 8601 date when the companion link was severed.
+     * ISO 8601 date when the companion link was severed
      */
     decoupledAt?: string;
     /**
-     * The primary instrument governing succession for this estate.
+     * The primary instrument governing succession for this estate
      */
     primaryInstrument?: 'will' | 'revocable_trust' | 'both' | 'intestacy';
     /**
-     * The default marital property regime for this estate. Determines which assets the testator may freely dispose of.
+     * The default marital property regime for this estate. Determines which assets the testator may freely dispose of
      */
     defaultPropertyRegime?: 'community_property' | 'separate_property' | 'equitable_distribution' | 'deferred_community' | 'universal_community' | 'participation_in_acquisitions' | 'islamic_dower';
     /**
-     * Estimated total value of the estate before liabilities. In minor currency units.
+     * Estimated total value of the estate before liabilities. In minor currency units
      */
     totalEstimatedValue?: Money2;
     /**
-     * Will execution formalities — witnesses, signing method, and compliance checks.
+     * Will execution formalities — witnesses, signing method, and compliance checks
      */
     attestation?: Attestation2;
     /**
-     * Record of testamentary capacity assessment for the testator.
+     * Record of testamentary capacity assessment for the testator
      */
     testamentaryCapacity?: TestamentaryCapacity;
     /**
-     * Amendments to the will. Each codicil must be executed with proper formalities.
+     * Amendments to the will. Each codicil must be executed with proper formalities
      */
     codicils?: Array<Codicil>;
     /**
-     * Document IDs of prior wills or instruments this estate record expressly revokes.
+     * Document IDs of prior wills or instruments this estate record expressly revokes
      */
     revokesDocumentIds?: Array<string>;
     /**
-     * Whether the will contains a general revocation clause ('I revoke all former wills and testamentary dispositions').
+     * Whether the will contains a general revocation clause ('I revoke all former wills and testamentary dispositions')
      */
     revocationClause?: boolean;
     /**
-     * Forced heirship regime applicable to this estate, if any.
+     * Forced heirship regime applicable to this estate, if any
      */
     forcedHeirship?: ForcedHeirship;
     /**
-     * Courts and bodies with jurisdiction over this estate. Plural legal systems may involve multiple courts.
+     * Courts and bodies with jurisdiction over this estate. Plural legal systems may involve multiple courts
      */
     adjudicatingBodies?: Array<AdjudicatingBody>;
     /**
-     * Parallel distribution schemes under different legal systems — customary, religious, or statutory.
+     * Parallel distribution schemes under different legal systems — customary, religious, or statutory
      */
     parallelDistributions?: Array<ParallelDistribution>;
     /**
-     * The probate grant or letters of administration for this estate.
+     * The probate grant or letters of administration for this estate
      */
     probateGrant?: ProbateGrant;
     /**
-     * Details of the testator's death.
+     * Details of the testator's death
      */
     deathRecord?: DeathRecord;
     /**
-     * Known conflicts between legal systems regarding succession for this estate.
+     * Known conflicts between legal systems regarding succession for this estate
      */
     successionConflicts?: Array<SuccessionConflict>;
     /**
-     * Choice of law declaration under the Brussels IV Regulation (EU Succession Regulation 650/2012) or equivalent. Allows the testator to choose which jurisdiction's succession law applies.
+     * Choice of law declaration under the Brussels IV Regulation (EU Succession Regulation 650/2012) or equivalent. Allows the testator to choose which jurisdiction's succession law applies
      */
     choiceOfLaw?: {
         /**
-         * The jurisdiction whose law the testator has chosen to govern succession.
+         * The jurisdiction whose law the testator has chosen to govern succession
          */
         chosenLaw?: Jurisdiction2;
         /**
-         * Legal basis for the choice of law.
+         * Legal basis for the choice of law
          */
         basis?: string;
         /**
-         * Reference to the document containing the choice of law declaration.
+         * Reference to the document containing the choice of law declaration
          */
         documentRef?: string;
     };
     /**
-     * Surviving spouse's elective share right (US). Allows the spouse to claim a statutory share of the estate regardless of the will's provisions.
+     * Surviving spouse's elective share right (US). Allows the spouse to claim a statutory share of the estate regardless of the will's provisions
      */
     electiveShareRight?: {
         /**
-         * Whether elective share is available in this jurisdiction.
+         * Whether elective share is available in this jurisdiction
          */
         available?: boolean;
         /**
-         * The amount elected by the surviving spouse, if the election has been made.
+         * The amount elected by the surviving spouse, if the election has been made
          */
         electedAmount?: Money2;
         /**
-         * The statute governing elective share in this jurisdiction.
+         * The statute governing elective share in this jurisdiction
          */
         statute?: string;
         /**
-         * Additional notes on the elective share.
+         * Additional notes on the elective share
          */
         notes?: string;
     };
     /**
-     * A prior matrimonial claim against the estate — typically from a former spouse under a financial order.
+     * A prior matrimonial claim against the estate — typically from a former spouse under a financial order
      */
     priorMatrimonialClaim?: {
         /**
-         * Whether a prior matrimonial claim exists.
+         * Whether a prior matrimonial claim exists
          */
         exists?: boolean;
         /**
-         * Description of the claim.
+         * Description of the claim
          */
         description?: string;
         /**
-         * Reference to the Person.id of the claimant.
+         * Reference to the Person.id of the claimant
          */
         claimantPersonId?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     };
     /**
-     * In terrorem (no-contest) clause — a provision that a beneficiary forfeits their gift if they challenge the will. Enforceability varies by jurisdiction.
+     * In terrorem (no-contest) clause — a provision that a beneficiary forfeits their gift if they challenge the will. Enforceability varies by jurisdiction
      */
     noContestClause?: {
         /**
-         * Whether the will contains a no-contest clause.
+         * Whether the will contains a no-contest clause
          */
         present?: boolean;
         /**
-         * Enforceability status in the governing jurisdiction.
+         * Enforceability status in the governing jurisdiction
          */
         enforceability?: string;
         /**
-         * Additional context about the clause.
+         * Additional context about the clause
          */
         notes?: string;
     };
     /**
-     * Claims by pretermitted heirs — children born or adopted after the will was executed who are not mentioned in it.
+     * Claims by pretermitted heirs — children born or adopted after the will was executed who are not mentioned in it
      */
     pretermittedHeirClaims?: Array<{
         /**
-         * Reference to the Person.id of the pretermitted heir.
+         * Reference to the Person.id of the pretermitted heir
          */
         claimantPersonId?: string;
         /**
-         * Current status of this claim.
+         * Current status of this claim
          */
         status?: string;
         /**
-         * Additional context about the claim.
+         * Additional context about the claim
          */
         notes?: string;
     }>;
     /**
-     * Claims under the Law Reform (Testamentary Promises) Act 1949 (New Zealand). Allows claims by persons who provided services to the deceased in reliance on a promise of testamentary provision.
+     * Claims under the Law Reform (Testamentary Promises) Act 1949 (New Zealand). Allows claims by persons who provided services to the deceased in reliance on a promise of testamentary provision
      */
     testamentaryPromises?: Array<{
         /**
-         * Reference to the Person.id of the claimant.
+         * Reference to the Person.id of the claimant
          */
         claimantPersonId?: string;
         /**
-         * Description of the promise made by the testator.
+         * Description of the promise made by the testator
          */
         promiseDescription?: string;
         /**
-         * Current status of this claim.
+         * Current status of this claim
          */
         status?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     }>;
     /**
-     * Court power to vary a will to make reasonable financial provision for family and dependants. Applies in England and Wales (Inheritance Act 1975), New Zealand, and similar jurisdictions.
+     * Court power to vary a will to make reasonable financial provision for family and dependants. Applies in England and Wales (Inheritance Act 1975), New Zealand, and similar jurisdictions
      */
     judicialVariationPower?: {
         /**
-         * Whether judicial variation is available in this jurisdiction.
+         * Whether judicial variation is available in this jurisdiction
          */
         available?: boolean;
         /**
-         * The statute granting variation power.
+         * The statute granting variation power
          */
         statute?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     };
     /**
-     * Commorientes rule — the legal presumption for order of death when two or more people die in the same event. Critical for determining which estate inherits from which.
+     * Commorientes rule — the legal presumption for order of death when two or more people die in the same event. Critical for determining which estate inherits from which
      */
     commorientesRule?: {
         /**
-         * Whether the commorientes rule is relevant to this estate.
+         * Whether the commorientes rule is relevant to this estate
          */
         applicable?: boolean;
         /**
-         * The applicable commorientes rule.
+         * The applicable commorientes rule
          */
         rule?: string;
         /**
-         * Jurisdiction whose commorientes rule applies.
+         * Jurisdiction whose commorientes rule applies
          */
         jurisdiction?: Jurisdiction2;
         /**
-         * Additional context — e.g. specific facts of the case.
+         * Additional context — e.g. specific facts of the case
          */
         notes?: string;
     };
     /**
-     * Ancillary probate proceedings in jurisdictions other than the primary domiciliary jurisdiction. Required when the estate includes assets in foreign jurisdictions.
+     * Ancillary probate proceedings in jurisdictions other than the primary domiciliary jurisdiction. Required when the estate includes assets in foreign jurisdictions
      */
     ancillaryProbate?: Array<{
         /**
-         * The jurisdiction where ancillary probate is needed.
+         * The jurisdiction where ancillary probate is needed
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Reference to the Person.id of the local fiduciary or administrator.
+         * Reference to the Person.id of the local fiduciary or administrator
          */
         fiduciaryPersonId?: string;
         /**
-         * Current status of ancillary probate in this jurisdiction.
+         * Current status of ancillary probate in this jurisdiction
          */
         status?: 'not_started' | 'applied' | 'granted' | 'completed' | 'waived';
         /**
-         * Local grant reference number.
+         * Local grant reference number
          */
         grantReference?: string;
         /**
-         * Name of local legal counsel handling this jurisdiction.
+         * Name of local legal counsel handling this jurisdiction
          */
         localCounsel?: string;
         /**
-         * Additional notes.
+         * Additional notes
          */
         notes?: string;
     }>;
     /**
-     * Registrations of the will with official will registries. Not all jurisdictions have will registries, and registration is rarely compulsory.
+     * Registrations of the will with official will registries. Not all jurisdictions have will registries, and registration is rarely compulsory
      */
     registrations?: Array<{
         /**
-         * Name of the will registry.
+         * Name of the will registry
          */
         registry: string;
         /**
-         * Registration reference number.
+         * Registration reference number
          */
         registrationNumber?: string;
         /**
-         * What the registration covers — may be limited to certain jurisdictions or asset classes.
+         * What the registration covers — may be limited to certain jurisdictions or asset classes
          */
         jurisdictionScope?: string;
         /**
-         * Date the will was registered.
+         * Date the will was registered
          */
         registrationDate?: string;
     }>;
     /**
-     * The currency used for probate reporting and estate accounts. All values in this estate may need converting to this currency.
+     * The currency used for probate reporting and estate accounts. All values in this estate may need converting to this currency
      */
     reportingCurrency?: string;
     /**
-     * Exchange rates used when converting foreign-currency assets to the reporting currency. Document the rate and date to satisfy probate courts.
+     * Exchange rates used when converting foreign-currency assets to the reporting currency. Document the rate and date to satisfy probate courts
      */
     conversionRates?: Array<{
         /**
-         * Source currency code (ISO 4217).
+         * Source currency code (ISO 4217)
          */
         fromCurrency: string;
         /**
-         * Target currency code (ISO 4217).
+         * Target currency code (ISO 4217)
          */
         toCurrency: string;
         /**
-         * Exchange rate — one unit of fromCurrency equals this many units of toCurrency.
+         * Exchange rate — one unit of fromCurrency equals this many units of toCurrency
          */
         rate: number;
         /**
-         * Date this exchange rate was sourced.
+         * Date this exchange rate was sourced
          */
         rateDate: string;
         /**
-         * Source of the exchange rate.
+         * Source of the exchange rate
          */
         source?: string;
     }>;
     /**
-     * Tax treaty positions relevant to the estate. Documents which treaties are being relied upon for double taxation relief.
+     * Tax treaty positions relevant to the estate. Documents which treaties are being relied upon for double taxation relief
      */
     taxTreatyPositions?: Array<{
         /**
-         * Name of the bilateral tax treaty.
+         * Name of the bilateral tax treaty
          */
         treaty: string;
         /**
-         * The jurisdiction with primary taxing rights under this treaty.
+         * The jurisdiction with primary taxing rights under this treaty
          */
         primaryTaxingJurisdiction?: Jurisdiction2;
         /**
-         * Tax credits claimed under this treaty.
+         * Tax credits claimed under this treaty
          */
         claimedCredits?: string;
         /**
-         * The specific treaty article being relied upon.
+         * The specific treaty article being relied upon
          */
         relevantArticle?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     }>;
     /**
-     * Informational list of practitioner activity codes suggesting the types of professional help this estate may need. Computed from estate complexity, not user-entered.
+     * Informational list of practitioner activity codes suggesting the types of professional help this estate may need. Computed from estate complexity, not user-entered
      */
     suggestedPractitionerNeeds?: Array<string>;
     /**
-     * Date this estate record was first created.
+     * Date this estate record was first created
      */
     createdAt: string;
     /**
-     * Date this estate record was last modified.
+     * Date this estate record was last modified
      */
     lastModifiedAt: string;
     /**
-     * Date the will was formally executed (signed with proper attestation). Enables look-back period calculations when combined with lifetime transfers.
+     * Date the will was formally executed (signed with proper attestation). Enables look-back period calculations when combined with lifetime transfers
      */
     executionDate?: string;
     /**
-     * Estate administration details. Tracks the journey from death through grant, tax clearance, distribution, and closure.
+     * Estate administration details. Tracks the journey from death through grant, tax clearance, distribution, and closure
      */
     administration?: {
         /**
-         * Date of death — the date from which succession takes effect.
+         * Date of death — the date from which succession takes effect
          */
         dateOfDeath?: string;
         /**
-         * Date the probate grant or letters of administration were issued.
+         * Date the probate grant or letters of administration were issued
          */
         dateOfGrant?: string;
         /**
-         * Type of grant authorising estate administration.
+         * Type of grant authorising estate administration
          */
         grantType?: 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'succession_certificate' | 'certificate_of_inheritance' | 'court_appointment' | 'resealing' | 'european_certificate_of_succession' | 'other';
         /**
-         * Court reference number for the grant.
+         * Court reference number for the grant
          */
         grantReference?: string;
         /**
-         * Name of the issuing court or registry.
+         * Name of the issuing court or registry
          */
         court?: string;
         /**
-         * Gross value of the estate at date of death, before deducting liabilities.
+         * Gross value of the estate at date of death, before deducting liabilities
          */
         grossEstateValue?: Money2;
         /**
-         * Net value of the estate after deducting liabilities.
+         * Net value of the estate after deducting liabilities
          */
         netEstateValue?: Money2;
         /**
-         * Total inheritance/estate tax liability.
+         * Total inheritance/estate tax liability
          */
         taxLiability?: Money2;
         /**
-         * Amount of inheritance/estate tax paid so far.
+         * Amount of inheritance/estate tax paid so far
          */
         taxPaid?: Money2;
         /**
-         * Tax clearance status — confirmation from the tax authority that no further tax is owed.
+         * Tax clearance status — confirmation from the tax authority that no further tax is owed
          */
         taxClearance?: {
             /**
-             * Current status of tax clearance.
+             * Current status of tax clearance
              */
             status?: 'not_applied' | 'applied' | 'received' | 'not_required';
             /**
-             * Date clearance was received.
+             * Date clearance was received
              */
             clearanceDate?: string;
             /**
-             * Tax clearance reference number.
+             * Tax clearance reference number
              */
             reference?: string;
         };
         /**
-         * Record of distributions made to beneficiaries during administration.
+         * Record of distributions made to beneficiaries during administration
          */
         distributions?: Array<{
             /**
-             * Person ID of the beneficiary receiving the distribution.
+             * Person ID of the beneficiary receiving the distribution
              */
             beneficiaryPersonId: string;
             /**
-             * Reference to the Bequest being fulfilled.
+             * Reference to the Bequest being fulfilled
              */
             bequestId?: string;
             /**
-             * Date the distribution was made.
+             * Date the distribution was made
              */
             distributionDate: string;
             /**
-             * Asset ID if a specific asset was transferred.
+             * Asset ID if a specific asset was transferred
              */
             assetId?: string;
             /**
-             * Property ID if a property was transferred.
+             * Property ID if a property was transferred
              */
             propertyId?: string;
             /**
-             * Cash amount distributed, in minor currency units.
+             * Cash amount distributed, in minor currency units
              */
             cashAmount?: Money2;
             /**
-             * Whether a receipt/acknowledgement has been obtained from the beneficiary.
+             * Whether a receipt/acknowledgement has been obtained from the beneficiary
              */
             receipt?: boolean;
             /**
-             * Additional distribution notes.
+             * Additional distribution notes
              */
             notes?: string;
         }>;
         /**
-         * Whether the estate accounts have been prepared and filed/approved.
+         * Whether the estate accounts have been prepared and filed/approved
          */
         estateAccountsFiled?: boolean;
         /**
-         * Additional administration notes.
+         * Additional administration notes
          */
         notes?: string;
     };
     /**
-     * Free-text notes about the estate. Use for anything not captured by structured fields.
+     * Free-text notes about the estate. Use for anything not captured by structured fields
      */
     notes?: string;
     [key: string]: unknown | string | 'planning' | 'confirmed' | 'pre_probate' | 'in_administration' | 'distributed' | 'closed' | Jurisdiction2 | 'secular' | 'religious' | 'dual' | 'composite' | 'oral_witnessed' | 'oral_customary' | 'holographic' | 'notarised' | 'privileged_will' | string | 'invited' | 'active' | 'decoupling' | 'decoupled' | string | 'will' | 'revocable_trust' | 'both' | 'intestacy' | 'community_property' | 'separate_property' | 'equitable_distribution' | 'deferred_community' | 'universal_community' | 'participation_in_acquisitions' | 'islamic_dower' | Money2 | Attestation2 | TestamentaryCapacity | Array<Codicil> | Array<string> | boolean | ForcedHeirship | Array<AdjudicatingBody> | Array<ParallelDistribution> | ProbateGrant | DeathRecord | Array<SuccessionConflict> | {
         /**
-         * The jurisdiction whose law the testator has chosen to govern succession.
+         * The jurisdiction whose law the testator has chosen to govern succession
          */
         chosenLaw?: Jurisdiction2;
         /**
-         * Legal basis for the choice of law.
+         * Legal basis for the choice of law
          */
         basis?: string;
         /**
-         * Reference to the document containing the choice of law declaration.
+         * Reference to the document containing the choice of law declaration
          */
         documentRef?: string;
     } | {
         /**
-         * Whether elective share is available in this jurisdiction.
+         * Whether elective share is available in this jurisdiction
          */
         available?: boolean;
         /**
-         * The amount elected by the surviving spouse, if the election has been made.
+         * The amount elected by the surviving spouse, if the election has been made
          */
         electedAmount?: Money2;
         /**
-         * The statute governing elective share in this jurisdiction.
+         * The statute governing elective share in this jurisdiction
          */
         statute?: string;
         /**
-         * Additional notes on the elective share.
+         * Additional notes on the elective share
          */
         notes?: string;
     } | {
         /**
-         * Whether a prior matrimonial claim exists.
+         * Whether a prior matrimonial claim exists
          */
         exists?: boolean;
         /**
-         * Description of the claim.
+         * Description of the claim
          */
         description?: string;
         /**
-         * Reference to the Person.id of the claimant.
+         * Reference to the Person.id of the claimant
          */
         claimantPersonId?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     } | {
         /**
-         * Whether the will contains a no-contest clause.
+         * Whether the will contains a no-contest clause
          */
         present?: boolean;
         /**
-         * Enforceability status in the governing jurisdiction.
+         * Enforceability status in the governing jurisdiction
          */
         enforceability?: string;
         /**
-         * Additional context about the clause.
+         * Additional context about the clause
          */
         notes?: string;
     } | Array<{
         /**
-         * Reference to the Person.id of the pretermitted heir.
+         * Reference to the Person.id of the pretermitted heir
          */
         claimantPersonId?: string;
         /**
-         * Current status of this claim.
+         * Current status of this claim
          */
         status?: string;
         /**
-         * Additional context about the claim.
+         * Additional context about the claim
          */
         notes?: string;
     }> | Array<{
         /**
-         * Reference to the Person.id of the claimant.
+         * Reference to the Person.id of the claimant
          */
         claimantPersonId?: string;
         /**
-         * Description of the promise made by the testator.
+         * Description of the promise made by the testator
          */
         promiseDescription?: string;
         /**
-         * Current status of this claim.
+         * Current status of this claim
          */
         status?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     }> | {
         /**
-         * Whether judicial variation is available in this jurisdiction.
+         * Whether judicial variation is available in this jurisdiction
          */
         available?: boolean;
         /**
-         * The statute granting variation power.
+         * The statute granting variation power
          */
         statute?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     } | {
         /**
-         * Whether the commorientes rule is relevant to this estate.
+         * Whether the commorientes rule is relevant to this estate
          */
         applicable?: boolean;
         /**
-         * The applicable commorientes rule.
+         * The applicable commorientes rule
          */
         rule?: string;
         /**
-         * Jurisdiction whose commorientes rule applies.
+         * Jurisdiction whose commorientes rule applies
          */
         jurisdiction?: Jurisdiction2;
         /**
-         * Additional context — e.g. specific facts of the case.
+         * Additional context — e.g. specific facts of the case
          */
         notes?: string;
     } | Array<{
         /**
-         * The jurisdiction where ancillary probate is needed.
+         * The jurisdiction where ancillary probate is needed
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Reference to the Person.id of the local fiduciary or administrator.
+         * Reference to the Person.id of the local fiduciary or administrator
          */
         fiduciaryPersonId?: string;
         /**
-         * Current status of ancillary probate in this jurisdiction.
+         * Current status of ancillary probate in this jurisdiction
          */
         status?: 'not_started' | 'applied' | 'granted' | 'completed' | 'waived';
         /**
-         * Local grant reference number.
+         * Local grant reference number
          */
         grantReference?: string;
         /**
-         * Name of local legal counsel handling this jurisdiction.
+         * Name of local legal counsel handling this jurisdiction
          */
         localCounsel?: string;
         /**
-         * Additional notes.
+         * Additional notes
          */
         notes?: string;
     }> | Array<{
         /**
-         * Name of the will registry.
+         * Name of the will registry
          */
         registry: string;
         /**
-         * Registration reference number.
+         * Registration reference number
          */
         registrationNumber?: string;
         /**
-         * What the registration covers — may be limited to certain jurisdictions or asset classes.
+         * What the registration covers — may be limited to certain jurisdictions or asset classes
          */
         jurisdictionScope?: string;
         /**
-         * Date the will was registered.
+         * Date the will was registered
          */
         registrationDate?: string;
     }> | string | Array<{
         /**
-         * Source currency code (ISO 4217).
+         * Source currency code (ISO 4217)
          */
         fromCurrency: string;
         /**
-         * Target currency code (ISO 4217).
+         * Target currency code (ISO 4217)
          */
         toCurrency: string;
         /**
-         * Exchange rate — one unit of fromCurrency equals this many units of toCurrency.
+         * Exchange rate — one unit of fromCurrency equals this many units of toCurrency
          */
         rate: number;
         /**
-         * Date this exchange rate was sourced.
+         * Date this exchange rate was sourced
          */
         rateDate: string;
         /**
-         * Source of the exchange rate.
+         * Source of the exchange rate
          */
         source?: string;
     }> | Array<{
         /**
-         * Name of the bilateral tax treaty.
+         * Name of the bilateral tax treaty
          */
         treaty: string;
         /**
-         * The jurisdiction with primary taxing rights under this treaty.
+         * The jurisdiction with primary taxing rights under this treaty
          */
         primaryTaxingJurisdiction?: Jurisdiction2;
         /**
-         * Tax credits claimed under this treaty.
+         * Tax credits claimed under this treaty
          */
         claimedCredits?: string;
         /**
-         * The specific treaty article being relied upon.
+         * The specific treaty article being relied upon
          */
         relevantArticle?: string;
         /**
-         * Additional context.
+         * Additional context
          */
         notes?: string;
     }> | Array<string> | {
         /**
-         * Date of death — the date from which succession takes effect.
+         * Date of death — the date from which succession takes effect
          */
         dateOfDeath?: string;
         /**
-         * Date the probate grant or letters of administration were issued.
+         * Date the probate grant or letters of administration were issued
          */
         dateOfGrant?: string;
         /**
-         * Type of grant authorising estate administration.
+         * Type of grant authorising estate administration
          */
         grantType?: 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'succession_certificate' | 'certificate_of_inheritance' | 'court_appointment' | 'resealing' | 'european_certificate_of_succession' | 'other';
         /**
-         * Court reference number for the grant.
+         * Court reference number for the grant
          */
         grantReference?: string;
         /**
-         * Name of the issuing court or registry.
+         * Name of the issuing court or registry
          */
         court?: string;
         /**
-         * Gross value of the estate at date of death, before deducting liabilities.
+         * Gross value of the estate at date of death, before deducting liabilities
          */
         grossEstateValue?: Money2;
         /**
-         * Net value of the estate after deducting liabilities.
+         * Net value of the estate after deducting liabilities
          */
         netEstateValue?: Money2;
         /**
-         * Total inheritance/estate tax liability.
+         * Total inheritance/estate tax liability
          */
         taxLiability?: Money2;
         /**
-         * Amount of inheritance/estate tax paid so far.
+         * Amount of inheritance/estate tax paid so far
          */
         taxPaid?: Money2;
         /**
-         * Tax clearance status — confirmation from the tax authority that no further tax is owed.
+         * Tax clearance status — confirmation from the tax authority that no further tax is owed
          */
         taxClearance?: {
             /**
-             * Current status of tax clearance.
+             * Current status of tax clearance
              */
             status?: 'not_applied' | 'applied' | 'received' | 'not_required';
             /**
-             * Date clearance was received.
+             * Date clearance was received
              */
             clearanceDate?: string;
             /**
-             * Tax clearance reference number.
+             * Tax clearance reference number
              */
             reference?: string;
         };
         /**
-         * Record of distributions made to beneficiaries during administration.
+         * Record of distributions made to beneficiaries during administration
          */
         distributions?: Array<{
             /**
-             * Person ID of the beneficiary receiving the distribution.
+             * Person ID of the beneficiary receiving the distribution
              */
             beneficiaryPersonId: string;
             /**
-             * Reference to the Bequest being fulfilled.
+             * Reference to the Bequest being fulfilled
              */
             bequestId?: string;
             /**
-             * Date the distribution was made.
+             * Date the distribution was made
              */
             distributionDate: string;
             /**
-             * Asset ID if a specific asset was transferred.
+             * Asset ID if a specific asset was transferred
              */
             assetId?: string;
             /**
-             * Property ID if a property was transferred.
+             * Property ID if a property was transferred
              */
             propertyId?: string;
             /**
-             * Cash amount distributed, in minor currency units.
+             * Cash amount distributed, in minor currency units
              */
             cashAmount?: Money2;
             /**
-             * Whether a receipt/acknowledgement has been obtained from the beneficiary.
+             * Whether a receipt/acknowledgement has been obtained from the beneficiary
              */
             receipt?: boolean;
             /**
-             * Additional distribution notes.
+             * Additional distribution notes
              */
             notes?: string;
         }>;
         /**
-         * Whether the estate accounts have been prepared and filed/approved.
+         * Whether the estate accounts have been prepared and filed/approved
          */
         estateAccountsFiled?: boolean;
         /**
-         * Additional administration notes.
+         * Additional administration notes
          */
         notes?: string;
     } | undefined;
@@ -1314,55 +1314,55 @@ export type Estate2 = {
 /**
  * PostalAddress
  *
- * A physical address. Culturally neutral — supports any global addressing convention.
+ * A physical address. Culturally neutral — supports any global addressing convention
  */
 export type Address2 = {
     /**
-     * The full address as a single formatted string, suitable for display. Preserves the original representation from the source document. Must not be the sole address representation — always populate structured fields where possible.
+     * The full address as a single formatted string, suitable for display. Preserves the original representation from the source document. Must not be the sole address representation — always populate structured fields where possible
      */
     formattedAddress?: string;
     /**
-     * Street number and name. For Japanese addresses, use the block and building number (chōme-ban-gō).
+     * Street number and name. For Japanese addresses, use the block and building number (chōme-ban-gō)
      */
     streetAddress?: string;
     /**
-     * Secondary address line — flat, suite, building, or floor. Use when the primary street address is insufficient.
+     * Secondary address line — flat, suite, building, or floor. Use when the primary street address is insufficient
      */
     addressLine2?: string;
     /**
-     * City, town, village, or ward. For Japanese addresses, this is the city or special ward (ku).
+     * City, town, village, or ward. For Japanese addresses, this is the city or special ward (ku)
      */
     addressLocality?: string;
     /**
-     * State, prefecture, province, or county. The administrative division below national level.
+     * State, prefecture, province, or county. The administrative division below national level
      */
     addressRegion?: string;
     /**
-     * Postal or ZIP code. Format varies by country — UK postcodes, US ZIP codes, Japanese 〒 codes, etc.
+     * Postal or ZIP code. Format varies by country — UK postcodes, US ZIP codes, Japanese 〒 codes, etc
      */
     postalCode?: string;
     /**
-     * ISO 3166-1 alpha-2 country code. Always uppercase.
+     * ISO 3166-1 alpha-2 country code. Always uppercase
      */
     addressCountry?: string;
     /**
-     * Geographic latitude in decimal degrees. Useful for properties in jurisdictions without formal addressing systems.
+     * Geographic latitude in decimal degrees. Useful for properties in jurisdictions without formal addressing systems
      */
     latitude?: number;
     /**
-     * Geographic longitude in decimal degrees. Pair with latitude for precise property location.
+     * Geographic longitude in decimal degrees. Pair with latitude for precise property location
      */
     longitude?: number;
     /**
-     * A nearby landmark used to locate the address. Essential in jurisdictions without formal street addressing — India, Nigeria, and rural areas worldwide.
+     * A nearby landmark used to locate the address. Essential in jurisdictions without formal street addressing — India, Nigeria, and rural areas worldwide
      */
     landmark?: string;
     /**
-     * Free-form directions to reach the address when no formal address system exists. Common in rural communities across Africa, South Asia, and the Pacific Islands.
+     * Free-form directions to reach the address when no formal address system exists. Common in rural communities across Africa, South Asia, and the Pacific Islands
      */
     directionNotes?: string;
     /**
-     * The addressing convention that governs the display order of this address. Defaults to 'western' if omitted.
+     * The addressing convention that governs the display order of this address. Defaults to 'western' if omitted
      */
     addressOrder?: 'western' | 'japanese' | 'indian' | 'arabic' | 'custom';
 };
@@ -1370,19 +1370,19 @@ export type Address2 = {
 /**
  * Identifier
  *
- * A typed external identifier. Use 'system' to namespace identifiers and prevent collisions across jurisdictions and organisations.
+ * A typed external identifier. Use 'system' to namespace identifiers and prevent collisions across jurisdictions and organisations
  */
 export type Identifier2 = {
     /**
-     * Namespace URI or name identifying the issuing authority or system. Use URN format where possible for unambiguous identification.
+     * Namespace URI or name identifying the issuing authority or system. Use URN format where possible for unambiguous identification
      */
     system?: string;
     /**
-     * The identifier value itself. Format depends on the system — may include hyphens, spaces, or check digits as appropriate.
+     * The identifier value itself. Format depends on the system — may include hyphens, spaces, or check digits as appropriate
      */
     value: string;
     /**
-     * Human-readable type label describing what kind of identifier this is.
+     * Human-readable type label describing what kind of identifier this is
      */
     type?: string;
 };
@@ -1390,261 +1390,261 @@ export type Identifier2 = {
 /**
  * Person
  *
- * A person involved in the estate. Schema.org name alignment. Any Unicode script. Supports CJK phonetic readings, chieftaincy titles, clan/lineage identifiers, dual legal personalities, and tax residency across multiple jurisdictions.
+ * A person involved in the estate. Schema.org name alignment. Any Unicode script. Supports CJK phonetic readings, chieftaincy titles, clan/lineage identifiers, dual legal personalities, and tax residency across multiple jurisdictions
  */
 export type Person2 = {
     /**
-     * Unique identifier for this person within the INHERIT document. Must be referenced consistently across all entities.
+     * Unique identifier for this person within the INHERIT document. Must be referenced consistently across all entities
      */
     id: string;
     /**
-     * The person's given (first) name. For cultures where given name follows family name (e.g. Japanese, Chinese), this is still the given name — display ordering is a presentation concern.
+     * The person's given (first) name. For cultures where given name follows family name (e.g. Japanese, Chinese), this is still the given name — display ordering is a presentation concern
      */
     givenName: string;
     /**
-     * The person's family name (surname). Some cultures do not use family names — Tamil, Icelandic patronymic, and mononymous naming conventions are all valid without this field.
+     * The person's family name (surname). Some cultures do not use family names — Tamil, Icelandic patronymic, and mononymous naming conventions are all valid without this field
      */
     familyName?: string;
     /**
-     * Middle name(s) or additional given names. Multiple middle names should be space-separated.
+     * Middle name(s) or additional given names. Multiple middle names should be space-separated
      */
     additionalName?: string;
     /**
-     * Name the person prefers to be called. May differ from legal name — use this for correspondence and display where appropriate.
+     * Name the person prefers to be called. May differ from legal name — use this for correspondence and display where appropriate
      */
     preferredName?: string;
     /**
-     * Phonetic reading of the person's name. Essential for CJK names to ensure correct pronunciation by non-native speakers and systems.
+     * Phonetic reading of the person's name. Essential for CJK names to ensure correct pronunciation by non-native speakers and systems
      */
     phoneticReading?: {
         /**
-         * Phonetic reading of the given name.
+         * Phonetic reading of the given name
          */
         givenName?: string;
         /**
-         * Phonetic reading of the family name.
+         * Phonetic reading of the family name
          */
         familyName?: string;
         /**
-         * Phonetic reading of the complete name as a single string.
+         * Phonetic reading of the complete name as a single string
          */
         fullName?: string;
     };
     /**
-     * Formal titles held by this person. Multiple titles are common — a person may hold academic, professional, and traditional titles simultaneously.
+     * Formal titles held by this person. Multiple titles are common — a person may hold academic, professional, and traditional titles simultaneously
      */
     titles?: Array<{
         /**
-         * The title text itself.
+         * The title text itself
          */
         title: string;
         type?: 'chieftaincy' | 'traditional' | 'religious' | 'professional' | 'honorific' | 'clan' | 'academic' | 'military' | 'other';
     }>;
     /**
-     * Clan, tribe, lineage, or gotra affiliation. In some legal systems (Hindu, customary African), this determines inheritance rights and succession order.
+     * Clan, tribe, lineage, or gotra affiliation. In some legal systems (Hindu, customary African), this determines inheritance rights and succession order
      */
     clanOrLineage?: string;
     /**
-     * The person's date of birth in ISO 8601 format. Used to determine age-dependent inheritance rights and guardianship requirements.
+     * The person's date of birth in ISO 8601 format. Used to determine age-dependent inheritance rights and guardianship requirements
      */
     dateOfBirth?: string;
     /**
-     * The person's date of death in ISO 8601 format, if deceased. Relevant for determining predecease rules, commorientes, and survivorship.
+     * The person's date of death in ISO 8601 format, if deceased. Relevant for determining predecease rules, commorientes, and survivorship
      */
     dateOfDeath?: string;
     /**
-     * The person's gender. Optional, but required where inheritance rules are gender-dependent (e.g. Islamic faraid, Hindu succession).
+     * The person's gender. Optional, but required where inheritance rules are gender-dependent (e.g. Islamic faraid, Hindu succession)
      */
     gender?: 'male' | 'female' | 'non_binary' | 'other' | 'prefer_not_to_say' | 'unknown';
     /**
-     * The person's legal domicile. Domicile — not nationality or residence — determines which succession law governs moveable property.
+     * The person's legal domicile. Domicile — not nationality or residence — determines which succession law governs moveable property
      */
     domicile?: Jurisdiction2;
     /**
-     * The roles this person plays in the estate. A person may hold multiple roles simultaneously (e.g. beneficiary and executor).
+     * The roles this person plays in the estate. A person may hold multiple roles simultaneously (e.g. beneficiary and executor)
      */
     roles: Array<'testator' | 'beneficiary' | 'executor' | 'guardian' | 'trustee' | 'witness' | 'attorney' | 'proxy' | 'protector' | 'enforcer'>;
     /**
-     * Contact details for this person. All fields are optional — some parties may have no known contact information.
+     * Contact details for this person. All fields are optional — some parties may have no known contact information
      */
     contact?: {
         /**
-         * Email address for correspondence.
+         * Email address for correspondence
          */
         email?: string;
         /**
-         * Phone number in E.164 format recommended. National formats are accepted but may be ambiguous across jurisdictions.
+         * Phone number in E.164 format recommended. National formats are accepted but may be ambiguous across jurisdictions
          */
         phone?: string;
         /**
-         * Postal address for this person.
+         * Postal address for this person
          */
         address?: Address2;
     };
     /**
-     * This person's preferred communication channel. Helps executors and professionals contact the right people in the right way.
+     * This person's preferred communication channel. Helps executors and professionals contact the right people in the right way
      */
     preferredChannel?: 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging';
     /**
-     * Per-field confidence scores (0-100) from AI extraction. Only present on AI-extracted people.
+     * Per-field confidence scores (0-100) from AI extraction. Only present on AI-extracted people
      */
     confidenceScores?: {
         [key: string]: number;
     };
     /**
-     * External identifiers for this person — passport numbers, national ID, tax reference numbers, etc. Used for probate applications and cross-border identification.
+     * External identifiers for this person — passport numbers, national ID, tax reference numbers, etc. Used for probate applications and cross-border identification
      */
     identifiers?: Array<Identifier2>;
     /**
-     * The person's name within a religious naming tradition. Required for religious court filings, halachic documents, and Shariah proceedings.
+     * The person's name within a religious naming tradition. Required for religious court filings, halachic documents, and Shariah proceedings
      */
     ritualName?: {
         /**
-         * The full ritual or religious name as used in religious proceedings.
+         * The full ritual or religious name as used in religious proceedings
          */
         name: string;
         /**
-         * The patronymic element of the ritual name (ben/bat, ibn/bint, etc.).
+         * The patronymic element of the ritual name (ben/bat, ibn/bint, etc.)
          */
         patronymic?: string;
         /**
-         * The religious or cultural naming tradition this name follows.
+         * The religious or cultural naming tradition this name follows
          */
         nameSystem?: string;
     };
     /**
-     * Legal personalities this person holds across different legal systems. A single person may have distinct legal identities under statutory, customary, and religious law simultaneously.
+     * Legal personalities this person holds across different legal systems. A single person may have distinct legal identities under statutory, customary, and religious law simultaneously
      */
     legalPersonalities?: Array<{
         /**
-         * The legal system under which this personality exists.
+         * The legal system under which this personality exists
          */
         system: 'statutory' | 'customary' | 'religious' | 'traditional';
         /**
-         * The person's role or status within this legal system.
+         * The person's role or status within this legal system
          */
         role: string;
         /**
-         * The jurisdiction where this legal personality is recognised.
+         * The jurisdiction where this legal personality is recognised
          */
         jurisdiction?: Jurisdiction2;
         /**
-         * Additional context about this legal personality.
+         * Additional context about this legal personality
          */
         notes?: string;
     }>;
     /**
-     * Tax residency declarations for one or more jurisdictions. A person may be simultaneously tax-resident in multiple countries, triggering reporting obligations under FATCA, CRS, and bilateral treaties.
+     * Tax residency declarations for one or more jurisdictions. A person may be simultaneously tax-resident in multiple countries, triggering reporting obligations under FATCA, CRS, and bilateral treaties
      */
     taxResidency?: Array<{
         /**
-         * The jurisdiction where this person is tax-resident.
+         * The jurisdiction where this person is tax-resident
          */
         jurisdiction: Jurisdiction2;
         /**
-         * The person's tax identification number in this jurisdiction.
+         * The person's tax identification number in this jurisdiction
          */
         taxpayerIdentifier?: string;
         /**
-         * Any relevant tax treaty claim that affects estate tax liability in this jurisdiction.
+         * Any relevant tax treaty claim that affects estate tax liability in this jurisdiction
          */
         treatyPosition?: string;
         /**
-         * FATCA (Foreign Account Tax Compliance Act) classification for this person.
+         * FATCA (Foreign Account Tax Compliance Act) classification for this person
          */
         fatcaStatus?: 'us_person' | 'non_us_person' | 'exempt' | 'unknown';
     }>;
     /**
-     * Whether this person record is shared with the companion estate. When true, changes sync between linked estates.
+     * Whether this person record is shared with the companion estate. When true, changes sync between linked estates
      */
     sharedWithCompanion?: boolean;
     /**
-     * BCP 47 language tag for the person's preferred language. Used for correspondence and document generation.
+     * BCP 47 language tag for the person's preferred language. Used for correspondence and document generation
      */
     language?: string;
     /**
-     * Free-text notes about this person. Use for anything not captured by structured fields — health conditions, access requirements, or context for professionals.
+     * Free-text notes about this person. Use for anything not captured by structured fields — health conditions, access requirements, or context for professionals
      */
     notes?: string;
     [key: string]: unknown | string | string | string | {
         /**
-         * Phonetic reading of the given name.
+         * Phonetic reading of the given name
          */
         givenName?: string;
         /**
-         * Phonetic reading of the family name.
+         * Phonetic reading of the family name
          */
         familyName?: string;
         /**
-         * Phonetic reading of the complete name as a single string.
+         * Phonetic reading of the complete name as a single string
          */
         fullName?: string;
     } | Array<{
         /**
-         * The title text itself.
+         * The title text itself
          */
         title: string;
         type?: 'chieftaincy' | 'traditional' | 'religious' | 'professional' | 'honorific' | 'clan' | 'academic' | 'military' | 'other';
     }> | string | 'male' | 'female' | 'non_binary' | 'other' | 'prefer_not_to_say' | 'unknown' | Jurisdiction2 | Array<'testator' | 'beneficiary' | 'executor' | 'guardian' | 'trustee' | 'witness' | 'attorney' | 'proxy' | 'protector' | 'enforcer'> | {
         /**
-         * Email address for correspondence.
+         * Email address for correspondence
          */
         email?: string;
         /**
-         * Phone number in E.164 format recommended. National formats are accepted but may be ambiguous across jurisdictions.
+         * Phone number in E.164 format recommended. National formats are accepted but may be ambiguous across jurisdictions
          */
         phone?: string;
         /**
-         * Postal address for this person.
+         * Postal address for this person
          */
         address?: Address2;
     } | 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging' | {
         [key: string]: number;
     } | Array<Identifier2> | {
         /**
-         * The full ritual or religious name as used in religious proceedings.
+         * The full ritual or religious name as used in religious proceedings
          */
         name: string;
         /**
-         * The patronymic element of the ritual name (ben/bat, ibn/bint, etc.).
+         * The patronymic element of the ritual name (ben/bat, ibn/bint, etc.)
          */
         patronymic?: string;
         /**
-         * The religious or cultural naming tradition this name follows.
+         * The religious or cultural naming tradition this name follows
          */
         nameSystem?: string;
     } | Array<{
         /**
-         * The legal system under which this personality exists.
+         * The legal system under which this personality exists
          */
         system: 'statutory' | 'customary' | 'religious' | 'traditional';
         /**
-         * The person's role or status within this legal system.
+         * The person's role or status within this legal system
          */
         role: string;
         /**
-         * The jurisdiction where this legal personality is recognised.
+         * The jurisdiction where this legal personality is recognised
          */
         jurisdiction?: Jurisdiction2;
         /**
-         * Additional context about this legal personality.
+         * Additional context about this legal personality
          */
         notes?: string;
     }> | Array<{
         /**
-         * The jurisdiction where this person is tax-resident.
+         * The jurisdiction where this person is tax-resident
          */
         jurisdiction: Jurisdiction2;
         /**
-         * The person's tax identification number in this jurisdiction.
+         * The person's tax identification number in this jurisdiction
          */
         taxpayerIdentifier?: string;
         /**
-         * Any relevant tax treaty claim that affects estate tax liability in this jurisdiction.
+         * Any relevant tax treaty claim that affects estate tax liability in this jurisdiction
          */
         treatyPosition?: string;
         /**
-         * FATCA (Foreign Account Tax Compliance Act) classification for this person.
+         * FATCA (Foreign Account Tax Compliance Act) classification for this person
          */
         fatcaStatus?: 'us_person' | 'non_us_person' | 'exempt' | 'unknown';
     }> | boolean | undefined;
@@ -1653,202 +1653,202 @@ export type Person2 = {
 /**
  * Kinship
  *
- * A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json.
+ * A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json
  */
 export type Kinship2 = {
     /**
-     * Unique identifier for this kinship bond within the INHERIT document.
+     * Unique identifier for this kinship bond within the INHERIT document
      */
     id: string;
     /**
-     * The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems.
+     * The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems
      */
     kinshipType: 'PARENT_CHILD_BIOLOGICAL' | 'PARENT_CHILD_ADOPTED' | 'PARENT_CHILD_STEP' | 'PARENT_CHILD_FOSTER' | 'PARENT_CHILD_ACKNOWLEDGED' | 'SIBLING' | 'HALF_SIBLING_PATERNAL' | 'HALF_SIBLING_MATERNAL' | 'STEP_SIBLING' | 'GRANDPARENT_GRANDCHILD' | 'UNCLE_NEPHEW' | 'AUNT_NEPHEW';
     /**
-     * The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent.
+     * The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent
      */
     fromPersonId: string;
     /**
-     * The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child.
+     * The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child
      */
     toPersonId: string;
     /**
-     * The legal recognition status of this familial bond.
+     * The legal recognition status of this familial bond
      */
     legalStatus?: 'recognised' | 'contested' | 'pending' | 'unrecognised';
     /**
-     * Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems.
+     * Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems
      */
     legitimacy?: 'legitimate' | 'illegitimate' | 'legitimated' | 'not_applicable';
     /**
-     * Date of the adoption order, for PARENT_CHILD_ADOPTED kinships.
+     * Date of the adoption order, for PARENT_CHILD_ADOPTED kinships
      */
     adoptionDate?: string;
     /**
-     * Court order reference or adoption certificate number.
+     * Court order reference or adoption certificate number
      */
     courtOrderRef?: string;
     /**
-     * Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition.
+     * Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition
      */
     notes?: string;
     [key: string]: unknown | string | 'PARENT_CHILD_BIOLOGICAL' | 'PARENT_CHILD_ADOPTED' | 'PARENT_CHILD_STEP' | 'PARENT_CHILD_FOSTER' | 'PARENT_CHILD_ACKNOWLEDGED' | 'SIBLING' | 'HALF_SIBLING_PATERNAL' | 'HALF_SIBLING_MATERNAL' | 'STEP_SIBLING' | 'GRANDPARENT_GRANDCHILD' | 'UNCLE_NEPHEW' | 'AUNT_NEPHEW' | 'recognised' | 'contested' | 'pending' | 'unrecognised' | 'legitimate' | 'illegitimate' | 'legitimated' | 'not_applicable' | string | string | undefined;
 };
 
 /**
- * A partner in the relationship. Uses non-gendered terminology and ordinal positioning.
+ * A partner in the relationship. Uses non-gendered terminology and ordinal positioning
  */
 export type Partner = {
     /**
-     * Reference to a Person.id.
+     * Reference to a Person.id
      */
     personId: string;
     /**
-     * Optional non-gendered label for display purposes. Avoids gendered terms like 'husband' and 'wife'.
+     * Optional non-gendered label for display purposes. Avoids gendered terms like 'husband' and 'wife'
      */
     displayLabel?: string;
     /**
-     * Position in the partner list (1-based). Determines default display order.
+     * Position in the partner list (1-based). Determines default display order
      */
     ordinal: number;
 };
 
 /**
- * A chronological event in the relationship timeline. The current relationship status is derived from the most recent event.
+ * A chronological event in the relationship timeline. The current relationship status is derived from the most recent event
  */
 export type RelationshipEvent = {
     /**
-     * The type of relationship event.
+     * The type of relationship event
      */
     type: 'CEREMONY' | 'REGISTRATION' | 'ENGAGEMENT' | 'MARRIAGE_CONTRACT' | 'PROPERTY_REGIME_CHANGE' | 'SEPARATION_INFORMAL' | 'SEPARATION_LEGAL' | 'DIVORCE_FILED' | 'DIVORCE_FINALISED' | 'FINANCIAL_ORDER' | 'ANNULMENT' | 'DISSOLUTION' | 'DEATH_OF_PARTNER' | 'RECONCILIATION' | 'VOID_DECLARATION' | 'MAHR_PAYMENT' | 'LOBOLA_PAYMENT';
     /**
-     * Date this event occurred.
+     * Date this event occurred
      */
     date: string;
     /**
-     * Jurisdiction where this event took place or was registered.
+     * Jurisdiction where this event took place or was registered
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Additional context about this event.
+     * Additional context about this event
      */
     notes?: string;
 };
 
 /**
- * How a specific jurisdiction recognises (or fails to recognise) this relationship. Critical for modelling civil/religious status divergence.
+ * How a specific jurisdiction recognises (or fails to recognise) this relationship. Critical for modelling civil/religious status divergence
  */
 export type JurisdictionalRecognition = {
     /**
-     * The jurisdiction whose recognition status is recorded.
+     * The jurisdiction whose recognition status is recorded
      */
     jurisdiction: Jurisdiction2;
     /**
-     * Whether this jurisdiction recognises the relationship.
+     * Whether this jurisdiction recognises the relationship
      */
     recognised: boolean;
     /**
-     * What this jurisdiction recognises the relationship as, if different from its declared type.
+     * What this jurisdiction recognises the relationship as, if different from its declared type
      */
     recognisedAs?: string;
     /**
-     * Additional context on recognition.
+     * Additional context on recognition
      */
     notes?: string;
 };
 
 /**
- * A financial instrument associated with the relationship — mahr, ketubah, lobola, prenuptial agreement, or marriage settlement.
+ * A financial instrument associated with the relationship — mahr, ketubah, lobola, prenuptial agreement, or marriage settlement
  */
 export type FinancialInstrument = unknown & {
     /**
-     * The type of financial instrument.
+     * The type of financial instrument
      */
     type: 'MAHR' | 'KETUBAH' | 'LOBOLA' | 'PRENUPTIAL_AGREEMENT' | 'POSTNUPTIAL_AGREEMENT' | 'MARRIAGE_SETTLEMENT';
     /**
-     * Monetary value of the instrument, in minor currency units.
+     * Monetary value of the instrument, in minor currency units
      */
     value?: Money2;
     /**
-     * Payment status of this financial instrument.
+     * Payment status of this financial instrument
      */
     status?: 'AGREED' | 'PAID' | 'PARTIALLY_PAID' | 'DEFERRED' | 'DISPUTED' | 'WAIVED';
     /**
-     * Free-text description of the instrument.
+     * Free-text description of the instrument
      */
     description?: string;
     /**
-     * Reference to a Document.id storing the instrument.
+     * Reference to a Document.id storing the instrument
      */
     documentRef?: string;
     /**
-     * Date the instrument was signed or executed.
+     * Date the instrument was signed or executed
      */
     date?: string;
     /**
-     * How this instrument affects inheritance distribution.
+     * How this instrument affects inheritance distribution
      */
     inheritanceImpact?: string;
     /**
-     * Structured mahr details. Required when the financial instrument type is MAHR.
+     * Structured mahr details. Required when the financial instrument type is MAHR
      */
     maharDetails?: {
         /**
-         * Whether the mahr is prompt, deferred, or a combination.
+         * Whether the mahr is prompt, deferred, or a combination
          */
         maharType?: 'prompt' | 'deferred' | 'combination';
         /**
-         * Reference to the Person.id of the mahr recipient (the wife).
+         * Reference to the Person.id of the mahr recipient (the wife)
          */
         recipientPersonId?: string;
         /**
-         * Reference to the Liability.id representing the deferred mahr as an estate debt.
+         * Reference to the Liability.id representing the deferred mahr as an estate debt
          */
         linkedLiabilityId?: string;
     };
     /**
-     * Structured ketubah details. Required when the financial instrument type is KETUBAH.
+     * Structured ketubah details. Required when the financial instrument type is KETUBAH
      */
     ketubahDetails?: {
         /**
-         * The ikkar ketubah — the standard principal amount.
+         * The ikkar ketubah — the standard principal amount
          */
         principalAmount?: Money2;
         /**
-         * The tosefet ketubah — the groom's voluntary additional amount.
+         * The tosefet ketubah — the groom's voluntary additional amount
          */
         tosefetAmount?: Money2;
         /**
-         * The nedunya — dowry brought by the bride into the marriage.
+         * The nedunya — dowry brought by the bride into the marriage
          */
         nedunya?: Money2;
         /**
-         * The bride's status at the time of marriage, which determines the ikkar amount.
+         * The bride's status at the time of marriage, which determines the ikkar amount
          */
         brideStatus?: 'virgin' | 'widow' | 'divorcee';
         /**
-         * Person IDs of the ketubah witnesses. Under halacha, witnesses must be male, adult, and observant.
+         * Person IDs of the ketubah witnesses. Under halacha, witnesses must be male, adult, and observant
          */
         witnessPersonIds?: Array<string>;
         /**
-         * Name of the rabbi who officiated the ceremony.
+         * Name of the rabbi who officiated the ceremony
          */
         officiatingRabbi?: string;
     };
     /**
-     * Structured lobola details for African customary marriages.
+     * Structured lobola details for African customary marriages
      */
     lobolaDetails?: {
         /**
-         * The family or person with whom the lobola was negotiated.
+         * The family or person with whom the lobola was negotiated
          */
         negotiatedWith?: string;
         /**
-         * Whether the lobola includes livestock (cattle are traditional in many Southern African customs).
+         * Whether the lobola includes livestock (cattle are traditional in many Southern African customs)
          */
         includesLivestock?: boolean;
         /**
-         * Number of livestock included in the lobola.
+         * Number of livestock included in the lobola
          */
         livestockCount?: number;
     };
@@ -1857,55 +1857,55 @@ export type FinancialInstrument = unknown & {
 /**
  * Relationship
  *
- * Spousal/partnership relationship. N-partner support (no structural two-partner limit). Event-based timeline (status derived from events). No gendered role names. Financial instruments with MAHR/KETUBAH subtype validation. Cross-jurisdiction recognition for dual civil/religious status.
+ * Spousal/partnership relationship. N-partner support (no structural two-partner limit). Event-based timeline (status derived from events). No gendered role names. Financial instruments with MAHR/KETUBAH subtype validation. Cross-jurisdiction recognition for dual civil/religious status
  */
 export type Relationship2 = {
     /**
-     * Unique identifier for this relationship within the INHERIT document.
+     * Unique identifier for this relationship within the INHERIT document
      */
     id: string;
     /**
-     * The legal form of the relationship.
+     * The legal form of the relationship
      */
     type: 'MARRIAGE_CIVIL' | 'MARRIAGE_RELIGIOUS' | 'MARRIAGE_CUSTOMARY' | 'MARRIAGE_COMMON_LAW' | 'CIVIL_PARTNERSHIP' | 'CIVIL_UNION' | 'DOMESTIC_PARTNERSHIP' | 'DE_FACTO' | 'COHABITATION' | 'ENGAGEMENT';
     /**
-     * The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS.
+     * The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS
      */
     religiousSubtype?: string;
     /**
-     * How the parties themselves describe this relationship, which may differ from the legal classification.
+     * How the parties themselves describe this relationship, which may differ from the legal classification
      */
     selfDeclaredType?: string;
     /**
-     * The people in this relationship. Minimum 2, no structural upper limit — supports polygamous marriages valid in their jurisdiction.
+     * The people in this relationship. Minimum 2, no structural upper limit — supports polygamous marriages valid in their jurisdiction
      */
     partners: Array<Partner>;
     /**
-     * Chronological events determining relationship status. The authoritative status should be derived from the most recent event.
+     * Chronological events determining relationship status. The authoritative status should be derived from the most recent event
      */
     events?: Array<RelationshipEvent>;
     /**
-     * The current status of the relationship. A convenience denormalisation — consumers should derive from the events array when available.
+     * The current status of the relationship. A convenience denormalisation — consumers should derive from the events array when available
      */
     currentStatus?: 'ACTIVE' | 'SEPARATED_INFORMAL' | 'SEPARATED_LEGAL' | 'DIVORCED' | 'ANNULLED' | 'DISSOLVED' | 'WIDOWED' | 'VOID' | 'PUTATIVE';
     /**
-     * Primary jurisdiction where this relationship was formed or registered.
+     * Primary jurisdiction where this relationship was formed or registered
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * How other jurisdictions recognise (or do not recognise) this relationship. Essential for cross-border estates.
+     * How other jurisdictions recognise (or do not recognise) this relationship. Essential for cross-border estates
      */
     jurisdictionalRecognition?: Array<JurisdictionalRecognition>;
     /**
-     * Financial instruments associated with this relationship — mahr, ketubah, lobola, prenuptial agreements, etc.
+     * Financial instruments associated with this relationship — mahr, ketubah, lobola, prenuptial agreements, etc
      */
     financialInstruments?: Array<FinancialInstrument>;
     /**
-     * The marital property regime governing this relationship. Determines which assets the testator may freely dispose of.
+     * The marital property regime governing this relationship. Determines which assets the testator may freely dispose of
      */
     propertyRegime?: 'COMMUNITY_OF_PROPERTY' | 'SEPARATION_OF_PROPERTY' | 'COMMUNITY_OF_ACQUESTS' | 'DEFERRED_COMMUNITY' | 'SEPARATE_AS_MODIFIED' | 'ISLAMIC_DOWER' | 'US_COMMUNITY_PROPERTY' | 'US_COMMUNITY_WITH_SURVIVORSHIP' | 'US_QUASI_COMMUNITY' | 'HINDU_SEPARATE';
     /**
-     * Free-text notes about this relationship.
+     * Free-text notes about this relationship
      */
     notes?: string;
     [key: string]: unknown | string | 'MARRIAGE_CIVIL' | 'MARRIAGE_RELIGIOUS' | 'MARRIAGE_CUSTOMARY' | 'MARRIAGE_COMMON_LAW' | 'CIVIL_PARTNERSHIP' | 'CIVIL_UNION' | 'DOMESTIC_PARTNERSHIP' | 'DE_FACTO' | 'COHABITATION' | 'ENGAGEMENT' | string | Array<Partner> | Array<RelationshipEvent> | 'ACTIVE' | 'SEPARATED_INFORMAL' | 'SEPARATED_LEGAL' | 'DIVORCED' | 'ANNULLED' | 'DISSOLVED' | 'WIDOWED' | 'VOID' | 'PUTATIVE' | Jurisdiction2 | Array<JurisdictionalRecognition> | Array<FinancialInstrument> | 'COMMUNITY_OF_PROPERTY' | 'SEPARATION_OF_PROPERTY' | 'COMMUNITY_OF_ACQUESTS' | 'DEFERRED_COMMUNITY' | 'SEPARATE_AS_MODIFIED' | 'ISLAMIC_DOWER' | 'US_COMMUNITY_PROPERTY' | 'US_COMMUNITY_WITH_SURVIVORSHIP' | 'US_QUASI_COMMUNITY' | 'HINDU_SEPARATE' | undefined;
@@ -1914,31 +1914,31 @@ export type Relationship2 = {
 /**
  * Media
  *
- * A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records.
+ * A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records
  */
 export type Media = {
     /**
-     * URI pointing to the media file. May be an HTTPS URL, S3 URI, or other storage reference.
+     * URI pointing to the media file. May be an HTTPS URL, S3 URI, or other storage reference
      */
     url: string;
     /**
-     * Human-readable description of what this media shows.
+     * Human-readable description of what this media shows
      */
     caption?: string;
     /**
-     * MIME type of the media file. Maps to Schema.org encodingFormat.
+     * MIME type of the media file. Maps to Schema.org encodingFormat
      */
     mediaType?: string;
     /**
-     * The purpose of this media — what question does it answer? Enables executors and dealers to find specific documentation without scrolling through galleries.
+     * The purpose of this media — what question does it answer? Enables executors and dealers to find specific documentation without scrolling through galleries
      */
     viewType?: 'overview' | 'identification' | 'condition' | 'provenance' | 'maker_mark' | 'serial_number' | 'damage' | 'scale_reference' | 'label' | 'certificate' | 'receipt' | 'environment';
     /**
-     * When this media was captured. Useful for establishing condition at a point in time.
+     * When this media was captured. Useful for establishing condition at a point in time
      */
     takenAt?: string;
     /**
-     * URI for a smaller preview version of the media. Maps to Schema.org thumbnail.
+     * URI for a smaller preview version of the media. Maps to Schema.org thumbnail
      */
     thumbnailUrl?: string;
 };
@@ -1946,213 +1946,213 @@ export type Media = {
 /**
  * Property
  *
- * Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings.
+ * Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings
  */
 export type Property2 = {
     /**
-     * Unique identifier for this property within the INHERIT document.
+     * Unique identifier for this property within the INHERIT document
      */
     id: string;
     /**
-     * Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate.
+     * Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate
      */
     name: string;
     /**
-     * Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.
+     * Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs
      */
     propertyType?: 'detached' | 'attached' | 'apartment' | 'land' | 'commercial' | 'mixed_use' | 'rural' | 'mobile' | 'watercraft' | 'other';
     /**
-     * Physical address of the property.
+     * Physical address of the property
      */
     address?: Address2;
     /**
-     * Owner's estimate of the property's current market value, in minor currency units.
+     * Owner's estimate of the property's current market value, in minor currency units
      */
     estimatedValue?: Money2;
     /**
-     * Professional surveyor or valuer's assessment of the property value, in minor currency units.
+     * Professional surveyor or valuer's assessment of the property value, in minor currency units
      */
     professionalValuation?: Money2;
     /**
-     * Date the most recent valuation (estimated or professional) was performed.
+     * Date the most recent valuation (estimated or professional) was performed
      */
     valuationDate?: string;
     /**
-     * Level of confidence in the stated valuation.
+     * Level of confidence in the stated valuation
      */
     valuationConfidence?: 'estimated' | 'professional' | 'official' | 'unknown';
     /**
-     * Whether this is the testator's primary residence. Relevant for residence nil rate band (UK), homestead exemption (US), and similar tax reliefs.
+     * Whether this is the testator's primary residence. Relevant for residence nil rate band (UK), homestead exemption (US), and similar tax reliefs
      */
     isPrimaryResidence?: boolean;
     /**
-     * How ownership of this property is legally structured.
+     * How ownership of this property is legally structured
      */
     ownershipType?: 'sole' | 'joint_tenants' | 'tenants_in_common' | 'trust' | 'tenancy_by_entirety';
     /**
-     * The testator's ownership share as a percentage. For joint tenants, typically 50% for two co-owners. For tenants in common, may be any split.
+     * The testator's ownership share as a percentage. For joint tenants, typically 50% for two co-owners. For tenants in common, may be any split
      */
     ownershipPercentage?: number;
     /**
-     * The cultural or legal model of ownership. Goes beyond the simple legal title to capture communal and customary ownership forms.
+     * The cultural or legal model of ownership. Goes beyond the simple legal title to capture communal and customary ownership forms
      */
     ownershipModel?: 'individual' | 'joint' | 'communal_family' | 'huf_coparcenary' | 'tribal' | 'government_vested' | 'trust_held';
     /**
-     * How the property was acquired. Determines which succession law applies in India and other jurisdictions.
+     * How the property was acquired. Determines which succession law applies in India and other jurisdictions
      */
     acquisitionType?: 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed';
     /**
-     * Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.
+     * Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs
      */
     tenureType?: 'ownership' | 'lease' | 'communal' | 'customary' | 'informal' | 'government_allocated';
     /**
-     * Whether this property is formally registered with a land authority.
+     * Whether this property is formally registered with a land authority
      */
     registrationStatus?: 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented';
     /**
-     * The type of evidence available to prove ownership. In many jurisdictions, informal evidence is the only kind available.
+     * The type of evidence available to prove ownership. In many jurisdictions, informal evidence is the only kind available
      */
     ownershipEvidence?: 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none';
     /**
-     * The succession law governing this specific property. For immoveable property, this is typically the law of the place where the property is situated (lex rei sitae).
+     * The succession law governing this specific property. For immoveable property, this is typically the law of the place where the property is situated (lex rei sitae)
      */
     applicableSuccessionLaw?: {
         /**
-         * Jurisdiction whose succession law governs this property.
+         * Jurisdiction whose succession law governs this property
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Name of the applicable law.
+         * Name of the applicable law
          */
         lawName?: string;
         /**
-         * Specific section of the law that applies.
+         * Specific section of the law that applies
          */
         section?: string;
     };
     /**
-     * Reference to the Person.id of the current custodian of communal or family property. The custodian manages but does not own the property.
+     * Reference to the Person.id of the current custodian of communal or family property. The custodian manages but does not own the property
      */
     custodianPersonId?: string;
     /**
-     * How this property passes on the owner's death. May differ from the general estate succession rule.
+     * How this property passes on the owner's death. May differ from the general estate succession rule
      */
     successionRule?: 'testamentary' | 'intestacy' | 'customary_eldest_son' | 'customary_family_council' | 'customary_matrilineal' | 'survivorship' | 'not_individually_bequeathable';
     /**
-     * Whether government or regulatory consent is required to transfer this property. Common in Nigeria (governor's consent) and for agricultural land in parts of India.
+     * Whether government or regulatory consent is required to transfer this property. Common in Nigeria (governor's consent) and for agricultural land in parts of India
      */
     governmentConsentRequired?: boolean;
     /**
-     * Whether this property is classified as immoveable, moveable, or mixed. Determines which conflict-of-laws rules apply.
+     * Whether this property is classified as immoveable, moveable, or mixed. Determines which conflict-of-laws rules apply
      */
     mobilityType?: 'immoveable' | 'moveable' | 'mixed';
     /**
-     * Outstanding mortgage balance in minor currency units. If the property is mortgage-free, omit this field.
+     * Outstanding mortgage balance in minor currency units. If the property is mortgage-free, omit this field
      */
     mortgageOutstanding?: Money2;
     /**
-     * Marital property character classification for US community property states. Determines whether the testator may dispose of the entire property or only their half.
+     * Marital property character classification for US community property states. Determines whether the testator may dispose of the entire property or only their half
      */
     characterClassification?: 'community' | 'separate' | 'quasi_community' | 'mixed' | 'not_applicable';
     /**
-     * US homestead exemption status. Protects the primary residence from creditors and may restrict the testator's ability to devise the property.
+     * US homestead exemption status. Protects the primary residence from creditors and may restrict the testator's ability to devise the property
      */
     homesteadStatus?: {
         /**
-         * Whether this property qualifies as a homestead.
+         * Whether this property qualifies as a homestead
          */
         isHomestead?: boolean;
         /**
-         * Dollar value of the homestead exemption, if capped.
+         * Dollar value of the homestead exemption, if capped
          */
         exemptionAmount?: Money2;
         /**
-         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states.
+         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states
          */
         exemptionUnlimited?: boolean;
         /**
-         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children.
+         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children
          */
         deviseRestriction?: boolean;
         /**
-         * Additional notes on homestead status.
+         * Additional notes on homestead status
          */
         notes?: string;
     };
     /**
-     * Whether this property passes outside the probate estate — typically via joint tenancy with right of survivorship, a transfer-on-death deed, or a trust.
+     * Whether this property passes outside the probate estate — typically via joint tenancy with right of survivorship, a transfer-on-death deed, or a trust
      */
     passesOutsideEstate?: boolean;
     /**
-     * A life estate imposed by statute rather than by the will. The surviving spouse or other protected person has a right to occupy for life.
+     * A life estate imposed by statute rather than by the will. The surviving spouse or other protected person has a right to occupy for life
      */
     statutoryLifeEstate?: {
         /**
-         * Reference to the Person.id of the life estate beneficiary.
+         * Reference to the Person.id of the life estate beneficiary
          */
         beneficiaryPersonId?: string;
         /**
-         * The statutory basis for this life estate.
+         * The statutory basis for this life estate
          */
         basis?: string;
         /**
-         * Any conditions on the life estate.
+         * Any conditions on the life estate
          */
         conditions?: string;
     };
     /**
-     * Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations.
+     * Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations
      */
     notes?: string;
     /**
-     * Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation.
+     * Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation
      */
     images?: Array<Media>;
     [key: string]: unknown | string | string | 'detached' | 'attached' | 'apartment' | 'land' | 'commercial' | 'mixed_use' | 'rural' | 'mobile' | 'watercraft' | 'other' | Address2 | Money2 | string | 'estimated' | 'professional' | 'official' | 'unknown' | boolean | 'sole' | 'joint_tenants' | 'tenants_in_common' | 'trust' | 'tenancy_by_entirety' | number | 'individual' | 'joint' | 'communal_family' | 'huf_coparcenary' | 'tribal' | 'government_vested' | 'trust_held' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'ownership' | 'lease' | 'communal' | 'customary' | 'informal' | 'government_allocated' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
         /**
-         * Jurisdiction whose succession law governs this property.
+         * Jurisdiction whose succession law governs this property
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Name of the applicable law.
+         * Name of the applicable law
          */
         lawName?: string;
         /**
-         * Specific section of the law that applies.
+         * Specific section of the law that applies
          */
         section?: string;
     } | 'testamentary' | 'intestacy' | 'customary_eldest_son' | 'customary_family_council' | 'customary_matrilineal' | 'survivorship' | 'not_individually_bequeathable' | 'immoveable' | 'moveable' | 'mixed' | 'community' | 'separate' | 'quasi_community' | 'mixed' | 'not_applicable' | {
         /**
-         * Whether this property qualifies as a homestead.
+         * Whether this property qualifies as a homestead
          */
         isHomestead?: boolean;
         /**
-         * Dollar value of the homestead exemption, if capped.
+         * Dollar value of the homestead exemption, if capped
          */
         exemptionAmount?: Money2;
         /**
-         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states.
+         * Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states
          */
         exemptionUnlimited?: boolean;
         /**
-         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children.
+         * Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children
          */
         deviseRestriction?: boolean;
         /**
-         * Additional notes on homestead status.
+         * Additional notes on homestead status
          */
         notes?: string;
     } | {
         /**
-         * Reference to the Person.id of the life estate beneficiary.
+         * Reference to the Person.id of the life estate beneficiary
          */
         beneficiaryPersonId?: string;
         /**
-         * The statutory basis for this life estate.
+         * The statutory basis for this life estate
          */
         basis?: string;
         /**
-         * Any conditions on the life estate.
+         * Any conditions on the life estate
          */
         conditions?: string;
     } | string | Array<Media> | undefined;
@@ -2161,979 +2161,979 @@ export type Property2 = {
 /**
  * Asset
  *
- * A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.
+ * A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc
  */
 export type Asset2 = {
     /**
-     * Unique identifier for this asset within the INHERIT document.
+     * Unique identifier for this asset within the INHERIT document
      */
     id: string;
     /**
-     * Display name for this asset. Should be specific enough to identify the item during probate.
+     * Display name for this asset. Should be specific enough to identify the item during probate
      */
     name: string;
     /**
-     * Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category.
+     * Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category
      */
     category: 'financial' | 'property_contents' | 'vehicle' | 'jewellery_watches' | 'art' | 'antiques' | 'collectibles' | 'musical_instruments' | 'books_manuscripts' | 'wine_spirits' | 'clothing_textiles' | 'firearms_sporting' | 'digital' | 'business' | 'islamic_financial' | 'other';
     /**
-     * Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → 'pension', collectibles → 'model_railways', vehicle → 'classic_vehicle'.
+     * Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → 'pension', collectibles → 'model_railways', vehicle → 'classic_vehicle'
      */
     subcategory?: string;
     /**
-     * Owner's estimate of the asset's current value, in minor currency units.
+     * Owner's estimate of the asset's current value, in minor currency units
      */
     estimatedValue?: Money2;
     /**
-     * Professional valuation of the asset, in minor currency units.
+     * Professional valuation of the asset, in minor currency units
      */
     professionalValuation?: Money2;
     /**
-     * Date of the most recent valuation.
+     * Date of the most recent valuation
      */
     valuationDate?: string;
     /**
-     * Level of confidence in the stated valuation.
+     * Level of confidence in the stated valuation
      */
     valuationConfidence?: 'estimated' | 'professional' | 'official' | 'unknown';
     /**
-     * Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless.
+     * Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless
      */
     condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable';
     /**
-     * Number of items if this represents multiple identical or similar items.
+     * Number of items if this represents multiple identical or similar items
      */
     quantity?: number;
     /**
-     * Where this asset is physically stored or held — a bank, safe, property, or institution.
+     * Where this asset is physically stored or held — a bank, safe, property, or institution
      */
     location?: string;
     /**
-     * Reference to a Property.id if this asset is located at a specific property in the estate.
+     * Reference to a Property.id if this asset is located at a specific property in the estate
      */
     propertyId?: string;
     /**
-     * External identifiers — serial numbers, account numbers, policy references, registration numbers, etc.
+     * External identifiers — serial numbers, account numbers, policy references, registration numbers, etc
      */
     identifiers?: Array<Identifier2>;
     /**
-     * Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item.
+     * Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item
      */
     images?: Array<Media>;
     /**
-     * Whether the asset was held at death, is receivable post-death, or is contingent on a future event.
+     * Whether the asset was held at death, is receivable post-death, or is contingent on a future event
      */
     possessionStatus?: 'possessed_at_death' | 'receivable' | 'contingent';
     /**
-     * Whether this asset is classified as immoveable or moveable property. Affects which conflict-of-laws rules apply in cross-border estates.
+     * Whether this asset is classified as immoveable or moveable property. Affects which conflict-of-laws rules apply in cross-border estates
      */
     mobilityType?: 'immoveable' | 'moveable' | 'mixed';
     /**
-     * How this asset was acquired. Determines succession rules in Indian and other customary systems.
+     * How this asset was acquired. Determines succession rules in Indian and other customary systems
      */
     acquisitionType?: 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed';
     /**
-     * Whether ownership of this asset is formally registered or documented.
+     * Whether ownership of this asset is formally registered or documented
      */
     registrationStatus?: 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented';
     /**
-     * The type of evidence available to prove ownership of this asset.
+     * The type of evidence available to prove ownership of this asset
      */
     ownershipEvidence?: 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none';
     /**
-     * The succession law governing this specific asset, if different from the general estate law.
+     * The succession law governing this specific asset, if different from the general estate law
      */
     applicableSuccessionLaw?: {
         /**
-         * Jurisdiction whose succession law governs this asset.
+         * Jurisdiction whose succession law governs this asset
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Name of the applicable law.
+         * Name of the applicable law
          */
         lawName?: string;
         /**
-         * Specific section of the law.
+         * Specific section of the law
          */
         section?: string;
     };
     /**
-     * Named beneficiary designation for this asset. Assets with beneficiary designations pass outside the probate estate — the will does not control their distribution.
+     * Named beneficiary designation for this asset. Assets with beneficiary designations pass outside the probate estate — the will does not control their distribution
      */
     beneficiaryDesignation?: {
         /**
-         * Person IDs of the primary beneficiaries.
+         * Person IDs of the primary beneficiaries
          */
         primaryBeneficiaryPersonIds?: Array<string>;
         /**
-         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease).
+         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease)
          */
         contingentBeneficiaryPersonIds?: Array<string>;
         /**
-         * The type of beneficiary designation.
+         * The type of beneficiary designation
          */
         designationType?: 'retirement_account' | 'life_insurance' | 'superannuation' | 'pod_account' | 'other';
         /**
-         * Reference to the NonprobateTransfer entity that tracks this designation.
+         * Reference to the NonprobateTransfer entity that tracks this designation
          */
         linkedNonprobateTransferId?: string;
     };
     /**
-     * Digital access consent under RUFADAA or equivalent legislation. Governs whether executors and fiduciaries can access the deceased's digital accounts and assets.
+     * Digital access consent under RUFADAA or equivalent legislation. Governs whether executors and fiduciaries can access the deceased's digital accounts and assets
      */
     digitalAccessConsent?: {
         /**
-         * Whether the account holder has given consent for fiduciary access.
+         * Whether the account holder has given consent for fiduciary access
          */
         consentGiven?: boolean;
         /**
-         * The scope of access granted to fiduciaries.
+         * The scope of access granted to fiduciaries
          */
         scope?: 'full_access' | 'limited_access' | 'no_access';
         /**
-         * Reference to the Person.id designated to receive access to this digital asset.
+         * Reference to the Person.id designated to receive access to this digital asset
          */
         designatedRecipientPersonId?: string;
         /**
-         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.
+         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA
          */
         onlineToolDirective?: boolean;
     };
     /**
-     * Whether this asset passes outside the probate estate. Beneficiary designations, POD accounts, and jointly held assets typically bypass the will.
+     * Whether this asset passes outside the probate estate. Beneficiary designations, POD accounts, and jointly held assets typically bypass the will
      */
     passesOutsideEstate?: boolean;
     /**
-     * Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields.
+     * Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields
      */
     notes?: string;
     /**
-     * Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form.
+     * Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form
      */
     description?: string;
     /**
-     * The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid.
+     * The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid
      */
     brand?: string;
     /**
-     * The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory.
+     * The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory
      */
     model?: string;
     /**
-     * Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate.
+     * Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate
      */
     purchaseDate?: string;
     /**
-     * Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains.
+     * Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains
      */
     originalPackaging?: 'complete' | 'partial' | 'box_only' | 'papers_only' | 'none' | 'unknown';
     /**
-     * Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact.
+     * Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact
      */
     custodian?: {
         /**
-         * Name of the person or organisation holding the asset.
+         * Name of the person or organisation holding the asset
          */
         name?: string;
         /**
-         * Email address for the custodian.
+         * Email address for the custodian
          */
         contactEmail?: string;
         /**
-         * Phone number for the custodian.
+         * Phone number for the custodian
          */
         contactPhone?: string;
         /**
-         * The nature of the custodial relationship.
+         * The nature of the custodial relationship
          */
         relationship?: string;
         /**
-         * Account or reference number with the custodian.
+         * Account or reference number with the custodian
          */
         reference?: string;
     };
     /**
-     * The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field.
+     * The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field
      */
     conditionSystem?: string;
     /**
-     * The specific grade within the conditionSystem. Meaningful only when conditionSystem is set.
+     * The specific grade within the conditionSystem. Meaningful only when conditionSystem is set
      */
     conditionGrade?: string;
     /**
-     * How urgently this asset needs attention after the testator's death. Drives the executor's priority list.
+     * How urgently this asset needs attention after the testator's death. Drives the executor's priority list
      */
     urgency?: 'immediate' | 'within_7_days' | 'within_30_days' | 'none';
     /**
-     * Explanation of why this asset is urgent. Particularly important for 'immediate' items.
+     * Explanation of why this asset is urgent. Particularly important for 'immediate' items
      */
     urgencyReason?: string;
     /**
-     * Reference to another Asset.id if this asset is physically contained within or logically part of another asset. Enables hierarchical asset nesting — e.g. a watch inside a safe, tools inside a toolbox.
+     * Reference to another Asset.id if this asset is physically contained within or logically part of another asset. Enables hierarchical asset nesting — e.g. a watch inside a safe, tools inside a toolbox
      */
     containedInAssetId?: string;
     /**
-     * Insurance coverage for this asset. The executor needs to know what's insured, by whom, and whether cover continues after death.
+     * Insurance coverage for this asset. The executor needs to know what's insured, by whom, and whether cover continues after death
      */
     insurance?: {
         /**
-         * Name of the insurance provider.
+         * Name of the insurance provider
          */
         provider?: string;
         /**
-         * Policy reference number.
+         * Policy reference number
          */
         policyReference?: string;
         /**
-         * The insured value in minor currency units.
+         * The insured value in minor currency units
          */
         insuredValue?: Money2;
         /**
-         * Next renewal date. Important — cover may lapse if not renewed after death.
+         * Next renewal date. Important — cover may lapse if not renewed after death
          */
         renewalDate?: string;
         /**
-         * Additional insurance notes.
+         * Additional insurance notes
          */
         notes?: string;
     };
     /**
-     * Where the asset was purchased or acquired from. Collectors track provenance — valuable for dealers and for establishing authenticity.
+     * Where the asset was purchased or acquired from. Collectors track provenance — valuable for dealers and for establishing authenticity
      */
     purchasedFrom?: string;
     /**
-     * Reference to an importSources entry on the root document, indicating which system this entity was imported from.
+     * Reference to an importSources entry on the root document, indicating which system this entity was imported from
      */
     importSourceId?: string;
     /**
-     * How this specific entity's data was captured. Overrides the document-level default if set.
+     * How this specific entity's data was captured. Overrides the document-level default if set
      */
     dataProvenance?: 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated';
     /**
-     * Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving.
+     * Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving
      */
     searchTerms?: Array<string>;
     /**
-     * Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers.
+     * Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers
      */
     comparableSearchProfile?: {
         /**
-         * Marketplaces and platforms to search.
+         * Marketplaces and platforms to search
          */
         platforms?: Array<string>;
         /**
-         * Natural-language query an agent should use.
+         * Natural-language query an agent should use
          */
         searchQuery?: string;
         /**
-         * Key-value filters to narrow results. Agents map to platform-specific parameters.
+         * Key-value filters to narrow results. Agents map to platform-specific parameters
          */
         filters?: {
             [key: string]: string;
         };
         /**
-         * Platforms explicitly excluded.
+         * Platforms explicitly excluded
          */
         excludePlatforms?: Array<string>;
         /**
-         * When an agent last executed this search profile.
+         * When an agent last executed this search profile
          */
         lastSearchedAt?: string;
         /**
-         * How often this item should be re-searched.
+         * How often this item should be re-searched
          */
         searchFrequency?: 'once' | 'weekly' | 'monthly' | 'on_demand';
     };
     /**
-     * AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated.
+     * AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated
      */
     suggestedSubcategory?: string;
     /**
-     * Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities.
+     * Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities
      */
     confidenceScores?: {
         [key: string]: number;
     };
     /**
-     * Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation.
+     * Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation
      */
     valuationReliability?: number;
     /**
-     * When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them.
+     * When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them
      */
     lastVerifiedAt?: string;
     /**
-     * Who or what verified this entity — a person's name, a tool, or 'owner'.
+     * Who or what verified this entity — a person's name, a tool, or 'owner'
      */
     verifiedBy?: string;
     /**
-     * Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations.
+     * Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations
      */
     shareholding?: {
         /**
-         * Name of the company in which shares are held.
+         * Name of the company in which shares are held
          */
         companyName?: string;
         /**
-         * Company registration number.
+         * Company registration number
          */
         companyNumber?: string;
         /**
-         * Class of shares held.
+         * Class of shares held
          */
         shareClass?: string;
         /**
-         * Number of shares held.
+         * Number of shares held
          */
         numberOfShares?: number;
         /**
-         * Total shares issued by the company (for calculating percentage ownership).
+         * Total shares issued by the company (for calculating percentage ownership)
          */
         totalSharesIssued?: number;
         /**
-         * Whether these shares carry voting rights.
+         * Whether these shares carry voting rights
          */
         votingRights?: boolean;
         /**
-         * Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement).
+         * Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement)
          */
         restrictedTransfer?: boolean;
         /**
-         * Stock exchange where shares are listed, if publicly traded. Null/absent for private companies.
+         * Stock exchange where shares are listed, if publicly traded. Null/absent for private companies
          */
         listedExchange?: string;
         /**
-         * Stock ticker symbol.
+         * Stock ticker symbol
          */
         ticker?: string;
         /**
-         * CUSIP identifier (US/Canada). 9-character alphanumeric.
+         * CUSIP identifier (US/Canada). 9-character alphanumeric
          */
         cusip?: string;
         /**
-         * International Securities Identification Number.
+         * International Securities Identification Number
          */
         isin?: string;
     };
     /**
-     * Detailed business interest information — partnership shares, LLP membership, sole trader business. Relevant for BPR (UK), QFOBI (US), and succession planning.
+     * Detailed business interest information — partnership shares, LLP membership, sole trader business. Relevant for BPR (UK), QFOBI (US), and succession planning
      */
     businessInterest?: {
         /**
-         * Trading name of the business.
+         * Trading name of the business
          */
         businessName?: string;
         /**
-         * Legal structure of the business.
+         * Legal structure of the business
          */
         businessType?: 'sole_trader' | 'partnership' | 'llp' | 'limited_company' | 'plc' | 'franchise' | 'cooperative' | 'other';
         /**
-         * The testator's ownership percentage.
+         * The testator's ownership percentage
          */
         ownershipPercentage?: number;
         /**
-         * Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts.
+         * Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts
          */
         controllingInterest?: boolean;
         /**
-         * Whether a written partnership/operating agreement exists.
+         * Whether a written partnership/operating agreement exists
          */
         partnershipAgreement?: boolean;
         /**
-         * What the partnership/operating agreement says about succession on death.
+         * What the partnership/operating agreement says about succession on death
          */
         successionProvision?: string;
         /**
-         * Approximate annual turnover — helps with BPR qualification and valuation.
+         * Approximate annual turnover — helps with BPR qualification and valuation
          */
         annualTurnover?: Money2;
         /**
-         * Number of employees.
+         * Number of employees
          */
         employees?: number;
     };
     /**
-     * Detailed pension information — scheme type, nominated beneficiaries, death benefits. Pensions often pass outside the estate via nomination.
+     * Detailed pension information — scheme type, nominated beneficiaries, death benefits. Pensions often pass outside the estate via nomination
      */
     pension?: {
         /**
-         * The type of pension scheme.
+         * The type of pension scheme
          */
         schemeType?: 'defined_benefit' | 'defined_contribution' | 'sipp' | 'state_pension' | 'annuity' | 'drawdown' | 'other';
         /**
-         * Pension provider name.
+         * Pension provider name
          */
         provider?: string;
         /**
-         * Policy or membership reference number.
+         * Policy or membership reference number
          */
         policyReference?: string;
         /**
-         * Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations.
+         * Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations
          */
         nominatedBeneficiaries?: Array<string>;
         /**
-         * Date the beneficiary nomination was last updated.
+         * Date the beneficiary nomination was last updated
          */
         nominationDate?: string;
         /**
-         * Type of death benefit payable from this pension.
+         * Type of death benefit payable from this pension
          */
         deathBenefitType?: 'lump_sum' | 'dependants_pension' | 'drawdown_transfer' | 'annuity_guarantee' | 'none';
         /**
-         * Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income).
+         * Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income)
          */
         crystallised?: boolean;
         /**
-         * Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain.
+         * Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain
          */
         lifetimeAllowanceUsed?: number;
     };
     /**
-     * Life insurance policy details — type, sum assured, beneficiaries, trust status. Policies written in trust pass outside the estate.
+     * Life insurance policy details — type, sum assured, beneficiaries, trust status. Policies written in trust pass outside the estate
      */
     insurancePolicy?: {
         /**
-         * Type of insurance policy.
+         * Type of insurance policy
          */
         policyType?: 'term_life' | 'whole_life' | 'endowment' | 'critical_illness' | 'income_protection' | 'key_person' | 'other';
         /**
-         * Insurance company name.
+         * Insurance company name
          */
         provider?: string;
         /**
-         * Policy reference number.
+         * Policy reference number
          */
         policyReference?: string;
         /**
-         * The amount payable on death, in minor currency units.
+         * The amount payable on death, in minor currency units
          */
         sumAssured?: Money2;
         /**
-         * Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax.
+         * Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax
          */
         writtenInTrust?: boolean;
         /**
-         * Names of the policy trustees, if written in trust.
+         * Names of the policy trustees, if written in trust
          */
         trusteeNames?: Array<string>;
         /**
-         * Person IDs of named beneficiaries.
+         * Person IDs of named beneficiaries
          */
         beneficiaryPersonIds?: Array<string>;
         /**
-         * How often premiums are paid.
+         * How often premiums are paid
          */
         premiumFrequency?: 'monthly' | 'annual' | 'single_premium' | 'paid_up';
         /**
-         * Policy expiry date (for term policies).
+         * Policy expiry date (for term policies)
          */
         expiryDate?: string;
     };
     /**
-     * Co-ownership details for assets held jointly or in common with others. Determines whether the asset passes by survivorship or under the will.
+     * Co-ownership details for assets held jointly or in common with others. Determines whether the asset passes by survivorship or under the will
      */
     coOwnership?: {
         /**
-         * Person IDs of co-owners.
+         * Person IDs of co-owners
          */
         coOwnerPersonIds?: Array<string>;
         /**
-         * How ownership is structured between co-owners.
+         * How ownership is structured between co-owners
          */
         ownershipType?: 'joint_tenants' | 'tenants_in_common' | 'community_property' | 'partnership' | 'other';
         /**
-         * The testator's ownership percentage.
+         * The testator's ownership percentage
          */
         ownershipPercentage?: number;
         /**
-         * Date joint tenancy was severed to become tenants in common (if applicable).
+         * Date joint tenancy was severed to become tenants in common (if applicable)
          */
         severanceDate?: string;
     };
     /**
-     * Intellectual property details — patents, copyrights, trademarks, trade secrets. IP succession varies by jurisdiction and type.
+     * Intellectual property details — patents, copyrights, trademarks, trade secrets. IP succession varies by jurisdiction and type
      */
     intellectualProperty?: {
         /**
-         * Type of intellectual property.
+         * Type of intellectual property
          */
         ipType?: 'patent' | 'copyright' | 'trademark' | 'design_right' | 'trade_secret' | 'database_right' | 'other';
         /**
-         * Registration or application number.
+         * Registration or application number
          */
         registrationNumber?: string;
         /**
-         * Intellectual property office where registered.
+         * Intellectual property office where registered
          */
         registrationOffice?: string;
         /**
-         * Date the IP right expires.
+         * Date the IP right expires
          */
         expiryDate?: string;
         /**
-         * Approximate annual revenue generated from this IP (licensing, royalties, etc.).
+         * Approximate annual revenue generated from this IP (licensing, royalties, etc.)
          */
         annualRevenue?: Money2;
         /**
-         * Current licensees of this IP.
+         * Current licensees of this IP
          */
         licensees?: Array<string>;
     };
     /**
-     * Employee stock compensation details — options, RSUs, ESPPs. Vesting schedules and exercise windows are critical on death.
+     * Employee stock compensation details — options, RSUs, ESPPs. Vesting schedules and exercise windows are critical on death
      */
     stockCompensation?: {
         /**
-         * Type of stock compensation.
+         * Type of stock compensation
          */
         compensationType?: 'iso' | 'nso' | 'rsu' | 'espp' | 'phantom_stock' | 'sar' | 'other';
         /**
-         * Date the award was granted.
+         * Date the award was granted
          */
         grantDate?: string;
         /**
-         * Description of the vesting schedule.
+         * Description of the vesting schedule
          */
         vestingSchedule?: string;
         /**
-         * Number of shares/units currently vested.
+         * Number of shares/units currently vested
          */
         vestedQuantity?: number;
         /**
-         * Number of shares/units not yet vested. May be forfeited on death depending on plan terms.
+         * Number of shares/units not yet vested. May be forfeited on death depending on plan terms
          */
         unvestedQuantity?: number;
         /**
-         * Strike/exercise price per share for options.
+         * Strike/exercise price per share for options
          */
         exercisePrice?: Money2;
         /**
-         * Date the options expire. Estate typically has limited window to exercise after death.
+         * Date the options expire. Estate typically has limited window to exercise after death
          */
         expirationDate?: string;
         /**
-         * Time allowed for estate to exercise options after death.
+         * Time allowed for estate to exercise options after death
          */
         postDeathExerciseWindow?: string;
         /**
-         * Whether unvested awards accelerate (fully vest) on death.
+         * Whether unvested awards accelerate (fully vest) on death
          */
         acceleratesOnDeath?: boolean;
     };
     /**
-     * Details of money owed to the testator by others. These are estate assets that the executor must collect.
+     * Details of money owed to the testator by others. These are estate assets that the executor must collect
      */
     debtReceivable?: {
         /**
-         * Name of the person or organisation that owes the debt.
+         * Name of the person or organisation that owes the debt
          */
         debtorName?: string;
         /**
-         * Reference to Person.id if the debtor is in the people array.
+         * Reference to Person.id if the debtor is in the people array
          */
         debtorPersonId?: string;
         /**
-         * Original amount of the debt.
+         * Original amount of the debt
          */
         originalAmount?: Money2;
         /**
-         * Amount currently outstanding.
+         * Amount currently outstanding
          */
         outstandingAmount?: Money2;
         /**
-         * Annual interest rate on the debt, as a percentage.
+         * Annual interest rate on the debt, as a percentage
          */
         interestRate?: number;
         /**
-         * Whether the debt is secured against collateral.
+         * Whether the debt is secured against collateral
          */
         secured?: boolean;
         /**
-         * Reference to any loan agreement or promissory note.
+         * Reference to any loan agreement or promissory note
          */
         documentRef?: string;
         /**
-         * Likelihood of collecting this debt.
+         * Likelihood of collecting this debt
          */
         collectibility?: 'likely' | 'uncertain' | 'doubtful' | 'uncollectible';
     };
     [key: string]: unknown | string | string | 'financial' | 'property_contents' | 'vehicle' | 'jewellery_watches' | 'art' | 'antiques' | 'collectibles' | 'musical_instruments' | 'books_manuscripts' | 'wine_spirits' | 'clothing_textiles' | 'firearms_sporting' | 'digital' | 'business' | 'islamic_financial' | 'other' | string | Money2 | string | 'estimated' | 'professional' | 'official' | 'unknown' | 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable' | number | Array<Identifier2> | Array<Media> | 'possessed_at_death' | 'receivable' | 'contingent' | 'immoveable' | 'moveable' | 'mixed' | 'self_acquired' | 'ancestral_joint' | 'ancestral_severed' | 'inherited' | 'gifted' | 'stridhan' | 'communal' | 'waqf_endowed' | 'formally_registered' | 'informally_held' | 'community_acknowledged' | 'disputed' | 'undocumented' | 'title_deed' | 'certificate_of_occupancy' | 'family_recognition' | 'community_testimony' | 'receipts_only' | 'none' | {
         /**
-         * Jurisdiction whose succession law governs this asset.
+         * Jurisdiction whose succession law governs this asset
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Name of the applicable law.
+         * Name of the applicable law
          */
         lawName?: string;
         /**
-         * Specific section of the law.
+         * Specific section of the law
          */
         section?: string;
     } | {
         /**
-         * Person IDs of the primary beneficiaries.
+         * Person IDs of the primary beneficiaries
          */
         primaryBeneficiaryPersonIds?: Array<string>;
         /**
-         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease).
+         * Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease)
          */
         contingentBeneficiaryPersonIds?: Array<string>;
         /**
-         * The type of beneficiary designation.
+         * The type of beneficiary designation
          */
         designationType?: 'retirement_account' | 'life_insurance' | 'superannuation' | 'pod_account' | 'other';
         /**
-         * Reference to the NonprobateTransfer entity that tracks this designation.
+         * Reference to the NonprobateTransfer entity that tracks this designation
          */
         linkedNonprobateTransferId?: string;
     } | {
         /**
-         * Whether the account holder has given consent for fiduciary access.
+         * Whether the account holder has given consent for fiduciary access
          */
         consentGiven?: boolean;
         /**
-         * The scope of access granted to fiduciaries.
+         * The scope of access granted to fiduciaries
          */
         scope?: 'full_access' | 'limited_access' | 'no_access';
         /**
-         * Reference to the Person.id designated to receive access to this digital asset.
+         * Reference to the Person.id designated to receive access to this digital asset
          */
         designatedRecipientPersonId?: string;
         /**
-         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.
+         * Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA
          */
         onlineToolDirective?: boolean;
     } | boolean | 'complete' | 'partial' | 'box_only' | 'papers_only' | 'none' | 'unknown' | {
         /**
-         * Name of the person or organisation holding the asset.
+         * Name of the person or organisation holding the asset
          */
         name?: string;
         /**
-         * Email address for the custodian.
+         * Email address for the custodian
          */
         contactEmail?: string;
         /**
-         * Phone number for the custodian.
+         * Phone number for the custodian
          */
         contactPhone?: string;
         /**
-         * The nature of the custodial relationship.
+         * The nature of the custodial relationship
          */
         relationship?: string;
         /**
-         * Account or reference number with the custodian.
+         * Account or reference number with the custodian
          */
         reference?: string;
     } | 'immediate' | 'within_7_days' | 'within_30_days' | 'none' | {
         /**
-         * Name of the insurance provider.
+         * Name of the insurance provider
          */
         provider?: string;
         /**
-         * Policy reference number.
+         * Policy reference number
          */
         policyReference?: string;
         /**
-         * The insured value in minor currency units.
+         * The insured value in minor currency units
          */
         insuredValue?: Money2;
         /**
-         * Next renewal date. Important — cover may lapse if not renewed after death.
+         * Next renewal date. Important — cover may lapse if not renewed after death
          */
         renewalDate?: string;
         /**
-         * Additional insurance notes.
+         * Additional insurance notes
          */
         notes?: string;
     } | 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated' | Array<string> | {
         /**
-         * Marketplaces and platforms to search.
+         * Marketplaces and platforms to search
          */
         platforms?: Array<string>;
         /**
-         * Natural-language query an agent should use.
+         * Natural-language query an agent should use
          */
         searchQuery?: string;
         /**
-         * Key-value filters to narrow results. Agents map to platform-specific parameters.
+         * Key-value filters to narrow results. Agents map to platform-specific parameters
          */
         filters?: {
             [key: string]: string;
         };
         /**
-         * Platforms explicitly excluded.
+         * Platforms explicitly excluded
          */
         excludePlatforms?: Array<string>;
         /**
-         * When an agent last executed this search profile.
+         * When an agent last executed this search profile
          */
         lastSearchedAt?: string;
         /**
-         * How often this item should be re-searched.
+         * How often this item should be re-searched
          */
         searchFrequency?: 'once' | 'weekly' | 'monthly' | 'on_demand';
     } | {
         [key: string]: number;
     } | number | string | {
         /**
-         * Name of the company in which shares are held.
+         * Name of the company in which shares are held
          */
         companyName?: string;
         /**
-         * Company registration number.
+         * Company registration number
          */
         companyNumber?: string;
         /**
-         * Class of shares held.
+         * Class of shares held
          */
         shareClass?: string;
         /**
-         * Number of shares held.
+         * Number of shares held
          */
         numberOfShares?: number;
         /**
-         * Total shares issued by the company (for calculating percentage ownership).
+         * Total shares issued by the company (for calculating percentage ownership)
          */
         totalSharesIssued?: number;
         /**
-         * Whether these shares carry voting rights.
+         * Whether these shares carry voting rights
          */
         votingRights?: boolean;
         /**
-         * Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement).
+         * Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement)
          */
         restrictedTransfer?: boolean;
         /**
-         * Stock exchange where shares are listed, if publicly traded. Null/absent for private companies.
+         * Stock exchange where shares are listed, if publicly traded. Null/absent for private companies
          */
         listedExchange?: string;
         /**
-         * Stock ticker symbol.
+         * Stock ticker symbol
          */
         ticker?: string;
         /**
-         * CUSIP identifier (US/Canada). 9-character alphanumeric.
+         * CUSIP identifier (US/Canada). 9-character alphanumeric
          */
         cusip?: string;
         /**
-         * International Securities Identification Number.
+         * International Securities Identification Number
          */
         isin?: string;
     } | {
         /**
-         * Trading name of the business.
+         * Trading name of the business
          */
         businessName?: string;
         /**
-         * Legal structure of the business.
+         * Legal structure of the business
          */
         businessType?: 'sole_trader' | 'partnership' | 'llp' | 'limited_company' | 'plc' | 'franchise' | 'cooperative' | 'other';
         /**
-         * The testator's ownership percentage.
+         * The testator's ownership percentage
          */
         ownershipPercentage?: number;
         /**
-         * Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts.
+         * Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts
          */
         controllingInterest?: boolean;
         /**
-         * Whether a written partnership/operating agreement exists.
+         * Whether a written partnership/operating agreement exists
          */
         partnershipAgreement?: boolean;
         /**
-         * What the partnership/operating agreement says about succession on death.
+         * What the partnership/operating agreement says about succession on death
          */
         successionProvision?: string;
         /**
-         * Approximate annual turnover — helps with BPR qualification and valuation.
+         * Approximate annual turnover — helps with BPR qualification and valuation
          */
         annualTurnover?: Money2;
         /**
-         * Number of employees.
+         * Number of employees
          */
         employees?: number;
     } | {
         /**
-         * The type of pension scheme.
+         * The type of pension scheme
          */
         schemeType?: 'defined_benefit' | 'defined_contribution' | 'sipp' | 'state_pension' | 'annuity' | 'drawdown' | 'other';
         /**
-         * Pension provider name.
+         * Pension provider name
          */
         provider?: string;
         /**
-         * Policy or membership reference number.
+         * Policy or membership reference number
          */
         policyReference?: string;
         /**
-         * Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations.
+         * Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations
          */
         nominatedBeneficiaries?: Array<string>;
         /**
-         * Date the beneficiary nomination was last updated.
+         * Date the beneficiary nomination was last updated
          */
         nominationDate?: string;
         /**
-         * Type of death benefit payable from this pension.
+         * Type of death benefit payable from this pension
          */
         deathBenefitType?: 'lump_sum' | 'dependants_pension' | 'drawdown_transfer' | 'annuity_guarantee' | 'none';
         /**
-         * Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income).
+         * Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income)
          */
         crystallised?: boolean;
         /**
-         * Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain.
+         * Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain
          */
         lifetimeAllowanceUsed?: number;
     } | {
         /**
-         * Type of insurance policy.
+         * Type of insurance policy
          */
         policyType?: 'term_life' | 'whole_life' | 'endowment' | 'critical_illness' | 'income_protection' | 'key_person' | 'other';
         /**
-         * Insurance company name.
+         * Insurance company name
          */
         provider?: string;
         /**
-         * Policy reference number.
+         * Policy reference number
          */
         policyReference?: string;
         /**
-         * The amount payable on death, in minor currency units.
+         * The amount payable on death, in minor currency units
          */
         sumAssured?: Money2;
         /**
-         * Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax.
+         * Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax
          */
         writtenInTrust?: boolean;
         /**
-         * Names of the policy trustees, if written in trust.
+         * Names of the policy trustees, if written in trust
          */
         trusteeNames?: Array<string>;
         /**
-         * Person IDs of named beneficiaries.
+         * Person IDs of named beneficiaries
          */
         beneficiaryPersonIds?: Array<string>;
         /**
-         * How often premiums are paid.
+         * How often premiums are paid
          */
         premiumFrequency?: 'monthly' | 'annual' | 'single_premium' | 'paid_up';
         /**
-         * Policy expiry date (for term policies).
+         * Policy expiry date (for term policies)
          */
         expiryDate?: string;
     } | {
         /**
-         * Person IDs of co-owners.
+         * Person IDs of co-owners
          */
         coOwnerPersonIds?: Array<string>;
         /**
-         * How ownership is structured between co-owners.
+         * How ownership is structured between co-owners
          */
         ownershipType?: 'joint_tenants' | 'tenants_in_common' | 'community_property' | 'partnership' | 'other';
         /**
-         * The testator's ownership percentage.
+         * The testator's ownership percentage
          */
         ownershipPercentage?: number;
         /**
-         * Date joint tenancy was severed to become tenants in common (if applicable).
+         * Date joint tenancy was severed to become tenants in common (if applicable)
          */
         severanceDate?: string;
     } | {
         /**
-         * Type of intellectual property.
+         * Type of intellectual property
          */
         ipType?: 'patent' | 'copyright' | 'trademark' | 'design_right' | 'trade_secret' | 'database_right' | 'other';
         /**
-         * Registration or application number.
+         * Registration or application number
          */
         registrationNumber?: string;
         /**
-         * Intellectual property office where registered.
+         * Intellectual property office where registered
          */
         registrationOffice?: string;
         /**
-         * Date the IP right expires.
+         * Date the IP right expires
          */
         expiryDate?: string;
         /**
-         * Approximate annual revenue generated from this IP (licensing, royalties, etc.).
+         * Approximate annual revenue generated from this IP (licensing, royalties, etc.)
          */
         annualRevenue?: Money2;
         /**
-         * Current licensees of this IP.
+         * Current licensees of this IP
          */
         licensees?: Array<string>;
     } | {
         /**
-         * Type of stock compensation.
+         * Type of stock compensation
          */
         compensationType?: 'iso' | 'nso' | 'rsu' | 'espp' | 'phantom_stock' | 'sar' | 'other';
         /**
-         * Date the award was granted.
+         * Date the award was granted
          */
         grantDate?: string;
         /**
-         * Description of the vesting schedule.
+         * Description of the vesting schedule
          */
         vestingSchedule?: string;
         /**
-         * Number of shares/units currently vested.
+         * Number of shares/units currently vested
          */
         vestedQuantity?: number;
         /**
-         * Number of shares/units not yet vested. May be forfeited on death depending on plan terms.
+         * Number of shares/units not yet vested. May be forfeited on death depending on plan terms
          */
         unvestedQuantity?: number;
         /**
-         * Strike/exercise price per share for options.
+         * Strike/exercise price per share for options
          */
         exercisePrice?: Money2;
         /**
-         * Date the options expire. Estate typically has limited window to exercise after death.
+         * Date the options expire. Estate typically has limited window to exercise after death
          */
         expirationDate?: string;
         /**
-         * Time allowed for estate to exercise options after death.
+         * Time allowed for estate to exercise options after death
          */
         postDeathExerciseWindow?: string;
         /**
-         * Whether unvested awards accelerate (fully vest) on death.
+         * Whether unvested awards accelerate (fully vest) on death
          */
         acceleratesOnDeath?: boolean;
     } | {
         /**
-         * Name of the person or organisation that owes the debt.
+         * Name of the person or organisation that owes the debt
          */
         debtorName?: string;
         /**
-         * Reference to Person.id if the debtor is in the people array.
+         * Reference to Person.id if the debtor is in the people array
          */
         debtorPersonId?: string;
         /**
-         * Original amount of the debt.
+         * Original amount of the debt
          */
         originalAmount?: Money2;
         /**
-         * Amount currently outstanding.
+         * Amount currently outstanding
          */
         outstandingAmount?: Money2;
         /**
-         * Annual interest rate on the debt, as a percentage.
+         * Annual interest rate on the debt, as a percentage
          */
         interestRate?: number;
         /**
-         * Whether the debt is secured against collateral.
+         * Whether the debt is secured against collateral
          */
         secured?: boolean;
         /**
-         * Reference to any loan agreement or promissory note.
+         * Reference to any loan agreement or promissory note
          */
         documentRef?: string;
         /**
-         * Likelihood of collecting this debt.
+         * Likelihood of collecting this debt
          */
         collectibility?: 'likely' | 'uncertain' | 'doubtful' | 'uncollectible';
     } | undefined;
@@ -3142,7 +3142,7 @@ export type Asset2 = {
 /**
  * Asset Collection
  *
- * A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set.
+ * A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set
  */
 export type AssetCollection = {
     /**
@@ -3178,23 +3178,23 @@ export type AssetCollection = {
      */
     valuationDate?: string;
     /**
-     * Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc.
+     * Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc
      */
     disposalWishes?: string;
     /**
-     * The testator's preferred strategy for disposing of this collection. More structured than disposalWishes.
+     * The testator's preferred strategy for disposing of this collection. More structured than disposalWishes
      */
     disposalStrategy?: 'keep_together' | 'sell_as_collection' | 'sell_individually' | 'auction' | 'donate' | 'gift_to_person' | 'dealer_bids' | 'mixed' | 'undecided';
     /**
-     * The minimum total value the testator or executor will accept for the collection. Prevents fire-sale disposal. In minor currency units.
+     * The minimum total value the testator or executor will accept for the collection. Prevents fire-sale disposal. In minor currency units
      */
     minimumAcceptableValue?: Money2;
     /**
-     * Preferred channel for disposing of the collection.
+     * Preferred channel for disposing of the collection
      */
     preferredDisposalMethod?: 'private_sale' | 'auction_house' | 'dealer_network' | 'online_marketplace' | 'specialist_fair' | 'museum_acquisition' | 'other';
     /**
-     * Notes about specialist dealers who might be interested in this collection. Names, contact details, areas of expertise.
+     * Notes about specialist dealers who might be interested in this collection. Names, contact details, areas of expertise
      */
     specialistDealerNotes?: string;
     /**
@@ -3202,7 +3202,7 @@ export type AssetCollection = {
      */
     notes?: string;
     /**
-     * Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection.
+     * Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection
      */
     images?: Array<Media>;
     [key: string]: unknown | string | string | string | 'model_railways' | 'vinyl_records' | 'art' | 'jewellery' | 'wine' | 'stamps' | 'coins' | 'books' | 'musical_instruments' | 'fishing_gear' | 'handbags' | 'power_tools' | 'watches' | 'ceramics' | 'memorabilia' | 'other' | Money2 | 'self_estimated' | 'dealer_valuation' | 'auction_estimate' | 'insurance_value' | string | 'keep_together' | 'sell_as_collection' | 'sell_individually' | 'auction' | 'donate' | 'gift_to_person' | 'dealer_bids' | 'mixed' | 'undecided' | 'private_sale' | 'auction_house' | 'dealer_network' | 'online_marketplace' | 'specialist_fair' | 'museum_acquisition' | 'other' | Array<Media> | undefined;
@@ -3211,7 +3211,7 @@ export type AssetCollection = {
 /**
  * Asset Interest
  *
- * Captures informal beneficiary interest in an asset or collection — pre-bequest soft preferences. Not legally binding. Helps the testator understand who wants what before making formal bequests.
+ * Captures informal beneficiary interest in an asset or collection — pre-bequest soft preferences. Not legally binding. Helps the testator understand who wants what before making formal bequests
  */
 export type AssetInterest = {
     /**
@@ -3256,170 +3256,170 @@ export type AssetInterest = {
 /**
  * Liability
  *
- * A debt or financial obligation. Includes mortgages, loans, credit cards, and cultural obligations (mahr, ketubah debt, lobola) that are priority debts in certain jurisdictions.
+ * A debt or financial obligation. Includes mortgages, loans, credit cards, and cultural obligations (mahr, ketubah debt, lobola) that are priority debts in certain jurisdictions
  */
 export type Liability2 = {
     /**
-     * Unique identifier for this liability within the INHERIT document.
+     * Unique identifier for this liability within the INHERIT document
      */
     id: string;
     /**
-     * The category of liability. Cultural and religious obligations are included because they are priority debts in their respective legal systems.
+     * The category of liability. Cultural and religious obligations are included because they are priority debts in their respective legal systems
      */
     liabilityType: 'mortgage' | 'personal_loan' | 'credit_card' | 'overdraft' | 'student_loan' | 'car_finance' | 'hire_purchase' | 'mahr' | 'ketubah_debt' | 'lobola' | 'tax_liability' | 'funeral_costs' | 'care_fees' | 'mezonot' | 'other';
     /**
-     * Name of the creditor, institution, or person to whom the debt is owed.
+     * Name of the creditor, institution, or person to whom the debt is owed
      */
     creditor?: string;
     /**
-     * Outstanding balance of this liability in minor currency units.
+     * Outstanding balance of this liability in minor currency units
      */
     amount: Money2;
     /**
-     * Reference to a Property.id or Asset.id that this liability is secured against. Unsecured debts should omit this field.
+     * Reference to a Property.id or Asset.id that this liability is secured against. Unsecured debts should omit this field
      */
     securedAgainst?: string;
     /**
-     * Regular monthly payment amount in minor currency units, if applicable.
+     * Regular monthly payment amount in minor currency units, if applicable
      */
     monthlyPayment?: Money2;
     /**
-     * Annual interest rate as a percentage (e.g. 4.5 means 4.5% per annum). Zero for interest-free debts.
+     * Annual interest rate as a percentage (e.g. 4.5 means 4.5% per annum). Zero for interest-free debts
      */
     interestRate?: number;
     /**
-     * Date the liability was incurred or the agreement began.
+     * Date the liability was incurred or the agreement began
      */
     startDate?: string;
     /**
-     * Date the liability is expected to be repaid in full, if known.
+     * Date the liability is expected to be repaid in full, if known
      */
     endDate?: string;
     /**
-     * Account number, reference number, or policy number for this liability.
+     * Account number, reference number, or policy number for this liability
      */
     accountReference?: string;
     /**
-     * Free-text notes about this liability. Use for payment protection insurance, disputes, or special arrangements.
+     * Free-text notes about this liability. Use for payment protection insurance, disputes, or special arrangements
      */
     notes?: string;
     [key: string]: unknown | string | 'mortgage' | 'personal_loan' | 'credit_card' | 'overdraft' | 'student_loan' | 'car_finance' | 'hire_purchase' | 'mahr' | 'ketubah_debt' | 'lobola' | 'tax_liability' | 'funeral_costs' | 'care_fees' | 'mezonot' | 'other' | string | Money2 | number | string | undefined;
 };
 
 /**
- * An organisation that receives a bequest — charity, company, trust, or unincorporated association.
+ * An organisation that receives a bequest — charity, company, trust, or unincorporated association
  */
 export type BeneficiaryOrganisation = {
     /**
-     * Name of the beneficiary organisation.
+     * Name of the beneficiary organisation
      */
     name: string;
     /**
-     * The legal form of the organisation.
+     * The legal form of the organisation
      */
     type: 'charity' | 'company' | 'unincorporated_association' | 'trust' | 'other';
     /**
-     * Charity registration number, company number, or other official registration.
+     * Charity registration number, company number, or other official registration
      */
     registrationNumber?: string;
     /**
-     * Jurisdiction where the organisation is registered.
+     * Jurisdiction where the organisation is registered
      */
     jurisdiction?: Jurisdiction2;
 };
 
 /**
- * Details of a life interest — one person enjoys the asset during their lifetime, then it passes to the remainderman.
+ * Details of a life interest — one person enjoys the asset during their lifetime, then it passes to the remainderman
  */
 export type LifeInterest = {
     /**
-     * Reference to the Person.id who holds the life interest.
+     * Reference to the Person.id who holds the life interest
      */
     tenantForLifeId: string;
     /**
-     * Reference to the Person.id who receives the asset after the life interest ends.
+     * Reference to the Person.id who receives the asset after the life interest ends
      */
     remaindermanId?: string;
     /**
-     * Natural-language description of the remainderman class if not a named individual.
+     * Natural-language description of the remainderman class if not a named individual
      */
     remaindermanClassDefinition?: string;
     /**
-     * The scope of the life interest.
+     * The scope of the life interest
      */
     interestType: 'use_and_income' | 'income_only' | 'use_only' | 'protective' | 'right_of_residence';
 };
 
 /**
- * A substitute beneficiary who receives the bequest if the primary beneficiary cannot (e.g. predeceases the testator).
+ * A substitute beneficiary who receives the bequest if the primary beneficiary cannot (e.g. predeceases the testator)
  */
 export type Substitution = {
     /**
-     * Reference to the Person.id of the substitute beneficiary.
+     * Reference to the Person.id of the substitute beneficiary
      */
     beneficiaryId?: string;
     /**
-     * Natural-language description of the substitute class.
+     * Natural-language description of the substitute class
      */
     classDefinition?: string;
     /**
-     * Substitute organisation if the substitution is to a charity or company.
+     * Substitute organisation if the substitution is to a charity or company
      */
     beneficiaryOrganisation?: BeneficiaryOrganisation;
     /**
-     * The condition that triggers this substitution.
+     * The condition that triggers this substitution
      */
     condition?: string;
     /**
-     * Whether the substitution is per stirpes — passing to the deceased beneficiary's descendants by representation.
+     * Whether the substitution is per stirpes — passing to the deceased beneficiary's descendants by representation
      */
     perStirpes?: boolean;
 };
 
 /**
- * An action taken after death that modifies the bequest — disclaimer, deed of variation, appropriation, or assent.
+ * An action taken after death that modifies the bequest — disclaimer, deed of variation, appropriation, or assent
  */
 export type PostDeathAction = {
     /**
-     * The type of post-death action.
+     * The type of post-death action
      */
     type: 'disclaimer' | 'deed_of_variation' | 'appropriation' | 'assent';
     /**
-     * Date the action was taken.
+     * Date the action was taken
      */
     date?: string;
     /**
-     * Description of the action taken.
+     * Description of the action taken
      */
     description?: string;
     /**
-     * Reference to the Document entity recording this action.
+     * Reference to the Document entity recording this action
      */
     documentId?: string;
 };
 
 /**
- * The beneficiary's response to the inheritance — acceptance, renunciation, or qualified acceptance. In civil law jurisdictions, acceptance may be required within a time limit.
+ * The beneficiary's response to the inheritance — acceptance, renunciation, or qualified acceptance. In civil law jurisdictions, acceptance may be required within a time limit
  */
 export type InheritanceResponse = {
     /**
-     * The beneficiary's formal response to the inheritance.
+     * The beneficiary's formal response to the inheritance
      */
     response: 'accepted' | 'renounced' | 'qualified_acceptance' | 'pending';
     /**
-     * Date the response was made.
+     * Date the response was made
      */
     responseDate?: string;
     /**
-     * Reference to the Person.id of the respondent.
+     * Reference to the Person.id of the respondent
      */
     responsePersonId?: string;
     /**
-     * Whether the response was filed with a court (required in some jurisdictions).
+     * Whether the response was filed with a court (required in some jurisdictions)
      */
     courtFiled?: boolean;
     /**
-     * Statutory deadline for responding (e.g. 3 months in Japan, 4 months in France).
+     * Statutory deadline for responding (e.g. 3 months in Japan, 4 months in France)
      */
     deadlineDate?: string;
 };
@@ -3427,132 +3427,132 @@ export type InheritanceResponse = {
 /**
  * Bequest
  *
- * A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah).
+ * A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah)
  */
 export type Bequest2 = unknown & {
     /**
-     * Unique identifier for this bequest within the INHERIT document.
+     * Unique identifier for this bequest within the INHERIT document
      */
     id: string;
     /**
-     * The category of bequest.
+     * The category of bequest
      */
     bequestType: 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class';
     /**
-     * Extension-specific bequest type not covered by the core enum. Validated by the relevant extension schema.
+     * Extension-specific bequest type not covered by the core enum. Validated by the relevant extension schema
      */
     extensionType?: string;
     /**
-     * Reference to the Person.id of the individual beneficiary.
+     * Reference to the Person.id of the individual beneficiary
      */
     beneficiaryId?: string;
     /**
-     * Organisation receiving this bequest, if not an individual.
+     * Organisation receiving this bequest, if not an individual
      */
     beneficiaryOrganisation?: BeneficiaryOrganisation;
     /**
-     * Natural-language definition of the beneficiary class. Required for class bequests. Must be precise enough for executors to identify all members.
+     * Natural-language definition of the beneficiary class. Required for class bequests. Must be precise enough for executors to identify all members
      */
     classDefinition?: string;
     /**
-     * Life interest details, required when type is 'life_interest'.
+     * Life interest details, required when type is 'life_interest'
      */
     lifeInterest?: LifeInterest;
     /**
-     * Cash amount for pecuniary and demonstrative bequests, in minor currency units.
+     * Cash amount for pecuniary and demonstrative bequests, in minor currency units
      */
     amount?: Money2;
     /**
-     * Percentage share of the residuary estate or a specified fund.
+     * Percentage share of the residuary estate or a specified fund
      */
     sharePercentage?: number;
     /**
-     * Free-text description of the bequest — what is being given.
+     * Free-text description of the bequest — what is being given
      */
     description?: string;
     /**
-     * Reference to the Asset.id from which a demonstrative bequest should be paid.
+     * Reference to the Asset.id from which a demonstrative bequest should be paid
      */
     sourceAssetId?: string;
     /**
-     * Conditions precedent that must be satisfied before the beneficiary receives this bequest.
+     * Conditions precedent that must be satisfied before the beneficiary receives this bequest
      */
     conditions?: Array<string>;
     /**
-     * Substitute beneficiaries in case the primary beneficiary cannot receive the gift.
+     * Substitute beneficiaries in case the primary beneficiary cannot receive the gift
      */
     substitutions?: Array<Substitution>;
     /**
-     * Whether lifetime gifts (advances) to the beneficiary are brought into account when calculating their share. Common in intestacy and some wills.
+     * Whether lifetime gifts (advances) to the beneficiary are brought into account when calculating their share. Common in intestacy and some wills
      */
     hotchpot?: boolean;
     /**
-     * How the bequest is distributed among multiple beneficiaries.
+     * How the bequest is distributed among multiple beneficiaries
      */
     distributionMethod?: 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha';
     /**
-     * What happens if the beneficiary dies before the testator.
+     * What happens if the beneficiary dies before the testator
      */
     predeceaseRule?: 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default';
     /**
-     * Which legal principle constrains this bequest, if any.
+     * Which legal principle constrains this bequest, if any
      */
     constrainedBy?: 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship';
     /**
-     * Whether customary or religious law overrides the testator's freedom to dispose of this gift as they wish.
+     * Whether customary or religious law overrides the testator's freedom to dispose of this gift as they wish
      */
     customaryOverride?: boolean;
     /**
-     * Post-death actions that modified this bequest — disclaimers, deeds of variation, appropriations.
+     * Post-death actions that modified this bequest — disclaimers, deeds of variation, appropriations
      */
     postDeathActions?: Array<PostDeathAction>;
     /**
-     * The beneficiary's formal response to this inheritance, if applicable.
+     * The beneficiary's formal response to this inheritance, if applicable
      */
     inheritanceResponse?: InheritanceResponse;
     /**
-     * References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly.
+     * References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly
      */
     hotchpotTransferIds?: Array<string>;
     /**
-     * Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.
+     * Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors
      */
     notes?: string;
     [key: string]: unknown | string | 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class' | string | BeneficiaryOrganisation | LifeInterest | Money2 | number | Array<string> | Array<Substitution> | boolean | 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha' | 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default' | 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship' | Array<PostDeathAction> | InheritanceResponse | Array<string> | undefined;
 };
 
 /**
- * A person appointed to a governance role in the trust — trustee, protector, or enforcer.
+ * A person appointed to a governance role in the trust — trustee, protector, or enforcer
  */
 export type TrustAppointee = {
     /**
-     * Reference to the Person.id of the appointee.
+     * Reference to the Person.id of the appointee
      */
     personId: string;
     /**
-     * The governance role this person holds in the trust.
+     * The governance role this person holds in the trust
      */
     role: 'trustee' | 'protector' | 'enforcer';
 };
 
 /**
- * A beneficiary of the trust — may be a named individual, a class, or an organisation.
+ * A beneficiary of the trust — may be a named individual, a class, or an organisation
  */
 export type TrustBeneficiary = {
     /**
-     * Reference to the Person.id of the beneficiary, if a named individual.
+     * Reference to the Person.id of the beneficiary, if a named individual
      */
     personId?: string;
     /**
-     * Natural-language description of the beneficiary class.
+     * Natural-language description of the beneficiary class
      */
     classDefinition?: string;
     /**
-     * Name of the organisation beneficiary.
+     * Name of the organisation beneficiary
      */
     organisationName?: string;
     /**
-     * The nature of this beneficiary's interest in the trust.
+     * The nature of this beneficiary's interest in the trust
      */
     interestType: 'income' | 'capital' | 'both' | 'discretionary';
 };
@@ -3560,261 +3560,261 @@ export type TrustBeneficiary = {
 /**
  * Trust
  *
- * A trust instrument — testamentary or inter vivos. Covers discretionary, bare, life interest, charitable, nil rate band, waqf (Islamic endowment), and offshore structures with governance features (reserved powers, flee clauses, protector powers).
+ * A trust instrument — testamentary or inter vivos. Covers discretionary, bare, life interest, charitable, nil rate band, waqf (Islamic endowment), and offshore structures with governance features (reserved powers, flee clauses, protector powers)
  */
 export type Trust2 = {
     /**
-     * Unique identifier for this trust within the INHERIT document.
+     * Unique identifier for this trust within the INHERIT document
      */
     id: string;
     /**
-     * Name of the trust, as it appears in the trust instrument.
+     * Name of the trust, as it appears in the trust instrument
      */
     name: string;
     /**
-     * The category of trust.
+     * The category of trust
      */
     trustType: 'discretionary' | 'life_interest' | 'bare' | 'accumulation_and_maintenance' | 'disabled_persons' | 'charitable' | 'nil_rate_band' | 'waqf' | 'other';
     /**
-     * Persons appointed as trustees, protectors, or enforcers of this trust.
+     * Persons appointed as trustees, protectors, or enforcers of this trust
      */
     trustees: Array<TrustAppointee>;
     /**
-     * Beneficiaries of the trust — named individuals, classes, or organisations.
+     * Beneficiaries of the trust — named individuals, classes, or organisations
      */
     beneficiaries: Array<TrustBeneficiary>;
     /**
-     * Reference to the Person.id of the settlor (the person who created and funded the trust).
+     * Reference to the Person.id of the settlor (the person who created and funded the trust)
      */
     settlor?: string;
     /**
-     * Whether the trust is created by the will (testamentary) or was established during the settlor's lifetime (inter vivos).
+     * Whether the trust is created by the will (testamentary) or was established during the settlor's lifetime (inter vivos)
      */
     isTestamentary?: boolean;
     /**
-     * Date the trust instrument was executed.
+     * Date the trust instrument was executed
      */
     createdDate?: string;
     /**
-     * How the trust was created.
+     * How the trust was created
      */
     creationType?: 'testamentary' | 'inter_vivos_revocable' | 'inter_vivos_irrevocable';
     /**
-     * Whether the trust can be revoked, and whether it is perpetual.
+     * Whether the trust can be revoked, and whether it is perpetual
      */
     revocability?: 'revocable' | 'irrevocable' | 'perpetual';
     /**
-     * Whether the trust is perpetual (has no fixed end date). Waqf endowments and certain offshore trusts are perpetual by nature.
+     * Whether the trust is perpetual (has no fixed end date). Waqf endowments and certain offshore trusts are perpetual by nature
      */
     perpetual?: boolean;
     /**
-     * Age at which the beneficiary's interest vests absolutely (for A&M trusts and bare trusts for minors).
+     * Age at which the beneficiary's interest vests absolutely (for A&M trusts and bare trusts for minors)
      */
     vestingAge?: number;
     /**
-     * Fixed date on which the trust vests, if not age-based.
+     * Fixed date on which the trust vests, if not age-based
      */
     vestingDate?: string;
     /**
-     * Conditions that must be met for the trust to vest.
+     * Conditions that must be met for the trust to vest
      */
     vestingConditions?: Array<string>;
     /**
-     * Interests in the trust that are contingent on future events.
+     * Interests in the trust that are contingent on future events
      */
     contingentInterests?: Array<string>;
     /**
-     * The trust period or perpetuity period, if applicable. In England and Wales, the statutory perpetuity period is 125 years (Perpetuities and Accumulations Act 2009).
+     * The trust period or perpetuity period, if applicable. In England and Wales, the statutory perpetuity period is 125 years (Perpetuities and Accumulations Act 2009)
      */
     trustPeriod?: string;
     /**
-     * The jurisdiction whose law governs this trust.
+     * The jurisdiction whose law governs this trust
      */
     governingLaw?: Jurisdiction2;
     /**
-     * Powers reserved by the settlor or granted to a third party. Offshore trusts frequently include reserved powers over investment or distributions.
+     * Powers reserved by the settlor or granted to a third party. Offshore trusts frequently include reserved powers over investment or distributions
      */
     reservedPowers?: Array<{
         /**
-         * The type of reserved power.
+         * The type of reserved power
          */
         powerType: 'investment' | 'distribution' | 'amendment' | 'revocation' | 'addition_of_beneficiaries' | 'removal_of_trustees' | 'change_of_governing_law';
         /**
-         * Reference to the Person.id who holds this power.
+         * Reference to the Person.id who holds this power
          */
         heldByPersonId?: string;
         /**
-         * Any conditions on the exercise of this power.
+         * Any conditions on the exercise of this power
          */
         conditions?: string;
     }>;
     /**
-     * A flee clause allowing automatic or discretionary change of trust situs when triggering events occur. Standard in offshore trust planning.
+     * A flee clause allowing automatic or discretionary change of trust situs when triggering events occur. Standard in offshore trust planning
      */
     fleeClause?: {
         /**
-         * Whether the trust contains a flee clause.
+         * Whether the trust contains a flee clause
          */
         present?: boolean;
         /**
-         * Events that trigger the flee clause.
+         * Events that trigger the flee clause
          */
         triggerEvents?: Array<string>;
         /**
-         * The jurisdiction the trust flees to when triggered.
+         * The jurisdiction the trust flees to when triggered
          */
         destinationJurisdiction?: Jurisdiction2;
         /**
-         * Whether the flee is triggered automatically or at trustee discretion.
+         * Whether the flee is triggered automatically or at trustee discretion
          */
         automaticOrDiscretionary?: 'automatic' | 'discretionary';
     };
     /**
-     * Powers held by the trust protector or enforcer. Offshore trusts commonly use protectors to oversee trustees.
+     * Powers held by the trust protector or enforcer. Offshore trusts commonly use protectors to oversee trustees
      */
     protectorPowers?: Array<{
         /**
-         * The type of protector or enforcer power.
+         * The type of protector or enforcer power
          */
         powerType: 'consent_to_distribution' | 'remove_trustee' | 'appoint_trustee' | 'change_governing_law' | 'veto_investment' | 'add_beneficiary' | 'exclude_beneficiary' | 'enforce_purpose';
         /**
-         * Reference to the Person.id who holds this power.
+         * Reference to the Person.id who holds this power
          */
         protectorPersonId: string;
         /**
-         * Conditions on how this power may be exercised.
+         * Conditions on how this power may be exercised
          */
         exerciseConditions?: string;
     }>;
     /**
-     * How different jurisdictions recognise (or fail to recognise) this trust. Critical for cross-border trust structures.
+     * How different jurisdictions recognise (or fail to recognise) this trust. Critical for cross-border trust structures
      */
     jurisdictionalRecognition?: Array<{
         /**
-         * The jurisdiction whose recognition status is recorded.
+         * The jurisdiction whose recognition status is recorded
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Whether this jurisdiction recognises the trust.
+         * Whether this jurisdiction recognises the trust
          */
         recognised: boolean;
         /**
-         * How the jurisdiction characterises the trust for legal and tax purposes.
+         * How the jurisdiction characterises the trust for legal and tax purposes
          */
         recognisedAs?: string;
         /**
-         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts.
+         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts
          */
         hagueTrustConventionApplies?: boolean;
         /**
-         * Additional context on recognition in this jurisdiction.
+         * Additional context on recognition in this jurisdiction
          */
         notes?: string;
     }>;
     /**
-     * Asset protection features of the trust. Relevant for Cook Islands, Nevis, BVI, and domestic US asset protection trusts (Delaware, Nevada, South Dakota).
+     * Asset protection features of the trust. Relevant for Cook Islands, Nevis, BVI, and domestic US asset protection trusts (Delaware, Nevada, South Dakota)
      */
     assetProtectionFeatures?: {
         /**
-         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions.
+         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions
          */
         selfSettled?: boolean;
         /**
-         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest.
+         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest
          */
         spendthriftClause?: boolean;
         /**
-         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction.
+         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction
          */
         fraudulentTransferLookback?: string;
         /**
-         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable.
+         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable
          */
         domesticationDate?: string;
     };
     /**
-     * Free-text notes about this trust. Use for trustee succession plans, special investment mandates, or other non-structured information.
+     * Free-text notes about this trust. Use for trustee succession plans, special investment mandates, or other non-structured information
      */
     notes?: string;
     [key: string]: unknown | string | string | 'discretionary' | 'life_interest' | 'bare' | 'accumulation_and_maintenance' | 'disabled_persons' | 'charitable' | 'nil_rate_band' | 'waqf' | 'other' | Array<TrustAppointee> | Array<TrustBeneficiary> | boolean | string | 'testamentary' | 'inter_vivos_revocable' | 'inter_vivos_irrevocable' | 'revocable' | 'irrevocable' | 'perpetual' | number | Array<string> | Array<string> | Jurisdiction2 | Array<{
         /**
-         * The type of reserved power.
+         * The type of reserved power
          */
         powerType: 'investment' | 'distribution' | 'amendment' | 'revocation' | 'addition_of_beneficiaries' | 'removal_of_trustees' | 'change_of_governing_law';
         /**
-         * Reference to the Person.id who holds this power.
+         * Reference to the Person.id who holds this power
          */
         heldByPersonId?: string;
         /**
-         * Any conditions on the exercise of this power.
+         * Any conditions on the exercise of this power
          */
         conditions?: string;
     }> | {
         /**
-         * Whether the trust contains a flee clause.
+         * Whether the trust contains a flee clause
          */
         present?: boolean;
         /**
-         * Events that trigger the flee clause.
+         * Events that trigger the flee clause
          */
         triggerEvents?: Array<string>;
         /**
-         * The jurisdiction the trust flees to when triggered.
+         * The jurisdiction the trust flees to when triggered
          */
         destinationJurisdiction?: Jurisdiction2;
         /**
-         * Whether the flee is triggered automatically or at trustee discretion.
+         * Whether the flee is triggered automatically or at trustee discretion
          */
         automaticOrDiscretionary?: 'automatic' | 'discretionary';
     } | Array<{
         /**
-         * The type of protector or enforcer power.
+         * The type of protector or enforcer power
          */
         powerType: 'consent_to_distribution' | 'remove_trustee' | 'appoint_trustee' | 'change_governing_law' | 'veto_investment' | 'add_beneficiary' | 'exclude_beneficiary' | 'enforce_purpose';
         /**
-         * Reference to the Person.id who holds this power.
+         * Reference to the Person.id who holds this power
          */
         protectorPersonId: string;
         /**
-         * Conditions on how this power may be exercised.
+         * Conditions on how this power may be exercised
          */
         exerciseConditions?: string;
     }> | Array<{
         /**
-         * The jurisdiction whose recognition status is recorded.
+         * The jurisdiction whose recognition status is recorded
          */
         jurisdiction: Jurisdiction2;
         /**
-         * Whether this jurisdiction recognises the trust.
+         * Whether this jurisdiction recognises the trust
          */
         recognised: boolean;
         /**
-         * How the jurisdiction characterises the trust for legal and tax purposes.
+         * How the jurisdiction characterises the trust for legal and tax purposes
          */
         recognisedAs?: string;
         /**
-         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts.
+         * Whether the Hague Trust Convention applies in this jurisdiction — determines automatic recognition of foreign trusts
          */
         hagueTrustConventionApplies?: boolean;
         /**
-         * Additional context on recognition in this jurisdiction.
+         * Additional context on recognition in this jurisdiction
          */
         notes?: string;
     }> | {
         /**
-         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions.
+         * Whether the settlor is also a beneficiary. Self-settled trusts face greater creditor vulnerability in most jurisdictions
          */
         selfSettled?: boolean;
         /**
-         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest.
+         * Whether the trust contains a spendthrift clause preventing beneficiaries from assigning their interest
          */
         spendthriftClause?: boolean;
         /**
-         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction.
+         * The statutory lookback period for fraudulent transfer claims in the trust's jurisdiction
          */
         fraudulentTransferLookback?: string;
         /**
-         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable.
+         * Date the trust was domesticated (moved from offshore to onshore jurisdiction), if applicable
          */
         domesticationDate?: string;
     } | undefined;
@@ -3823,47 +3823,47 @@ export type Trust2 = {
 /**
  * Executor
  *
- * A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed.
+ * A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed
  */
 export type Executor2 = {
     /**
-     * Unique identifier for this executor appointment within the INHERIT document.
+     * Unique identifier for this executor appointment within the INHERIT document
      */
     id: string;
     /**
-     * Reference to the Person.id of the appointed executor or administrator.
+     * Reference to the Person.id of the appointed executor or administrator
      */
     personId: string;
     /**
-     * The executor's role in the estate administration.
+     * The executor's role in the estate administration
      */
     role: 'primary' | 'secondary' | 'substitute' | 'administrator' | 'administrator_with_will_annexed';
     /**
-     * Whether this executor is a professional (solicitor, accountant, trust corporation). Professional executors typically charge fees.
+     * Whether this executor is a professional (solicitor, accountant, trust corporation). Professional executors typically charge fees
      */
     isProfessional?: boolean;
     /**
-     * Name of the professional firm, if the executor is acting in a professional capacity.
+     * Name of the professional firm, if the executor is acting in a professional capacity
      */
     firmName?: string;
     /**
-     * The type of grant issued by the court authorising this person to act. Includes territory-neutral alternatives for non-Commonwealth jurisdictions.
+     * The type of grant issued by the court authorising this person to act. Includes territory-neutral alternatives for non-Commonwealth jurisdictions
      */
     grantType?: 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'succession_certificate' | 'certificate_of_inheritance' | 'court_appointment' | 'resealing' | 'european_certificate_of_succession';
     /**
-     * Date the grant was issued.
+     * Date the grant was issued
      */
     grantDate?: string;
     /**
-     * Court reference number for the grant.
+     * Court reference number for the grant
      */
     grantReference?: string;
     /**
-     * Name of the court or registry that issued the grant.
+     * Name of the court or registry that issued the grant
      */
     issuingCourt?: string;
     /**
-     * Free-text notes about this executor appointment — reservations, renunciations, or special circumstances.
+     * Free-text notes about this executor appointment — reservations, renunciations, or special circumstances
      */
     notes?: string;
     [key: string]: unknown | string | 'primary' | 'secondary' | 'substitute' | 'administrator' | 'administrator_with_will_annexed' | boolean | string | 'grant_of_probate' | 'letters_of_administration' | 'letters_of_administration_with_will_annexed' | 'succession_certificate' | 'certificate_of_inheritance' | 'court_appointment' | 'resealing' | 'european_certificate_of_succession' | string | undefined;
@@ -3872,43 +3872,43 @@ export type Executor2 = {
 /**
  * Guardian
  *
- * A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined.
+ * A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined
  */
 export type Guardian2 = {
     /**
-     * Unique identifier for this guardian appointment within the INHERIT document.
+     * Unique identifier for this guardian appointment within the INHERIT document
      */
     id: string;
     /**
-     * Reference to the Person.id of the guardian being appointed.
+     * Reference to the Person.id of the guardian being appointed
      */
     personId: string;
     /**
-     * Reference to the Person.id of the child this guardian is appointed for.
+     * Reference to the Person.id of the child this guardian is appointed for
      */
     childPersonId: string;
     /**
-     * The guardian's priority in the appointment.
+     * The guardian's priority in the appointment
      */
     role: 'primary' | 'secondary' | 'substitute';
     /**
-     * How this guardian was appointed.
+     * How this guardian was appointed
      */
     appointmentType: 'testamentary' | 'parental_responsibility' | 'court_appointed' | 'shariah_court_appointed' | 'community_appointed' | 'religious_court_appointed';
     /**
-     * The structure of the guardianship arrangement.
+     * The structure of the guardianship arrangement
      */
     guardianshipStructure?: 'individual' | 'collective' | 'rotating' | 'family_council_determined';
     /**
-     * Reference to the family council decision that appointed this guardian, if the appointment was council-determined.
+     * Reference to the family council decision that appointed this guardian, if the appointment was council-determined
      */
     familyCouncilDecisionRef?: string;
     /**
-     * Conditions on the guardianship — when it takes effect, any restrictions, or circumstances under which it lapses.
+     * Conditions on the guardianship — when it takes effect, any restrictions, or circumstances under which it lapses
      */
     conditions?: string;
     /**
-     * Free-text notes about this guardianship appointment.
+     * Free-text notes about this guardianship appointment
      */
     notes?: string;
     [key: string]: unknown | string | 'primary' | 'secondary' | 'substitute' | 'testamentary' | 'parental_responsibility' | 'court_appointed' | 'shariah_court_appointed' | 'community_appointed' | 'religious_court_appointed' | 'individual' | 'collective' | 'rotating' | 'family_council_determined' | string | undefined;
@@ -3917,39 +3917,39 @@ export type Guardian2 = {
 /**
  * Wish
  *
- * A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences.
+ * A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences
  */
 export type Wish2 = {
     /**
-     * Unique identifier for this wish within the INHERIT document.
+     * Unique identifier for this wish within the INHERIT document
      */
     id: string;
     /**
-     * The category of wish. Wishes may be non-binding in law but culturally or religiously obligatory.
+     * The category of wish. Wishes may be non-binding in law but culturally or religiously obligatory
      */
     wishType: 'funeral' | 'letter' | 'care' | 'distribution' | 'digital' | 'pets' | 'general';
     /**
-     * A short descriptive title for this wish.
+     * A short descriptive title for this wish
      */
     title: string;
     /**
-     * The full text content of the wish. May be lengthy for letters of wishes.
+     * The full text content of the wish. May be lengthy for letters of wishes
      */
     content?: string;
     /**
-     * The legal or moral force of this wish. Most wishes are non-binding but may carry significant cultural or religious weight.
+     * The legal or moral force of this wish. Most wishes are non-binding but may carry significant cultural or religious weight
      */
     bindingNature?: 'non_binding' | 'culturally_obligatory' | 'religiously_obligatory' | 'legally_binding';
     /**
-     * Reference to the Person.id this wish is addressed to — typically an executor, guardian, or family member.
+     * Reference to the Person.id this wish is addressed to — typically an executor, guardian, or family member
      */
     addresseePersonId?: string;
     /**
-     * Reference to an Asset.id this wish relates to (e.g. a pet, a digital account, a specific item).
+     * Reference to an Asset.id this wish relates to (e.g. a pet, a digital account, a specific item)
      */
     relatedAssetId?: string;
     /**
-     * Additional notes about this wish.
+     * Additional notes about this wish
      */
     notes?: string;
     [key: string]: unknown | string | 'funeral' | 'letter' | 'care' | 'distribution' | 'digital' | 'pets' | 'general' | string | 'non_binding' | 'culturally_obligatory' | 'religiously_obligatory' | 'legally_binding' | undefined;
@@ -3958,55 +3958,55 @@ export type Wish2 = {
 /**
  * Document
  *
- * A document associated with an estate — wills, codicils, trust deeds, and religious documents (shtar_chov, ketubah_document, nikah_nama, etc.). Type is a free string (minLength 1) to accommodate jurisdiction-specific and religious document types.
+ * A document associated with an estate — wills, codicils, trust deeds, and religious documents (shtar_chov, ketubah_document, nikah_nama, etc.). Type is a free string (minLength 1) to accommodate jurisdiction-specific and religious document types
  */
 export type Document2 = {
     /**
-     * Unique identifier for this document within the INHERIT document.
+     * Unique identifier for this document within the INHERIT document
      */
     id: string;
     /**
-     * The type of document. Free-form text to accommodate the enormous variety of estate-related documents across jurisdictions and legal traditions.
+     * The type of document. Free-form text to accommodate the enormous variety of estate-related documents across jurisdictions and legal traditions
      */
     type: string;
     /**
-     * Human-readable title of the document.
+     * Human-readable title of the document
      */
     title: string;
     /**
-     * File format or extension. Use lowercase without a leading dot.
+     * File format or extension. Use lowercase without a leading dot
      */
     fileFormat?: string;
     /**
-     * Storage reference — an S3 URI, file path, external system reference, or document management system identifier.
+     * Storage reference — an S3 URI, file path, external system reference, or document management system identifier
      */
     storageRef?: string;
     /**
-     * File size in bytes. Zero for metadata-only entries where the document content is stored externally.
+     * File size in bytes. Zero for metadata-only entries where the document content is stored externally
      */
     fileSizeBytes?: number;
     /**
-     * MIME type of the document file.
+     * MIME type of the document file
      */
     mimeType?: string;
     /**
-     * Date the document was created or executed.
+     * Date the document was created or executed
      */
     createdDate?: string;
     /**
-     * Free-text notes about this document. Use for provenance, authenticity concerns, or handling instructions.
+     * Free-text notes about this document. Use for provenance, authenticity concerns, or handling instructions
      */
     notes?: string;
     /**
-     * The type of entity this document relates to. Combined with entityId, creates a contextual link: 'this PDF is the valuation certificate for asset X'.
+     * The type of entity this document relates to. Combined with entityId, creates a contextual link: 'this PDF is the valuation certificate for asset X'
      */
     entityType?: string;
     /**
-     * The ID of the entity this document relates to. Combined with entityType, links the document to its subject.
+     * The ID of the entity this document relates to. Combined with entityType, links the document to its subject
      */
     entityId?: string;
     /**
-     * Scans or photographs of this document — useful when the original is a physical paper document.
+     * Scans or photographs of this document — useful when the original is a physical paper document
      */
     images?: Array<Media>;
     [key: string]: unknown | string | string | string | number | string | Array<Media> | undefined;
@@ -4015,115 +4015,115 @@ export type Document2 = {
 /**
  * Nonprobate Transfer
  *
- * Assets that pass outside the probate estate — revocable trusts, TOD deeds, POD accounts, JTWROS, beneficiary designations, superannuation/CPF/EPF nominations.
+ * Assets that pass outside the probate estate — revocable trusts, TOD deeds, POD accounts, JTWROS, beneficiary designations, superannuation/CPF/EPF nominations
  */
 export type NonprobateTransfer2 = {
     /**
-     * Unique identifier for this nonprobate transfer within the INHERIT document.
+     * Unique identifier for this nonprobate transfer within the INHERIT document
      */
     id: string;
     /**
-     * The mechanism by which this asset passes outside the probate estate.
+     * The mechanism by which this asset passes outside the probate estate
      */
     transferType: 'revocable_trust' | 'tod_deed' | 'pod_account' | 'jtwros' | 'tenancy_by_entirety' | 'beneficiary_designation' | 'life_insurance_nomination' | 'superannuation_nomination' | 'cpf_nomination' | 'epf_nomination' | 'mandatory_savings_nomination';
     /**
-     * More specific description of the transfer mechanism.
+     * More specific description of the transfer mechanism
      */
     designationType?: string;
     /**
-     * Free-text description of the nonprobate transfer.
+     * Free-text description of the nonprobate transfer
      */
     description?: string;
     /**
-     * Reference to a Trust.id if this transfer is via a revocable trust.
+     * Reference to a Trust.id if this transfer is via a revocable trust
      */
     trustId?: string;
     /**
-     * Reference to a Property.id if this transfer relates to real estate (e.g. TOD deed, JTWROS property).
+     * Reference to a Property.id if this transfer relates to real estate (e.g. TOD deed, JTWROS property)
      */
     propertyId?: string;
     /**
-     * References to Asset.id(s) that pass via this nonprobate transfer.
+     * References to Asset.id(s) that pass via this nonprobate transfer
      */
     assetIds?: Array<string>;
     /**
-     * Person IDs of the primary beneficiaries or surviving owners who receive the asset.
+     * Person IDs of the primary beneficiaries or surviving owners who receive the asset
      */
     beneficiaryPersonIds?: Array<string>;
     /**
-     * Person IDs of contingent beneficiaries who receive if the primary beneficiaries predecease.
+     * Person IDs of contingent beneficiaries who receive if the primary beneficiaries predecease
      */
     contingentBeneficiaryPersonIds?: Array<string>;
     /**
-     * Person IDs of surviving joint owners for JTWROS and tenancy by entirety transfers.
+     * Person IDs of surviving joint owners for JTWROS and tenancy by entirety transfers
      */
     survivingOwnerPersonIds?: Array<string>;
     /**
-     * Confirmation that this asset passes outside the probate estate. Should always be true for nonprobate transfers.
+     * Confirmation that this asset passes outside the probate estate. Should always be true for nonprobate transfers
      */
     passesOutsideEstate: boolean;
     /**
-     * Whether the beneficiary nomination is legally binding on the fund trustee. Australian superannuation nominations may be binding (valid for 3 years) or non-binding (trustee has discretion).
+     * Whether the beneficiary nomination is legally binding on the fund trustee. Australian superannuation nominations may be binding (valid for 3 years) or non-binding (trustee has discretion)
      */
     bindingNomination?: boolean;
     /**
-     * Date the nomination expires, if applicable. Australian binding nominations expire after 3 years and must be renewed.
+     * Date the nomination expires, if applicable. Australian binding nominations expire after 3 years and must be renewed
      */
     nominationExpiryDate?: string;
     /**
-     * Recording or filing reference for the transfer instrument (e.g. county recorder reference for a TOD deed).
+     * Recording or filing reference for the transfer instrument (e.g. county recorder reference for a TOD deed)
      */
     recordingReference?: string;
     /**
-     * Jurisdiction governing this nonprobate transfer.
+     * Jurisdiction governing this nonprobate transfer
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Free-text notes about this nonprobate transfer.
+     * Free-text notes about this nonprobate transfer
      */
     notes?: string;
     [key: string]: unknown | string | 'revocable_trust' | 'tod_deed' | 'pod_account' | 'jtwros' | 'tenancy_by_entirety' | 'beneficiary_designation' | 'life_insurance_nomination' | 'superannuation_nomination' | 'cpf_nomination' | 'epf_nomination' | 'mandatory_savings_nomination' | string | Array<string> | Array<string> | Array<string> | Array<string> | boolean | string | Jurisdiction2 | undefined;
 };
 
 /**
- * Record of the testator's consent to proxy authorisation. Supports formal, informal, and culturally appropriate consent methods.
+ * Record of the testator's consent to proxy authorisation. Supports formal, informal, and culturally appropriate consent methods
  */
 export type ConsentRecord = {
     /**
-     * Whether the testator has given consent for the proxy to act on their behalf.
+     * Whether the testator has given consent for the proxy to act on their behalf
      */
     consentGiven: boolean;
     /**
-     * Date consent was given.
+     * Date consent was given
      */
     consentDate?: string;
     /**
-     * The method by which consent was obtained.
+     * The method by which consent was obtained
      */
     consentMethod?: 'in_person_verbal' | 'in_person_written' | 'video_recorded' | 'witnessed_verbal' | 'phone_recorded' | 'assumed_cultural_norm';
     /**
-     * Witnesses to the consent, if any.
+     * Witnesses to the consent, if any
      */
     witnesses?: Array<{
         /**
-         * Reference to the Person.id of the witness.
+         * Reference to the Person.id of the witness
          */
         personId: string;
         /**
-         * The role or capacity in which the person witnessed the consent.
+         * The role or capacity in which the person witnessed the consent
          */
         role?: string;
         /**
-         * Date this person witnessed the consent.
+         * Date this person witnessed the consent
          */
         witnessedDate?: string;
     }>;
     /**
-     * Reference to a document recording the consent.
+     * Reference to a document recording the consent
      */
     documentRef?: string;
     /**
-     * Additional notes about the consent.
+     * Additional notes about the consent
      */
     notes?: string;
 };
@@ -4131,110 +4131,110 @@ export type ConsentRecord = {
 /**
  * Proxy Authorisation
  *
- * Authorises a proxy to act on behalf of a testator — information gathering, communication, negotiation, or full decision-making. Includes consent record with cultural consent methods.
+ * Authorises a proxy to act on behalf of a testator — information gathering, communication, negotiation, or full decision-making. Includes consent record with cultural consent methods
  */
 export type ProxyAuthorisation2 = {
     /**
-     * Unique identifier for this proxy authorisation within the INHERIT document.
+     * Unique identifier for this proxy authorisation within the INHERIT document
      */
     id: string;
     /**
-     * Reference to the Person.id of the authorised proxy.
+     * Reference to the Person.id of the authorised proxy
      */
     proxyPersonId: string;
     /**
-     * Reference to the Person.id of the testator granting the authorisation.
+     * Reference to the Person.id of the testator granting the authorisation
      */
     testatorPersonId: string;
     /**
-     * The scope of authority granted to the proxy.
+     * The scope of authority granted to the proxy
      */
     scope: 'full' | 'information_gathering' | 'communication' | 'negotiation' | 'decision_making';
     /**
-     * Record of the testator's consent to this proxy authorisation.
+     * Record of the testator's consent to this proxy authorisation
      */
     consentRecord: ConsentRecord;
     /**
-     * Whether the proxy is specifically authorised to negotiate with dealers and third parties interested in estate assets.
+     * Whether the proxy is specifically authorised to negotiate with dealers and third parties interested in estate assets
      */
     dealerNegotiationPermitted?: boolean;
     /**
-     * Date from which the proxy authorisation is effective.
+     * Date from which the proxy authorisation is effective
      */
     startDate?: string;
     /**
-     * Date on which the proxy authorisation expires, if time-limited.
+     * Date on which the proxy authorisation expires, if time-limited
      */
     expiryDate?: string;
     /**
-     * Date the proxy authorisation was revoked by the testator, if applicable.
+     * Date the proxy authorisation was revoked by the testator, if applicable
      */
     revocationDate?: string;
     /**
-     * Whether all actions taken by the proxy should be logged for audit purposes.
+     * Whether all actions taken by the proxy should be logged for audit purposes
      */
     auditTrailEnabled?: boolean;
     /**
-     * Free-text notes about this proxy authorisation.
+     * Free-text notes about this proxy authorisation
      */
     notes?: string;
     [key: string]: unknown | string | 'full' | 'information_gathering' | 'communication' | 'negotiation' | 'decision_making' | ConsentRecord | boolean | string | string | undefined;
 };
 
 /**
- * A comparable sale or listing used to support the valuation. Capturing comparables with screenshots and metadata creates an auditable evidence trail for executors, HMRC, and probate courts.
+ * A comparable sale or listing used to support the valuation. Capturing comparables with screenshots and metadata creates an auditable evidence trail for executors, HMRC, and probate courts
  */
 export type Comparable = {
     /**
-     * Link to the comparable sale or listing.
+     * Link to the comparable sale or listing
      */
     url?: string;
     /**
-     * Screenshot of the listing at the time it was captured. Listings are often removed after sale — the screenshot preserves the evidence.
+     * Screenshot of the listing at the time it was captured. Listings are often removed after sale — the screenshot preserves the evidence
      */
     screenshotUrl?: string;
     /**
-     * Description of the comparable item.
+     * Description of the comparable item
      */
     title?: string;
     /**
-     * The sale price of the comparable item, in minor currency units.
+     * The sale price of the comparable item, in minor currency units
      */
     salePrice?: Money2;
     /**
-     * Date the comparable item sold.
+     * Date the comparable item sold
      */
     saleDate?: string;
     /**
-     * Where the comparable sold — marketplace, auction house, or dealer.
+     * Where the comparable sold — marketplace, auction house, or dealer
      */
     platform?: string;
     /**
-     * Date the comparable was captured or recorded. Important because market values shift and stale comparables lose evidential weight.
+     * Date the comparable was captured or recorded. Important because market values shift and stale comparables lose evidential weight
      */
     capturedAt?: string;
     /**
-     * How closely the comparable matches the item being valued.
+     * How closely the comparable matches the item being valued
      */
     matchConfidence?: 'exact' | 'close' | 'approximate' | 'weak';
     /**
-     * What makes this item comparable — the specific attributes that justify the comparison.
+     * What makes this item comparable — the specific attributes that justify the comparison
      */
     matchFactors?: Array<string>;
     /**
-     * Free-text notes explaining the comparison — differences, adjustments, or caveats.
+     * Free-text notes explaining the comparison — differences, adjustments, or caveats
      */
     matchNotes?: string;
     /**
-     * Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support.
+     * Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support
      */
     matchScore?: number;
     /**
-     * Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches.
+     * Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches
      */
     humanVerdict?: 'accepted' | 'rejected' | 'adjusted' | 'not_reviewed';
     /**
-     * Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch.
+     * Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch
      */
     rejectionReason?: string;
 };
@@ -4242,55 +4242,55 @@ export type Comparable = {
 /**
  * Valuation
  *
- * A valuation of an estate asset, property, or asset collection. Supports multiple valuations per entity over time — owner estimates, professional valuations, AI analyses, dealer offers, and probate-agreed figures.
+ * A valuation of an estate asset, property, or asset collection. Supports multiple valuations per entity over time — owner estimates, professional valuations, AI analyses, dealer offers, and probate-agreed figures
  */
 export type Valuation = {
     /**
-     * Unique identifier for this valuation within the INHERIT document.
+     * Unique identifier for this valuation within the INHERIT document
      */
     id: string;
     /**
-     * The type of entity being valued.
+     * The type of entity being valued
      */
     entityType: 'asset' | 'property' | 'asset_collection';
     /**
-     * Reference to the entity being valued — an Asset.id, Property.id, or AssetCollection.id.
+     * Reference to the entity being valued — an Asset.id, Property.id, or AssetCollection.id
      */
     entityId: string;
     /**
-     * The valuation amount, in minor currency units.
+     * The valuation amount, in minor currency units
      */
     valuedAmount: Money2;
     /**
-     * Date the valuation was performed or assessed.
+     * Date the valuation was performed or assessed
      */
     valuationDate: string;
     /**
-     * Who performed the valuation — the name of the person, firm, or service.
+     * Who performed the valuation — the name of the person, firm, or service
      */
     provider?: string;
     /**
-     * The type of person or organisation that provided the valuation.
+     * The type of person or organisation that provided the valuation
      */
     providerType?: 'owner' | 'professional_valuer' | 'auction_house' | 'dealer' | 'insurance_assessor' | 'tax_authority' | 'ai_estimate' | 'other';
     /**
-     * The valuation methodology used.
+     * The valuation methodology used
      */
     method?: 'comparable_sales' | 'replacement_cost' | 'income_approach' | 'market_listing' | 'insurance_schedule' | 'ai_analysis' | 'expert_opinion' | 'other';
     /**
-     * The purpose for which this valuation was obtained.
+     * The purpose for which this valuation was obtained
      */
     valuationPurpose?: 'current_estimate' | 'date_of_death' | 'insurance' | 'official' | 'tax_return' | 'dealer_offer' | 'ai_estimate' | 'pre_sale' | 'probate';
     /**
-     * Confidence level in this valuation.
+     * Confidence level in this valuation
      */
     confidence?: 'high' | 'medium' | 'low' | 'unknown';
     /**
-     * Comparable items found on marketplaces — used to support the valuation. Agent-generated comparables should include matchScore for quantitative filtering and will accumulate humanVerdict feedback over time.
+     * Comparable items found on marketplaces — used to support the valuation. Agent-generated comparables should include matchScore for quantitative filtering and will accumulate humanVerdict feedback over time
      */
     comparables?: Array<Comparable>;
     /**
-     * Free-text notes about this valuation — methodology details, caveats, market conditions, or disagreements with other valuations.
+     * Free-text notes about this valuation — methodology details, caveats, market conditions, or disagreements with other valuations
      */
     notes?: string;
     [key: string]: unknown | string | 'asset' | 'property' | 'asset_collection' | Money2 | string | string | 'owner' | 'professional_valuer' | 'auction_house' | 'dealer' | 'insurance_assessor' | 'tax_authority' | 'ai_estimate' | 'other' | 'comparable_sales' | 'replacement_cost' | 'income_approach' | 'market_listing' | 'insurance_schedule' | 'ai_analysis' | 'expert_opinion' | 'other' | 'current_estimate' | 'date_of_death' | 'insurance' | 'official' | 'tax_return' | 'dealer_offer' | 'ai_estimate' | 'pre_sale' | 'probate' | 'high' | 'medium' | 'low' | 'unknown' | Array<Comparable> | undefined;
@@ -4299,187 +4299,187 @@ export type Valuation = {
 /**
  * Lifetime Transfer
  *
- * A gift or transfer made during the testator's lifetime, relevant for tax calculations such as the UK 7-year rule, US unified gift/estate tax, and similar lookback provisions in other jurisdictions.
+ * A gift or transfer made during the testator's lifetime, relevant for tax calculations such as the UK 7-year rule, US unified gift/estate tax, and similar lookback provisions in other jurisdictions
  */
 export type LifetimeTransfer = {
     /**
-     * Unique identifier for this lifetime transfer within the INHERIT document.
+     * Unique identifier for this lifetime transfer within the INHERIT document
      */
     id: string;
     /**
-     * Date the transfer was made.
+     * Date the transfer was made
      */
     transferDate: string;
     /**
-     * Reference to the Person.id of the donor (typically the testator).
+     * Reference to the Person.id of the donor (typically the testator)
      */
     donorPersonId: string;
     /**
-     * Person IDs of the recipients of the transfer.
+     * Person IDs of the recipients of the transfer
      */
     doneePersonIds?: Array<string>;
     /**
-     * The category of lifetime transfer.
+     * The category of lifetime transfer
      */
     transferType: 'gift' | 'potentially_exempt_transfer' | 'chargeable_lifetime_transfer' | 'gift_with_reservation' | 'failed_pet' | 'settlement' | 'advancement' | 'loan_forgiveness' | 'sale_at_undervalue' | 'gift_of_shares' | 'other';
     /**
-     * Value of the transfer at the date it was made, in minor currency units.
+     * Value of the transfer at the date it was made, in minor currency units
      */
     value?: Money2;
     /**
-     * Reference to the Asset.id of the asset transferred, if it is still recorded in the document.
+     * Reference to the Asset.id of the asset transferred, if it is still recorded in the document
      */
     assetId?: string;
     /**
-     * Reference to the Property.id of the property transferred.
+     * Reference to the Property.id of the property transferred
      */
     propertyId?: string;
     /**
-     * Reference to a Valuation entity providing a formal valuation of the transferred asset.
+     * Reference to a Valuation entity providing a formal valuation of the transferred asset
      */
     valuationId?: string;
     /**
-     * Exemptions and reliefs claimed against this transfer to reduce its taxable value.
+     * Exemptions and reliefs claimed against this transfer to reduce its taxable value
      */
     exemptionsClaimed?: Array<{
         /**
-         * The type of exemption or relief claimed against this transfer.
+         * The type of exemption or relief claimed against this transfer
          */
         type: 'annual_exemption' | 'small_gift' | 'marriage_gift' | 'normal_expenditure' | 'business_property_relief' | 'agricultural_property_relief' | 'spouse_exemption' | 'charity_exemption' | 'taper_relief' | 'annual_exclusion' | 'lifetime_exemption' | 'gift_splitting' | 'other';
         /**
-         * Amount of the exemption claimed, in minor currency units.
+         * Amount of the exemption claimed, in minor currency units
          */
         amount?: Money2;
         /**
-         * Free-text notes about this exemption claim.
+         * Free-text notes about this exemption claim
          */
         notes?: string;
     }>;
     /**
-     * Whether a gift tax return or similar filing has been submitted for this transfer.
+     * Whether a gift tax return or similar filing has been submitted for this transfer
      */
     taxReturnFiled?: boolean;
     /**
-     * Amount of tax paid on this transfer, in minor currency units.
+     * Amount of tax paid on this transfer, in minor currency units
      */
     taxPaid?: Money2;
     /**
-     * Whether this transfer falls within the jurisdiction's lookback period for tax purposes (e.g. 7 years in the UK, 3 years in the US for certain gifts).
+     * Whether this transfer falls within the jurisdiction's lookback period for tax purposes (e.g. 7 years in the UK, 3 years in the US for certain gifts)
      */
     lookbackRelevant?: boolean;
     /**
-     * Years remaining in the lookback period. In the UK, this counts down from 7 — a PET made 4 years before death has 3 years remaining.
+     * Years remaining in the lookback period. In the UK, this counts down from 7 — a PET made 4 years before death has 3 years remaining
      */
     lookbackYearsRemaining?: number;
     /**
-     * UK taper relief percentage reducing the IHT charge on failed PETs and CLTs. Ranges from 0% (3 years or less before death) to 40% reduction (6-7 years before death).
+     * UK taper relief percentage reducing the IHT charge on failed PETs and CLTs. Ranges from 0% (3 years or less before death) to 40% reduction (6-7 years before death)
      */
     taperReliefPercentage?: number;
     /**
-     * Jurisdiction governing this lifetime transfer.
+     * Jurisdiction governing this lifetime transfer
      */
     jurisdiction?: Jurisdiction2;
     /**
-     * Free-text notes about this lifetime transfer.
+     * Free-text notes about this lifetime transfer
      */
     notes?: string;
     [key: string]: unknown | string | string | Array<string> | 'gift' | 'potentially_exempt_transfer' | 'chargeable_lifetime_transfer' | 'gift_with_reservation' | 'failed_pet' | 'settlement' | 'advancement' | 'loan_forgiveness' | 'sale_at_undervalue' | 'gift_of_shares' | 'other' | Money2 | Array<{
         /**
-         * The type of exemption or relief claimed against this transfer.
+         * The type of exemption or relief claimed against this transfer
          */
         type: 'annual_exemption' | 'small_gift' | 'marriage_gift' | 'normal_expenditure' | 'business_property_relief' | 'agricultural_property_relief' | 'spouse_exemption' | 'charity_exemption' | 'taper_relief' | 'annual_exclusion' | 'lifetime_exemption' | 'gift_splitting' | 'other';
         /**
-         * Amount of the exemption claimed, in minor currency units.
+         * Amount of the exemption claimed, in minor currency units
          */
         amount?: Money2;
         /**
-         * Free-text notes about this exemption claim.
+         * Free-text notes about this exemption claim
          */
         notes?: string;
     }> | boolean | number | number | Jurisdiction2 | string | undefined;
 };
 
 /**
- * A third party expressing interest in purchasing or acquiring estate assets.
+ * A third party expressing interest in purchasing or acquiring estate assets
  */
 export type InterestedParty = {
     /**
-     * Reference to a Person.id if the interested party is an individual in the people array.
+     * Reference to a Person.id if the interested party is an individual in the people array
      */
     personId?: string;
     /**
-     * Name of the interested party — individual or organisation.
+     * Name of the interested party — individual or organisation
      */
     name: string;
     /**
-     * The type of interested party.
+     * The type of interested party
      */
     type: 'art_dealer' | 'antique_dealer' | 'property_investor' | 'auction_house' | 'gallery' | 'private_collector' | 'museum' | 'institution' | 'charity' | 'developer' | 'fund_manager' | 'family_office' | 'estate_agent' | 'legal_practice' | 'other';
     /**
-     * Contact details for the interested party.
+     * Contact details for the interested party
      */
     contactDetails?: string;
 };
 
 /**
- * A specific asset or property that the interested party wants to acquire.
+ * A specific asset or property that the interested party wants to acquire
  */
 export type AssetInterestItem = {
     /**
-     * Reference to an Asset.id.
+     * Reference to an Asset.id
      */
     assetId?: string;
     /**
-     * Reference to a Property.id.
+     * Reference to a Property.id
      */
     propertyId?: string;
     /**
-     * How strong the interested party's intent is.
+     * How strong the interested party's intent is
      */
     interestLevel?: 'exploratory' | 'moderate' | 'strong' | 'committed';
 };
 
 export type CollectionInterest = unknown & {
     /**
-     * Name of the collection.
+     * Name of the collection
      */
     name?: string;
     /**
-     * Asset IDs that make up this collection.
+     * Asset IDs that make up this collection
      */
     assetIds?: Array<string>;
     /**
-     * Property IDs that make up this collection.
+     * Property IDs that make up this collection
      */
     propertyIds?: Array<string>;
     /**
-     * Additional notes about the collection interest.
+     * Additional notes about the collection interest
      */
     notes?: string;
 };
 
 /**
- * Details of a specific offer made by the interested party.
+ * Details of a specific offer made by the interested party
  */
 export type OfferDetails = {
     /**
-     * The offer amount in minor currency units.
+     * The offer amount in minor currency units
      */
     amount?: Money2;
     /**
-     * Conditions attached to the offer.
+     * Conditions attached to the offer
      */
     conditions?: Array<string>;
     /**
-     * Date the offer expires.
+     * Date the offer expires
      */
     validUntil?: string;
     /**
-     * Date the offer was made.
+     * Date the offer was made
      */
     offerDate?: string;
     /**
-     * Reference to the document containing the offer.
+     * Reference to the document containing the offer
      */
     documentRef?: string;
 };
@@ -4487,55 +4487,55 @@ export type OfferDetails = {
 /**
  * Dealer Interest
  *
- * Level D data — records third-party interest in estate assets (art dealers, property investors, collectors). Privacy-controlled. Managed via proxy authorisation.
+ * Level D data — records third-party interest in estate assets (art dealers, property investors, collectors). Privacy-controlled. Managed via proxy authorisation
  */
 export type DealerInterest2 = {
     /**
-     * Unique identifier for this dealer interest record within the INHERIT document.
+     * Unique identifier for this dealer interest record within the INHERIT document
      */
     id: string;
     /**
-     * The third party expressing interest in estate assets.
+     * The third party expressing interest in estate assets
      */
     interestedParty: InterestedParty;
     /**
-     * Specific assets or properties the interested party wants to acquire.
+     * Specific assets or properties the interested party wants to acquire
      */
     assets?: Array<AssetInterestItem>;
     /**
-     * Interest in a collection of assets as a whole.
+     * Interest in a collection of assets as a whole
      */
     collection?: CollectionInterest;
     /**
-     * Current status of the offer or expression of interest.
+     * Current status of the offer or expression of interest
      */
     offerStatus: 'standing_interest' | 'verbal_offer' | 'written_offer' | 'formal_valuation' | 'conditional_offer' | 'accepted' | 'declined' | 'expired' | 'withdrawn';
     /**
-     * Details of a specific offer, if one has been made.
+     * Details of a specific offer, if one has been made
      */
     offerDetails?: OfferDetails;
     /**
-     * The testator's disposition towards selling this asset.
+     * The testator's disposition towards selling this asset
      */
     testatorDisposition?: 'willing_to_sell' | 'prefer_not_to_sell' | 'hold_for_executor' | 'deferred_to_family' | 'promised_to_institution' | 'undecided';
     /**
-     * Reference to a Bequest.id if this asset is also subject to a bequest. A dealer interest and a bequest may conflict.
+     * Reference to a Bequest.id if this asset is also subject to a bequest. A dealer interest and a bequest may conflict
      */
     linkedBequestId?: string;
     /**
-     * Who may see this dealer interest record. Privacy is critical — the testator may not want family to know about dealer approaches.
+     * Who may see this dealer interest record. Privacy is critical — the testator may not want family to know about dealer approaches
      */
     privacyLevel: 'testator_only' | 'proxy_visible' | 'executor_visible' | 'all_parties';
     /**
-     * Who initiated the communication about this potential transaction.
+     * Who initiated the communication about this potential transaction
      */
     communicationInitiatedBy?: 'buyer' | 'testator' | 'proxy' | 'executor';
     /**
-     * Reference to the ProxyAuthorisation.id that governs this dealer interest — the proxy managing the negotiation.
+     * Reference to the ProxyAuthorisation.id that governs this dealer interest — the proxy managing the negotiation
      */
     managedByProxyId?: string;
     /**
-     * Free-text notes about this dealer interest.
+     * Free-text notes about this dealer interest
      */
     notes?: string;
     [key: string]: unknown | string | InterestedParty | Array<AssetInterestItem> | CollectionInterest | 'standing_interest' | 'verbal_offer' | 'written_offer' | 'formal_valuation' | 'conditional_offer' | 'accepted' | 'declined' | 'expired' | 'withdrawn' | OfferDetails | 'willing_to_sell' | 'prefer_not_to_sell' | 'hold_for_executor' | 'deferred_to_family' | 'promised_to_institution' | 'undecided' | 'testator_only' | 'proxy_visible' | 'executor_visible' | 'all_parties' | 'buyer' | 'testator' | 'proxy' | 'executor' | string | undefined;
@@ -4544,73 +4544,73 @@ export type DealerInterest2 = {
 /**
  * Completeness
  *
- * A completeness score derived from a weighted checklist of estate data categories, scoped to a specific jurisdiction and estate status.
+ * A completeness score derived from a weighted checklist of estate data categories, scoped to a specific jurisdiction and estate status
  */
 export type Completeness = {
     /**
-     * Overall completeness percentage, calculated from the weighted checklist items.
+     * Overall completeness percentage, calculated from the weighted checklist items
      */
     score: number;
     /**
-     * Maximum possible score for this jurisdiction and estate status combination. May be less than 100 if certain categories are not applicable.
+     * Maximum possible score for this jurisdiction and estate status combination. May be less than 100 if certain categories are not applicable
      */
     maxScore: number;
     /**
-     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying which jurisdiction this scoring applies to.
+     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying which jurisdiction this scoring applies to
      */
     jurisdiction?: string;
     /**
-     * The estate status this completeness score was calculated against. Different statuses may require different data, affecting which checklist items are applicable.
+     * The estate status this completeness score was calculated against. Different statuses may require different data, affecting which checklist items are applicable
      */
     estateStatus?: string;
     /**
-     * ISO 8601 date-time when this completeness score was computed.
+     * ISO 8601 date-time when this completeness score was computed
      */
     calculatedAt?: string;
     /**
-     * The individual items assessed to produce the overall score. Each item belongs to a category, has a relative weight, and a status indicating whether the data is present.
+     * The individual items assessed to produce the overall score. Each item belongs to a category, has a relative weight, and a status indicating whether the data is present
      */
     checklist: Array<{
         /**
-         * The data category this checklist item belongs to.
+         * The data category this checklist item belongs to
          */
         category: 'personal_details' | 'assets_and_valuations' | 'liabilities' | 'beneficiaries' | 'executors' | 'guardians' | 'tax_information' | 'legal_documents' | 'lifetime_transfers' | 'pension_and_insurance';
         /**
-         * A human-readable label describing what was checked.
+         * A human-readable label describing what was checked
          */
         item: string;
         /**
-         * Relative importance of this item. Higher weights contribute more to the overall score.
+         * Relative importance of this item. Higher weights contribute more to the overall score
          */
         weight: number;
         /**
-         * Whether the data for this item is present and sufficient.
+         * Whether the data for this item is present and sufficient
          */
         status: 'complete' | 'incomplete' | 'not_applicable' | 'unknown';
         /**
-         * Optional explanation of the status, such as what is missing or why the item is not applicable.
+         * Optional explanation of the status, such as what is missing or why the item is not applicable
          */
         details?: string;
     }>;
     [key: string]: unknown | number | number | string | string | Array<{
         /**
-         * The data category this checklist item belongs to.
+         * The data category this checklist item belongs to
          */
         category: 'personal_details' | 'assets_and_valuations' | 'liabilities' | 'beneficiaries' | 'executors' | 'guardians' | 'tax_information' | 'legal_documents' | 'lifetime_transfers' | 'pension_and_insurance';
         /**
-         * A human-readable label describing what was checked.
+         * A human-readable label describing what was checked
          */
         item: string;
         /**
-         * Relative importance of this item. Higher weights contribute more to the overall score.
+         * Relative importance of this item. Higher weights contribute more to the overall score
          */
         weight: number;
         /**
-         * Whether the data for this item is present and sufficient.
+         * Whether the data for this item is present and sufficient
          */
         status: 'complete' | 'incomplete' | 'not_applicable' | 'unknown';
         /**
-         * Optional explanation of the status, such as what is missing or why the item is not applicable.
+         * Optional explanation of the status, such as what is missing or why the item is not applicable
          */
         details?: string;
     }> | undefined;
@@ -4619,89 +4619,89 @@ export type Completeness = {
 /**
  * TaxPosition
  *
- * An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability.
+ * An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability
  */
 export type TaxPosition = {
     /**
-     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying the tax jurisdiction.
+     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying the tax jurisdiction
      */
     jurisdiction: string;
     /**
-     * ISO 8601 date-time when this tax position was computed.
+     * ISO 8601 date-time when this tax position was computed
      */
     calculatedAt: string;
     /**
-     * Total gross value of the estate before deducting liabilities, in minor currency units.
+     * Total gross value of the estate before deducting liabilities, in minor currency units
      */
     grossEstateValue: Money2;
     /**
-     * Net estate value after deducting liabilities, in minor currency units.
+     * Net estate value after deducting liabilities, in minor currency units
      */
     netEstateValue?: Money2;
     /**
-     * Total value of lifetime transfers (gifts, settlements) made within the lookback period, in minor currency units.
+     * Total value of lifetime transfers (gifts, settlements) made within the lookback period, in minor currency units
      */
     lifetimeTransfersInLookback?: Money2;
     /**
-     * The lookback period for lifetime transfers in this jurisdiction, expressed as a human-readable duration.
+     * The lookback period for lifetime transfers in this jurisdiction, expressed as a human-readable duration
      */
     lookbackPeriod?: string;
     /**
-     * Tax exemptions and reliefs that may reduce the taxable estate. Each entry describes one exemption, its value, and whether it has been applied.
+     * Tax exemptions and reliefs that may reduce the taxable estate. Each entry describes one exemption, its value, and whether it has been applied
      */
     availableExemptions?: Array<{
         /**
-         * The name of the exemption or relief.
+         * The name of the exemption or relief
          */
         name: string;
         /**
-         * The monetary value of this exemption, in minor currency units.
+         * The monetary value of this exemption, in minor currency units
          */
         amount?: Money2;
         /**
-         * Whether this exemption has been applied in the current calculation.
+         * Whether this exemption has been applied in the current calculation
          */
         applied?: boolean;
         /**
-         * Additional context about eligibility, conditions, or partial application of this exemption.
+         * Additional context about eligibility, conditions, or partial application of this exemption
          */
         notes?: string;
     }>;
     /**
-     * The estate value subject to tax after applying exemptions, in minor currency units.
+     * The estate value subject to tax after applying exemptions, in minor currency units
      */
     taxableEstate?: Money2;
     /**
-     * The estimated tax due, in minor currency units. This is an estimate and should not be treated as a final liability.
+     * The estimated tax due, in minor currency units. This is an estimate and should not be treated as a final liability
      */
     estimatedLiability?: Money2;
     /**
-     * The effective tax rate as a percentage of the gross estate value.
+     * The effective tax rate as a percentage of the gross estate value
      */
     effectiveRate?: number;
     /**
-     * Data gaps, simplifying assumptions, or other caveats that may affect the accuracy of this estimate.
+     * Data gaps, simplifying assumptions, or other caveats that may affect the accuracy of this estimate
      */
     warnings?: Array<string>;
     /**
-     * A mandatory disclaimer stating that this is an estimate and not professional tax advice.
+     * A mandatory disclaimer stating that this is an estimate and not professional tax advice
      */
     disclaimer: string;
     [key: string]: unknown | string | string | Money2 | Array<{
         /**
-         * The name of the exemption or relief.
+         * The name of the exemption or relief
          */
         name: string;
         /**
-         * The monetary value of this exemption, in minor currency units.
+         * The monetary value of this exemption, in minor currency units
          */
         amount?: Money2;
         /**
-         * Whether this exemption has been applied in the current calculation.
+         * Whether this exemption has been applied in the current calculation
          */
         applied?: boolean;
         /**
-         * Additional context about eligibility, conditions, or partial application of this exemption.
+         * Additional context about eligibility, conditions, or partial application of this exemption
          */
         notes?: string;
     }> | number | Array<string> | undefined;
@@ -4710,487 +4710,487 @@ export type TaxPosition = {
 /**
  * INHERIT v1 Root Schema
  *
- * Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.
+ * Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types
  */
 export type Schema = {
     /**
-     * JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies.
+     * JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies
      */
     '@context'?: string;
     /**
-     * Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document.
+     * Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document
      */
     inherit: 'https://openinherit.org/v1/schema.json';
     /**
-     * Major version number of the INHERIT schema. Always 1 for v1 documents.
+     * Major version number of the INHERIT schema. Always 1 for v1 documents
      */
     version: 1;
     /**
-     * Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.
+     * Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation
      */
     schemaVersion?: string;
     /**
-     * Date this document was exported from the producing system.
+     * Date this document was exported from the producing system
      */
     exportedAt?: string;
     /**
-     * The person who exported or prepared this document.
+     * The person who exported or prepared this document
      */
     exportedBy?: {
         /**
-         * Name of the person who exported the document.
+         * Name of the person who exported the document
          */
         name?: string;
         /**
-         * Email address of the person who exported the document.
+         * Email address of the person who exported the document
          */
         email?: string;
         /**
-         * Organisation the exporter works for.
+         * Organisation the exporter works for
          */
         organisationName?: string;
     };
     /**
-     * The software that generated this INHERIT document.
+     * The software that generated this INHERIT document
      */
     generator?: {
         /**
-         * Name of the generating software.
+         * Name of the generating software
          */
         name: string;
         /**
-         * Version of the generating software.
+         * Version of the generating software
          */
         version?: string;
         /**
-         * URL of the generating software or organisation.
+         * URL of the generating software or organisation
          */
         url?: string;
     };
     /**
-     * The single estate record for this document.
+     * The single estate record for this document
      */
     estate: Estate2;
     /**
-     * All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc.
+     * All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc
      */
     people: Array<Person2>;
     /**
-     * Familial bonds between people in the estate. Essential for intestacy calculations.
+     * Familial bonds between people in the estate. Essential for intestacy calculations
      */
     kinships: Array<Kinship2>;
     /**
-     * Spousal and partnership relationships. Determines marital property rights and surviving spouse claims.
+     * Spousal and partnership relationships. Determines marital property rights and surviving spouse claims
      */
     relationships: Array<Relationship2>;
     /**
-     * Real estate owned or partly owned by the testator.
+     * Real estate owned or partly owned by the testator
      */
     properties: Array<Property2>;
     /**
-     * Non-property assets — financial accounts, personal property, vehicles, digital assets, etc.
+     * Non-property assets — financial accounts, personal property, vehicles, digital assets, etc
      */
     assets: Array<Asset2>;
     /**
-     * Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value.
+     * Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value
      */
     assetCollections?: Array<AssetCollection>;
     /**
-     * Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation.
+     * Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation
      */
     assetInterests?: Array<AssetInterest>;
     /**
-     * Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt).
+     * Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt)
      */
     liabilities: Array<Liability2>;
     /**
-     * Dispositions of property or money in the will.
+     * Dispositions of property or money in the will
      */
     bequests: Array<Bequest2>;
     /**
-     * Trusts — testamentary or inter vivos — associated with the estate.
+     * Trusts — testamentary or inter vivos — associated with the estate
      */
     trusts: Array<Trust2>;
     /**
-     * Persons appointed to administer the estate.
+     * Persons appointed to administer the estate
      */
     executors: Array<Executor2>;
     /**
-     * Guardian appointments for minor children.
+     * Guardian appointments for minor children
      */
     guardians: Array<Guardian2>;
     /**
-     * Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate.
+     * Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate
      */
     wishes: Array<Wish2>;
     /**
-     * Documents associated with the estate — wills, codicils, trust deeds, certificates.
+     * Documents associated with the estate — wills, codicils, trust deeds, certificates
      */
     documents: Array<Document2>;
     /**
-     * Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations.
+     * Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations
      */
     nonprobateTransfers: Array<NonprobateTransfer2>;
     /**
-     * Authorisations for proxies to act on behalf of the testator.
+     * Authorisations for proxies to act on behalf of the testator
      */
     proxyAuthorisations: Array<ProxyAuthorisation2>;
     /**
-     * Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers.
+     * Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers
      */
     valuations?: Array<Valuation>;
     /**
-     * Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc.
+     * Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc
      */
     lifetimeTransfers?: Array<LifetimeTransfer>;
     /**
-     * Third-party interest in estate assets — dealers, investors, collectors.
+     * Third-party interest in estate assets — dealers, investors, collectors
      */
     dealerInterests: Array<DealerInterest2>;
     /**
-     * Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured.
+     * Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured
      */
     dataProvenance?: 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated';
     /**
-     * Systems from which data was imported into this document. Enables audit trail and source tracking.
+     * Systems from which data was imported into this document. Enables audit trail and source tracking
      */
     importSources?: Array<{
         /**
-         * Unique identifier for this import source, referenced by importSourceId on entities.
+         * Unique identifier for this import source, referenced by importSourceId on entities
          */
         id: string;
         /**
-         * Name of the source system.
+         * Name of the source system
          */
         systemName: string;
         /**
-         * Date the data was imported from this source.
+         * Date the data was imported from this source
          */
         importDate?: string;
         /**
-         * How the data was imported from this source.
+         * How the data was imported from this source
          */
         importMethod?: 'api' | 'file_upload' | 'manual_copy' | 'ai_extraction' | 'ocr' | 'migration_script';
         /**
-         * Additional context about the import.
+         * Additional context about the import
          */
         notes?: string;
     }>;
     /**
-     * Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is.
+     * Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is
      */
     completeness?: Completeness;
     /**
-     * Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice.
+     * Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice
      */
     taxPosition?: TaxPosition;
     /**
-     * Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage.
+     * Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage
      */
     recommendedActions?: Array<{
         /**
-         * Unique identifier for this action.
+         * Unique identifier for this action
          */
         id: string;
         /**
-         * Category of the recommended action.
+         * Category of the recommended action
          */
         category: 'completeness' | 'tax_planning' | 'legal_requirement' | 'valuation' | 'transfer_history' | 'beneficiary_review' | 'document_update';
         /**
-         * Priority level for this action.
+         * Priority level for this action
          */
         priority: 'critical' | 'high' | 'medium' | 'low';
         /**
-         * Short action title.
+         * Short action title
          */
         title: string;
         /**
-         * Detailed explanation of what to do and why.
+         * Detailed explanation of what to do and why
          */
         description?: string;
         /**
-         * Current status of this action.
+         * Current status of this action
          */
         status: 'pending' | 'in_progress' | 'completed' | 'dismissed';
         /**
-         * What data gap or condition generated this action.
+         * What data gap or condition generated this action
          */
         triggeredBy?: string;
         /**
-         * Entity type this action relates to.
+         * Entity type this action relates to
          */
         relatedEntityType?: string;
         /**
-         * ID of the specific entity this action relates to.
+         * ID of the specific entity this action relates to
          */
         relatedEntityId?: string;
     }>;
     /**
-     * Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation.
+     * Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation
      */
     conformance?: {
         /**
-         * Conformance level achieved.
+         * Conformance level achieved
          */
         level: 'level_1' | 'level_2' | 'level_3';
         /**
-         * When the validation was performed.
+         * When the validation was performed
          */
         validatedAt: string;
         /**
-         * Name of the tool that performed the validation.
+         * Name of the tool that performed the validation
          */
         validatedBy: string;
         /**
-         * INHERIT schema version this document was validated against.
+         * INHERIT schema version this document was validated against
          */
         schemaVersion: string;
         /**
-         * Completeness score at time of validation.
+         * Completeness score at time of validation
          */
         completenessScore?: number;
         /**
-         * Count of entities per type at time of validation.
+         * Count of entities per type at time of validation
          */
         entityCounts?: {
             [key: string]: number;
         };
         /**
-         * Count of entities by data provenance source.
+         * Count of entities by data provenance source
          */
         provenanceSummary?: {
             [key: string]: number;
         };
         /**
-         * Validation warnings — non-blocking issues that may need attention.
+         * Validation warnings — non-blocking issues that may need attention
          */
         warnings?: Array<string>;
     };
     /**
-     * People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here.
+     * People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here
      */
     legacyContacts?: Array<{
         /**
-         * Unique identifier for this legacy contact.
+         * Unique identifier for this legacy contact
          */
         id: string;
         /**
-         * Reference to a Person.id, if the legacy contact is also in the people array.
+         * Reference to a Person.id, if the legacy contact is also in the people array
          */
         personId?: string;
         /**
-         * Display name — required because catalogue-only documents may not have a people array.
+         * Display name — required because catalogue-only documents may not have a people array
          */
         name: string;
         /**
-         * Relationship to the catalogue/estate owner.
+         * Relationship to the catalogue/estate owner
          */
         relationship?: string;
         /**
-         * Email address for notification.
+         * Email address for notification
          */
         email?: string;
         /**
-         * Phone number.
+         * Phone number
          */
         phone?: string;
         /**
-         * How to notify this person.
+         * How to notify this person
          */
         notificationMethod?: 'email' | 'phone' | 'post' | 'in_person';
         /**
-         * What level of access this person should receive.
+         * What level of access this person should receive
          */
         accessLevel: 'full' | 'read_only' | 'collection_only' | 'financial_only';
         /**
-         * Whether the 'Please open when I have passed away' letter has been generated for this contact.
+         * Whether the 'Please open when I have passed away' letter has been generated for this contact
          */
         letterGenerated?: boolean;
         /**
-         * When the letter was last generated.
+         * When the letter was last generated
          */
         letterGeneratedAt?: string;
         /**
-         * How the letter was or should be delivered.
+         * How the letter was or should be delivered
          */
         letterDeliveryMethod?: 'printed' | 'digital' | 'both';
         /**
-         * Additional notes about this legacy contact.
+         * Additional notes about this legacy contact
          */
         notes?: string;
     }>;
     /**
-     * URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
+     * URIs of extension schemas applied to this document. Consumers should load and validate against these extensions
      */
     extensions?: Array<string>;
     [key: string]: unknown | string | 'https://openinherit.org/v1/schema.json' | 1 | string | string | {
         /**
-         * Name of the person who exported the document.
+         * Name of the person who exported the document
          */
         name?: string;
         /**
-         * Email address of the person who exported the document.
+         * Email address of the person who exported the document
          */
         email?: string;
         /**
-         * Organisation the exporter works for.
+         * Organisation the exporter works for
          */
         organisationName?: string;
     } | {
         /**
-         * Name of the generating software.
+         * Name of the generating software
          */
         name: string;
         /**
-         * Version of the generating software.
+         * Version of the generating software
          */
         version?: string;
         /**
-         * URL of the generating software or organisation.
+         * URL of the generating software or organisation
          */
         url?: string;
     } | Estate2 | Array<Person2> | Array<Kinship2> | Array<Relationship2> | Array<Property2> | Array<Asset2> | Array<AssetCollection> | Array<AssetInterest> | Array<Liability2> | Array<Bequest2> | Array<Trust2> | Array<Executor2> | Array<Guardian2> | Array<Wish2> | Array<Document2> | Array<NonprobateTransfer2> | Array<ProxyAuthorisation2> | Array<Valuation> | Array<LifetimeTransfer> | Array<DealerInterest2> | 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated' | Array<{
         /**
-         * Unique identifier for this import source, referenced by importSourceId on entities.
+         * Unique identifier for this import source, referenced by importSourceId on entities
          */
         id: string;
         /**
-         * Name of the source system.
+         * Name of the source system
          */
         systemName: string;
         /**
-         * Date the data was imported from this source.
+         * Date the data was imported from this source
          */
         importDate?: string;
         /**
-         * How the data was imported from this source.
+         * How the data was imported from this source
          */
         importMethod?: 'api' | 'file_upload' | 'manual_copy' | 'ai_extraction' | 'ocr' | 'migration_script';
         /**
-         * Additional context about the import.
+         * Additional context about the import
          */
         notes?: string;
     }> | Completeness | TaxPosition | Array<{
         /**
-         * Unique identifier for this action.
+         * Unique identifier for this action
          */
         id: string;
         /**
-         * Category of the recommended action.
+         * Category of the recommended action
          */
         category: 'completeness' | 'tax_planning' | 'legal_requirement' | 'valuation' | 'transfer_history' | 'beneficiary_review' | 'document_update';
         /**
-         * Priority level for this action.
+         * Priority level for this action
          */
         priority: 'critical' | 'high' | 'medium' | 'low';
         /**
-         * Short action title.
+         * Short action title
          */
         title: string;
         /**
-         * Detailed explanation of what to do and why.
+         * Detailed explanation of what to do and why
          */
         description?: string;
         /**
-         * Current status of this action.
+         * Current status of this action
          */
         status: 'pending' | 'in_progress' | 'completed' | 'dismissed';
         /**
-         * What data gap or condition generated this action.
+         * What data gap or condition generated this action
          */
         triggeredBy?: string;
         /**
-         * Entity type this action relates to.
+         * Entity type this action relates to
          */
         relatedEntityType?: string;
         /**
-         * ID of the specific entity this action relates to.
+         * ID of the specific entity this action relates to
          */
         relatedEntityId?: string;
     }> | {
         /**
-         * Conformance level achieved.
+         * Conformance level achieved
          */
         level: 'level_1' | 'level_2' | 'level_3';
         /**
-         * When the validation was performed.
+         * When the validation was performed
          */
         validatedAt: string;
         /**
-         * Name of the tool that performed the validation.
+         * Name of the tool that performed the validation
          */
         validatedBy: string;
         /**
-         * INHERIT schema version this document was validated against.
+         * INHERIT schema version this document was validated against
          */
         schemaVersion: string;
         /**
-         * Completeness score at time of validation.
+         * Completeness score at time of validation
          */
         completenessScore?: number;
         /**
-         * Count of entities per type at time of validation.
+         * Count of entities per type at time of validation
          */
         entityCounts?: {
             [key: string]: number;
         };
         /**
-         * Count of entities by data provenance source.
+         * Count of entities by data provenance source
          */
         provenanceSummary?: {
             [key: string]: number;
         };
         /**
-         * Validation warnings — non-blocking issues that may need attention.
+         * Validation warnings — non-blocking issues that may need attention
          */
         warnings?: Array<string>;
     } | Array<{
         /**
-         * Unique identifier for this legacy contact.
+         * Unique identifier for this legacy contact
          */
         id: string;
         /**
-         * Reference to a Person.id, if the legacy contact is also in the people array.
+         * Reference to a Person.id, if the legacy contact is also in the people array
          */
         personId?: string;
         /**
-         * Display name — required because catalogue-only documents may not have a people array.
+         * Display name — required because catalogue-only documents may not have a people array
          */
         name: string;
         /**
-         * Relationship to the catalogue/estate owner.
+         * Relationship to the catalogue/estate owner
          */
         relationship?: string;
         /**
-         * Email address for notification.
+         * Email address for notification
          */
         email?: string;
         /**
-         * Phone number.
+         * Phone number
          */
         phone?: string;
         /**
-         * How to notify this person.
+         * How to notify this person
          */
         notificationMethod?: 'email' | 'phone' | 'post' | 'in_person';
         /**
-         * What level of access this person should receive.
+         * What level of access this person should receive
          */
         accessLevel: 'full' | 'read_only' | 'collection_only' | 'financial_only';
         /**
-         * Whether the 'Please open when I have passed away' letter has been generated for this contact.
+         * Whether the 'Please open when I have passed away' letter has been generated for this contact
          */
         letterGenerated?: boolean;
         /**
-         * When the letter was last generated.
+         * When the letter was last generated
          */
         letterGeneratedAt?: string;
         /**
-         * How the letter was or should be delivered.
+         * How the letter was or should be delivered
          */
         letterDeliveryMethod?: 'printed' | 'digital' | 'both';
         /**
-         * Additional notes about this legacy contact.
+         * Additional notes about this legacy contact
          */
         notes?: string;
     }> | Array<string> | undefined;
@@ -5199,39 +5199,39 @@ export type Schema = {
 /**
  * TemporalRule
  *
- * A jurisdiction rule value with effective dates, legislative status, and change history.
+ * A jurisdiction rule value with effective dates, legislative status, and change history
  */
 export type TemporalRule2 = {
     /**
-     * The actual rule value — a number (tax rate, threshold in minor units), boolean (rule applies or not), string (enum value, fraction), or object (complex rule). The consumer must interpret this in context.
+     * The actual rule value — a number (tax rate, threshold in minor units), boolean (rule applies or not), string (enum value, fraction), or object (complex rule). The consumer must interpret this in context
      */
     value: number | boolean | string | {
         [key: string]: unknown;
     };
     /**
-     * The date from which this rule value takes effect. For enacted legislation, this is the commencement date, not the date of royal assent.
+     * The date from which this rule value takes effect. For enacted legislation, this is the commencement date, not the date of royal assent
      */
     effectiveFrom: string;
     /**
-     * The date this rule value was or will be superseded. Null means it is currently in effect with no known end date.
+     * The date this rule value was or will be superseded. Null means it is currently in effect with no known end date
      */
     effectiveUntil?: string | null;
     /**
-     * The legislative status of this rule. Only 'enacted' rules are legally binding — all others are prospective.
+     * The legislative status of this rule. Only 'enacted' rules are legally binding — all others are prospective
      */
     status: 'enacted' | 'royal_assent' | 'bill_stage' | 'consultation' | 'announced';
     /**
-     * The previous value of this rule, for computing deltas and understanding the direction of change. Null if this is the first known value.
+     * The previous value of this rule, for computing deltas and understanding the direction of change. Null if this is the first known value
      */
     predecessorValue?: number | boolean | string | {
         [key: string]: unknown;
     } | null;
     /**
-     * Citation for the legislation that establishes this rule value. Include act name, section, and year.
+     * Citation for the legislation that establishes this rule value. Include act name, section, and year
      */
     legislativeReference?: string;
     /**
-     * Free-text commentary on this rule value — transitional provisions, known ambiguities, or political context.
+     * Free-text commentary on this rule value — transitional provisions, known ambiguities, or political context
      */
     notes?: string;
 };
