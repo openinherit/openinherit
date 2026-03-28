@@ -2,29 +2,29 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/catalogue.json",
   "title": "INHERIT v1 Catalogue Schema",
-  "description": "Lightweight root schema for catalogue-only documents — living collectors cataloguing items without the full estate envelope. Assets, collections, valuations, and legacy contacts. Upgrade path: wrap in a full estate document (schema.json) when needed.",
+  "description": "Lightweight root schema for catalogue-only documents — living collectors cataloguing items without the full estate envelope. Assets, collections, valuations, and legacy contacts. Upgrade path: wrap in a full estate document (schema.json) when needed",
   "type": "object",
+  "required": [ "inherit", "version", "assets" ],
   "properties": {
     "@context": {
+      "x-lint-exclude": ["simple_properties_identifiers"],
+      "description": "JSON-LD context URI",
+      "examples": [ "https://openinherit.org/v1/context/inherit-v1.jsonld" ],
       "type": "string",
-      "format": "uri",
-      "description": "JSON-LD context URI.",
-      "examples": ["https://openinherit.org/v1/context/inherit-v1.jsonld"]
+      "format": "uri"
     },
     "inherit": {
-      "type": "string",
-      "const": "https://openinherit.org/v1/catalogue.json",
-      "description": "Schema identifier — must be the catalogue schema URI."
+      "description": "Schema identifier — must be the catalogue schema URI",
+      "const": "https://openinherit.org/v1/catalogue.json"
     },
     "version": {
-      "type": "integer",
-      "const": 1,
-      "description": "Major version number."
+      "description": "Major version number",
+      "const": 1
     },
     "schemaVersion": {
+      "examples": [ "1.3.0" ],
       "type": "string",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "examples": ["1.3.0"]
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
     "exportedAt": {
       "type": "string",
@@ -33,51 +33,74 @@
     "exportedBy": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "email": { "type": "string", "format": "email" }
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
       },
       "additionalProperties": false
     },
     "generator": {
       "type": "object",
+      "required": [ "name" ],
       "properties": {
-        "name": { "type": "string" },
-        "version": { "type": "string" },
-        "url": { "type": "string" }
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
       },
-      "required": ["name"],
       "additionalProperties": false
     },
     "assets": {
+      "description": "The catalogued items",
       "type": "array",
-      "items": { "$ref": "asset.json" },
-      "description": "The catalogued items."
+      "items": {
+        "$ref": "asset.json"
+      }
     },
     "assetCollections": {
+      "description": "Named groupings of assets",
       "type": "array",
-      "items": { "$ref": "asset-collection.json" },
-      "description": "Named groupings of assets."
+      "items": {
+        "$ref": "asset-collection.json"
+      }
     },
     "valuations": {
+      "description": "Valuations of items and collections",
       "type": "array",
-      "items": { "$ref": "valuation.json" },
-      "description": "Valuations of items and collections."
+      "items": {
+        "$ref": "valuation.json"
+      }
     },
     "legacyContacts": {
+      "description": "People to notify and grant access when the owner dies. The 'Please open when I have passed away' letter recipients",
       "type": "array",
-      "description": "People to notify and grant access when the owner dies. The 'Please open when I have passed away' letter recipients.",
       "items": {
         "$ref": "schema.json#/properties/legacyContacts/items"
       }
     },
     "dataProvenance": {
-      "type": "string",
-      "enum": ["manual_entry", "ai_extracted", "ocr_scanned", "imported", "migrated", "system_generated"],
-      "description": "Default data provenance for entities in this catalogue."
+      "description": "Default data provenance for entities in this catalogue",
+      "enum": [
+        "manual_entry",
+        "ai_extracted",
+        "ocr_scanned",
+        "imported",
+        "migrated",
+        "system_generated"
+      ]
     },
     "importSources": {
+      "description": "Systems data was imported from",
       "type": "array",
-      "description": "Systems data was imported from.",
       "items": {
         "$ref": "schema.json#/properties/importSources/items"
       }
@@ -95,9 +118,8 @@
       "$ref": "schema.json#/properties/conformance"
     }
   },
-  "required": ["inherit", "version", "assets"],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

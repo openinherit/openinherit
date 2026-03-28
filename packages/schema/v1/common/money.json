@@ -1,23 +1,23 @@
 {
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/common/money.json",
-  "$comment": "Consumers must look up the ISO 4217 exponent for the currency code. JPY/KRW: exponent 0 (amount IS face value). KWD/BHD/OMR: exponent 3. Most currencies: exponent 2.",
   "title": "Money",
-  "description": "Monetary value in integer minor currency units with ISO 4217 code. Never floating point.",
+  "description": "Monetary value in integer minor currency units with ISO 4217 code. Never floating point",
+  "$comment": "Consumers must look up the ISO 4217 exponent for the currency code. JPY/KRW: exponent 0 (amount IS face value). KWD/BHD/OMR: exponent 3. Most currencies: exponent 2. See https://www.iso.org/iso-4217-currency-codes.html",
   "type": "object",
+  "required": [ "amount", "currency" ],
   "properties": {
     "amount": {
-      "type": "integer",
-      "description": "Value in the smallest currency unit (pence, cents, sen). The consumer must apply the ISO 4217 exponent to convert to a display value.",
-      "examples": [32500, 1000000, 500000, 0]
+      "description": "Value in the smallest currency unit (pence, cents, sen). The consumer must apply the ISO 4217 exponent to convert to a display value",
+      "examples": [ 32500, 1000000, 500000, 0 ],
+      "type": "integer"
     },
     "currency": {
+      "description": "ISO 4217 three-letter currency code. Use the code for the currency of the amount, not the reporting currency",
+      "examples": [ "GBP", "USD", "EUR", "JPY", "INR", "AED", "SGD" ],
       "type": "string",
-      "pattern": "^[A-Z]{3}$",
-      "description": "ISO 4217 three-letter currency code. Use the code for the currency of the amount, not the reporting currency.",
-      "examples": ["GBP", "USD", "EUR", "JPY", "INR", "AED", "SGD"]
+      "pattern": "^[A-Z]{3}$"
     }
   },
-  "required": ["amount", "currency"],
   "additionalProperties": false
 }

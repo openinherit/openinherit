@@ -2,267 +2,327 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/property.json",
   "title": "Property",
-  "description": "Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings.",
+  "description": "Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings",
   "type": "object",
+  "required": [ "id", "name" ],
   "properties": {
     "id": {
+      "description": "Unique identifier for this property within the INHERIT document",
+      "examples": [ "d4e5f6a7-b8c9-0123-def0-123456789abc" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this property within the INHERIT document.",
-      "examples": ["d4e5f6a7-b8c9-0123-def0-123456789abc"]
+      "format": "uuid"
     },
     "name": {
+      "description": "Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate",
+      "examples": [
+        "Family Home",
+        "42 Acacia Avenue",
+        "Lagos Investment Property",
+        "Hokkaido Farmland",
+        "Mumbai Flat",
+        "Dubai Marina Apartment"
+      ],
       "type": "string",
-      "minLength": 1,
-      "description": "Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate.",
-      "examples": ["Family Home", "42 Acacia Avenue", "Lagos Investment Property", "Hokkaido Farmland", "Mumbai Flat", "Dubai Marina Apartment"]
+      "minLength": 1
     },
     "propertyType": {
-      "type": "string",
-      "enum": [
-        "detached", "attached", "apartment", "land",
-        "commercial", "mixed_use", "rural", "mobile",
-        "watercraft", "other"
-      ],
+      "description": "Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs",
       "$comment": "detached: standalone dwelling (UK detached house, US single-family home, JP 一戸建て). attached: dwelling sharing walls with neighbours (UK terraced/semi-detached, US townhouse/duplex). apartment: unit within a larger building (UK flat, US condo/co-op, SG HDB flat, JP マンション). land: undeveloped plot or agricultural land. commercial: office, shop, warehouse, industrial. mixed_use: combination of residential and commercial. rural: farmhouse, smallholding, rural dwelling. mobile: mobile home, park home, transportable dwelling. watercraft: houseboat, floating dwelling. other: any type not listed. For jurisdiction-specific subtypes (maisonette, bungalow, cottage, barn conversion), use the localPropertyType field in the relevant extension.",
-      "description": "Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.",
-      "examples": ["detached", "apartment", "land", "commercial"]
+      "examples": [ "detached", "apartment", "land", "commercial" ],
+      "enum": [
+        "detached",
+        "attached",
+        "apartment",
+        "land",
+        "commercial",
+        "mixed_use",
+        "rural",
+        "mobile",
+        "watercraft",
+        "other"
+      ]
     },
     "address": {
-      "$ref": "common/address.json",
-      "description": "Physical address of the property."
+      "description": "Physical address of the property",
+      "$ref": "common/address.json"
     },
     "estimatedValue": {
-      "$ref": "common/money.json",
-      "description": "Owner's estimate of the property's current market value, in minor currency units."
+      "description": "Owner's estimate of the property's current market value, in minor currency units",
+      "$ref": "common/money.json"
     },
     "professionalValuation": {
-      "$ref": "common/money.json",
-      "description": "Professional surveyor or valuer's assessment of the property value, in minor currency units."
+      "description": "Professional surveyor or valuer's assessment of the property value, in minor currency units",
+      "$ref": "common/money.json"
     },
     "valuationDate": {
+      "description": "Date the most recent valuation (estimated or professional) was performed",
+      "examples": [ "2024-09-15", "2025-01-20" ],
       "type": "string",
-      "format": "date",
-      "description": "Date the most recent valuation (estimated or professional) was performed.",
-      "examples": ["2024-09-15", "2025-01-20"]
+      "format": "date"
     },
     "valuationConfidence": {
-      "type": "string",
-      "enum": ["estimated", "professional", "official", "unknown"],
+      "description": "Level of confidence in the stated valuation",
       "$comment": "estimated: owner's own estimate, no professional input. professional: assessed by a qualified surveyor or valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing 'probate'. unknown: no information on how the value was derived.",
-      "description": "Level of confidence in the stated valuation.",
-      "examples": ["estimated", "professional"]
+      "examples": [ "estimated", "professional" ],
+      "enum": [ "estimated", "professional", "official", "unknown" ]
     },
     "isPrimaryResidence": {
-      "type": "boolean",
+      "description": "Whether this is the testator's primary residence. Relevant for residence nil rate band (UK), homestead exemption (US), and similar tax reliefs",
       "$comment": "Annotation only — JSON Schema 'default' does not insert values. Consuming apps must implement defaulting.",
-      "description": "Whether this is the testator's primary residence. Relevant for residence nil rate band (UK), homestead exemption (US), and similar tax reliefs.",
-      "examples": [true, false]
+      "examples": [ true, false ],
+      "type": "boolean"
     },
     "ownershipType": {
-      "type": "string",
-      "enum": ["sole", "joint_tenants", "tenants_in_common", "trust", "tenancy_by_entirety"],
+      "description": "How ownership of this property is legally structured",
       "$comment": "sole: one person owns the entire property. joint_tenants: co-owners with right of survivorship — on death, the deceased's share passes automatically to the survivor(s). tenants_in_common: co-owners without survivorship — the deceased's share passes under the will or intestacy rules. trust: held by trustees for beneficiaries. tenancy_by_entirety: US spousal joint tenancy (PA, FL, MA, IL, OH, etc.) — survives creditors of the deceased spouse.",
-      "description": "How ownership of this property is legally structured.",
-      "examples": ["sole", "joint_tenants", "tenants_in_common"]
+      "examples": [ "sole", "joint_tenants", "tenants_in_common" ],
+      "enum": [
+        "sole",
+        "joint_tenants",
+        "tenants_in_common",
+        "trust",
+        "tenancy_by_entirety"
+      ]
     },
     "ownershipPercentage": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 100,
-      "multipleOf": 0.01,
+      "description": "The testator's ownership share as a percentage. For joint tenants, typically 50% for two co-owners. For tenants in common, may be any split",
       "$comment": "Capped at 2 decimal places. For legal disputes requiring higher precision, use notes.",
-      "description": "The testator's ownership share as a percentage. For joint tenants, typically 50% for two co-owners. For tenants in common, may be any split.",
-      "examples": [100, 50, 33.33, 25]
+      "type": "number",
+      "maximum": 100,
+      "minimum": 0,
+      "multipleOf": 0.01
     },
     "ownershipModel": {
-      "type": "string",
-      "enum": [
-        "individual", "joint", "communal_family",
-        "huf_coparcenary", "tribal", "government_vested", "trust_held"
-      ],
+      "description": "The cultural or legal model of ownership. Goes beyond the simple legal title to capture communal and customary ownership forms",
       "$comment": "individual: single person owns outright. joint: two or more co-owners. communal_family: Nigerian family land or clan property — not individually owned. huf_coparcenary: Hindu Undivided Family joint property (India) — devolves by survivorship among coparceners. tribal: indigenous/tribal communal land. government_vested: Nigerian Certificate of Occupancy — land vested in the state, occupier holds a right of occupancy. trust_held: property held by trustees.",
-      "description": "The cultural or legal model of ownership. Goes beyond the simple legal title to capture communal and customary ownership forms.",
-      "examples": ["individual", "joint", "communal_family"]
+      "examples": [ "individual", "joint", "communal_family" ],
+      "enum": [
+        "individual",
+        "joint",
+        "communal_family",
+        "huf_coparcenary",
+        "tribal",
+        "government_vested",
+        "trust_held"
+      ]
     },
     "acquisitionType": {
-      "type": "string",
-      "enum": [
-        "self_acquired", "ancestral_joint", "ancestral_severed",
-        "inherited", "gifted", "stridhan", "communal", "waqf_endowed"
-      ],
+      "description": "How the property was acquired. Determines which succession law applies in India and other jurisdictions",
       "$comment": "self_acquired: purchased or earned by the current owner — devolves by will or intestacy. ancestral_joint: coparcenary property that has not been partitioned — devolves by survivorship. ancestral_severed: formerly joint property that has been partitioned — devolves by will or intestacy. inherited: received through inheritance. gifted: received as a gift inter vivos. stridhan: Hindu woman's absolute property (India). communal: communal or clan property. waqf_endowed: Islamic endowment — cannot be sold or inherited.",
-      "description": "How the property was acquired. Determines which succession law applies in India and other jurisdictions.",
-      "examples": ["self_acquired", "inherited"]
+      "examples": [ "self_acquired", "inherited" ],
+      "enum": [
+        "self_acquired",
+        "ancestral_joint",
+        "ancestral_severed",
+        "inherited",
+        "gifted",
+        "stridhan",
+        "communal",
+        "waqf_endowed"
+      ]
     },
     "tenureType": {
-      "type": "string",
-      "enum": [
-        "ownership", "lease", "communal",
-        "customary", "informal", "government_allocated"
-      ],
+      "description": "Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs",
       "$comment": "ownership: outright ownership in perpetuity (UK freehold, US fee simple, AU Torrens title, JP 所有権). lease: time-limited right to occupy (UK leasehold, SG 99-year lease, HDB lease). communal: communal or clan land held by a group. customary: held under customary or traditional law (Nigerian customary right of occupancy, traditional authority grants). informal: occupation without formal title — unregistered, disputed, or undocumented. government_allocated: land allocated by government (Nigerian Certificate of Occupancy, government-vested land). For jurisdiction-specific subtypes, use the localTenureType field in the relevant extension.",
-      "description": "Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.",
-      "examples": ["ownership", "lease", "communal"]
+      "examples": [ "ownership", "lease", "communal" ],
+      "enum": [
+        "ownership",
+        "lease",
+        "communal",
+        "customary",
+        "informal",
+        "government_allocated"
+      ]
     },
     "registrationStatus": {
-      "type": "string",
-      "enum": ["formally_registered", "informally_held", "community_acknowledged", "disputed", "undocumented"],
+      "description": "Whether this property is formally registered with a land authority",
       "$comment": "formally_registered: registered with the national land registry or equivalent. informally_held: occupied but not formally registered. community_acknowledged: ownership recognised by the community but not the state. disputed: ownership is contested. undocumented: no documentation exists.",
-      "description": "Whether this property is formally registered with a land authority.",
-      "examples": ["formally_registered", "informally_held"]
+      "examples": [ "formally_registered", "informally_held" ],
+      "enum": [
+        "formally_registered",
+        "informally_held",
+        "community_acknowledged",
+        "disputed",
+        "undocumented"
+      ]
     },
     "ownershipEvidence": {
-      "type": "string",
-      "enum": ["title_deed", "certificate_of_occupancy", "family_recognition", "community_testimony", "receipts_only", "none"],
+      "description": "The type of evidence available to prove ownership. In many jurisdictions, informal evidence is the only kind available",
       "$comment": "title_deed: formal land registry title. certificate_of_occupancy: Nigerian Certificate of Occupancy. family_recognition: the family acknowledges ownership but no formal document exists. community_testimony: community members can attest to ownership. receipts_only: purchase receipts exist but no formal title. none: no evidence of ownership.",
-      "description": "The type of evidence available to prove ownership. In many jurisdictions, informal evidence is the only kind available.",
-      "examples": ["title_deed", "family_recognition"]
+      "examples": [ "title_deed", "family_recognition" ],
+      "enum": [
+        "title_deed",
+        "certificate_of_occupancy",
+        "family_recognition",
+        "community_testimony",
+        "receipts_only",
+        "none"
+      ]
     },
     "applicableSuccessionLaw": {
-      "type": "object",
+      "description": "The succession law governing this specific property. For immoveable property, this is typically the law of the place where the property is situated (lex rei sitae)",
       "$comment": "Which succession law governs this property. Immoveables typically governed by lex rei sitae (law where the property is situated).",
-      "description": "The succession law governing this specific property. For immoveable property, this is typically the law of the place where the property is situated (lex rei sitae).",
+      "type": "object",
+      "required": [ "jurisdiction" ],
       "properties": {
         "jurisdiction": {
-          "$ref": "common/jurisdiction.json",
-          "description": "Jurisdiction whose succession law governs this property."
+          "description": "Jurisdiction whose succession law governs this property",
+          "$ref": "common/jurisdiction.json"
         },
         "lawName": {
-          "type": "string",
+          "description": "Name of the applicable law",
           "$comment": "e.g., 'Hindu Succession Act 1956', 'Japanese Civil Code'",
-          "description": "Name of the applicable law.",
-          "examples": ["Hindu Succession Act 1956", "Japanese Civil Code", "Administration of Estates Act 1925"]
+          "examples": [
+            "Hindu Succession Act 1956",
+            "Japanese Civil Code",
+            "Administration of Estates Act 1925"
+          ],
+          "type": "string"
         },
         "section": {
-          "type": "string",
+          "description": "Specific section of the law that applies",
           "$comment": "e.g., 's.6 (coparcenary)'",
-          "description": "Specific section of the law that applies.",
-          "examples": ["s.6 (coparcenary)", "Art. 896", "s.46"]
+          "examples": [ "s.6 (coparcenary)", "Art. 896", "s.46" ],
+          "type": "string"
         }
       },
-      "required": ["jurisdiction"],
       "additionalProperties": false
     },
     "custodianPersonId": {
-      "type": "string",
-      "format": "uuid",
+      "description": "Reference to the Person.id of the current custodian of communal or family property. The custodian manages but does not own the property",
       "$comment": "For communal/family property: the current custodian (not owner). On death, custodianship passes by custom, not by will.",
-      "description": "Reference to the Person.id of the current custodian of communal or family property. The custodian manages but does not own the property."
+      "type": "string",
+      "format": "uuid"
     },
     "successionRule": {
-      "type": "string",
-      "enum": [
-        "testamentary", "intestacy", "customary_eldest_son",
-        "customary_family_council", "customary_matrilineal",
-        "survivorship", "not_individually_bequeathable"
-      ],
+      "description": "How this property passes on the owner's death. May differ from the general estate succession rule",
       "$comment": "testamentary: passes according to the will. intestacy: passes under statutory intestacy rules. customary_eldest_son: passes to the eldest son under customary law. customary_family_council: family council determines succession. customary_matrilineal: passes through the mother's line (e.g. Akan, Minangkabau). survivorship: passes automatically to surviving co-owner(s). not_individually_bequeathable: communal property that cannot be included in a will.",
-      "description": "How this property passes on the owner's death. May differ from the general estate succession rule.",
-      "examples": ["testamentary", "survivorship"]
+      "examples": [ "testamentary", "survivorship" ],
+      "enum": [
+        "testamentary",
+        "intestacy",
+        "customary_eldest_son",
+        "customary_family_council",
+        "customary_matrilineal",
+        "survivorship",
+        "not_individually_bequeathable"
+      ]
     },
     "governmentConsentRequired": {
-      "type": "boolean",
+      "description": "Whether government or regulatory consent is required to transfer this property. Common in Nigeria (governor's consent) and for agricultural land in parts of India",
       "$comment": "Nigerian Land Use Act: governor's consent required for all transfers of rights. Some Indian states require similar for agricultural land.",
-      "description": "Whether government or regulatory consent is required to transfer this property. Common in Nigeria (governor's consent) and for agricultural land in parts of India.",
-      "examples": [true, false]
+      "examples": [ true, false ],
+      "type": "boolean"
     },
     "mobilityType": {
-      "type": "string",
-      "enum": ["immoveable", "moveable", "mixed"],
+      "description": "Whether this property is classified as immoveable, moveable, or mixed. Determines which conflict-of-laws rules apply",
       "$comment": "immoveable: land and buildings. moveable: personal property (rarely applies to Property entities). mixed: property with both immoveable and moveable components. Relevant for Shia inheritance (immoveable property rules differ), French succession (lex rei sitae), and halachic bekhor rules.",
-      "description": "Whether this property is classified as immoveable, moveable, or mixed. Determines which conflict-of-laws rules apply.",
-      "examples": ["immoveable"]
+      "examples": [ "immoveable" ],
+      "enum": [ "immoveable", "moveable", "mixed" ]
     },
     "mortgageOutstanding": {
-      "$ref": "common/money.json",
-      "description": "Outstanding mortgage balance in minor currency units. If the property is mortgage-free, omit this field."
+      "description": "Outstanding mortgage balance in minor currency units. If the property is mortgage-free, omit this field",
+      "$ref": "common/money.json"
     },
     "characterClassification": {
-      "type": "string",
-      "enum": ["community", "separate", "quasi_community", "mixed", "not_applicable"],
+      "description": "Marital property character classification for US community property states. Determines whether the testator may dispose of the entire property or only their half",
       "$comment": "community: jointly owned marital property (50/50 in US community property states — CA, TX, AZ, WA, NV, NM, LA, ID, WI). separate: individually owned, not subject to marital property claims. quasi_community: CA-specific — property acquired in a non-community state but treated as community on divorce/death. mixed: partially community and partially separate. not_applicable: jurisdiction does not distinguish community and separate property.",
-      "description": "Marital property character classification for US community property states. Determines whether the testator may dispose of the entire property or only their half.",
-      "examples": ["separate", "community", "not_applicable"]
+      "examples": [ "separate", "community", "not_applicable" ],
+      "enum": [
+        "community",
+        "separate",
+        "quasi_community",
+        "mixed",
+        "not_applicable"
+      ]
     },
     "homesteadStatus": {
-      "type": "object",
+      "description": "US homestead exemption status. Protects the primary residence from creditors and may restrict the testator's ability to devise the property",
       "$comment": "Homestead exemption protects primary residence from creditors and may restrict devise. Florida: unlimited value. Texas: 200 acres rural / 10 acres urban.",
-      "description": "US homestead exemption status. Protects the primary residence from creditors and may restrict the testator's ability to devise the property.",
+      "type": "object",
       "properties": {
         "isHomestead": {
-          "type": "boolean",
-          "description": "Whether this property qualifies as a homestead.",
-          "examples": [true]
+          "description": "Whether this property qualifies as a homestead",
+          "examples": [ true ],
+          "type": "boolean"
         },
         "exemptionAmount": {
-          "$ref": "common/money.json",
-          "description": "Dollar value of the homestead exemption, if capped."
+          "description": "Dollar value of the homestead exemption, if capped",
+          "$ref": "common/money.json"
         },
         "exemptionUnlimited": {
-          "type": "boolean",
+          "description": "Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states",
           "$comment": "Florida, Texas (rural), Iowa, Kansas, Oklahoma, South Dakota.",
-          "description": "Whether the homestead exemption has no dollar cap. True in Florida, Texas (rural), and several other states.",
-          "examples": [true, false]
+          "examples": [ true, false ],
+          "type": "boolean"
         },
         "deviseRestriction": {
-          "type": "boolean",
+          "description": "Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children",
           "$comment": "Florida: cannot devise homestead away from spouse/minor children.",
-          "description": "Whether this homestead is subject to restrictions on devise — e.g. Florida prohibits devising homestead away from a surviving spouse or minor children.",
-          "examples": [true]
+          "examples": [ true ],
+          "type": "boolean"
         },
         "notes": {
-          "type": "string",
-          "description": "Additional notes on homestead status.",
-          "examples": ["Florida unlimited homestead — devise restricted by Art. X s.4 Florida Constitution"]
+          "description": "Additional notes on homestead status",
+          "examples": [
+            "Florida unlimited homestead — devise restricted by Art. X s.4 Florida Constitution"
+          ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "passesOutsideEstate": {
-      "type": "boolean",
+      "description": "Whether this property passes outside the probate estate — typically via joint tenancy with right of survivorship, a transfer-on-death deed, or a trust",
       "$comment": "True if this property passes outside probate (JTWROS, TOD deed, trust-held). NOT distributed under the will.",
-      "description": "Whether this property passes outside the probate estate — typically via joint tenancy with right of survivorship, a transfer-on-death deed, or a trust.",
-      "examples": [true, false]
+      "examples": [ true, false ],
+      "type": "boolean"
     },
     "statutoryLifeEstate": {
-      "type": "object",
+      "description": "A life estate imposed by statute rather than by the will. The surviving spouse or other protected person has a right to occupy for life",
       "$comment": "Statutory life estate imposed by law (Alberta Dower Act, Florida homestead devise restriction). Not the same as a testamentary life interest.",
-      "description": "A life estate imposed by statute rather than by the will. The surviving spouse or other protected person has a right to occupy for life.",
+      "type": "object",
       "properties": {
         "beneficiaryPersonId": {
+          "description": "Reference to the Person.id of the life estate beneficiary",
           "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id of the life estate beneficiary."
+          "format": "uuid"
         },
         "basis": {
-          "type": "string",
+          "description": "The statutory basis for this life estate",
           "$comment": "Legal basis — e.g., 'Alberta Dower Act', 'Florida Constitution Art. X s.4'",
-          "description": "The statutory basis for this life estate.",
-          "examples": ["Alberta Dower Act", "Florida Constitution Art. X s.4"]
+          "examples": [ "Alberta Dower Act", "Florida Constitution Art. X s.4" ],
+          "type": "string"
         },
         "conditions": {
-          "type": "string",
-          "description": "Any conditions on the life estate.",
-          "examples": ["Terminates on remarriage", "Must maintain the property in habitable condition"]
+          "description": "Any conditions on the life estate",
+          "examples": [
+            "Terminates on remarriage",
+            "Must maintain the property in habitable condition"
+          ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "notes": {
-      "type": "string",
-      "description": "Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations.",
-      "examples": ["Grade II listed building — consent required for any alterations", "Boundary dispute with neighbour ongoing since 2022"]
+      "description": "Free-text notes about this property. Use for unusual tenure arrangements, ongoing disputes, or planning considerations",
+      "examples": [
+        "Grade II listed building — consent required for any alterations",
+        "Boundary dispute with neighbour ongoing since 2022"
+      ],
+      "type": "string"
     },
     "images": {
+      "description": "Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation",
       "type": "array",
-      "items": { "$ref": "common/media.json" },
-      "description": "Photographs and videos of this property — exterior, interior, key rooms, any damage or features relevant to valuation."
+      "items": {
+        "$ref": "common/media.json"
+      }
     }
   },
-  "required": ["id", "name"],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

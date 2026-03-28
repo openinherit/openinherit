@@ -2,847 +2,1095 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/asset.json",
   "title": "Asset",
-  "description": "A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc.",
+  "description": "A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc",
   "type": "object",
+  "required": [ "id", "name", "category" ],
   "properties": {
     "id": {
+      "description": "Unique identifier for this asset within the INHERIT document",
+      "examples": [ "e5f6a7b8-c9d0-1234-ef01-23456789abcd" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this asset within the INHERIT document.",
-      "examples": ["e5f6a7b8-c9d0-1234-ef01-23456789abcd"]
+      "format": "uuid"
     },
     "name": {
+      "description": "Display name for this asset. Should be specific enough to identify the item during probate",
+      "examples": [
+        "Grandmother's engagement ring",
+        "Barclays Current Account",
+        "2019 Toyota Corolla",
+        "Bitcoin wallet",
+        "Stradivarius violin"
+      ],
       "type": "string",
-      "minLength": 1,
-      "description": "Display name for this asset. Should be specific enough to identify the item during probate.",
-      "examples": ["Grandmother's engagement ring", "Barclays Current Account", "2019 Toyota Corolla", "Bitcoin wallet", "Stradivarius violin"]
+      "minLength": 1
     },
     "category": {
-      "type": "string",
-      "enum": [
-        "financial", "property_contents", "vehicle", "jewellery_watches",
-        "art", "antiques", "collectibles", "musical_instruments",
-        "books_manuscripts", "wine_spirits", "clothing_textiles",
-        "firearms_sporting", "digital", "business",
-        "islamic_financial", "other"
-      ],
+      "description": "Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category",
       "$comment": "Top-level categories from the INHERIT Product Taxonomy (derived from the Standard Product Taxonomy, MIT licence). financial: bank accounts, savings, investments, pensions, shares, bonds, cryptocurrency, insurance. property_contents: furniture, kitchenware, electronics, tools, garden and outdoor items. vehicle: cars, motorcycles, boats, caravans, classic vehicles. jewellery_watches: jewellery, watches, precious stones, costume jewellery. art: paintings, sculptures, prints, photography, mixed media. antiques: antique furniture, ceramics, silverware, clocks. collectibles: stamps, coins, model railways, vinyl records, trading cards, memorabilia. musical_instruments: pianos, guitars, orchestral instruments, vintage instruments. books_manuscripts: rare books, first editions, manuscripts, maps. wine_spirits: wine collections, whisky, spirits, cellar contents. clothing_textiles: designer clothing, vintage fashion, textiles, rugs. firearms_sporting: firearms (require licensing), sporting equipment, fishing tackle. digital: domain names, social media accounts, subscriptions, digital media, crypto wallets. business: business interests, partnerships, intellectual property, stock compensation. islamic_financial: sukuk, takaful, Islamic deposits — internationally recognized financial instruments defined by AAOIFI standards and regulated by secular financial authorities. other: any asset not covered above. Use the subcategory field for finer classification — valid subcategories per category are listed in reference-data/category-guidance.json.",
-      "description": "Top-level category from the INHERIT Product Taxonomy. Use the `subcategory` field for finer classification. See `reference-data/category-guidance.json` for valid subcategories, recommended identifiers, and photography guidance per category.",
-      "examples": ["financial", "collectibles", "vehicle", "jewellery_watches"]
-    },
-    "subcategory": {
-      "type": "string",
-      "description": "Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → 'pension', collectibles → 'model_railways', vehicle → 'classic_vehicle'.",
-      "examples": ["engagement ring", "ISA", "self-invested personal pension", "NFT", "vintage wine"]
-    },
-    "estimatedValue": {
-      "$ref": "common/money.json",
-      "description": "Owner's estimate of the asset's current value, in minor currency units."
-    },
-    "professionalValuation": {
-      "$ref": "common/money.json",
-      "description": "Professional valuation of the asset, in minor currency units."
-    },
-    "valuationDate": {
-      "type": "string",
-      "format": "date",
-      "description": "Date of the most recent valuation.",
-      "examples": ["2024-11-01", "2025-02-14"]
-    },
-    "valuationConfidence": {
-      "type": "string",
-      "enum": ["estimated", "professional", "official", "unknown"],
-      "$comment": "estimated: owner's own estimate. professional: assessed by a qualified valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing 'probate'. unknown: basis of valuation is unknown.",
-      "description": "Level of confidence in the stated valuation.",
-      "examples": ["estimated", "professional"]
-    },
-    "condition": {
-      "type": "string",
-      "enum": ["excellent", "good", "fair", "poor", "unknown", "not_applicable"],
-      "$comment": "excellent: like new or pristine. good: normal wear, fully functional. fair: showing age, may need minor repair. poor: significant wear, may need major repair. unknown: condition has not been assessed. not_applicable: condition is not relevant (e.g. bank accounts, pensions).",
-      "description": "Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless.",
-      "examples": ["good", "not_applicable"]
-    },
-    "quantity": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "Number of items if this represents multiple identical or similar items.",
-      "examples": [1, 12, 500]
-    },
-    "location": {
-      "type": "string",
-      "description": "Where this asset is physically stored or held — a bank, safe, property, or institution.",
-      "examples": ["Barclays Bank, Manchester branch", "Home safe", "Bonhams storage, London", "Coinbase exchange"]
-    },
-    "propertyId": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Reference to a Property.id if this asset is located at a specific property in the estate."
-    },
-    "identifiers": {
-      "type": "array",
-      "items": { "$ref": "common/identifier.json" },
-      "description": "External identifiers — serial numbers, account numbers, policy references, registration numbers, etc.",
       "examples": [
-        [{"system": "urn:barclays:sort-code-account", "value": "20-45-67 12345678", "type": "bank_account"}],
-        [{"value": "DVLA: AB12 CDE", "type": "vehicle_registration"}]
+        "financial",
+        "collectibles",
+        "vehicle",
+        "jewellery_watches"
+      ],
+      "enum": [
+        "financial",
+        "property_contents",
+        "vehicle",
+        "jewellery_watches",
+        "art",
+        "antiques",
+        "collectibles",
+        "musical_instruments",
+        "books_manuscripts",
+        "wine_spirits",
+        "clothing_textiles",
+        "firearms_sporting",
+        "digital",
+        "business",
+        "islamic_financial",
+        "other"
       ]
     },
-    "images": {
+    "subcategory": {
+      "description": "Finer classification within the top-level category. Values are defined in reference-data/category-guidance.json but the field is freeform to accommodate jurisdiction-specific asset types. Examples: financial → 'pension', collectibles → 'model_railways', vehicle → 'classic_vehicle'",
+      "examples": [
+        "engagement ring",
+        "ISA",
+        "self-invested personal pension",
+        "NFT",
+        "vintage wine"
+      ],
+      "type": "string"
+    },
+    "estimatedValue": {
+      "description": "Owner's estimate of the asset's current value, in minor currency units",
+      "$ref": "common/money.json"
+    },
+    "professionalValuation": {
+      "description": "Professional valuation of the asset, in minor currency units",
+      "$ref": "common/money.json"
+    },
+    "valuationDate": {
+      "description": "Date of the most recent valuation",
+      "examples": [ "2024-11-01", "2025-02-14" ],
+      "type": "string",
+      "format": "date"
+    },
+    "valuationConfidence": {
+      "description": "Level of confidence in the stated valuation",
+      "$comment": "estimated: owner's own estimate. professional: assessed by a qualified valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing 'probate'. unknown: basis of valuation is unknown.",
+      "examples": [ "estimated", "professional" ],
+      "enum": [ "estimated", "professional", "official", "unknown" ]
+    },
+    "condition": {
+      "description": "Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless",
+      "$comment": "excellent: like new or pristine. good: normal wear, fully functional. fair: showing age, may need minor repair. poor: significant wear, may need major repair. unknown: condition has not been assessed. not_applicable: condition is not relevant (e.g. bank accounts, pensions).",
+      "examples": [ "good", "not_applicable" ],
+      "enum": [
+        "excellent",
+        "good",
+        "fair",
+        "poor",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "quantity": {
+      "description": "Number of items if this represents multiple identical or similar items",
+      "examples": [ 1, 12, 500 ],
+      "type": "integer",
+      "minimum": 1
+    },
+    "location": {
+      "description": "Where this asset is physically stored or held — a bank, safe, property, or institution",
+      "examples": [
+        "Barclays Bank, Manchester branch",
+        "Home safe",
+        "Bonhams storage, London",
+        "Coinbase exchange"
+      ],
+      "type": "string"
+    },
+    "propertyId": {
+      "description": "Reference to a Property.id if this asset is located at a specific property in the estate",
+      "type": "string",
+      "format": "uuid"
+    },
+    "identifiers": {
+      "description": "External identifiers — serial numbers, account numbers, policy references, registration numbers, etc",
+      "examples": [
+        [
+          {
+            "system": "urn:barclays:sort-code-account",
+            "value": "20-45-67 12345678",
+            "type": "bank_account"
+          }
+        ],
+        [
+          {
+            "value": "DVLA: AB12 CDE",
+            "type": "vehicle_registration"
+          }
+        ]
+      ],
       "type": "array",
-      "items": { "$ref": "common/media.json" },
-      "description": "Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item."
+      "items": {
+        "$ref": "common/identifier.json"
+      }
+    },
+    "images": {
+      "description": "Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item",
+      "type": "array",
+      "items": {
+        "$ref": "common/media.json"
+      }
     },
     "possessionStatus": {
-      "type": "string",
-      "enum": ["possessed_at_death", "receivable", "contingent"],
+      "description": "Whether the asset was held at death, is receivable post-death, or is contingent on a future event",
       "$comment": "possessed_at_death: asset was in the deceased's possession or control at death (muchzak in halacha). receivable: asset is owed to the estate but not yet received — e.g. insurance payouts, debts owed to the deceased (ra'ui in halacha). contingent: asset depends on a future event that may or may not occur. Under halacha, the bekhor's double portion applies only to 'possessed_at_death' (muchzak), not 'receivable' (ra'ui). Useful for probate valuations universally.",
-      "description": "Whether the asset was held at death, is receivable post-death, or is contingent on a future event.",
-      "examples": ["possessed_at_death", "receivable"]
+      "examples": [ "possessed_at_death", "receivable" ],
+      "enum": [ "possessed_at_death", "receivable", "contingent" ]
     },
     "mobilityType": {
-      "type": "string",
-      "enum": ["immoveable", "moveable", "mixed"],
+      "description": "Whether this asset is classified as immoveable or moveable property. Affects which conflict-of-laws rules apply in cross-border estates",
       "$comment": "immoveable: land or buildings (rare for assets — typically use Property). moveable: personal property, financial assets, vehicles. mixed: combination. Relevant for Shia inheritance and French lex rei sitae.",
-      "description": "Whether this asset is classified as immoveable or moveable property. Affects which conflict-of-laws rules apply in cross-border estates.",
-      "examples": ["moveable"]
+      "examples": [ "moveable" ],
+      "enum": [ "immoveable", "moveable", "mixed" ]
     },
     "acquisitionType": {
-      "type": "string",
-      "enum": [
-        "self_acquired", "ancestral_joint", "ancestral_severed",
-        "inherited", "gifted", "stridhan", "communal", "waqf_endowed"
-      ],
+      "description": "How this asset was acquired. Determines succession rules in Indian and other customary systems",
       "$comment": "self_acquired: purchased or earned by the owner. ancestral_joint: undivided coparcenary property. ancestral_severed: partitioned former joint property. inherited: received through inheritance. gifted: received as a gift. stridhan: Hindu woman's absolute property. communal: communal or clan property. waqf_endowed: Islamic endowment.",
-      "description": "How this asset was acquired. Determines succession rules in Indian and other customary systems.",
-      "examples": ["self_acquired", "inherited"]
+      "examples": [ "self_acquired", "inherited" ],
+      "enum": [
+        "self_acquired",
+        "ancestral_joint",
+        "ancestral_severed",
+        "inherited",
+        "gifted",
+        "stridhan",
+        "communal",
+        "waqf_endowed"
+      ]
     },
     "registrationStatus": {
-      "type": "string",
-      "enum": ["formally_registered", "informally_held", "community_acknowledged", "disputed", "undocumented"],
+      "description": "Whether ownership of this asset is formally registered or documented",
       "$comment": "formally_registered: documented with an official authority. informally_held: possessed but not registered. community_acknowledged: community recognises ownership. disputed: ownership is contested. undocumented: no documentation exists.",
-      "description": "Whether ownership of this asset is formally registered or documented.",
-      "examples": ["formally_registered"]
+      "examples": [ "formally_registered" ],
+      "enum": [
+        "formally_registered",
+        "informally_held",
+        "community_acknowledged",
+        "disputed",
+        "undocumented"
+      ]
     },
     "ownershipEvidence": {
-      "type": "string",
-      "enum": ["title_deed", "certificate_of_occupancy", "family_recognition", "community_testimony", "receipts_only", "none"],
+      "description": "The type of evidence available to prove ownership of this asset",
       "$comment": "title_deed: formal ownership document. certificate_of_occupancy: Nigerian occupancy certificate. family_recognition: family acknowledges ownership. community_testimony: community can attest. receipts_only: purchase receipts only. none: no evidence available.",
-      "description": "The type of evidence available to prove ownership of this asset.",
-      "examples": ["receipts_only", "title_deed"]
+      "examples": [ "receipts_only", "title_deed" ],
+      "enum": [
+        "title_deed",
+        "certificate_of_occupancy",
+        "family_recognition",
+        "community_testimony",
+        "receipts_only",
+        "none"
+      ]
     },
     "applicableSuccessionLaw": {
+      "description": "The succession law governing this specific asset, if different from the general estate law",
       "type": "object",
-      "description": "The succession law governing this specific asset, if different from the general estate law.",
+      "required": [ "jurisdiction" ],
       "properties": {
         "jurisdiction": {
-          "$ref": "common/jurisdiction.json",
-          "description": "Jurisdiction whose succession law governs this asset."
+          "description": "Jurisdiction whose succession law governs this asset",
+          "$ref": "common/jurisdiction.json"
         },
         "lawName": {
-          "type": "string",
-          "description": "Name of the applicable law.",
-          "examples": ["Hindu Succession Act 1956", "Japanese Civil Code"]
+          "description": "Name of the applicable law",
+          "examples": [ "Hindu Succession Act 1956", "Japanese Civil Code" ],
+          "type": "string"
         },
         "section": {
-          "type": "string",
-          "description": "Specific section of the law.",
-          "examples": ["s.6", "Art. 896"]
+          "description": "Specific section of the law",
+          "examples": [ "s.6", "Art. 896" ],
+          "type": "string"
         }
       },
-      "required": ["jurisdiction"],
       "additionalProperties": false
     },
     "beneficiaryDesignation": {
-      "type": "object",
+      "description": "Named beneficiary designation for this asset. Assets with beneficiary designations pass outside the probate estate — the will does not control their distribution",
       "$comment": "For assets with named beneficiaries (retirement accounts, life insurance, POD bank accounts). These pass OUTSIDE the estate.",
-      "description": "Named beneficiary designation for this asset. Assets with beneficiary designations pass outside the probate estate — the will does not control their distribution.",
+      "type": "object",
       "properties": {
         "primaryBeneficiaryPersonIds": {
+          "description": "Person IDs of the primary beneficiaries",
           "type": "array",
-          "items": { "type": "string", "format": "uuid" },
-          "description": "Person IDs of the primary beneficiaries."
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
         },
         "contingentBeneficiaryPersonIds": {
+          "description": "Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease)",
           "type": "array",
-          "items": { "type": "string", "format": "uuid" },
-          "description": "Person IDs of contingent beneficiaries (receive if primary beneficiaries predecease)."
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
         },
         "designationType": {
-          "type": "string",
-          "enum": ["retirement_account", "life_insurance", "superannuation", "pod_account", "other"],
+          "description": "The type of beneficiary designation",
           "$comment": "retirement_account: 401(k), IRA, SIPP, etc. life_insurance: life insurance policy. superannuation: Australian superannuation fund. pod_account: payable-on-death bank account. other: any other type of beneficiary designation.",
-          "description": "The type of beneficiary designation.",
-          "examples": ["life_insurance", "retirement_account"]
+          "examples": [ "life_insurance", "retirement_account" ],
+          "enum": [
+            "retirement_account",
+            "life_insurance",
+            "superannuation",
+            "pod_account",
+            "other"
+          ]
         },
         "linkedNonprobateTransferId": {
+          "description": "Reference to the NonprobateTransfer entity that tracks this designation",
           "type": "string",
-          "format": "uuid",
-          "description": "Reference to the NonprobateTransfer entity that tracks this designation."
+          "format": "uuid"
         }
       },
       "additionalProperties": false
     },
     "digitalAccessConsent": {
-      "type": "object",
+      "description": "Digital access consent under RUFADAA or equivalent legislation. Governs whether executors and fiduciaries can access the deceased's digital accounts and assets",
       "$comment": "RUFADAA (Revised Uniform Fiduciary Access to Digital Assets Act) — adopted by ~47 US states. Controls whether fiduciaries can access digital assets.",
-      "description": "Digital access consent under RUFADAA or equivalent legislation. Governs whether executors and fiduciaries can access the deceased's digital accounts and assets.",
+      "type": "object",
       "properties": {
         "consentGiven": {
-          "type": "boolean",
-          "description": "Whether the account holder has given consent for fiduciary access.",
-          "examples": [true]
+          "description": "Whether the account holder has given consent for fiduciary access",
+          "examples": [ true ],
+          "type": "boolean"
         },
         "scope": {
-          "type": "string",
-          "enum": ["full_access", "limited_access", "no_access"],
+          "description": "The scope of access granted to fiduciaries",
           "$comment": "full_access: fiduciary may access all content and account data. limited_access: fiduciary may access only specified data (e.g. financial records but not personal messages). no_access: fiduciary may not access any content.",
-          "description": "The scope of access granted to fiduciaries.",
-          "examples": ["full_access", "limited_access"]
+          "examples": [ "full_access", "limited_access" ],
+          "enum": [ "full_access", "limited_access", "no_access" ]
         },
         "designatedRecipientPersonId": {
+          "description": "Reference to the Person.id designated to receive access to this digital asset",
           "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id designated to receive access to this digital asset."
+          "format": "uuid"
         },
         "onlineToolDirective": {
-          "type": "boolean",
+          "description": "Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA",
           "$comment": "Whether the user set access directives via the platform's own tool (takes priority under RUFADAA).",
-          "description": "Whether the user set access directives through the platform's own tool (e.g. Google Inactive Account Manager, Facebook Legacy Contact). Platform directives take priority under RUFADAA.",
-          "examples": [true, false]
+          "examples": [ true, false ],
+          "type": "boolean"
         }
       },
       "additionalProperties": false
     },
     "passesOutsideEstate": {
-      "type": "boolean",
+      "description": "Whether this asset passes outside the probate estate. Beneficiary designations, POD accounts, and jointly held assets typically bypass the will",
       "$comment": "True if this asset passes outside probate (beneficiary designation, POD, TOD). NOT distributed under the will.",
-      "description": "Whether this asset passes outside the probate estate. Beneficiary designations, POD accounts, and jointly held assets typically bypass the will.",
-      "examples": [true, false]
+      "examples": [ true, false ],
+      "type": "boolean"
     },
     "notes": {
-      "type": "string",
-      "description": "Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields.",
-      "examples": ["Belonged to great-grandmother — significant sentimental value to the family", "Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death"]
+      "description": "Free-text notes about this asset. Use for provenance, sentimental value, special handling instructions, or anything not captured by structured fields",
+      "examples": [
+        "Belonged to great-grandmother — significant sentimental value to the family",
+        "Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death"
+      ],
+      "type": "string"
     },
     "description": {
-      "type": "string",
-      "description": "Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form.",
-      "examples": ["OO gauge Hornby R3456 Class 66 locomotive in EWS livery, DCC fitted, with original box and instructions", "18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G"]
+      "description": "Structured description of the asset — what it is, its significance, and key details a dealer or executor would need. Distinct from 'notes' which is free-form",
+      "examples": [
+        "OO gauge Hornby R3456 Class 66 locomotive in EWS livery, DCC fitted, with original box and instructions",
+        "18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G"
+      ],
+      "type": "string"
     },
     "brand": {
-      "type": "string",
-      "description": "The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid.",
-      "examples": ["Hornby", "Bachmann", "Rolex", "Cartier", "Hardy Bros", "Steinway", "Hermès", "Gibson"]
+      "description": "The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid",
+      "examples": [
+        "Hornby",
+        "Bachmann",
+        "Rolex",
+        "Cartier",
+        "Hardy Bros",
+        "Steinway",
+        "Hermès",
+        "Gibson"
+      ],
+      "type": "string"
     },
     "model": {
-      "type": "string",
-      "description": "The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory.",
-      "examples": ["Class 66", "Submariner Date", "Perfect Reel", "Model D Grand Piano", "Birkin 25", "Les Paul Standard"]
+      "description": "The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory",
+      "examples": [
+        "Class 66",
+        "Submariner Date",
+        "Perfect Reel",
+        "Model D Grand Piano",
+        "Birkin 25",
+        "Les Paul Standard"
+      ],
+      "type": "string"
     },
     "purchaseDate": {
+      "description": "Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate",
+      "examples": [ "2015-06-20", "1998-12-25" ],
       "type": "string",
-      "format": "date",
-      "description": "Date the asset was acquired by the current owner. Used for capital gains tax calculations, insurance claims, and provenance. Maps to Schema.org purchaseDate.",
-      "examples": ["2015-06-20", "1998-12-25"]
+      "format": "date"
     },
     "originalPackaging": {
-      "type": "string",
-      "enum": ["complete", "partial", "box_only", "papers_only", "none", "unknown"],
-      "description": "Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains.",
+      "description": "Whether original packaging, documentation, and accessories are present. Affects value by 20–40% across watches, model railways, jewellery, and many other domains",
       "$comment": "complete: original box, papers/certificates, all accessories present. partial: some original packaging elements present. box_only: original box but no papers. papers_only: certificates/papers but no box. none: no original packaging. unknown: packaging status not assessed.",
-      "examples": ["complete", "none", "unknown"]
+      "examples": [ "complete", "none", "unknown" ],
+      "enum": [
+        "complete",
+        "partial",
+        "box_only",
+        "papers_only",
+        "none",
+        "unknown"
+      ]
     },
     "custodian": {
+      "description": "Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact",
       "type": "object",
-      "description": "Third party currently holding this asset — a bank (safe deposit), storage facility (bonded wine), repairer (watch at jeweller), gallery (art on loan), or institution. The executor needs to know who to contact.",
       "properties": {
         "name": {
-          "type": "string",
-          "description": "Name of the person or organisation holding the asset.",
-          "examples": ["London City Bond", "Barclays Bank, Manchester branch", "Sotheby's (on consignment)"]
+          "description": "Name of the person or organisation holding the asset",
+          "examples": [
+            "London City Bond",
+            "Barclays Bank, Manchester branch",
+            "Sotheby's (on consignment)"
+          ],
+          "type": "string"
         },
         "contactEmail": {
+          "description": "Email address for the custodian",
           "type": "string",
-          "format": "email",
-          "description": "Email address for the custodian."
+          "format": "email"
         },
         "contactPhone": {
-          "type": "string",
-          "description": "Phone number for the custodian.",
-          "examples": ["+44 20 7293 5000"]
+          "description": "Phone number for the custodian",
+          "examples": [ "+44 20 7293 5000" ],
+          "type": "string"
         },
         "relationship": {
-          "type": "string",
-          "description": "The nature of the custodial relationship.",
-          "examples": ["bonded storage", "safe deposit box", "repair/service", "consignment", "loan", "pawn"]
+          "description": "The nature of the custodial relationship",
+          "examples": [
+            "bonded storage",
+            "safe deposit box",
+            "repair/service",
+            "consignment",
+            "loan",
+            "pawn"
+          ],
+          "type": "string"
         },
         "reference": {
-          "type": "string",
-          "description": "Account or reference number with the custodian.",
-          "examples": ["Account #LC-2024-5678", "Box 247", "Repair ticket #R-4521"]
+          "description": "Account or reference number with the custodian",
+          "examples": [
+            "Account #LC-2024-5678",
+            "Box 247",
+            "Repair ticket #R-4521"
+          ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "conditionSystem": {
-      "type": "string",
-      "description": "The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field.",
+      "description": "The grading system used for the conditionGrade value. Allows domain-specific condition assessment alongside the generic condition field",
       "$comment": "goldmine: Goldmine Grading Standard for vinyl records (M/NM/VG+/VG/G+/G/F/P). sheldon: Sheldon scale for coins (1-70, where 70 is perfect). ags: American Gem Society for gemstones (0-10). bsc: British Standards for antiques. gia: Gemological Institute of America for diamonds.",
-      "examples": ["goldmine", "sheldon", "gia"]
+      "examples": [ "goldmine", "sheldon", "gia" ],
+      "type": "string"
     },
     "conditionGrade": {
-      "type": "string",
-      "description": "The specific grade within the conditionSystem. Meaningful only when conditionSystem is set.",
-      "examples": ["VG+", "MS-65", "VS1", "Fine"]
+      "description": "The specific grade within the conditionSystem. Meaningful only when conditionSystem is set",
+      "examples": [ "VG+", "MS-65", "VS1", "Fine" ],
+      "type": "string"
     },
     "urgency": {
-      "type": "string",
-      "enum": ["immediate", "within_7_days", "within_30_days", "none"],
+      "description": "How urgently this asset needs attention after the testator's death. Drives the executor's priority list",
       "$comment": "immediate: must be dealt with at once — live animals, perishable goods, firearms (7-day surrender in UK). within_7_days: urgent but not immediate — vehicles with insurance expiring, time-limited subscriptions. within_30_days: should be addressed within a month — tenanted property, business interests needing continuity. none: no time pressure — most personal possessions, financial accounts.",
-      "description": "How urgently this asset needs attention after the testator's death. Drives the executor's priority list.",
-      "examples": ["immediate", "none"]
+      "examples": [ "immediate", "none" ],
+      "enum": [ "immediate", "within_7_days", "within_30_days", "none" ]
     },
     "urgencyReason": {
-      "type": "string",
-      "description": "Explanation of why this asset is urgent. Particularly important for 'immediate' items.",
-      "examples": ["Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death", "Live animals requiring daily care", "Perishable wine collection in temperature-controlled storage — power must be maintained"]
+      "description": "Explanation of why this asset is urgent. Particularly important for 'immediate' items",
+      "examples": [
+        "Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death",
+        "Live animals requiring daily care",
+        "Perishable wine collection in temperature-controlled storage — power must be maintained"
+      ],
+      "type": "string"
     },
     "containedInAssetId": {
+      "description": "Reference to another Asset.id if this asset is physically contained within or logically part of another asset. Enables hierarchical asset nesting — e.g. a watch inside a safe, tools inside a toolbox",
+      "examples": [ "a1b2c3d4-e5f6-7890-abcd-ef1234567890" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Reference to another Asset.id if this asset is physically contained within or logically part of another asset. Enables hierarchical asset nesting — e.g. a watch inside a safe, tools inside a toolbox.",
-      "examples": ["a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+      "format": "uuid"
     },
     "insurance": {
+      "description": "Insurance coverage for this asset. The executor needs to know what's insured, by whom, and whether cover continues after death",
       "type": "object",
-      "description": "Insurance coverage for this asset. The executor needs to know what's insured, by whom, and whether cover continues after death.",
       "properties": {
         "provider": {
-          "type": "string",
-          "description": "Name of the insurance provider.",
-          "examples": ["Hiscox", "Chubb", "NFU Mutual", "Allianz"]
+          "description": "Name of the insurance provider",
+          "examples": [ "Hiscox", "Chubb", "NFU Mutual", "Allianz" ],
+          "type": "string"
         },
         "policyReference": {
-          "type": "string",
-          "description": "Policy reference number.",
-          "examples": ["HX-2024-5678", "CHB/ART/2024/001"]
+          "description": "Policy reference number",
+          "examples": [ "HX-2024-5678", "CHB/ART/2024/001" ],
+          "type": "string"
         },
         "insuredValue": {
-          "$ref": "common/money.json",
-          "description": "The insured value in minor currency units."
+          "description": "The insured value in minor currency units",
+          "$ref": "common/money.json"
         },
         "renewalDate": {
+          "description": "Next renewal date. Important — cover may lapse if not renewed after death",
+          "examples": [ "2026-09-01" ],
           "type": "string",
-          "format": "date",
-          "description": "Next renewal date. Important — cover may lapse if not renewed after death.",
-          "examples": ["2026-09-01"]
+          "format": "date"
         },
         "notes": {
-          "type": "string",
-          "description": "Additional insurance notes.",
-          "examples": ["Cover continues for 30 days after death per policy terms"]
+          "description": "Additional insurance notes",
+          "examples": [
+            "Cover continues for 30 days after death per policy terms"
+          ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "purchasedFrom": {
-      "type": "string",
-      "description": "Where the asset was purchased or acquired from. Collectors track provenance — valuable for dealers and for establishing authenticity.",
-      "examples": ["Rails of Sheffield", "Christie's", "Sotheby's", "Private sale", "eBay seller vintage-trains-uk", "Car boot sale, Wrexham"]
+      "description": "Where the asset was purchased or acquired from. Collectors track provenance — valuable for dealers and for establishing authenticity",
+      "examples": [
+        "Rails of Sheffield",
+        "Christie's",
+        "Sotheby's",
+        "Private sale",
+        "eBay seller vintage-trains-uk",
+        "Car boot sale, Wrexham"
+      ],
+      "type": "string"
     },
     "importSourceId": {
-      "type": "string",
-      "description": "Reference to an importSources entry on the root document, indicating which system this entity was imported from.",
-      "examples": ["src-clio-001", "src-legacylists-export"]
+      "description": "Reference to an importSources entry on the root document, indicating which system this entity was imported from",
+      "examples": [ "src-clio-001", "src-legacylists-export" ],
+      "type": "string"
     },
     "dataProvenance": {
-      "type": "string",
-      "enum": ["manual_entry", "ai_extracted", "ocr_scanned", "imported", "migrated", "system_generated"],
+      "description": "How this specific entity's data was captured. Overrides the document-level default if set",
       "$comment": "Per-entity override of the document-level dataProvenance. Same values as the root field.",
-      "description": "How this specific entity's data was captured. Overrides the document-level default if set."
+      "enum": [
+        "manual_entry",
+        "ai_extracted",
+        "ocr_scanned",
+        "imported",
+        "migrated",
+        "system_generated"
+      ]
     },
     "searchTerms": {
+      "description": "Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving",
+      "examples": [
+        [ "Hornby R3456", "Class 66 OO gauge", "EWS livery locomotive" ]
+      ],
       "type": "array",
-      "items": { "type": "string" },
-      "description": "Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving.",
-      "examples": [["Hornby R3456", "Class 66 OO gauge", "EWS livery locomotive"]]
+      "items": {
+        "type": "string"
+      }
     },
     "comparableSearchProfile": {
+      "description": "Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers",
       "type": "object",
-      "description": "Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers.",
       "properties": {
         "platforms": {
+          "description": "Marketplaces and platforms to search",
+          "examples": [
+            [ "ebay", "catawiki", "rails_of_sheffield", "hattons" ]
+          ],
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Marketplaces and platforms to search.",
-          "examples": [["ebay", "catawiki", "rails_of_sheffield", "hattons"]]
+          "items": {
+            "type": "string"
+          }
         },
         "searchQuery": {
-          "type": "string",
-          "description": "Natural-language query an agent should use.",
-          "examples": ["Hornby R3456 Class 66 OO gauge boxed"]
+          "description": "Natural-language query an agent should use",
+          "examples": [ "Hornby R3456 Class 66 OO gauge boxed" ],
+          "type": "string"
         },
         "filters": {
+          "description": "Key-value filters to narrow results. Agents map to platform-specific parameters",
+          "examples": [
+            {
+              "condition": "good+",
+              "packaging": "with_box",
+              "gauge": "OO"
+            }
+          ],
           "type": "object",
-          "description": "Key-value filters to narrow results. Agents map to platform-specific parameters.",
-          "additionalProperties": { "type": "string" },
-          "examples": [{"condition": "good+", "packaging": "with_box", "gauge": "OO"}]
+          "additionalProperties": {
+            "type": "string"
+          }
         },
         "excludePlatforms": {
+          "description": "Platforms explicitly excluded",
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Platforms explicitly excluded."
+          "items": {
+            "type": "string"
+          }
         },
         "lastSearchedAt": {
+          "description": "When an agent last executed this search profile",
           "type": "string",
-          "format": "date-time",
-          "description": "When an agent last executed this search profile."
+          "format": "date-time"
         },
         "searchFrequency": {
-          "type": "string",
-          "enum": ["once", "weekly", "monthly", "on_demand"],
+          "description": "How often this item should be re-searched",
           "$comment": "once: search once and cache. weekly: re-search weekly for price trends. monthly: monthly refresh. on_demand: only when explicitly triggered.",
-          "description": "How often this item should be re-searched."
+          "enum": [ "once", "weekly", "monthly", "on_demand" ]
         }
       },
       "additionalProperties": false
     },
     "suggestedSubcategory": {
-      "type": "string",
-      "description": "AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated."
+      "description": "AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated",
+      "type": "string"
     },
     "confidenceScores": {
+      "description": "Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities",
+      "examples": [
+        {
+          "brand": 95,
+          "model": 88,
+          "category": 92,
+          "subcategory": 65,
+          "estimatedValue": 40
+        }
+      ],
       "type": "object",
-      "description": "Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities.",
       "additionalProperties": {
         "type": "integer",
-        "minimum": 0,
-        "maximum": 100
-      },
-      "examples": [{"brand": 95, "model": 88, "category": 92, "subcategory": 65, "estimatedValue": 40}]
+        "maximum": 100,
+        "minimum": 0
+      }
     },
     "valuationReliability": {
+      "description": "Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation",
       "type": "integer",
-      "minimum": 0,
       "maximum": 100,
-      "description": "Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation."
+      "minimum": 0
     },
     "lastVerifiedAt": {
+      "description": "When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them",
       "type": "string",
-      "format": "date-time",
-      "description": "When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them."
+      "format": "date-time"
     },
     "verifiedBy": {
-      "type": "string",
-      "description": "Who or what verified this entity — a person's name, a tool, or 'owner'.",
-      "examples": ["James Ashford", "INHERIT Scanner v2", "Rails of Sheffield (dealer)"]
+      "description": "Who or what verified this entity — a person's name, a tool, or 'owner'",
+      "examples": [
+        "James Ashford",
+        "INHERIT Scanner v2",
+        "Rails of Sheffield (dealer)"
+      ],
+      "type": "string"
     },
     "shareholding": {
-      "type": "object",
+      "description": "Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations",
       "$comment": "Category-specific sub-object for shares and shareholdings. Use when category is 'shares' or 'investment'.",
-      "description": "Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations.",
+      "type": "object",
       "properties": {
         "companyName": {
-          "type": "string",
-          "description": "Name of the company in which shares are held.",
-          "examples": ["Acme Ltd", "Berkshire Hathaway Inc", "Toyota Motor Corporation"]
+          "description": "Name of the company in which shares are held",
+          "examples": [
+            "Acme Ltd",
+            "Berkshire Hathaway Inc",
+            "Toyota Motor Corporation"
+          ],
+          "type": "string"
         },
         "companyNumber": {
-          "type": "string",
-          "description": "Company registration number.",
-          "examples": ["12345678", "DE-HRB-12345"]
+          "description": "Company registration number",
+          "examples": [ "12345678", "DE-HRB-12345" ],
+          "type": "string"
         },
         "shareClass": {
-          "type": "string",
-          "description": "Class of shares held.",
-          "examples": ["Ordinary", "Preference", "Class A", "Class B"]
+          "description": "Class of shares held",
+          "examples": [ "Ordinary", "Preference", "Class A", "Class B" ],
+          "type": "string"
         },
         "numberOfShares": {
+          "description": "Number of shares held",
+          "examples": [ 1000, 50000 ],
           "type": "integer",
-          "minimum": 1,
-          "description": "Number of shares held.",
-          "examples": [1000, 50000]
+          "minimum": 1
         },
         "totalSharesIssued": {
+          "description": "Total shares issued by the company (for calculating percentage ownership)",
+          "examples": [ 100000, 1000000 ],
           "type": "integer",
-          "minimum": 1,
-          "description": "Total shares issued by the company (for calculating percentage ownership).",
-          "examples": [100000, 1000000]
+          "minimum": 1
         },
         "votingRights": {
-          "type": "boolean",
-          "description": "Whether these shares carry voting rights.",
-          "examples": [true]
+          "description": "Whether these shares carry voting rights",
+          "examples": [ true ],
+          "type": "boolean"
         },
         "restrictedTransfer": {
-          "type": "boolean",
-          "description": "Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement).",
-          "examples": [true, false]
+          "description": "Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement)",
+          "examples": [ true, false ],
+          "type": "boolean"
         },
         "listedExchange": {
-          "type": "string",
-          "description": "Stock exchange where shares are listed, if publicly traded. Null/absent for private companies.",
-          "examples": ["LSE", "NYSE", "TSE", "ASX"]
+          "description": "Stock exchange where shares are listed, if publicly traded. Null/absent for private companies",
+          "examples": [ "LSE", "NYSE", "TSE", "ASX" ],
+          "type": "string"
         },
         "ticker": {
-          "type": "string",
-          "description": "Stock ticker symbol.",
-          "examples": ["AAPL", "TSCO.L", "7203.T"]
+          "description": "Stock ticker symbol",
+          "examples": [ "AAPL", "TSCO.L", "7203.T" ],
+          "type": "string"
         },
         "cusip": {
-          "type": "string",
-          "description": "CUSIP identifier (US/Canada). 9-character alphanumeric.",
-          "examples": ["037833100"]
+          "description": "CUSIP identifier (US/Canada). 9-character alphanumeric",
+          "examples": [ "037833100" ],
+          "type": "string"
         },
         "isin": {
-          "type": "string",
-          "description": "International Securities Identification Number.",
-          "examples": ["US0378331005", "GB0031215220"]
+          "description": "International Securities Identification Number",
+          "examples": [ "US0378331005", "GB0031215220" ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "businessInterest": {
-      "type": "object",
+      "description": "Detailed business interest information — partnership shares, LLP membership, sole trader business. Relevant for BPR (UK), QFOBI (US), and succession planning",
       "$comment": "Category-specific sub-object for business interests. Use when category is 'business_interest'.",
-      "description": "Detailed business interest information — partnership shares, LLP membership, sole trader business. Relevant for BPR (UK), QFOBI (US), and succession planning.",
+      "type": "object",
       "properties": {
         "businessName": {
-          "type": "string",
-          "description": "Trading name of the business.",
-          "examples": ["Davies & Sons Builders", "Manchester Model Supplies"]
+          "description": "Trading name of the business",
+          "examples": [ "Davies & Sons Builders", "Manchester Model Supplies" ],
+          "type": "string"
         },
         "businessType": {
-          "type": "string",
-          "enum": ["sole_trader", "partnership", "llp", "limited_company", "plc", "franchise", "cooperative", "other"],
+          "description": "Legal structure of the business",
           "$comment": "sole_trader: individual trading. partnership: traditional partnership. llp: limited liability partnership. limited_company: private limited company (Ltd). plc: public limited company. franchise: franchise operation. cooperative: cooperative business. other: any other structure.",
-          "description": "Legal structure of the business."
+          "enum": [
+            "sole_trader",
+            "partnership",
+            "llp",
+            "limited_company",
+            "plc",
+            "franchise",
+            "cooperative",
+            "other"
+          ]
         },
         "ownershipPercentage": {
+          "description": "The testator's ownership percentage",
+          "examples": [ 50, 33.33, 100 ],
           "type": "number",
-          "minimum": 0,
           "maximum": 100,
-          "description": "The testator's ownership percentage.",
-          "examples": [50, 33.33, 100]
+          "minimum": 0
         },
         "controllingInterest": {
-          "type": "boolean",
-          "description": "Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts.",
-          "examples": [true, false]
+          "description": "Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts",
+          "examples": [ true, false ],
+          "type": "boolean"
         },
         "partnershipAgreement": {
-          "type": "boolean",
-          "description": "Whether a written partnership/operating agreement exists.",
-          "examples": [true]
+          "description": "Whether a written partnership/operating agreement exists",
+          "examples": [ true ],
+          "type": "boolean"
         },
         "successionProvision": {
-          "type": "string",
-          "description": "What the partnership/operating agreement says about succession on death.",
-          "examples": ["Surviving partners must buy out deceased's share at book value", "Option to purchase at market value within 90 days"]
+          "description": "What the partnership/operating agreement says about succession on death",
+          "examples": [
+            "Surviving partners must buy out deceased's share at book value",
+            "Option to purchase at market value within 90 days"
+          ],
+          "type": "string"
         },
         "annualTurnover": {
-          "$ref": "common/money.json",
-          "description": "Approximate annual turnover — helps with BPR qualification and valuation."
+          "description": "Approximate annual turnover — helps with BPR qualification and valuation",
+          "$ref": "common/money.json"
         },
         "employees": {
+          "description": "Number of employees",
+          "examples": [ 5, 50 ],
           "type": "integer",
-          "minimum": 0,
-          "description": "Number of employees.",
-          "examples": [5, 50]
+          "minimum": 0
         }
       },
       "additionalProperties": false
     },
     "pension": {
-      "type": "object",
+      "description": "Detailed pension information — scheme type, nominated beneficiaries, death benefits. Pensions often pass outside the estate via nomination",
       "$comment": "Category-specific sub-object for pension and retirement accounts. Use when category is 'pension'.",
-      "description": "Detailed pension information — scheme type, nominated beneficiaries, death benefits. Pensions often pass outside the estate via nomination.",
+      "type": "object",
       "properties": {
         "schemeType": {
-          "type": "string",
-          "enum": ["defined_benefit", "defined_contribution", "sipp", "state_pension", "annuity", "drawdown", "other"],
+          "description": "The type of pension scheme",
           "$comment": "defined_benefit: employer guarantees a specific retirement income. defined_contribution: value depends on contributions and investment returns. sipp: self-invested personal pension (UK). state_pension: government state pension. annuity: purchased annuity providing guaranteed income. drawdown: flexible drawdown from pension pot. other: any other pension type.",
-          "description": "The type of pension scheme."
+          "enum": [
+            "defined_benefit",
+            "defined_contribution",
+            "sipp",
+            "state_pension",
+            "annuity",
+            "drawdown",
+            "other"
+          ]
         },
         "provider": {
-          "type": "string",
-          "description": "Pension provider name.",
-          "examples": ["Aviva", "Scottish Widows", "Fidelity", "Vanguard", "LGPS"]
+          "description": "Pension provider name",
+          "examples": [
+            "Aviva",
+            "Scottish Widows",
+            "Fidelity",
+            "Vanguard",
+            "LGPS"
+          ],
+          "type": "string"
         },
         "policyReference": {
-          "type": "string",
-          "description": "Policy or membership reference number.",
-          "examples": ["PEN-2015-123456"]
+          "description": "Policy or membership reference number",
+          "examples": [ "PEN-2015-123456" ],
+          "type": "string"
         },
         "nominatedBeneficiaries": {
+          "description": "Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations",
           "type": "array",
-          "items": { "type": "string", "format": "uuid" },
-          "description": "Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations."
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
         },
         "nominationDate": {
+          "description": "Date the beneficiary nomination was last updated",
+          "examples": [ "2024-01-15" ],
           "type": "string",
-          "format": "date",
-          "description": "Date the beneficiary nomination was last updated.",
-          "examples": ["2024-01-15"]
+          "format": "date"
         },
         "deathBenefitType": {
-          "type": "string",
-          "enum": ["lump_sum", "dependants_pension", "drawdown_transfer", "annuity_guarantee", "none"],
+          "description": "Type of death benefit payable from this pension",
           "$comment": "lump_sum: a one-off payment to beneficiaries. dependants_pension: ongoing pension payments to dependants. drawdown_transfer: pension pot transfers to beneficiary for drawdown. annuity_guarantee: guaranteed payments for remaining guarantee period. none: no death benefit (e.g. annuity with no guarantee).",
-          "description": "Type of death benefit payable from this pension."
+          "enum": [
+            "lump_sum",
+            "dependants_pension",
+            "drawdown_transfer",
+            "annuity_guarantee",
+            "none"
+          ]
         },
         "crystallised": {
-          "type": "boolean",
-          "description": "Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income).",
-          "examples": [false, true]
+          "description": "Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income)",
+          "examples": [ false, true ],
+          "type": "boolean"
         },
         "lifetimeAllowanceUsed": {
+          "description": "Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain",
+          "examples": [ 45.5 ],
           "type": "number",
-          "minimum": 0,
           "maximum": 100,
-          "description": "Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain.",
-          "examples": [45.5]
+          "minimum": 0
         }
       },
       "additionalProperties": false
     },
     "insurancePolicy": {
-      "type": "object",
+      "description": "Life insurance policy details — type, sum assured, beneficiaries, trust status. Policies written in trust pass outside the estate",
       "$comment": "Category-specific sub-object for life insurance and endowment policies. Use when category is 'insurance'.",
-      "description": "Life insurance policy details — type, sum assured, beneficiaries, trust status. Policies written in trust pass outside the estate.",
+      "type": "object",
       "properties": {
         "policyType": {
-          "type": "string",
-          "enum": ["term_life", "whole_life", "endowment", "critical_illness", "income_protection", "key_person", "other"],
+          "description": "Type of insurance policy",
           "$comment": "term_life: pays out on death within term. whole_life: pays out whenever death occurs. endowment: savings + life cover, matures at set date. critical_illness: pays on diagnosis of specified illness. income_protection: replaces income during illness. key_person: business policy on key employee. other: any other type.",
-          "description": "Type of insurance policy."
+          "enum": [
+            "term_life",
+            "whole_life",
+            "endowment",
+            "critical_illness",
+            "income_protection",
+            "key_person",
+            "other"
+          ]
         },
         "provider": {
-          "type": "string",
-          "description": "Insurance company name.",
-          "examples": ["Aviva", "Legal & General", "Prudential", "MetLife"]
+          "description": "Insurance company name",
+          "examples": [ "Aviva", "Legal & General", "Prudential", "MetLife" ],
+          "type": "string"
         },
         "policyReference": {
-          "type": "string",
-          "description": "Policy reference number.",
-          "examples": ["LG-LIFE-2020-789"]
+          "description": "Policy reference number",
+          "examples": [ "LG-LIFE-2020-789" ],
+          "type": "string"
         },
         "sumAssured": {
-          "$ref": "common/money.json",
-          "description": "The amount payable on death, in minor currency units."
+          "description": "The amount payable on death, in minor currency units",
+          "$ref": "common/money.json"
         },
         "writtenInTrust": {
-          "type": "boolean",
-          "description": "Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax.",
-          "examples": [true, false]
+          "description": "Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax",
+          "examples": [ true, false ],
+          "type": "boolean"
         },
         "trusteeNames": {
+          "description": "Names of the policy trustees, if written in trust",
+          "examples": [
+            [ "Sarah Davies", "James Davies" ]
+          ],
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Names of the policy trustees, if written in trust.",
-          "examples": [["Sarah Davies", "James Davies"]]
+          "items": {
+            "type": "string"
+          }
         },
         "beneficiaryPersonIds": {
+          "description": "Person IDs of named beneficiaries",
           "type": "array",
-          "items": { "type": "string", "format": "uuid" },
-          "description": "Person IDs of named beneficiaries."
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
         },
         "premiumFrequency": {
-          "type": "string",
-          "enum": ["monthly", "annual", "single_premium", "paid_up"],
-          "description": "How often premiums are paid."
+          "description": "How often premiums are paid",
+          "enum": [ "monthly", "annual", "single_premium", "paid_up" ]
         },
         "expiryDate": {
+          "description": "Policy expiry date (for term policies)",
+          "examples": [ "2035-06-01" ],
           "type": "string",
-          "format": "date",
-          "description": "Policy expiry date (for term policies).",
-          "examples": ["2035-06-01"]
+          "format": "date"
         }
       },
       "additionalProperties": false
     },
     "coOwnership": {
-      "type": "object",
+      "description": "Co-ownership details for assets held jointly or in common with others. Determines whether the asset passes by survivorship or under the will",
       "$comment": "Category-specific sub-object for co-owned assets. Use when the asset has shared ownership that affects how it passes on death.",
-      "description": "Co-ownership details for assets held jointly or in common with others. Determines whether the asset passes by survivorship or under the will.",
+      "type": "object",
       "properties": {
         "coOwnerPersonIds": {
+          "description": "Person IDs of co-owners",
           "type": "array",
-          "items": { "type": "string", "format": "uuid" },
-          "description": "Person IDs of co-owners."
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
         },
         "ownershipType": {
-          "type": "string",
-          "enum": ["joint_tenants", "tenants_in_common", "community_property", "partnership", "other"],
+          "description": "How ownership is structured between co-owners",
           "$comment": "joint_tenants: right of survivorship — passes automatically to survivor(s). tenants_in_common: no survivorship — each owner's share passes under their will. community_property: marital community property (US). partnership: business partnership asset. other: other arrangement.",
-          "description": "How ownership is structured between co-owners."
+          "enum": [
+            "joint_tenants",
+            "tenants_in_common",
+            "community_property",
+            "partnership",
+            "other"
+          ]
         },
         "ownershipPercentage": {
+          "description": "The testator's ownership percentage",
+          "examples": [ 50, 33.33 ],
           "type": "number",
-          "minimum": 0,
           "maximum": 100,
-          "description": "The testator's ownership percentage.",
-          "examples": [50, 33.33]
+          "minimum": 0
         },
         "severanceDate": {
+          "description": "Date joint tenancy was severed to become tenants in common (if applicable)",
+          "examples": [ "2024-06-15" ],
           "type": "string",
-          "format": "date",
-          "description": "Date joint tenancy was severed to become tenants in common (if applicable).",
-          "examples": ["2024-06-15"]
+          "format": "date"
         }
       },
       "additionalProperties": false
     },
     "intellectualProperty": {
-      "type": "object",
+      "description": "Intellectual property details — patents, copyrights, trademarks, trade secrets. IP succession varies by jurisdiction and type",
       "$comment": "Category-specific sub-object for IP assets. Use when category is 'intellectual_property'.",
-      "description": "Intellectual property details — patents, copyrights, trademarks, trade secrets. IP succession varies by jurisdiction and type.",
+      "type": "object",
       "properties": {
         "ipType": {
-          "type": "string",
-          "enum": ["patent", "copyright", "trademark", "design_right", "trade_secret", "database_right", "other"],
+          "description": "Type of intellectual property",
           "$comment": "patent: registered invention. copyright: creative works (literary, artistic, musical). trademark: registered brand/logo. design_right: registered or unregistered design. trade_secret: confidential business information. database_right: sui generis database right (EU/UK). other: any other IP type.",
-          "description": "Type of intellectual property."
+          "enum": [
+            "patent",
+            "copyright",
+            "trademark",
+            "design_right",
+            "trade_secret",
+            "database_right",
+            "other"
+          ]
         },
         "registrationNumber": {
-          "type": "string",
-          "description": "Registration or application number.",
-          "examples": ["GB2345678", "US10,123,456"]
+          "description": "Registration or application number",
+          "examples": [ "GB2345678", "US10,123,456" ],
+          "type": "string"
         },
         "registrationOffice": {
-          "type": "string",
-          "description": "Intellectual property office where registered.",
-          "examples": ["UK IPO", "USPTO", "EPO", "WIPO"]
+          "description": "Intellectual property office where registered",
+          "examples": [ "UK IPO", "USPTO", "EPO", "WIPO" ],
+          "type": "string"
         },
         "expiryDate": {
+          "description": "Date the IP right expires",
+          "examples": [ "2040-03-15" ],
           "type": "string",
-          "format": "date",
-          "description": "Date the IP right expires.",
-          "examples": ["2040-03-15"]
+          "format": "date"
         },
         "annualRevenue": {
-          "$ref": "common/money.json",
-          "description": "Approximate annual revenue generated from this IP (licensing, royalties, etc.)."
+          "description": "Approximate annual revenue generated from this IP (licensing, royalties, etc.)",
+          "$ref": "common/money.json"
         },
         "licensees": {
+          "description": "Current licensees of this IP",
+          "examples": [
+            [ "Publisher A", "Manufacturer B" ]
+          ],
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Current licensees of this IP.",
-          "examples": [["Publisher A", "Manufacturer B"]]
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
     },
     "stockCompensation": {
-      "type": "object",
+      "description": "Employee stock compensation details — options, RSUs, ESPPs. Vesting schedules and exercise windows are critical on death",
       "$comment": "Category-specific sub-object for employee stock options, RSUs, and equity compensation. Common in tech sector estates.",
-      "description": "Employee stock compensation details — options, RSUs, ESPPs. Vesting schedules and exercise windows are critical on death.",
+      "type": "object",
       "properties": {
         "compensationType": {
-          "type": "string",
-          "enum": ["iso", "nso", "rsu", "espp", "phantom_stock", "sar", "other"],
+          "description": "Type of stock compensation",
           "$comment": "iso: incentive stock option (US tax-advantaged). nso: non-qualified stock option. rsu: restricted stock unit. espp: employee stock purchase plan. phantom_stock: phantom equity (cash settlement). sar: stock appreciation right. other: any other type.",
-          "description": "Type of stock compensation."
+          "enum": [
+            "iso",
+            "nso",
+            "rsu",
+            "espp",
+            "phantom_stock",
+            "sar",
+            "other"
+          ]
         },
         "grantDate": {
+          "description": "Date the award was granted",
+          "examples": [ "2022-03-15" ],
           "type": "string",
-          "format": "date",
-          "description": "Date the award was granted.",
-          "examples": ["2022-03-15"]
+          "format": "date"
         },
         "vestingSchedule": {
-          "type": "string",
-          "description": "Description of the vesting schedule.",
-          "examples": ["4-year vest with 1-year cliff", "3-year monthly vesting", "Fully vested"]
+          "description": "Description of the vesting schedule",
+          "examples": [
+            "4-year vest with 1-year cliff",
+            "3-year monthly vesting",
+            "Fully vested"
+          ],
+          "type": "string"
         },
         "vestedQuantity": {
+          "description": "Number of shares/units currently vested",
+          "examples": [ 2500 ],
           "type": "integer",
-          "minimum": 0,
-          "description": "Number of shares/units currently vested.",
-          "examples": [2500]
+          "minimum": 0
         },
         "unvestedQuantity": {
+          "description": "Number of shares/units not yet vested. May be forfeited on death depending on plan terms",
+          "examples": [ 7500 ],
           "type": "integer",
-          "minimum": 0,
-          "description": "Number of shares/units not yet vested. May be forfeited on death depending on plan terms.",
-          "examples": [7500]
+          "minimum": 0
         },
         "exercisePrice": {
-          "$ref": "common/money.json",
-          "description": "Strike/exercise price per share for options."
+          "description": "Strike/exercise price per share for options",
+          "$ref": "common/money.json"
         },
         "expirationDate": {
+          "description": "Date the options expire. Estate typically has limited window to exercise after death",
+          "examples": [ "2032-03-15" ],
           "type": "string",
-          "format": "date",
-          "description": "Date the options expire. Estate typically has limited window to exercise after death.",
-          "examples": ["2032-03-15"]
+          "format": "date"
         },
         "postDeathExerciseWindow": {
-          "type": "string",
-          "description": "Time allowed for estate to exercise options after death.",
-          "examples": ["12 months from date of death", "90 days", "Per plan administrator discretion"]
+          "description": "Time allowed for estate to exercise options after death",
+          "examples": [
+            "12 months from date of death",
+            "90 days",
+            "Per plan administrator discretion"
+          ],
+          "type": "string"
         },
         "acceleratesOnDeath": {
-          "type": "boolean",
-          "description": "Whether unvested awards accelerate (fully vest) on death.",
-          "examples": [true, false]
+          "description": "Whether unvested awards accelerate (fully vest) on death",
+          "examples": [ true, false ],
+          "type": "boolean"
         }
       },
       "additionalProperties": false
     },
     "debtReceivable": {
-      "type": "object",
+      "description": "Details of money owed to the testator by others. These are estate assets that the executor must collect",
       "$comment": "Category-specific sub-object for debts owed TO the estate. The mirror of a liability — someone else owes the testator money.",
-      "description": "Details of money owed to the testator by others. These are estate assets that the executor must collect.",
+      "type": "object",
       "properties": {
         "debtorName": {
-          "type": "string",
-          "description": "Name of the person or organisation that owes the debt.",
-          "examples": ["John Smith", "Acme Trading Ltd"]
+          "description": "Name of the person or organisation that owes the debt",
+          "examples": [ "John Smith", "Acme Trading Ltd" ],
+          "type": "string"
         },
         "debtorPersonId": {
+          "description": "Reference to Person.id if the debtor is in the people array",
           "type": "string",
-          "format": "uuid",
-          "description": "Reference to Person.id if the debtor is in the people array."
+          "format": "uuid"
         },
         "originalAmount": {
-          "$ref": "common/money.json",
-          "description": "Original amount of the debt."
+          "description": "Original amount of the debt",
+          "$ref": "common/money.json"
         },
         "outstandingAmount": {
-          "$ref": "common/money.json",
-          "description": "Amount currently outstanding."
+          "description": "Amount currently outstanding",
+          "$ref": "common/money.json"
         },
         "interestRate": {
+          "description": "Annual interest rate on the debt, as a percentage",
+          "examples": [ 0, 3.5, 8 ],
           "type": "number",
-          "minimum": 0,
-          "description": "Annual interest rate on the debt, as a percentage.",
-          "examples": [0, 3.5, 8]
+          "minimum": 0
         },
         "secured": {
-          "type": "boolean",
-          "description": "Whether the debt is secured against collateral.",
-          "examples": [false]
+          "description": "Whether the debt is secured against collateral",
+          "examples": [ false ],
+          "type": "boolean"
         },
         "documentRef": {
-          "type": "string",
-          "description": "Reference to any loan agreement or promissory note.",
-          "examples": ["Promissory note dated 15 March 2023"]
+          "description": "Reference to any loan agreement or promissory note",
+          "examples": [ "Promissory note dated 15 March 2023" ],
+          "type": "string"
         },
         "collectibility": {
-          "type": "string",
-          "enum": ["likely", "uncertain", "doubtful", "uncollectible"],
+          "description": "Likelihood of collecting this debt",
           "$comment": "likely: debtor is solvent and able to pay. uncertain: some risk of non-payment. doubtful: significant risk of non-payment. uncollectible: debt is effectively worthless.",
-          "description": "Likelihood of collecting this debt."
+          "enum": [ "likely", "uncertain", "doubtful", "uncollectible" ]
         }
       },
       "additionalProperties": false
     }
   },
-  "required": ["id", "name", "category"],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

@@ -2,71 +2,95 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/attestation.json",
   "title": "Attestation",
-  "description": "Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish).",
+  "description": "Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish)",
   "type": "object",
   "properties": {
     "date": {
+      "description": "Date the will or document was executed (signed and witnessed)",
+      "examples": [ "2024-06-15", "2025-01-20" ],
       "type": "string",
-      "format": "date",
-      "description": "Date the will or document was executed (signed and witnessed).",
-      "examples": ["2024-06-15", "2025-01-20"]
+      "format": "date"
     },
     "witnessPersonIds": {
+      "description": "Person IDs of the witnesses. Most jurisdictions require at least two witnesses. Some (e.g. holographic wills) require none",
       "type": "array",
-      "items": { "type": "string", "format": "uuid" },
-      "description": "Person IDs of the witnesses. Most jurisdictions require at least two witnesses. Some (e.g. holographic wills) require none."
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
     },
     "method": {
-      "type": "string",
-      "enum": ["in_person", "video", "remote", "none", "kinyan_sudar", "kinyan_agav", "seal_based", "inkan_registered"],
+      "description": "The method by which the will or document was executed",
       "$comment": "in_person: traditional in-person execution and witnessing. video: execution witnessed via video link (permitted during COVID in some jurisdictions, now permanent in some). remote: remote execution via electronic means. none: no formal execution method (e.g. nuncupative/oral wills). kinyan_sudar: a legally valid attestation method in jurisdictions that recognise halachic legal instruments — Jewish acquisition by symbolic exchange of a cloth, used to formalise wills in batei din (Israel: binding; UK/US: recognised as contractual formality in secular courts). kinyan_agav: a legally valid attestation method under halachic law — Jewish acquisition 'on the back of' land transfer, ancillary to a property transaction. seal_based: a legally valid attestation method in East Asian jurisdictions — sealed with a personal seal, carrying legal force equivalent to a signature in China, Korea, and Japan. inkan_registered: a legally valid attestation method under Japanese Civil Code Art. 969 — Japanese registered seal (jitsuin) verified against a seal registration certificate (inkan toroku shomeisho) issued by the municipal government. Required for notarised wills (kōsei shōsho igon) in Japan.",
-      "description": "The method by which the will or document was executed.",
-      "examples": ["in_person", "video", "inkan_registered"]
+      "examples": [ "in_person", "video", "inkan_registered" ],
+      "enum": [
+        "in_person",
+        "video",
+        "remote",
+        "none",
+        "kinyan_sudar",
+        "kinyan_agav",
+        "seal_based",
+        "inkan_registered"
+      ]
     },
     "attestationType": {
-      "type": "string",
-      "enum": ["written_signed", "oral_witnessed", "oral_community", "seal_based"],
+      "description": "The form of attestation used",
       "$comment": "written_signed: traditional written will signed by the testator. oral_witnessed: oral (nuncupative) will witnessed by the required number of witnesses — valid in Islamic law and some customary systems. oral_community: oral will witnessed by the community — common in African customary law. seal_based: will authenticated by personal seal rather than signature — Japanese, Korean, and historical Chinese practice.",
-      "description": "The form of attestation used.",
-      "examples": ["written_signed", "oral_witnessed"]
+      "examples": [ "written_signed", "oral_witnessed" ],
+      "enum": [
+        "written_signed",
+        "oral_witnessed",
+        "oral_community",
+        "seal_based"
+      ]
     },
     "solicitorSupervised": {
-      "type": "boolean",
-      "description": "Whether a solicitor or legal professional supervised the execution. Reduces (but does not eliminate) the risk of challenges.",
-      "examples": [true, false]
+      "description": "Whether a solicitor or legal professional supervised the execution. Reduces (but does not eliminate) the risk of challenges",
+      "examples": [ true, false ],
+      "type": "boolean"
     },
     "testatorSignedInPresenceOfWitnesses": {
-      "type": "boolean",
+      "description": "Whether the testator signed (or acknowledged their signature) in the presence of both witnesses simultaneously. Required under the Wills Act 1837 s.9(c)",
       "$comment": "Wills Act 1837 s.9(c).",
-      "description": "Whether the testator signed (or acknowledged their signature) in the presence of both witnesses simultaneously. Required under the Wills Act 1837 s.9(c).",
-      "examples": [true]
+      "examples": [ true ],
+      "type": "boolean"
     },
     "witnessesSignedInPresenceOfTestator": {
-      "type": "boolean",
+      "description": "Whether each witness signed in the presence of the testator. Required under the Wills Act 1837 s.9(d)",
       "$comment": "Wills Act 1837 s.9(d).",
-      "description": "Whether each witness signed in the presence of the testator. Required under the Wills Act 1837 s.9(d).",
-      "examples": [true]
+      "examples": [ true ],
+      "type": "boolean"
     },
     "witnessConflictCheck": {
-      "type": "boolean",
-      "description": "Whether a conflict check was performed to ensure no witness is a beneficiary. Under English law, a beneficiary-witness loses their gift (Wills Act 1837 s.15).",
-      "examples": [true]
+      "description": "Whether a conflict check was performed to ensure no witness is a beneficiary. Under English law, a beneficiary-witness loses their gift (Wills Act 1837 s.15)",
+      "examples": [ true ],
+      "type": "boolean"
     },
     "witnessConflictCheckScope": {
-      "type": "string",
-      "enum": ["english_law", "halachic_broad", "shariah_standard", "civil_law_standard", "customary_oral", "community_testimony"],
+      "description": "The legal standard applied when checking for witness conflicts",
       "$comment": "english_law: check under English Wills Act 1837 s.15 — beneficiary-witness forfeits gift. halachic_broad: broader Jewish law disqualifications — relatives, women (Orthodox), Sabbath violators, minors. shariah_standard: Islamic witness requirements — typically two male Muslims (or one male and two females). civil_law_standard: civil law notarised will witness requirements. customary_oral: oral will witness requirements under customary law. community_testimony: community-based attestation where formal witness rules do not apply.",
-      "description": "The legal standard applied when checking for witness conflicts.",
-      "examples": ["english_law", "shariah_standard"]
+      "examples": [ "english_law", "shariah_standard" ],
+      "enum": [
+        "english_law",
+        "halachic_broad",
+        "shariah_standard",
+        "civil_law_standard",
+        "customary_oral",
+        "community_testimony"
+      ]
     },
     "notes": {
-      "type": "string",
-      "description": "Additional notes on attestation — unusual circumstances, concerns about formalities, or cultural context.",
-      "examples": ["Testator unable to sign — made a mark in the presence of witnesses and a solicitor", "Inkan verified against Shinjuku Ward seal registration"]
+      "description": "Additional notes on attestation — unusual circumstances, concerns about formalities, or cultural context",
+      "examples": [
+        "Testator unable to sign — made a mark in the presence of witnesses and a solicitor",
+        "Inkan verified against Shinjuku Ward seal registration"
+      ],
+      "type": "string"
     }
   },
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }
