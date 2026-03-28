@@ -203,6 +203,7 @@ The INHERIT JSON format is designed to be stored, transmitted, and processed by 
 - [Error Guide](docs/error-guide.md) — validation errors explained with fixes
 - [Migration Guide](docs/migration-guide.md) — migrating from databases, spreadsheets, other formats
 - [Roadmap](ROADMAP.md) — what's coming next
+- **[Cultural Sensitivity](docs/cultural-sensitivity.md)** — how INHERIT models legal systems, not religious beliefs
 
 A formal W3C-style specification document is planned after the standard achieves two independent implementations. See the [Roadmap](ROADMAP.md).
 
