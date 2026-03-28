@@ -20,7 +20,8 @@
     "fmt:schema": "jsonschema fmt --check --keep-ordering v1/*.json v1/common/*.json",
     "metaschema": "jsonschema metaschema v1/*.json v1/common/*.json --resolve v1/dialect.json --resolve v1/common/",
     "bundle:schema": "jsonschema bundle v1/schema.json --resolve v1/dialect.json --resolve v1/ --resolve v1/common/ > dist/inherit-v1-bundled.json",
-    "validate:examples": "bash scripts/validate-examples.sh"
+    "validate:examples": "bash scripts/validate-examples.sh",
+    "graph:data": "node scripts/generate-graph-data.mjs"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "latest",
