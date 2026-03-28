@@ -4,7 +4,9 @@
 
 **Goal:** Integrate the Sourcemeta JSON Schema CLI as the primary schema quality tool — linting, formatting, metaschema validation, and testing — replacing the bespoke AJV test runner and covering all 32 core schemas.
 
-**Architecture:** Create a `dialect.json` metaschema so the CLI can resolve INHERIT's custom `$schema`. Create a `jsonschema.json` project manifest. Migrate 33 existing tests to Sourcemeta format, expand to 32 schemas, fix lint violations, add package.json scripts.
+**Architecture:** Create a `dialect.json` metaschema (with `format-assertion` enabled) so the CLI can resolve INHERIT's custom `$schema`. Create a `jsonschema.json` project manifest. Migrate 33 existing tests to Sourcemeta format, expand to 32 schemas, fix lint violations (including adding missing `title` keywords and `$comment` specification links), add package.json scripts.
+
+**Informed by:** Juan Cruz Viotti & Ron Itelman, *Unifying Business, Data, and Code* (O'Reilly, 2024) — Chapter 12 (four facets of a data product: Data, Structure, Meaning, Context) and Chapter 13 (extending JSON Schema). Also https://www.learnjsonschema.com/2020-12/.
 
 **Tech Stack:** Sourcemeta JSON Schema CLI v14.17.0, JSON Schema 2020-12, pnpm.
 
@@ -26,6 +28,8 @@
 
 Every INHERIT schema references `$schema: "https://openinherit.org/v1/dialect.json"` but this file has never existed. The Sourcemeta CLI needs it to resolve metaschemas.
 
+**Design decision — `format-assertion` vocabulary:** JSON Schema 2020-12 treats `format` as annotation-only by default. INHERIT uses `format: "uuid"`, `format: "email"`, `format: "date-time"`, and `format: "uri"` extensively, and the existing AJV runner has `validateFormats: true`. To make format validation part of the spec (not just an AJV configuration choice), the dialect declares `format-assertion: true`. This means any compliant implementation MUST validate format keywords. Per learnjsonschema.com: "To enforce format validation, your custom metaschema must explicitly opt in."
+
 **Files:**
 - Create: `$SPEC/v1/dialect.json`
 
@@ -41,16 +45,18 @@ Every INHERIT schema references `$schema: "https://openinherit.org/v1/dialect.js
     "https://json-schema.org/draft/2020-12/vocab/unevaluated": true,
     "https://json-schema.org/draft/2020-12/vocab/validation": true,
     "https://json-schema.org/draft/2020-12/vocab/meta-data": true,
-    "https://json-schema.org/draft/2020-12/vocab/format-annotation": true,
+    "https://json-schema.org/draft/2020-12/vocab/format-assertion": true,
     "https://json-schema.org/draft/2020-12/vocab/content": true
   },
   "title": "INHERIT v1 Dialect",
-  "description": "Custom metaschema for the INHERIT v1 schema suite. Extends JSON Schema 2020-12 with no additional vocabularies. Exists so that the Sourcemeta CLI and other schema-aware tooling can resolve the $schema reference.",
+  "description": "Custom metaschema for the INHERIT v1 schema suite. Extends JSON Schema 2020-12 with format-assertion enabled — format keywords (uuid, email, date-time, uri) are validated, not just annotated. Exists so that the Sourcemeta CLI and other schema-aware tooling can resolve the $schema reference.",
   "allOf": [
     { "$ref": "https://json-schema.org/draft/2020-12/schema" }
   ]
 }
 ```
+
+Note: the key change from a vanilla 2020-12 dialect is `format-assertion` instead of `format-annotation`. This makes `format` a validation keyword, matching INHERIT's existing AJV behaviour (`validateFormats: true`).
 
 - [ ] **Step 2: Verify the CLI can now resolve metaschemas**
 
@@ -142,7 +148,7 @@ git commit -m "feat: add Sourcemeta CLI manifest and schema quality scripts"
 
 ## Phase 2: Lint Triage and Fixes
 
-### Task 3: Fix lint violations
+### Task 3: Fix lint violations and improve schema annotations
 
 The lint discovery run found these violation counts:
 
@@ -151,12 +157,17 @@ The lint discovery run found these violation counts:
 | `description_trailing_period` | 909 | **Fix** — `--fix` auto-removes trailing periods |
 | `enum_with_type` | 264 | **Fix** — `--fix` removes redundant `type` alongside `enum` |
 | `top_level_examples` | 31 | **Exclude** — INHERIT uses separate fixture files, not inline examples on root schemas |
+| `top_level_title` | ? | **Fix** — add `title` to any schema missing it (see Step 1b below) |
 | `invalid_external_ref` | 29 | **Fix** — caused by incomplete `--resolve`; once dialect.json and all schemas are resolvable, these should disappear. Any remaining are genuine broken refs to fix. |
 | `empty_object_as_true` | 24 | **Exclude** — these are `"^x-inherit-": {}` pattern properties. The `{}` is intentional (accept anything for extension properties). Suppress with `x-lint-exclude`. |
 | `const_with_type` | 8 | **Fix** — `--fix` removes redundant `type` alongside `const` |
 | `unnecessary_allof_wrapper` | 6 | **Fix** — `--fix` unwraps single-element `allOf` |
 | `simple_properties_identifiers` | 2 | **Investigate** — check which property names are flagged, decide if rename is appropriate |
 | `oneof_to_anyof_disjoint_types` | 1 | **Fix** — simplify to `anyOf` if types are disjoint |
+
+**Additional improvements from Itelman & Viotti, Chapter 12:**
+
+The *meaning* facet of a data product requires every schema to carry annotation metadata — `title`, `description`, and `examples`. Chapter 12 recommends: "Use a noun for `title`, similar to how you would name a class in an object-oriented programming language." It also demonstrates using `$comment` to link to external specifications (ISO standards, IETF RFCs) that define the concepts a schema models. These annotations help both humans and AI agents understand the schema's intent.
 
 **Files:**
 - Modify: All `$SPEC/v1/*.json` and `$SPEC/v1/common/*.json`
@@ -243,7 +254,54 @@ cd $SPEC && jsonschema lint v1/*.json v1/common/*.json \
 
 Check which property names are flagged. If they are intentional (e.g. camelCase matching Schema.org conventions), exclude them. If they are genuine naming issues, fix them.
 
-- [ ] **Step 5: Run lint again — verify clean (with expected exclusions)**
+- [ ] **Step 5: Add missing `title` to any schema that lacks it**
+
+Per Itelman & Viotti Ch.12: every schema should have a `title` — "a preferably short description about the purpose of the instance described by the schema." Use a noun, like a class name.
+
+```bash
+cd $SPEC && python3 -c "
+import json, os, glob
+
+for path in sorted(glob.glob('v1/*.json') + glob.glob('v1/common/*.json')):
+    with open(path) as f:
+        s = json.load(f)
+    if 'title' not in s:
+        print(f'MISSING title: {path}')
+"
+```
+
+For each schema missing `title`, add one. Examples:
+- `money.json` → `"title": "Money"` (already has it)
+- `address.json` → `"title": "Address"`
+- `asset-interest.json` → `"title": "Asset Interest"`
+
+Use the entity name as a noun. Do NOT exclude `top_level_title` — fix the schemas instead.
+
+- [ ] **Step 6: Add `$comment` specification links to standards-referencing schemas**
+
+Per Itelman & Viotti Ch.12: use `$comment` to link to the external specification that defines a concept. This helps developers and AI agents understand what standard a schema implements.
+
+Add `$comment` to schemas and fields that reference well-known standards:
+
+```bash
+cd $SPEC && python3 -c "
+# Standards to link via \$comment
+standards = {
+    'v1/common/money.json': 'https://www.iso.org/iso-4217-currency-codes.html',  # check if already present
+    'v1/common/jurisdiction.json': 'https://www.iso.org/iso-3166-country-codes.html',
+    'v1/common/address.json': 'https://schema.org/PostalAddress',
+}
+import json
+for path, url in standards.items():
+    s = json.load(open(path))
+    has_comment = '\$comment' in s
+    print(f'{path}: \$comment={\"exists\" if has_comment else \"MISSING\"} (should link to {url})')
+"
+```
+
+For each schema missing a `$comment` link, add one at the root level. If the schema already has a `$comment`, append the URL or leave it if already adequate. Only add `$comment` where there is a clear external standard — do not invent links.
+
+- [ ] **Step 7: Run lint again — verify clean (with expected exclusions)**
 
 ```bash
 cd $SPEC && jsonschema lint v1/*.json v1/common/*.json \
@@ -251,19 +309,19 @@ cd $SPEC && jsonschema lint v1/*.json v1/common/*.json \
   --exclude top_level_examples
 ```
 
-Expected: zero violations. The `top_level_examples` rule is excluded globally because INHERIT uses separate fixture files.
+Expected: zero violations. The `top_level_examples` rule is excluded globally because INHERIT uses separate fixture files. The `top_level_title` rule should now pass (all schemas have `title`).
 
-- [ ] **Step 6: Update the lint:schema script to include the global exclusion**
+- [ ] **Step 8: Update the lint:schema script to include the global exclusion**
 
 Update the `lint:schema` script in package.json to add `--exclude top_level_examples`.
 
-- [ ] **Step 7: Mirror sync, verify tests + fixtures, commit**
+- [ ] **Step 9: Mirror sync, verify tests + fixtures, commit**
 
 ```bash
 cd $SPEC && rsync -a --delete --exclude=node_modules --exclude=context v1/ packages/schema/v1/
 cd $SPEC && pnpm test
 cd $SPEC && git add -A
-git commit -m "fix: resolve all Sourcemeta lint violations — trailing periods, redundant types, allOf wrappers"
+git commit -m "fix: resolve all Sourcemeta lint violations — trailing periods, redundant types, titles, $comment links"
 ```
 
 ---
