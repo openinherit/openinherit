@@ -2,106 +2,154 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/asset-collection.json",
   "title": "Asset Collection",
-  "description": "A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set.",
+  "description": "A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set",
   "type": "object",
+  "required": [ "id", "estateId", "name" ],
   "properties": {
     "id": {
-      "type": "string",
-      "format": "uuid",
       "description": "Unique identifier for this asset collection",
-      "examples": ["b7e2c4a1-3f8d-4e9b-a1c2-d3e4f5a6b7c8"]
+      "examples": [ "b7e2c4a1-3f8d-4e9b-a1c2-d3e4f5a6b7c8" ],
+      "type": "string",
+      "format": "uuid"
     },
     "estateId": {
-      "type": "string",
-      "format": "uuid",
       "description": "The estate this collection belongs to",
-      "examples": ["a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+      "examples": [ "a1b2c3d4-e5f6-7890-abcd-ef1234567890" ],
+      "type": "string",
+      "format": "uuid"
     },
     "name": {
-      "type": "string",
-      "minLength": 1,
       "description": "Display name for this collection",
-      "examples": ["Model railway collection", "Vinyl record library", "Japanese woodblock prints"]
+      "examples": [
+        "Model railway collection",
+        "Vinyl record library",
+        "Japanese woodblock prints"
+      ],
+      "type": "string",
+      "minLength": 1
     },
     "description": {
-      "type": "string",
       "description": "Context for family members and dealers about the collection's scope, provenance, or significance",
-      "examples": ["OO gauge collection started in 1985, mostly Hornby with some Lima coaches. Layout stored in the loft at Oakfield Road."]
+      "examples": [
+        "OO gauge collection started in 1985, mostly Hornby with some Lima coaches. Layout stored in the loft at Oakfield Road."
+      ],
+      "type": "string"
     },
     "category": {
-      "type": "string",
-      "enum": [
-        "model_railways", "vinyl_records", "art", "jewellery", "wine",
-        "stamps", "coins", "books", "musical_instruments", "fishing_gear",
-        "handbags", "power_tools", "watches", "ceramics", "memorabilia",
-        "other"
-      ],
-      "$comment": "Broad category for the collection. Use 'other' for niche collections (e.g. vintage typewriters, fountain pens). Individual assets within the collection may have more specific categories.",
       "description": "The primary category of items in this collection",
-      "examples": ["model_railways", "vinyl_records", "art"]
+      "$comment": "Broad category for the collection. Use 'other' for niche collections (e.g. vintage typewriters, fountain pens). Individual assets within the collection may have more specific categories.",
+      "examples": [ "model_railways", "vinyl_records", "art" ],
+      "enum": [
+        "model_railways",
+        "vinyl_records",
+        "art",
+        "jewellery",
+        "wine",
+        "stamps",
+        "coins",
+        "books",
+        "musical_instruments",
+        "fishing_gear",
+        "handbags",
+        "power_tools",
+        "watches",
+        "ceramics",
+        "memorabilia",
+        "other"
+      ]
     },
     "estimatedValue": {
-      "$ref": "common/money.json",
       "description": "Estimated total value of the collection as a whole",
-      "examples": [{ "amount": 1500000, "currency": "GBP" }]
+      "examples": [
+        {
+          "amount": 1500000,
+          "currency": "GBP"
+        }
+      ],
+      "$ref": "common/money.json"
     },
     "valuationSource": {
-      "type": "string",
-      "enum": [
-        "self_estimated", "dealer_valuation", "auction_estimate", "insurance_value"
-      ],
-      "$comment": "self_estimated = owner's own guess. dealer_valuation = assessed by a specialist dealer. auction_estimate = provided by an auction house. insurance_value = the insured replacement value.",
       "description": "How the estimated value was determined",
-      "examples": ["dealer_valuation"]
+      "$comment": "self_estimated = owner's own guess. dealer_valuation = assessed by a specialist dealer. auction_estimate = provided by an auction house. insurance_value = the insured replacement value.",
+      "examples": [ "dealer_valuation" ],
+      "enum": [
+        "self_estimated",
+        "dealer_valuation",
+        "auction_estimate",
+        "insurance_value"
+      ]
     },
     "valuationDate": {
-      "type": "string",
-      "format": "date",
       "description": "Date the valuation was performed or last updated",
-      "examples": ["2025-11-15"]
+      "examples": [ "2025-11-15" ],
+      "type": "string",
+      "format": "date"
     },
     "disposalWishes": {
-      "type": "string",
-      "description": "Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc.",
-      "examples": ["Keep together if possible. Contact Dave at Manchester Model Railway Club — he knows the right dealers. Do not sell on eBay individually."]
+      "description": "Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc",
+      "examples": [
+        "Keep together if possible. Contact Dave at Manchester Model Railway Club — he knows the right dealers. Do not sell on eBay individually."
+      ],
+      "type": "string"
     },
     "disposalStrategy": {
-      "type": "string",
-      "enum": ["keep_together", "sell_as_collection", "sell_individually", "auction", "donate", "gift_to_person", "dealer_bids", "mixed", "undecided"],
+      "description": "The testator's preferred strategy for disposing of this collection. More structured than disposalWishes",
       "$comment": "keep_together: collection should remain intact — bequeathed to one person or institution. sell_as_collection: sell as a single lot to one buyer. sell_individually: break up and sell items separately. auction: sell through an auction house. donate: donate to a museum, institution, or charity. gift_to_person: give to a specific named person. dealer_bids: use CherishedItems-style competitive dealer bidding. mixed: combination of approaches for different parts. undecided: testator has not decided.",
-      "description": "The testator's preferred strategy for disposing of this collection. More structured than disposalWishes.",
-      "examples": ["dealer_bids", "keep_together"]
+      "examples": [ "dealer_bids", "keep_together" ],
+      "enum": [
+        "keep_together",
+        "sell_as_collection",
+        "sell_individually",
+        "auction",
+        "donate",
+        "gift_to_person",
+        "dealer_bids",
+        "mixed",
+        "undecided"
+      ]
     },
     "minimumAcceptableValue": {
-      "$ref": "common/money.json",
-      "description": "The minimum total value the testator or executor will accept for the collection. Prevents fire-sale disposal. In minor currency units."
+      "description": "The minimum total value the testator or executor will accept for the collection. Prevents fire-sale disposal. In minor currency units",
+      "$ref": "common/money.json"
     },
     "preferredDisposalMethod": {
-      "type": "string",
-      "enum": ["private_sale", "auction_house", "dealer_network", "online_marketplace", "specialist_fair", "museum_acquisition", "other"],
+      "description": "Preferred channel for disposing of the collection",
       "$comment": "private_sale: direct sale to a known buyer. auction_house: through an established auction house (Christie's, Bonhams, etc.). dealer_network: through specialist dealers in the collecting domain. online_marketplace: eBay, Catawiki, etc. specialist_fair: at a collecting fair or exhibition. museum_acquisition: sale or donation to a museum. other: any other method.",
-      "description": "Preferred channel for disposing of the collection.",
-      "examples": ["dealer_network", "auction_house"]
+      "examples": [ "dealer_network", "auction_house" ],
+      "enum": [
+        "private_sale",
+        "auction_house",
+        "dealer_network",
+        "online_marketplace",
+        "specialist_fair",
+        "museum_acquisition",
+        "other"
+      ]
     },
     "specialistDealerNotes": {
-      "type": "string",
-      "description": "Notes about specialist dealers who might be interested in this collection. Names, contact details, areas of expertise.",
-      "examples": ["Rails of Sheffield (01onal@railsofsheffield.com) — largest UK model railway dealer. Hattons of Liverpool — strong on Bachmann/Hornby. Avoid eBay 'lot sellers' — they undervalue specialist items."]
+      "description": "Notes about specialist dealers who might be interested in this collection. Names, contact details, areas of expertise",
+      "examples": [
+        "Rails of Sheffield (01onal@railsofsheffield.com) — largest UK model railway dealer. Hattons of Liverpool — strong on Bachmann/Hornby. Avoid eBay 'lot sellers' — they undervalue specialist items."
+      ],
+      "type": "string"
     },
     "notes": {
-      "type": "string",
       "description": "Any additional notes about this collection",
-      "examples": ["Insurance policy with Hiscox, ref HX-2024-1234. Photos in Google Drive folder 'Railway Collection'."]
+      "examples": [
+        "Insurance policy with Hiscox, ref HX-2024-1234. Photos in Google Drive folder 'Railway Collection'."
+      ],
+      "type": "string"
     },
     "images": {
+      "description": "Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection",
       "type": "array",
-      "items": { "$ref": "common/media.json" },
-      "description": "Overview photographs and videos of the collection as a whole — the display, the storage, the scale of the collection."
+      "items": {
+        "$ref": "common/media.json"
+      }
     }
   },
-  "required": ["id", "estateId", "name"],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

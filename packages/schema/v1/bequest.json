@@ -2,445 +2,17 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/bequest.json",
   "title": "Bequest",
-  "description": "A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah).",
+  "description": "A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah)",
+  "$comment": "Life interest bequests require lifeInterest object.",
   "type": "object",
-  "$defs": {
-    "BeneficiaryOrganisation": {
-      "type": "object",
-      "description": "An organisation that receives a bequest — charity, company, trust, or unincorporated association.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the beneficiary organisation.",
-          "examples": [
-            "British Red Cross",
-            "Manchester University",
-            "Médecins Sans Frontières"
-          ]
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "charity",
-            "company",
-            "unincorporated_association",
-            "trust",
-            "other"
-          ],
-          "$comment": "charity: registered charity. company: limited company or corporation. unincorporated_association: club, society, or group without legal personality. trust: a trust entity. other: any organisation type not covered above.",
-          "description": "The legal form of the organisation."
-        },
-        "registrationNumber": {
-          "type": "string",
-          "description": "Charity registration number, company number, or other official registration.",
-          "examples": [
-            "220949",
-            "SC039557",
-            "12345678"
-          ]
-        },
-        "jurisdiction": {
-          "$ref": "common/jurisdiction.json",
-          "description": "Jurisdiction where the organisation is registered."
-        }
-      },
-      "required": [
-        "name",
-        "type"
-      ],
-      "additionalProperties": false
-    },
-    "LifeInterest": {
-      "type": "object",
-      "description": "Details of a life interest — one person enjoys the asset during their lifetime, then it passes to the remainderman.",
-      "properties": {
-        "tenantForLifeId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id who holds the life interest."
-        },
-        "remaindermanId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id who receives the asset after the life interest ends."
-        },
-        "remaindermanClassDefinition": {
-          "type": "string",
-          "description": "Natural-language description of the remainderman class if not a named individual.",
-          "examples": [
-            "All my grandchildren living at the death of the life tenant, in equal shares"
-          ]
-        },
-        "interestType": {
-          "type": "string",
-          "enum": [
-            "use_and_income",
-            "income_only",
-            "use_only",
-            "protective",
-            "right_of_residence"
-          ],
-          "$comment": "use_and_income: right to use the asset and receive any income it generates. income_only: right to income only, not physical use. use_only: right to occupy or use, but no income entitlement. protective: a protective trust — converts to discretionary trust if the life tenant attempts to assign their interest. right_of_residence: right to live in the property for life.",
-          "description": "The scope of the life interest.",
-          "examples": [
-            "use_and_income",
-            "right_of_residence"
-          ]
-        }
-      },
-      "required": [
-        "tenantForLifeId",
-        "interestType"
-      ],
-      "additionalProperties": false
-    },
-    "Substitution": {
-      "type": "object",
-      "description": "A substitute beneficiary who receives the bequest if the primary beneficiary cannot (e.g. predeceases the testator).",
-      "properties": {
-        "beneficiaryId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id of the substitute beneficiary."
-        },
-        "classDefinition": {
-          "type": "string",
-          "description": "Natural-language description of the substitute class.",
-          "examples": [
-            "The children of the deceased beneficiary, in equal shares"
-          ]
-        },
-        "beneficiaryOrganisation": {
-          "$ref": "#/$defs/BeneficiaryOrganisation",
-          "description": "Substitute organisation if the substitution is to a charity or company."
-        },
-        "condition": {
-          "type": "string",
-          "description": "The condition that triggers this substitution.",
-          "examples": [
-            "If my daughter predeceases me",
-            "If the primary beneficiary disclaims the gift"
-          ]
-        },
-        "perStirpes": {
-          "type": "boolean",
-          "description": "Whether the substitution is per stirpes — passing to the deceased beneficiary's descendants by representation.",
-          "examples": [
-            true
-          ]
-        }
-      },
-      "additionalProperties": false
-    },
-    "PostDeathAction": {
-      "type": "object",
-      "description": "An action taken after death that modifies the bequest — disclaimer, deed of variation, appropriation, or assent.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "disclaimer",
-            "deed_of_variation",
-            "appropriation",
-            "assent"
-          ],
-          "$comment": "disclaimer: beneficiary formally refuses the gift. deed_of_variation: beneficiary redirects the gift to another person (within 2 years of death in the UK for IHT purposes). appropriation: executor transfers a specific asset to satisfy the bequest. assent: executor formally vests the asset in the beneficiary.",
-          "description": "The type of post-death action."
-        },
-        "date": {
-          "type": "string",
-          "format": "date",
-          "description": "Date the action was taken.",
-          "examples": [
-            "2025-12-01"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the action taken.",
-          "examples": [
-            "Deed of variation redirecting £50,000 to grandchildren's trust",
-            "Beneficiary disclaimed life interest in favour of children"
-          ]
-        },
-        "documentId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Document entity recording this action."
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "additionalProperties": false
-    },
-    "InheritanceResponse": {
-      "type": "object",
-      "description": "The beneficiary's response to the inheritance — acceptance, renunciation, or qualified acceptance. In civil law jurisdictions, acceptance may be required within a time limit.",
-      "properties": {
-        "response": {
-          "type": "string",
-          "enum": [
-            "accepted",
-            "renounced",
-            "qualified_acceptance",
-            "pending"
-          ],
-          "$comment": "accepted: beneficiary has accepted the inheritance. renounced: beneficiary has formally renounced — the gift lapses or passes to a substitute. qualified_acceptance: beneficiary accepted with limitations (e.g. accepting only up to the value of assets, not liabilities — common in Japan and France). pending: no response yet — may be within the statutory response period.",
-          "description": "The beneficiary's formal response to the inheritance."
-        },
-        "responseDate": {
-          "type": "string",
-          "format": "date",
-          "description": "Date the response was made.",
-          "examples": [
-            "2026-01-15"
-          ]
-        },
-        "responsePersonId": {
-          "type": "string",
-          "format": "uuid",
-          "description": "Reference to the Person.id of the respondent."
-        },
-        "courtFiled": {
-          "type": "boolean",
-          "description": "Whether the response was filed with a court (required in some jurisdictions).",
-          "examples": [
-            true,
-            false
-          ]
-        },
-        "deadlineDate": {
-          "type": "string",
-          "format": "date",
-          "description": "Statutory deadline for responding (e.g. 3 months in Japan, 4 months in France).",
-          "examples": [
-            "2026-03-30"
-          ]
-        }
-      },
-      "required": [
-        "response"
-      ],
-      "additionalProperties": false
-    }
-  },
-  "properties": {
-    "id": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this bequest within the INHERIT document.",
-      "examples": [
-        "a7b8c9d0-e1f2-3456-a789-0123456789ab"
-      ]
-    },
-    "bequestType": {
-      "type": "string",
-      "enum": [
-        "specific",
-        "pecuniary",
-        "demonstrative",
-        "general",
-        "residuary",
-        "life_interest",
-        "class"
-      ],
-      "$comment": "specific: a named item to a named person (e.g. 'my engagement ring to my daughter'). pecuniary: a fixed cash sum (e.g. '£10,000 to my son'). demonstrative: a cash sum from a specified fund (e.g. '£5,000 from my Barclays savings account'). general: from the general estate, not a specific item. residuary: the remainder after all other gifts and debts are paid. life_interest: right to use or benefit during lifetime, then passes to a remainderman. class: to a category of people (e.g. 'my grandchildren equally').",
-      "description": "The category of bequest.",
-      "examples": [
-        "specific",
-        "pecuniary",
-        "residuary"
-      ]
-    },
-    "extensionType": {
-      "type": "string",
-      "$comment": "Non-core bequest types (e.g. wasiyya, halachic_matanah). When set, extension schemas handle validation.",
-      "description": "Extension-specific bequest type not covered by the core enum. Validated by the relevant extension schema.",
-      "examples": [
-        "wasiyya",
-        "halachic_matanah",
-        "sadaqah_jariyah"
-      ]
-    },
-    "beneficiaryId": {
-      "type": "string",
-      "format": "uuid",
-      "description": "Reference to the Person.id of the individual beneficiary."
-    },
-    "beneficiaryOrganisation": {
-      "$ref": "#/$defs/BeneficiaryOrganisation",
-      "description": "Organisation receiving this bequest, if not an individual."
-    },
-    "classDefinition": {
-      "type": "string",
-      "$comment": "Natural-language description of the class of beneficiaries (e.g. 'All my grandchildren living at my death').",
-      "description": "Natural-language definition of the beneficiary class. Required for class bequests. Must be precise enough for executors to identify all members.",
-      "examples": [
-        "All my grandchildren living at my death",
-        "My children in equal shares",
-        "The children of my late brother Ahmed",
-        "The descendants of my sister Lakshmi",
-        "The children of my late uncle Kwame"
-      ]
-    },
-    "lifeInterest": {
-      "$ref": "#/$defs/LifeInterest",
-      "description": "Life interest details, required when type is 'life_interest'."
-    },
-    "amount": {
-      "$ref": "common/money.json",
-      "description": "Cash amount for pecuniary and demonstrative bequests, in minor currency units."
-    },
-    "sharePercentage": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 100,
-      "description": "Percentage share of the residuary estate or a specified fund.",
-      "examples": [
-        50,
-        25,
-        33.33
-      ]
-    },
-    "description": {
-      "type": "string",
-      "description": "Free-text description of the bequest — what is being given.",
-      "examples": [
-        "My engagement ring and matching necklace",
-        "The entire contents of my wine cellar",
-        "All my shares in Acme Ltd"
-      ]
-    },
-    "sourceAssetId": {
-      "type": "string",
-      "format": "uuid",
-      "$comment": "For demonstrative bequests — the asset from which the amount should be paid.",
-      "description": "Reference to the Asset.id from which a demonstrative bequest should be paid."
-    },
-    "conditions": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "$comment": "Conditions that must be met before the bequest takes effect.",
-      "description": "Conditions precedent that must be satisfied before the beneficiary receives this bequest.",
-      "examples": [
-        [
-          "Beneficiary must have attained the age of 25"
-        ],
-        [
-          "Beneficiary must be married at the date of my death"
-        ]
-      ]
-    },
-    "substitutions": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/Substitution"
-      },
-      "description": "Substitute beneficiaries in case the primary beneficiary cannot receive the gift."
-    },
-    "hotchpot": {
-      "type": "boolean",
-      "$comment": "Whether lifetime gifts to the beneficiary should be brought into account when calculating their share.",
-      "description": "Whether lifetime gifts (advances) to the beneficiary are brought into account when calculating their share. Common in intestacy and some wills.",
-      "examples": [
-        true,
-        false
-      ]
-    },
-    "distributionMethod": {
-      "type": "string",
-      "enum": [
-        "per_capita",
-        "per_stirpes",
-        "modified_per_stirpes",
-        "per_capita_at_each_generation",
-        "halachic_yerusha"
-      ],
-      "$comment": "per_capita: each beneficiary receives an equal share. per_stirpes: shares pass by representation — a predeceased beneficiary's share goes to their descendants. modified_per_stirpes: like per_stirpes but sharing begins at the first generation with living members. per_capita_at_each_generation: shares at each generation divided equally among living members and descendants of deceased members. halachic_yerusha: Jewish inheritance rules (firstborn double share, patrilineal only).",
-      "description": "How the bequest is distributed among multiple beneficiaries.",
-      "examples": [
-        "per_stirpes",
-        "per_capita"
-      ]
-    },
-    "predeceaseRule": {
-      "type": "string",
-      "enum": [
-        "lapse",
-        "per_stirpes",
-        "substitution",
-        "accrual",
-        "statutory_default"
-      ],
-      "$comment": "lapse: gift fails if the beneficiary predeceases the testator — falls into the residuary estate. per_stirpes: passes to the predeceased beneficiary's issue by representation. substitution: passes to a named substitute beneficiary. accrual: redistributed among surviving co-beneficiaries of the same gift. statutory_default: the jurisdiction's default rule applies (e.g. s.33 Wills Act 1837 in England and Wales).",
-      "description": "What happens if the beneficiary dies before the testator.",
-      "examples": [
-        "per_stirpes",
-        "lapse"
-      ]
-    },
-    "constrainedBy": {
-      "type": "string",
-      "enum": [
-        "testamentary_freedom",
-        "customary_rule",
-        "forced_heirship",
-        "religious_rule",
-        "coparcenary_survivorship"
-      ],
-      "$comment": "testamentary_freedom: testator may dispose of this gift freely. customary_rule: customary law constrains or overrides this bequest. forced_heirship: civil law forced heirship rules constrain this bequest. religious_rule: religious law constrains this bequest (e.g. wasiyya limited to one-third). coparcenary_survivorship: Hindu coparcenary property passes by survivorship, not by will.",
-      "description": "Which legal principle constrains this bequest, if any.",
-      "examples": [
-        "testamentary_freedom",
-        "forced_heirship"
-      ]
-    },
-    "customaryOverride": {
-      "type": "boolean",
-      "$comment": "Whether customary/religious law overrides testamentary freedom for this bequest.",
-      "description": "Whether customary or religious law overrides the testator's freedom to dispose of this gift as they wish.",
-      "examples": [
-        false,
-        true
-      ]
-    },
-    "postDeathActions": {
-      "type": "array",
-      "items": {
-        "$ref": "#/$defs/PostDeathAction"
-      },
-      "description": "Post-death actions that modified this bequest — disclaimers, deeds of variation, appropriations."
-    },
-    "inheritanceResponse": {
-      "$ref": "#/$defs/InheritanceResponse",
-      "description": "The beneficiary's formal response to this inheritance, if applicable."
-    },
-    "hotchpotTransferIds": {
-      "type": "array",
-      "items": { "type": "string", "format": "uuid" },
-      "description": "References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly.",
-      "examples": [["f1234567-89ab-4cde-8012-3456789abcde"]]
-    },
-    "notes": {
-      "type": "string",
-      "description": "Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.",
-      "examples": [
-        "This ring has been in the family for four generations — please ensure it stays in the family",
-        "If the charity has merged or changed name, the executor should identify the successor organisation"
-      ]
-    }
-  },
-  "required": [
-    "id",
-    "bequestType"
-  ],
   "allOf": [
     {
       "$comment": "Core types (specific, pecuniary, demonstrative, general, residuary) require beneficiaryId OR beneficiaryOrganisation. When extensionType is set, extension schema handles validation.",
       "if": {
+        "not": {
+          "required": [ "extensionType" ]
+        },
+        "required": [ "bequestType" ],
         "properties": {
           "bequestType": {
             "enum": [
@@ -451,27 +23,15 @@
               "residuary"
             ]
           }
-        },
-        "required": [
-          "bequestType"
-        ],
-        "not": {
-          "required": [
-            "extensionType"
-          ]
         }
       },
       "then": {
         "anyOf": [
           {
-            "required": [
-              "beneficiaryId"
-            ]
+            "required": [ "beneficiaryId" ]
           },
           {
-            "required": [
-              "beneficiaryOrganisation"
-            ]
+            "required": [ "beneficiaryOrganisation" ]
           }
         ]
       }
@@ -479,42 +39,392 @@
     {
       "$comment": "Class bequests require classDefinition.",
       "if": {
+        "required": [ "bequestType" ],
         "properties": {
           "bequestType": {
             "const": "class"
           }
-        },
-        "required": [
-          "bequestType"
-        ]
+        }
       },
       "then": {
-        "required": [
-          "classDefinition"
-        ]
-      }
-    },
-    {
-      "$comment": "Life interest bequests require lifeInterest object.",
-      "if": {
-        "properties": {
-          "bequestType": {
-            "const": "life_interest"
-          }
-        },
-        "required": [
-          "bequestType"
-        ]
-      },
-      "then": {
-        "required": [
-          "lifeInterest"
-        ]
+        "required": [ "classDefinition" ]
       }
     }
   ],
-  "patternProperties": {
-    "^x-inherit-": {}
+  "if": {
+    "required": [ "bequestType" ],
+    "properties": {
+      "bequestType": {
+        "const": "life_interest"
+      }
+    }
   },
-  "unevaluatedProperties": false
+  "then": {
+    "required": [ "lifeInterest" ]
+  },
+  "required": [ "id", "bequestType" ],
+  "properties": {
+    "id": {
+      "description": "Unique identifier for this bequest within the INHERIT document",
+      "examples": [ "a7b8c9d0-e1f2-3456-a789-0123456789ab" ],
+      "type": "string",
+      "format": "uuid"
+    },
+    "bequestType": {
+      "description": "The category of bequest",
+      "$comment": "specific: a named item to a named person (e.g. 'my engagement ring to my daughter'). pecuniary: a fixed cash sum (e.g. '£10,000 to my son'). demonstrative: a cash sum from a specified fund (e.g. '£5,000 from my Barclays savings account'). general: from the general estate, not a specific item. residuary: the remainder after all other gifts and debts are paid. life_interest: right to use or benefit during lifetime, then passes to a remainderman. class: to a category of people (e.g. 'my grandchildren equally').",
+      "examples": [ "specific", "pecuniary", "residuary" ],
+      "enum": [
+        "specific",
+        "pecuniary",
+        "demonstrative",
+        "general",
+        "residuary",
+        "life_interest",
+        "class"
+      ]
+    },
+    "extensionType": {
+      "description": "Extension-specific bequest type not covered by the core enum. Validated by the relevant extension schema",
+      "$comment": "Non-core bequest types (e.g. wasiyya, halachic_matanah). When set, extension schemas handle validation.",
+      "examples": [ "wasiyya", "halachic_matanah", "sadaqah_jariyah" ],
+      "type": "string"
+    },
+    "beneficiaryId": {
+      "description": "Reference to the Person.id of the individual beneficiary",
+      "type": "string",
+      "format": "uuid"
+    },
+    "beneficiaryOrganisation": {
+      "description": "Organisation receiving this bequest, if not an individual",
+      "$ref": "#/$defs/BeneficiaryOrganisation"
+    },
+    "classDefinition": {
+      "description": "Natural-language definition of the beneficiary class. Required for class bequests. Must be precise enough for executors to identify all members",
+      "$comment": "Natural-language description of the class of beneficiaries (e.g. 'All my grandchildren living at my death').",
+      "examples": [
+        "All my grandchildren living at my death",
+        "My children in equal shares",
+        "The children of my late brother Ahmed",
+        "The descendants of my sister Lakshmi",
+        "The children of my late uncle Kwame"
+      ],
+      "type": "string"
+    },
+    "lifeInterest": {
+      "description": "Life interest details, required when type is 'life_interest'",
+      "$ref": "#/$defs/LifeInterest"
+    },
+    "amount": {
+      "description": "Cash amount for pecuniary and demonstrative bequests, in minor currency units",
+      "$ref": "common/money.json"
+    },
+    "sharePercentage": {
+      "description": "Percentage share of the residuary estate or a specified fund",
+      "examples": [ 50, 25, 33.33 ],
+      "type": "number",
+      "maximum": 100,
+      "minimum": 0
+    },
+    "description": {
+      "description": "Free-text description of the bequest — what is being given",
+      "examples": [
+        "My engagement ring and matching necklace",
+        "The entire contents of my wine cellar",
+        "All my shares in Acme Ltd"
+      ],
+      "type": "string"
+    },
+    "sourceAssetId": {
+      "description": "Reference to the Asset.id from which a demonstrative bequest should be paid",
+      "$comment": "For demonstrative bequests — the asset from which the amount should be paid.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "conditions": {
+      "description": "Conditions precedent that must be satisfied before the beneficiary receives this bequest",
+      "$comment": "Conditions that must be met before the bequest takes effect.",
+      "examples": [
+        [ "Beneficiary must have attained the age of 25" ],
+        [ "Beneficiary must be married at the date of my death" ]
+      ],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "substitutions": {
+      "description": "Substitute beneficiaries in case the primary beneficiary cannot receive the gift",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Substitution"
+      }
+    },
+    "hotchpot": {
+      "description": "Whether lifetime gifts (advances) to the beneficiary are brought into account when calculating their share. Common in intestacy and some wills",
+      "$comment": "Whether lifetime gifts to the beneficiary should be brought into account when calculating their share.",
+      "examples": [ true, false ],
+      "type": "boolean"
+    },
+    "distributionMethod": {
+      "description": "How the bequest is distributed among multiple beneficiaries",
+      "$comment": "per_capita: each beneficiary receives an equal share. per_stirpes: shares pass by representation — a predeceased beneficiary's share goes to their descendants. modified_per_stirpes: like per_stirpes but sharing begins at the first generation with living members. per_capita_at_each_generation: shares at each generation divided equally among living members and descendants of deceased members. halachic_yerusha: Jewish inheritance rules (firstborn double share, patrilineal only).",
+      "examples": [ "per_stirpes", "per_capita" ],
+      "enum": [
+        "per_capita",
+        "per_stirpes",
+        "modified_per_stirpes",
+        "per_capita_at_each_generation",
+        "halachic_yerusha"
+      ]
+    },
+    "predeceaseRule": {
+      "description": "What happens if the beneficiary dies before the testator",
+      "$comment": "lapse: gift fails if the beneficiary predeceases the testator — falls into the residuary estate. per_stirpes: passes to the predeceased beneficiary's issue by representation. substitution: passes to a named substitute beneficiary. accrual: redistributed among surviving co-beneficiaries of the same gift. statutory_default: the jurisdiction's default rule applies (e.g. s.33 Wills Act 1837 in England and Wales).",
+      "examples": [ "per_stirpes", "lapse" ],
+      "enum": [
+        "lapse",
+        "per_stirpes",
+        "substitution",
+        "accrual",
+        "statutory_default"
+      ]
+    },
+    "constrainedBy": {
+      "description": "Which legal principle constrains this bequest, if any",
+      "$comment": "testamentary_freedom: testator may dispose of this gift freely. customary_rule: customary law constrains or overrides this bequest. forced_heirship: civil law forced heirship rules constrain this bequest. religious_rule: religious law constrains this bequest (e.g. wasiyya limited to one-third). coparcenary_survivorship: Hindu coparcenary property passes by survivorship, not by will.",
+      "examples": [ "testamentary_freedom", "forced_heirship" ],
+      "enum": [
+        "testamentary_freedom",
+        "customary_rule",
+        "forced_heirship",
+        "religious_rule",
+        "coparcenary_survivorship"
+      ]
+    },
+    "customaryOverride": {
+      "description": "Whether customary or religious law overrides the testator's freedom to dispose of this gift as they wish",
+      "$comment": "Whether customary/religious law overrides testamentary freedom for this bequest.",
+      "examples": [ false, true ],
+      "type": "boolean"
+    },
+    "postDeathActions": {
+      "description": "Post-death actions that modified this bequest — disclaimers, deeds of variation, appropriations",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PostDeathAction"
+      }
+    },
+    "inheritanceResponse": {
+      "description": "The beneficiary's formal response to this inheritance, if applicable",
+      "$ref": "#/$defs/InheritanceResponse"
+    },
+    "hotchpotTransferIds": {
+      "description": "References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly",
+      "examples": [
+        [ "f1234567-89ab-4cde-8012-3456789abcde" ]
+      ],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "notes": {
+      "description": "Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors",
+      "examples": [
+        "This ring has been in the family for four generations — please ensure it stays in the family",
+        "If the charity has merged or changed name, the executor should identify the successor organisation"
+      ],
+      "type": "string"
+    }
+  },
+  "patternProperties": {
+    "^x-inherit-": true
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "BeneficiaryOrganisation": {
+      "description": "An organisation that receives a bequest — charity, company, trust, or unincorporated association",
+      "type": "object",
+      "required": [ "name", "type" ],
+      "properties": {
+        "name": {
+          "description": "Name of the beneficiary organisation",
+          "examples": [
+            "British Red Cross",
+            "Manchester University",
+            "Médecins Sans Frontières"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "description": "The legal form of the organisation",
+          "$comment": "charity: registered charity. company: limited company or corporation. unincorporated_association: club, society, or group without legal personality. trust: a trust entity. other: any organisation type not covered above.",
+          "enum": [
+            "charity",
+            "company",
+            "unincorporated_association",
+            "trust",
+            "other"
+          ]
+        },
+        "registrationNumber": {
+          "description": "Charity registration number, company number, or other official registration",
+          "examples": [ "220949", "SC039557", "12345678" ],
+          "type": "string"
+        },
+        "jurisdiction": {
+          "description": "Jurisdiction where the organisation is registered",
+          "$ref": "common/jurisdiction.json"
+        }
+      },
+      "additionalProperties": false
+    },
+    "LifeInterest": {
+      "description": "Details of a life interest — one person enjoys the asset during their lifetime, then it passes to the remainderman",
+      "type": "object",
+      "required": [ "tenantForLifeId", "interestType" ],
+      "properties": {
+        "tenantForLifeId": {
+          "description": "Reference to the Person.id who holds the life interest",
+          "type": "string",
+          "format": "uuid"
+        },
+        "remaindermanId": {
+          "description": "Reference to the Person.id who receives the asset after the life interest ends",
+          "type": "string",
+          "format": "uuid"
+        },
+        "remaindermanClassDefinition": {
+          "description": "Natural-language description of the remainderman class if not a named individual",
+          "examples": [
+            "All my grandchildren living at the death of the life tenant, in equal shares"
+          ],
+          "type": "string"
+        },
+        "interestType": {
+          "description": "The scope of the life interest",
+          "$comment": "use_and_income: right to use the asset and receive any income it generates. income_only: right to income only, not physical use. use_only: right to occupy or use, but no income entitlement. protective: a protective trust — converts to discretionary trust if the life tenant attempts to assign their interest. right_of_residence: right to live in the property for life.",
+          "examples": [ "use_and_income", "right_of_residence" ],
+          "enum": [
+            "use_and_income",
+            "income_only",
+            "use_only",
+            "protective",
+            "right_of_residence"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Substitution": {
+      "description": "A substitute beneficiary who receives the bequest if the primary beneficiary cannot (e.g. predeceases the testator)",
+      "type": "object",
+      "properties": {
+        "beneficiaryId": {
+          "description": "Reference to the Person.id of the substitute beneficiary",
+          "type": "string",
+          "format": "uuid"
+        },
+        "classDefinition": {
+          "description": "Natural-language description of the substitute class",
+          "examples": [
+            "The children of the deceased beneficiary, in equal shares"
+          ],
+          "type": "string"
+        },
+        "beneficiaryOrganisation": {
+          "description": "Substitute organisation if the substitution is to a charity or company",
+          "$ref": "#/$defs/BeneficiaryOrganisation"
+        },
+        "condition": {
+          "description": "The condition that triggers this substitution",
+          "examples": [
+            "If my daughter predeceases me",
+            "If the primary beneficiary disclaims the gift"
+          ],
+          "type": "string"
+        },
+        "perStirpes": {
+          "description": "Whether the substitution is per stirpes — passing to the deceased beneficiary's descendants by representation",
+          "examples": [ true ],
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PostDeathAction": {
+      "description": "An action taken after death that modifies the bequest — disclaimer, deed of variation, appropriation, or assent",
+      "type": "object",
+      "required": [ "type" ],
+      "properties": {
+        "type": {
+          "description": "The type of post-death action",
+          "$comment": "disclaimer: beneficiary formally refuses the gift. deed_of_variation: beneficiary redirects the gift to another person (within 2 years of death in the UK for IHT purposes). appropriation: executor transfers a specific asset to satisfy the bequest. assent: executor formally vests the asset in the beneficiary.",
+          "enum": [
+            "disclaimer",
+            "deed_of_variation",
+            "appropriation",
+            "assent"
+          ]
+        },
+        "date": {
+          "description": "Date the action was taken",
+          "examples": [ "2025-12-01" ],
+          "type": "string",
+          "format": "date"
+        },
+        "description": {
+          "description": "Description of the action taken",
+          "examples": [
+            "Deed of variation redirecting £50,000 to grandchildren's trust",
+            "Beneficiary disclaimed life interest in favour of children"
+          ],
+          "type": "string"
+        },
+        "documentId": {
+          "description": "Reference to the Document entity recording this action",
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "InheritanceResponse": {
+      "description": "The beneficiary's response to the inheritance — acceptance, renunciation, or qualified acceptance. In civil law jurisdictions, acceptance may be required within a time limit",
+      "type": "object",
+      "required": [ "response" ],
+      "properties": {
+        "response": {
+          "description": "The beneficiary's formal response to the inheritance",
+          "$comment": "accepted: beneficiary has accepted the inheritance. renounced: beneficiary has formally renounced — the gift lapses or passes to a substitute. qualified_acceptance: beneficiary accepted with limitations (e.g. accepting only up to the value of assets, not liabilities — common in Japan and France). pending: no response yet — may be within the statutory response period.",
+          "enum": [ "accepted", "renounced", "qualified_acceptance", "pending" ]
+        },
+        "responseDate": {
+          "description": "Date the response was made",
+          "examples": [ "2026-01-15" ],
+          "type": "string",
+          "format": "date"
+        },
+        "responsePersonId": {
+          "description": "Reference to the Person.id of the respondent",
+          "type": "string",
+          "format": "uuid"
+        },
+        "courtFiled": {
+          "description": "Whether the response was filed with a court (required in some jurisdictions)",
+          "examples": [ true, false ],
+          "type": "boolean"
+        },
+        "deadlineDate": {
+          "description": "Statutory deadline for responding (e.g. 3 months in Japan, 4 months in France)",
+          "examples": [ "2026-03-30" ],
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }

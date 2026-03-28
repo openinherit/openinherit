@@ -1,437 +1,565 @@
 {
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/schema.json",
-  "$comment": "$ref resolution convention: all $ref paths are resolved relative to the schema's $id URI, NOT filesystem paths. Core schemas use relative paths (e.g., 'common/money.json' resolves to 'https://openinherit.org/v1/common/money.json'). Extension schemas use '../common/money.json' (resolves relative to their $id in the extensions/ directory). All schemas MUST be registered with the validator before $ref resolution will work.",
   "title": "INHERIT v1 Root Schema",
-  "description": "Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.",
+  "description": "Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types",
+  "$comment": "$ref resolution convention: all $ref paths are resolved relative to the schema's $id URI, NOT filesystem paths. Core schemas use relative paths (e.g., 'common/money.json' resolves to 'https://openinherit.org/v1/common/money.json'). Extension schemas use '../common/money.json' (resolves relative to their $id in the extensions/ directory). All schemas MUST be registered with the validator before $ref resolution will work.",
   "type": "object",
+  "required": [
+    "inherit",
+    "version",
+    "estate",
+    "people",
+    "kinships",
+    "relationships",
+    "properties",
+    "assets",
+    "liabilities",
+    "bequests",
+    "trusts",
+    "executors",
+    "guardians",
+    "wishes",
+    "documents",
+    "nonprobateTransfers",
+    "proxyAuthorisations",
+    "dealerInterests"
+  ],
   "properties": {
     "@context": {
+      "x-lint-exclude": ["simple_properties_identifiers"],
+      "description": "JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies",
+      "examples": [ "https://openinherit.org/v1/context/inherit-v1.jsonld" ],
       "type": "string",
-      "format": "uri",
-      "description": "JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies.",
-      "examples": ["https://openinherit.org/v1/context/inherit-v1.jsonld"]
+      "format": "uri"
     },
     "inherit": {
-      "type": "string",
-      "const": "https://openinherit.org/v1/schema.json",
-      "description": "Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document.",
-      "examples": ["https://openinherit.org/v1/schema.json"]
+      "description": "Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document",
+      "examples": [ "https://openinherit.org/v1/schema.json" ],
+      "const": "https://openinherit.org/v1/schema.json"
     },
     "version": {
-      "type": "integer",
-      "const": 1,
-      "description": "Major version number of the INHERIT schema. Always 1 for v1 documents.",
-      "examples": [1]
+      "description": "Major version number of the INHERIT schema. Always 1 for v1 documents",
+      "examples": [ 1 ],
+      "const": 1
     },
     "schemaVersion": {
+      "description": "Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation",
+      "examples": [ "1.0.0", "1.1.0", "1.2.3" ],
       "type": "string",
-      "description": "Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "examples": ["1.0.0", "1.1.0", "1.2.3"]
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
     "exportedAt": {
+      "description": "Date this document was exported from the producing system",
+      "examples": [ "2025-03-27" ],
       "type": "string",
-      "format": "date",
-      "description": "Date this document was exported from the producing system.",
-      "examples": ["2025-03-27"]
+      "format": "date"
     },
     "exportedBy": {
+      "description": "The person who exported or prepared this document",
       "type": "object",
-      "description": "The person who exported or prepared this document.",
       "properties": {
         "name": {
-          "type": "string",
-          "description": "Name of the person who exported the document.",
-          "examples": ["James Davies", "Priya Sharma", "Yuki Tanaka", "Fatima Al-Hassan", "Kwame Mensah"]
+          "description": "Name of the person who exported the document",
+          "examples": [
+            "James Davies",
+            "Priya Sharma",
+            "Yuki Tanaka",
+            "Fatima Al-Hassan",
+            "Kwame Mensah"
+          ],
+          "type": "string"
         },
         "email": {
+          "description": "Email address of the person who exported the document",
+          "examples": [ "james.davies@example.com" ],
           "type": "string",
-          "format": "email",
-          "description": "Email address of the person who exported the document.",
-          "examples": ["james.davies@example.com"]
+          "format": "email"
         },
         "organisationName": {
-          "type": "string",
-          "description": "Organisation the exporter works for.",
-          "examples": ["Irwin Mitchell LLP", "MyFamilyInherits.com"]
+          "description": "Organisation the exporter works for",
+          "examples": [ "Irwin Mitchell LLP", "MyFamilyInherits.com" ],
+          "type": "string"
         }
       },
       "additionalProperties": false
     },
     "generator": {
+      "description": "The software that generated this INHERIT document",
       "type": "object",
-      "description": "The software that generated this INHERIT document.",
+      "required": [ "name" ],
       "properties": {
         "name": {
-          "type": "string",
-          "description": "Name of the generating software.",
-          "examples": ["MyFamilyInherits", "LegacyLists WillWriter Pro", "INHERIT CLI"]
+          "description": "Name of the generating software",
+          "examples": [
+            "MyFamilyInherits",
+            "LegacyLists WillWriter Pro",
+            "INHERIT CLI"
+          ],
+          "type": "string"
         },
         "version": {
-          "type": "string",
-          "description": "Version of the generating software.",
-          "examples": ["2.1.0", "1.0.0-beta.3"]
+          "description": "Version of the generating software",
+          "examples": [ "2.1.0", "1.0.0-beta.3" ],
+          "type": "string"
         },
         "url": {
-          "type": "string",
-          "description": "URL of the generating software or organisation.",
-          "examples": ["https://www.myfamilyinherits.com", "https://www.legacylists.com"]
+          "description": "URL of the generating software or organisation",
+          "examples": [
+            "https://www.myfamilyinherits.com",
+            "https://www.legacylists.com"
+          ],
+          "type": "string"
         }
       },
-      "required": ["name"],
       "additionalProperties": false
     },
     "estate": {
-      "$ref": "estate.json",
-      "description": "The single estate record for this document."
+      "description": "The single estate record for this document",
+      "$ref": "estate.json"
     },
     "people": {
+      "description": "All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc",
       "type": "array",
-      "items": { "$ref": "person.json" },
-      "description": "All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc."
+      "items": {
+        "$ref": "person.json"
+      }
     },
     "kinships": {
+      "description": "Familial bonds between people in the estate. Essential for intestacy calculations",
       "type": "array",
-      "items": { "$ref": "kinship.json" },
-      "description": "Familial bonds between people in the estate. Essential for intestacy calculations."
+      "items": {
+        "$ref": "kinship.json"
+      }
     },
     "relationships": {
+      "description": "Spousal and partnership relationships. Determines marital property rights and surviving spouse claims",
       "type": "array",
-      "items": { "$ref": "relationship.json" },
-      "description": "Spousal and partnership relationships. Determines marital property rights and surviving spouse claims."
+      "items": {
+        "$ref": "relationship.json"
+      }
     },
     "properties": {
+      "description": "Real estate owned or partly owned by the testator",
       "type": "array",
-      "items": { "$ref": "property.json" },
-      "description": "Real estate owned or partly owned by the testator."
+      "items": {
+        "$ref": "property.json"
+      }
     },
     "assets": {
+      "description": "Non-property assets — financial accounts, personal property, vehicles, digital assets, etc",
       "type": "array",
-      "items": { "$ref": "asset.json" },
-      "description": "Non-property assets — financial accounts, personal property, vehicles, digital assets, etc."
+      "items": {
+        "$ref": "asset.json"
+      }
     },
     "assetCollections": {
+      "description": "Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value",
       "type": "array",
-      "items": { "$ref": "asset-collection.json" },
-      "description": "Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value."
+      "items": {
+        "$ref": "asset-collection.json"
+      }
     },
     "assetInterests": {
+      "description": "Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation",
       "type": "array",
-      "items": { "$ref": "asset-interest.json" },
-      "description": "Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation."
+      "items": {
+        "$ref": "asset-interest.json"
+      }
     },
     "liabilities": {
+      "description": "Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt)",
       "type": "array",
-      "items": { "$ref": "liability.json" },
-      "description": "Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt)."
+      "items": {
+        "$ref": "liability.json"
+      }
     },
     "bequests": {
+      "description": "Dispositions of property or money in the will",
       "type": "array",
-      "items": { "$ref": "bequest.json" },
-      "description": "Dispositions of property or money in the will."
+      "items": {
+        "$ref": "bequest.json"
+      }
     },
     "trusts": {
+      "description": "Trusts — testamentary or inter vivos — associated with the estate",
       "type": "array",
-      "items": { "$ref": "trust.json" },
-      "description": "Trusts — testamentary or inter vivos — associated with the estate."
+      "items": {
+        "$ref": "trust.json"
+      }
     },
     "executors": {
+      "description": "Persons appointed to administer the estate",
       "type": "array",
-      "items": { "$ref": "executor.json" },
-      "description": "Persons appointed to administer the estate."
+      "items": {
+        "$ref": "executor.json"
+      }
     },
     "guardians": {
+      "description": "Guardian appointments for minor children",
       "type": "array",
-      "items": { "$ref": "guardian.json" },
-      "description": "Guardian appointments for minor children."
+      "items": {
+        "$ref": "guardian.json"
+      }
     },
     "wishes": {
+      "description": "Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate",
       "type": "array",
-      "items": { "$ref": "wish.json" },
-      "description": "Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate."
+      "items": {
+        "$ref": "wish.json"
+      }
     },
     "documents": {
+      "description": "Documents associated with the estate — wills, codicils, trust deeds, certificates",
       "type": "array",
-      "items": { "$ref": "document.json" },
-      "description": "Documents associated with the estate — wills, codicils, trust deeds, certificates."
+      "items": {
+        "$ref": "document.json"
+      }
     },
     "nonprobateTransfers": {
+      "description": "Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations",
       "type": "array",
-      "items": { "$ref": "nonprobate-transfer.json" },
-      "description": "Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations."
+      "items": {
+        "$ref": "nonprobate-transfer.json"
+      }
     },
     "proxyAuthorisations": {
+      "description": "Authorisations for proxies to act on behalf of the testator",
       "type": "array",
-      "items": { "$ref": "proxy-authorisation.json" },
-      "description": "Authorisations for proxies to act on behalf of the testator."
+      "items": {
+        "$ref": "proxy-authorisation.json"
+      }
     },
     "valuations": {
+      "description": "Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers",
       "type": "array",
-      "items": { "$ref": "valuation.json" },
-      "description": "Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers."
+      "items": {
+        "$ref": "valuation.json"
+      }
     },
     "lifetimeTransfers": {
+      "description": "Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc",
       "type": "array",
-      "items": { "$ref": "lifetime-transfer.json" },
-      "description": "Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc."
+      "items": {
+        "$ref": "lifetime-transfer.json"
+      }
     },
     "dealerInterests": {
+      "description": "Third-party interest in estate assets — dealers, investors, collectors",
       "type": "array",
-      "items": { "$ref": "dealer-interest.json" },
-      "description": "Third-party interest in estate assets — dealers, investors, collectors."
+      "items": {
+        "$ref": "dealer-interest.json"
+      }
     },
     "dataProvenance": {
-      "type": "string",
-      "enum": ["manual_entry", "ai_extracted", "ocr_scanned", "imported", "migrated", "system_generated"],
+      "description": "Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured",
       "$comment": "manual_entry: data entered by hand by a person. ai_extracted: extracted by an AI model (e.g. INHERIT Scanner). ocr_scanned: extracted via optical character recognition. imported: imported from another system (Clio, LEAP, etc.). migrated: migrated from a legacy format or previous version. system_generated: generated by software without human input.",
-      "description": "Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured.",
-      "examples": ["manual_entry", "ai_extracted"]
+      "examples": [ "manual_entry", "ai_extracted" ],
+      "enum": [
+        "manual_entry",
+        "ai_extracted",
+        "ocr_scanned",
+        "imported",
+        "migrated",
+        "system_generated"
+      ]
     },
     "importSources": {
+      "description": "Systems from which data was imported into this document. Enables audit trail and source tracking",
       "type": "array",
-      "description": "Systems from which data was imported into this document. Enables audit trail and source tracking.",
       "items": {
         "type": "object",
+        "required": [ "id", "systemName" ],
         "properties": {
           "id": {
-            "type": "string",
-            "description": "Unique identifier for this import source, referenced by importSourceId on entities.",
-            "examples": ["src-clio-001", "src-paper-file"]
+            "description": "Unique identifier for this import source, referenced by importSourceId on entities",
+            "examples": [ "src-clio-001", "src-paper-file" ],
+            "type": "string"
           },
           "systemName": {
-            "type": "string",
-            "description": "Name of the source system.",
-            "examples": ["Clio Manage", "LEAP Legal Software", "Paper file", "Previous solicitor's firm", "LegacyLists"]
+            "description": "Name of the source system",
+            "examples": [
+              "Clio Manage",
+              "LEAP Legal Software",
+              "Paper file",
+              "Previous solicitor's firm",
+              "LegacyLists"
+            ],
+            "type": "string"
           },
           "importDate": {
+            "description": "Date the data was imported from this source",
+            "examples": [ "2026-03-15" ],
             "type": "string",
-            "format": "date",
-            "description": "Date the data was imported from this source.",
-            "examples": ["2026-03-15"]
+            "format": "date"
           },
           "importMethod": {
-            "type": "string",
-            "enum": ["api", "file_upload", "manual_copy", "ai_extraction", "ocr", "migration_script"],
+            "description": "How the data was imported from this source",
             "$comment": "api: imported via API integration. file_upload: imported from an uploaded file (CSV, JSON, etc.). manual_copy: manually copied from the source. ai_extraction: extracted by an AI model from documents or images. ocr: extracted via optical character recognition from scanned documents. migration_script: automated migration from a legacy system.",
-            "description": "How the data was imported from this source."
+            "enum": [
+              "api",
+              "file_upload",
+              "manual_copy",
+              "ai_extraction",
+              "ocr",
+              "migration_script"
+            ]
           },
           "notes": {
-            "type": "string",
-            "description": "Additional context about the import.",
-            "examples": ["Migrated from Clio matter #12345 — assets and liabilities only"]
+            "description": "Additional context about the import",
+            "examples": [
+              "Migrated from Clio matter #12345 — assets and liabilities only"
+            ],
+            "type": "string"
           }
         },
-        "required": ["id", "systemName"],
         "additionalProperties": false
       }
     },
     "completeness": {
-      "$ref": "common/completeness.json",
-      "description": "Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is."
+      "description": "Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is",
+      "$ref": "common/completeness.json"
     },
     "taxPosition": {
-      "$ref": "common/tax-position.json",
-      "description": "Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice."
+      "description": "Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice",
+      "$ref": "common/tax-position.json"
     },
     "recommendedActions": {
+      "description": "Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage",
       "type": "array",
-      "description": "Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage.",
       "items": {
         "type": "object",
+        "required": [ "id", "category", "priority", "title", "status" ],
         "properties": {
           "id": {
-            "type": "string",
-            "description": "Unique identifier for this action.",
-            "examples": ["act-001", "act-val-shares"]
+            "description": "Unique identifier for this action",
+            "examples": [ "act-001", "act-val-shares" ],
+            "type": "string"
           },
           "category": {
-            "type": "string",
-            "enum": ["completeness", "tax_planning", "legal_requirement", "valuation", "transfer_history", "beneficiary_review", "document_update"],
+            "description": "Category of the recommended action",
             "$comment": "completeness: filling data gaps. tax_planning: optimizing tax position. legal_requirement: meeting statutory obligations. valuation: getting or updating valuations. transfer_history: documenting lifetime gifts. beneficiary_review: reviewing nominations and designations. document_update: updating legal documents.",
-            "description": "Category of the recommended action."
+            "enum": [
+              "completeness",
+              "tax_planning",
+              "legal_requirement",
+              "valuation",
+              "transfer_history",
+              "beneficiary_review",
+              "document_update"
+            ]
           },
           "priority": {
-            "type": "string",
-            "enum": ["critical", "high", "medium", "low"],
+            "description": "Priority level for this action",
             "$comment": "critical: must address immediately — legal deadline or compliance risk. high: should address soon — significant financial or legal impact. medium: address when convenient — improves estate plan quality. low: nice to have — marginal improvement.",
-            "description": "Priority level for this action."
+            "enum": [ "critical", "high", "medium", "low" ]
           },
           "title": {
-            "type": "string",
-            "description": "Short action title.",
-            "examples": ["Get professional valuation for share portfolio", "Update pension nomination", "Document lifetime gifts in lookback period"]
+            "description": "Short action title",
+            "examples": [
+              "Get professional valuation for share portfolio",
+              "Update pension nomination",
+              "Document lifetime gifts in lookback period"
+            ],
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "description": "Detailed explanation of what to do and why."
+            "description": "Detailed explanation of what to do and why",
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "enum": ["pending", "in_progress", "completed", "dismissed"],
+            "description": "Current status of this action",
             "$comment": "pending: not yet started. in_progress: being worked on. completed: done. dismissed: user chose not to act on this.",
-            "description": "Current status of this action."
+            "enum": [ "pending", "in_progress", "completed", "dismissed" ]
           },
           "triggeredBy": {
-            "type": "string",
-            "description": "What data gap or condition generated this action.",
-            "examples": ["Asset 'Barclays shares' has estimatedValue > £50,000 but no professional valuation", "No executor appointed", "Pension has no nominated beneficiary"]
+            "description": "What data gap or condition generated this action",
+            "examples": [
+              "Asset 'Barclays shares' has estimatedValue > £50,000 but no professional valuation",
+              "No executor appointed",
+              "Pension has no nominated beneficiary"
+            ],
+            "type": "string"
           },
           "relatedEntityType": {
-            "type": "string",
-            "description": "Entity type this action relates to.",
-            "examples": ["asset", "person", "estate", "bequest"]
+            "description": "Entity type this action relates to",
+            "examples": [ "asset", "person", "estate", "bequest" ],
+            "type": "string"
           },
           "relatedEntityId": {
+            "description": "ID of the specific entity this action relates to",
             "type": "string",
-            "format": "uuid",
-            "description": "ID of the specific entity this action relates to."
+            "format": "uuid"
           }
         },
-        "required": ["id", "category", "priority", "title", "status"],
         "additionalProperties": false
       }
     },
     "conformance": {
+      "description": "Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation",
       "type": "object",
-      "description": "Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation.",
+      "required": [ "level", "validatedAt", "validatedBy", "schemaVersion" ],
       "properties": {
         "level": {
-          "type": "string",
-          "enum": ["level_1", "level_2", "level_3"],
+          "description": "Conformance level achieved",
           "$comment": "level_1: structural validity — document parses and validates against JSON Schema. level_2: referential integrity — all cross-references resolve. level_3: jurisdiction complete — all required fields for the estate's jurisdiction are present.",
-          "description": "Conformance level achieved."
+          "enum": [ "level_1", "level_2", "level_3" ]
         },
         "validatedAt": {
+          "description": "When the validation was performed",
+          "examples": [ "2026-03-28T14:00:00Z" ],
           "type": "string",
-          "format": "date-time",
-          "description": "When the validation was performed.",
-          "examples": ["2026-03-28T14:00:00Z"]
+          "format": "date-time"
         },
         "validatedBy": {
-          "type": "string",
-          "description": "Name of the tool that performed the validation.",
-          "examples": ["INHERIT Web Validator", "MyFamilyInherits v2.1", "openinherit-cli"]
+          "description": "Name of the tool that performed the validation",
+          "examples": [
+            "INHERIT Web Validator",
+            "MyFamilyInherits v2.1",
+            "openinherit-cli"
+          ],
+          "type": "string"
         },
         "schemaVersion": {
-          "type": "string",
-          "description": "INHERIT schema version this document was validated against.",
-          "examples": ["1.2.0"]
+          "description": "INHERIT schema version this document was validated against",
+          "examples": [ "1.2.0" ],
+          "type": "string"
         },
         "completenessScore": {
+          "description": "Completeness score at time of validation",
           "type": "integer",
-          "minimum": 0,
           "maximum": 100,
-          "description": "Completeness score at time of validation."
+          "minimum": 0
         },
         "entityCounts": {
+          "description": "Count of entities per type at time of validation",
+          "examples": [
+            {
+              "people": 5,
+              "properties": 2,
+              "assets": 12,
+              "bequests": 4,
+              "executors": 2
+            }
+          ],
           "type": "object",
-          "description": "Count of entities per type at time of validation.",
-          "additionalProperties": { "type": "integer" },
-          "examples": [{ "people": 5, "properties": 2, "assets": 12, "bequests": 4, "executors": 2 }]
+          "additionalProperties": {
+            "type": "integer"
+          }
         },
         "provenanceSummary": {
+          "description": "Count of entities by data provenance source",
+          "examples": [
+            {
+              "manual_entry": 15,
+              "ai_extracted": 8,
+              "imported": 3
+            }
+          ],
           "type": "object",
-          "description": "Count of entities by data provenance source.",
-          "additionalProperties": { "type": "integer" },
-          "examples": [{ "manual_entry": 15, "ai_extracted": 8, "imported": 3 }]
+          "additionalProperties": {
+            "type": "integer"
+          }
         },
         "warnings": {
+          "description": "Validation warnings — non-blocking issues that may need attention",
+          "examples": [
+            [
+              "2 assets have estimated but no professional valuation",
+              "Lifetime transfer history covers only 5 of 7 required lookback years"
+            ]
+          ],
           "type": "array",
-          "items": { "type": "string" },
-          "description": "Validation warnings — non-blocking issues that may need attention.",
-          "examples": [["2 assets have estimated but no professional valuation", "Lifetime transfer history covers only 5 of 7 required lookback years"]]
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": ["level", "validatedAt", "validatedBy", "schemaVersion"],
       "additionalProperties": false
     },
     "legacyContacts": {
+      "description": "People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here",
       "type": "array",
-      "description": "People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here.",
       "items": {
         "type": "object",
+        "required": [ "id", "name", "accessLevel" ],
         "properties": {
           "id": {
+            "description": "Unique identifier for this legacy contact",
             "type": "string",
-            "format": "uuid",
-            "description": "Unique identifier for this legacy contact."
+            "format": "uuid"
           },
           "personId": {
+            "description": "Reference to a Person.id, if the legacy contact is also in the people array",
             "type": "string",
-            "format": "uuid",
-            "description": "Reference to a Person.id, if the legacy contact is also in the people array."
+            "format": "uuid"
           },
           "name": {
+            "description": "Display name — required because catalogue-only documents may not have a people array",
+            "examples": [ "Paul Frith", "Sarah Davies" ],
             "type": "string",
-            "minLength": 1,
-            "description": "Display name — required because catalogue-only documents may not have a people array.",
-            "examples": ["Paul Frith", "Sarah Davies"]
+            "minLength": 1
           },
           "relationship": {
-            "type": "string",
-            "description": "Relationship to the catalogue/estate owner.",
-            "examples": ["son", "daughter", "partner", "friend", "solicitor"]
+            "description": "Relationship to the catalogue/estate owner",
+            "examples": [ "son", "daughter", "partner", "friend", "solicitor" ],
+            "type": "string"
           },
           "email": {
+            "description": "Email address for notification",
             "type": "string",
-            "format": "email",
-            "description": "Email address for notification."
+            "format": "email"
           },
           "phone": {
-            "type": "string",
-            "description": "Phone number."
+            "description": "Phone number",
+            "type": "string"
           },
           "notificationMethod": {
-            "type": "string",
-            "enum": ["email", "phone", "post", "in_person"],
+            "description": "How to notify this person",
             "$comment": "email: send notification by email. phone: call or text. post: physical letter. in_person: notify face to face.",
-            "description": "How to notify this person."
+            "enum": [ "email", "phone", "post", "in_person" ]
           },
           "accessLevel": {
-            "type": "string",
-            "enum": ["full", "read_only", "collection_only", "financial_only"],
+            "description": "What level of access this person should receive",
             "$comment": "full: complete access to all data. read_only: can view but not modify. collection_only: can only see asset collections and items. financial_only: can only see financial information.",
-            "description": "What level of access this person should receive."
+            "enum": [ "full", "read_only", "collection_only", "financial_only" ]
           },
           "letterGenerated": {
-            "type": "boolean",
-            "description": "Whether the 'Please open when I have passed away' letter has been generated for this contact."
+            "description": "Whether the 'Please open when I have passed away' letter has been generated for this contact",
+            "type": "boolean"
           },
           "letterGeneratedAt": {
+            "description": "When the letter was last generated",
             "type": "string",
-            "format": "date-time",
-            "description": "When the letter was last generated."
+            "format": "date-time"
           },
           "letterDeliveryMethod": {
-            "type": "string",
-            "enum": ["printed", "digital", "both"],
-            "description": "How the letter was or should be delivered."
+            "description": "How the letter was or should be delivered",
+            "enum": [ "printed", "digital", "both" ]
           },
           "notes": {
-            "type": "string",
-            "description": "Additional notes about this legacy contact."
+            "description": "Additional notes about this legacy contact",
+            "type": "string"
           }
         },
-        "required": ["id", "name", "accessLevel"],
         "additionalProperties": false
       }
     },
     "extensions": {
-      "type": "array",
-      "items": { "type": "string" },
+      "description": "URIs of extension schemas applied to this document. Consumers should load and validate against these extensions",
       "$comment": "URIs of extension schemas applied to this document.",
-      "description": "URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.",
-      "examples": [["https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json", "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json"]]
+      "examples": [
+        [
+          "https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json",
+          "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json"
+        ]
+      ],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
-  "required": [
-    "inherit", "version", "estate",
-    "people", "kinships", "relationships", "properties", "assets",
-    "liabilities", "bequests", "trusts", "executors", "guardians",
-    "wishes", "documents", "nonprobateTransfers", "proxyAuthorisations",
-    "dealerInterests"
-  ],
   "patternProperties": {
     "^x-inherit-": {
       "$comment": "Extension data blocks. Each can contain any structure incl. arrays. Extension schema validates."

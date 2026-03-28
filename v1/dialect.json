@@ -11,11 +11,7 @@
     "https://json-schema.org/draft/2020-12/vocab/format-annotation": true
   },
   "title": "INHERIT v1 Dialect",
-  "description": "Custom metaschema for the INHERIT v1 schema suite. Extends JSON Schema 2020-12. Format keywords are intended to be validated \u2014 see $comment for tooling compatibility notes.",
-  "allOf": [
-    {
-      "$ref": "https://json-schema.org/draft/2020-12/schema"
-    }
-  ],
-  "$comment": "INHERIT intends format keywords (uuid, email, date-time, uri) to be validated, not just annotated. The format-assertion vocabulary is not yet supported by all tooling (including the Sourcemeta CLI), so we declare format-annotation here for compatibility. AJV enforces format validation via validateFormats: true. When tooling catches up, switch to format-assertion."
+  "description": "Custom metaschema for the INHERIT v1 schema suite. Extends JSON Schema 2020-12. Format keywords are intended to be validated — see $comment for tooling compatibility notes",
+  "$comment": "INHERIT intends format keywords (uuid, email, date-time, uri) to be validated, not just annotated. The format-assertion vocabulary is not yet supported by all tooling (including the Sourcemeta CLI), so we declare format-annotation here for compatibility. AJV enforces format validation via validateFormats: true. When tooling catches up, switch to format-assertion.",
+  "$ref": "https://json-schema.org/draft/2020-12/schema"
 }

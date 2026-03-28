@@ -2,43 +2,36 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/guardian.json",
   "title": "Guardian",
-  "description": "A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined.",
+  "description": "A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined",
   "type": "object",
+  "required": [ "id", "personId", "childPersonId", "role", "appointmentType" ],
   "properties": {
     "id": {
+      "description": "Unique identifier for this guardian appointment within the INHERIT document",
+      "examples": [ "d0e1f2a3-b4c5-6789-d012-3456789abcde" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this guardian appointment within the INHERIT document.",
-      "examples": [
-        "d0e1f2a3-b4c5-6789-d012-3456789abcde"
-      ]
+      "format": "uuid"
     },
     "personId": {
+      "description": "Reference to the Person.id of the guardian being appointed",
       "type": "string",
-      "format": "uuid",
-      "description": "Reference to the Person.id of the guardian being appointed."
+      "format": "uuid"
     },
     "childPersonId": {
+      "description": "Reference to the Person.id of the child this guardian is appointed for",
       "type": "string",
-      "format": "uuid",
-      "description": "Reference to the Person.id of the child this guardian is appointed for."
+      "format": "uuid"
     },
     "role": {
-      "type": "string",
-      "enum": [
-        "primary",
-        "secondary",
-        "substitute"
-      ],
+      "description": "The guardian's priority in the appointment",
       "$comment": "primary: the first-choice guardian. secondary: acts alongside the primary or takes over if primary cannot act. substitute: named replacement if primary and secondary cannot act.",
-      "description": "The guardian's priority in the appointment.",
-      "examples": [
-        "primary",
-        "substitute"
-      ]
+      "examples": [ "primary", "substitute" ],
+      "enum": [ "primary", "secondary", "substitute" ]
     },
     "appointmentType": {
-      "type": "string",
+      "description": "How this guardian was appointed",
+      "$comment": "testamentary: appointed by the parent in their will. parental_responsibility: appointed by a parent with parental responsibility under statute (e.g. Children Act 1989 s.5). court_appointed: appointed by a secular court. shariah_court_appointed: appointed by a Shariah court — Islamic guardianship (hadanah/wilayah). community_appointed: appointed by a community body (e.g. family council in West Africa). religious_court_appointed: appointed by a religious court other than Shariah (e.g. beth din).",
+      "examples": [ "testamentary", "court_appointed" ],
       "enum": [
         "testamentary",
         "parental_responsibility",
@@ -46,65 +39,48 @@
         "shariah_court_appointed",
         "community_appointed",
         "religious_court_appointed"
-      ],
-      "$comment": "testamentary: appointed by the parent in their will. parental_responsibility: appointed by a parent with parental responsibility under statute (e.g. Children Act 1989 s.5). court_appointed: appointed by a secular court. shariah_court_appointed: appointed by a Shariah court — Islamic guardianship (hadanah/wilayah). community_appointed: appointed by a community body (e.g. family council in West Africa). religious_court_appointed: appointed by a religious court other than Shariah (e.g. beth din).",
-      "description": "How this guardian was appointed.",
-      "examples": [
-        "testamentary",
-        "court_appointed"
       ]
     },
     "guardianshipStructure": {
-      "type": "string",
+      "description": "The structure of the guardianship arrangement",
+      "$comment": "individual: one named guardian. collective: multiple guardians acting jointly. rotating: guardianship rotates among family members (common in some African customary systems). family_council_determined: a family council determines the guardian — the will names the mechanism rather than the person.",
+      "examples": [ "individual", "collective" ],
       "enum": [
         "individual",
         "collective",
         "rotating",
         "family_council_determined"
-      ],
-      "$comment": "individual: one named guardian. collective: multiple guardians acting jointly. rotating: guardianship rotates among family members (common in some African customary systems). family_council_determined: a family council determines the guardian — the will names the mechanism rather than the person.",
-      "description": "The structure of the guardianship arrangement.",
-      "examples": [
-        "individual",
-        "collective"
       ]
     },
     "familyCouncilDecisionRef": {
-      "type": "string",
+      "description": "Reference to the family council decision that appointed this guardian, if the appointment was council-determined",
       "$comment": "Reference to a family council decision document or record.",
-      "description": "Reference to the family council decision that appointed this guardian, if the appointment was council-determined.",
       "examples": [
         "FC/2025/001 — Ogbuagu family council decision of 15 March 2025"
-      ]
+      ],
+      "type": "string"
     },
     "conditions": {
-      "type": "string",
-      "description": "Conditions on the guardianship — when it takes effect, any restrictions, or circumstances under which it lapses.",
+      "description": "Conditions on the guardianship — when it takes effect, any restrictions, or circumstances under which it lapses",
       "examples": [
         "Takes effect only if both parents die before the child reaches 18",
         "Guardian must maintain the child's existing school placement"
-      ]
+      ],
+      "type": "string"
     },
     "notes": {
-      "type": "string",
-      "description": "Free-text notes about this guardianship appointment.",
+      "description": "Free-text notes about this guardianship appointment",
       "examples": [
         "Guardian lives in Canada — may need to apply for child's visa",
         "Both parents wish the child to be raised in the Islamic faith",
         "Guardian Auntie Lakshmi confirmed — child to continue at current school in Mumbai",
         "Kwame Mensah agreed to act as guardian — family council approved"
-      ]
+      ],
+      "type": "string"
     }
   },
-  "required": [
-    "id",
-    "personId",
-    "childPersonId",
-    "role",
-    "appointmentType"
-  ],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

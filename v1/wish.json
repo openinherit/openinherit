@@ -2,19 +2,20 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/wish.json",
   "title": "Wish",
-  "description": "A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences.",
+  "description": "A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences",
   "type": "object",
+  "required": [ "id", "wishType", "title" ],
   "properties": {
     "id": {
+      "description": "Unique identifier for this wish within the INHERIT document",
+      "examples": [ "e1f2a3b4-c5d6-7890-e123-456789abcdef" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this wish within the INHERIT document.",
-      "examples": [
-        "e1f2a3b4-c5d6-7890-e123-456789abcdef"
-      ]
+      "format": "uuid"
     },
     "wishType": {
-      "type": "string",
+      "description": "The category of wish. Wishes may be non-binding in law but culturally or religiously obligatory",
+      "$comment": "funeral: wishes about funeral arrangements — burial vs cremation, ceremony type, music, readings. letter: a letter of wishes to executors or family — guidance on how to exercise discretion. care: care instructions for a dependant (elderly parent, disabled family member). distribution: preferences about how specific items should be distributed informally. digital: instructions for digital accounts and online presence. pets: care arrangements for animals. general: any wish not covered by the other categories.",
+      "examples": [ "funeral", "letter", "pets" ],
       "enum": [
         "funeral",
         "letter",
@@ -23,76 +24,60 @@
         "digital",
         "pets",
         "general"
-      ],
-      "$comment": "funeral: wishes about funeral arrangements — burial vs cremation, ceremony type, music, readings. letter: a letter of wishes to executors or family — guidance on how to exercise discretion. care: care instructions for a dependant (elderly parent, disabled family member). distribution: preferences about how specific items should be distributed informally. digital: instructions for digital accounts and online presence. pets: care arrangements for animals. general: any wish not covered by the other categories.",
-      "description": "The category of wish. Wishes may be non-binding in law but culturally or religiously obligatory.",
-      "examples": [
-        "funeral",
-        "letter",
-        "pets"
       ]
     },
     "title": {
-      "type": "string",
-      "description": "A short descriptive title for this wish.",
+      "description": "A short descriptive title for this wish",
       "examples": [
         "Funeral wishes",
         "Letter to my executors",
         "Care of my dog Biscuit",
         "Digital accounts instructions"
-      ]
+      ],
+      "type": "string"
     },
     "content": {
-      "type": "string",
-      "description": "The full text content of the wish. May be lengthy for letters of wishes.",
+      "description": "The full text content of the wish. May be lengthy for letters of wishes",
       "examples": [
         "I wish to be cremated and my ashes scattered at Coniston Water",
         "Please ensure my cat Mochi is rehomed with my sister Akiko",
         "Burial in accordance with Islamic rites — contact Imam Hassan at the East London Mosque",
         "Please ensure my dog is cared for by my nephew Tendai"
-      ]
+      ],
+      "type": "string"
     },
     "bindingNature": {
-      "type": "string",
+      "description": "The legal or moral force of this wish. Most wishes are non-binding but may carry significant cultural or religious weight",
+      "$comment": "non_binding: carries no legal force — guidance only. culturally_obligatory: expected to be followed under cultural norms (e.g. African burial customs). religiously_obligatory: required under religious law (e.g. Islamic burial within 24 hours, Jewish tahara). legally_binding: enforceable by law in the relevant jurisdiction (rare for wishes — most are advisory).",
+      "examples": [ "non_binding", "religiously_obligatory" ],
       "enum": [
         "non_binding",
         "culturally_obligatory",
         "religiously_obligatory",
         "legally_binding"
-      ],
-      "$comment": "non_binding: carries no legal force — guidance only. culturally_obligatory: expected to be followed under cultural norms (e.g. African burial customs). religiously_obligatory: required under religious law (e.g. Islamic burial within 24 hours, Jewish tahara). legally_binding: enforceable by law in the relevant jurisdiction (rare for wishes — most are advisory).",
-      "description": "The legal or moral force of this wish. Most wishes are non-binding but may carry significant cultural or religious weight.",
-      "examples": [
-        "non_binding",
-        "religiously_obligatory"
       ]
     },
     "addresseePersonId": {
+      "description": "Reference to the Person.id this wish is addressed to — typically an executor, guardian, or family member",
       "type": "string",
-      "format": "uuid",
-      "description": "Reference to the Person.id this wish is addressed to — typically an executor, guardian, or family member."
+      "format": "uuid"
     },
     "relatedAssetId": {
+      "description": "Reference to an Asset.id this wish relates to (e.g. a pet, a digital account, a specific item)",
       "type": "string",
-      "format": "uuid",
-      "description": "Reference to an Asset.id this wish relates to (e.g. a pet, a digital account, a specific item)."
+      "format": "uuid"
     },
     "notes": {
-      "type": "string",
-      "description": "Additional notes about this wish.",
+      "description": "Additional notes about this wish",
       "examples": [
         "Written in consultation with Imam Hassan — follows Hanafi funeral practice",
         "Updated after acquiring second dog in 2024"
-      ]
+      ],
+      "type": "string"
     }
   },
-  "required": [
-    "id",
-    "wishType",
-    "title"
-  ],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }

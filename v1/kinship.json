@@ -2,19 +2,24 @@
   "$schema": "https://openinherit.org/v1/dialect.json",
   "$id": "https://openinherit.org/v1/kinship.json",
   "title": "Kinship",
-  "description": "A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json.",
+  "description": "A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json",
   "type": "object",
+  "required": [ "id", "kinshipType", "fromPersonId", "toPersonId" ],
   "properties": {
     "id": {
+      "description": "Unique identifier for this kinship bond within the INHERIT document",
+      "examples": [ "a3b4c5d6-e7f8-9012-a345-6789abcdef01" ],
       "type": "string",
-      "format": "uuid",
-      "description": "Unique identifier for this kinship bond within the INHERIT document.",
-      "examples": [
-        "a3b4c5d6-e7f8-9012-a345-6789abcdef01"
-      ]
+      "format": "uuid"
     },
     "kinshipType": {
-      "type": "string",
+      "description": "The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems",
+      "$comment": "PARENT_CHILD_BIOLOGICAL: natural parent-child relationship. PARENT_CHILD_ADOPTED: legally adopted child — treated as biological for most inheritance purposes. PARENT_CHILD_STEP: stepchild — typically no automatic inheritance rights unless adopted. PARENT_CHILD_FOSTER: foster child — rarely has inheritance rights. PARENT_CHILD_ACKNOWLEDGED: father acknowledges a child of uncertain parentage — relevant for Islamic inheritance. SIBLING: full sibling (same two parents). HALF_SIBLING_PATERNAL: same father, different mother — critical for Islamic faraid where paternal half-siblings inherit differently from maternal half-siblings. HALF_SIBLING_MATERNAL: same mother, different father — inherits differently from paternal half-siblings under Islamic law. STEP_SIBLING: child of a parent's spouse from a different relationship. GRANDPARENT_GRANDCHILD: grandparent to grandchild relationship. UNCLE_NEPHEW: uncle to nephew/niece — supports matrilineal African succession (maternal uncle inherits) and Islamic ta'sib hierarchy. AUNT_NEPHEW: aunt to nephew/niece — relevant for matrilineal succession systems.",
+      "examples": [
+        "PARENT_CHILD_BIOLOGICAL",
+        "SIBLING",
+        "HALF_SIBLING_PATERNAL"
+      ],
       "enum": [
         "PARENT_CHILD_BIOLOGICAL",
         "PARENT_CHILD_ADOPTED",
@@ -28,88 +33,52 @@
         "GRANDPARENT_GRANDCHILD",
         "UNCLE_NEPHEW",
         "AUNT_NEPHEW"
-      ],
-      "$comment": "PARENT_CHILD_BIOLOGICAL: natural parent-child relationship. PARENT_CHILD_ADOPTED: legally adopted child — treated as biological for most inheritance purposes. PARENT_CHILD_STEP: stepchild — typically no automatic inheritance rights unless adopted. PARENT_CHILD_FOSTER: foster child — rarely has inheritance rights. PARENT_CHILD_ACKNOWLEDGED: father acknowledges a child of uncertain parentage — relevant for Islamic inheritance. SIBLING: full sibling (same two parents). HALF_SIBLING_PATERNAL: same father, different mother — critical for Islamic faraid where paternal half-siblings inherit differently from maternal half-siblings. HALF_SIBLING_MATERNAL: same mother, different father — inherits differently from paternal half-siblings under Islamic law. STEP_SIBLING: child of a parent's spouse from a different relationship. GRANDPARENT_GRANDCHILD: grandparent to grandchild relationship. UNCLE_NEPHEW: uncle to nephew/niece — supports matrilineal African succession (maternal uncle inherits) and Islamic ta'sib hierarchy. AUNT_NEPHEW: aunt to nephew/niece — relevant for matrilineal succession systems.",
-      "description": "The type of familial bond. The distinction between paternal and maternal half-siblings is critical for Islamic and some customary inheritance systems.",
-      "examples": [
-        "PARENT_CHILD_BIOLOGICAL",
-        "SIBLING",
-        "HALF_SIBLING_PATERNAL"
       ]
     },
     "fromPersonId": {
+      "description": "The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent",
       "type": "string",
-      "format": "uuid",
-      "description": "The parent, elder, or senior person in this kinship bond (Person.id). For parent-child types, this is always the parent."
+      "format": "uuid"
     },
     "toPersonId": {
+      "description": "The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child",
       "type": "string",
-      "format": "uuid",
-      "description": "The child, younger, or junior person in this kinship bond (Person.id). For parent-child types, this is always the child."
+      "format": "uuid"
     },
     "legalStatus": {
-      "type": "string",
-      "enum": [
-        "recognised",
-        "contested",
-        "pending",
-        "unrecognised"
-      ],
+      "description": "The legal recognition status of this familial bond",
       "$comment": "recognised: the kinship is legally established and accepted. contested: the kinship is disputed (e.g. paternity challenge). pending: legal proceedings are underway to establish the kinship. unrecognised: the kinship exists in fact but is not legally recognised.",
-      "description": "The legal recognition status of this familial bond.",
-      "examples": [
-        "recognised",
-        "contested"
-      ]
+      "examples": [ "recognised", "contested" ],
+      "enum": [ "recognised", "contested", "pending", "unrecognised" ]
     },
     "legitimacy": {
-      "type": "string",
-      "enum": [
-        "legitimate",
-        "illegitimate",
-        "legitimated",
-        "not_applicable"
-      ],
+      "description": "Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems",
       "$comment": "legitimate: child born within a recognised marriage. illegitimate: child born outside marriage — affects inheritance in Islamic law (illegitimate children do not inherit via faraid), some African customary systems, and pre-1970 English law. legitimated: born illegitimate but subsequently legitimated (e.g. by parents' later marriage). not_applicable: the jurisdiction has abolished the distinction between legitimate and illegitimate children.",
-      "description": "Legitimacy status. Many modern jurisdictions have abolished this distinction, but it remains critical for Islamic and some customary inheritance systems.",
-      "examples": [
-        "legitimate",
-        "not_applicable"
-      ]
+      "examples": [ "legitimate", "not_applicable" ],
+      "enum": [ "legitimate", "illegitimate", "legitimated", "not_applicable" ]
     },
     "adoptionDate": {
+      "description": "Date of the adoption order, for PARENT_CHILD_ADOPTED kinships",
+      "examples": [ "2018-07-15" ],
       "type": "string",
-      "format": "date",
-      "description": "Date of the adoption order, for PARENT_CHILD_ADOPTED kinships.",
-      "examples": [
-        "2018-07-15"
-      ]
+      "format": "date"
     },
     "courtOrderRef": {
-      "type": "string",
-      "description": "Court order reference or adoption certificate number.",
-      "examples": [
-        "ADOPT/2018/MC/001234",
-        "FC-2020-001567"
-      ]
+      "description": "Court order reference or adoption certificate number",
+      "examples": [ "ADOPT/2018/MC/001234", "FC-2020-001567" ],
+      "type": "string"
     },
     "notes": {
-      "type": "string",
-      "description": "Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition.",
+      "description": "Free-text notes about this kinship. Use for context on contested kinships, acknowledgement records, or customary recognition",
       "examples": [
         "Paternity established by DNA test in 2022",
         "Child acknowledged by father under Islamic law — inheritance rights confirmed"
-      ]
+      ],
+      "type": "string"
     }
   },
-  "required": [
-    "id",
-    "kinshipType",
-    "fromPersonId",
-    "toPersonId"
-  ],
   "patternProperties": {
-    "^x-inherit-": {}
+    "^x-inherit-": true
   },
   "unevaluatedProperties": false
 }
