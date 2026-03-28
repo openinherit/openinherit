@@ -1486,6 +1486,12 @@ export type Person2 = {
      */
     preferredChannel?: 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging';
     /**
+     * Per-field confidence scores (0-100) from AI extraction. Only present on AI-extracted people.
+     */
+    confidenceScores?: {
+        [key: string]: number;
+    };
+    /**
      * External identifiers for this person — passport numbers, national ID, tax reference numbers, etc. Used for probate applications and cross-border identification.
      */
     identifiers?: Array<Identifier2>;
@@ -1592,7 +1598,9 @@ export type Person2 = {
          * Postal address for this person.
          */
         address?: Address2;
-    } | 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging' | Array<Identifier2> | {
+    } | 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging' | {
+        [key: string]: number;
+    } | Array<Identifier2> | {
         /**
          * The full ritual or religious name as used in religious proceedings.
          */
@@ -2189,7 +2197,7 @@ export type Asset2 = {
      */
     valuationConfidence?: 'estimated' | 'professional' | 'official' | 'unknown';
     /**
-     * Physical condition of the asset. Use 'not_applicable' for financial assets where condition is meaningless.
+     * Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless.
      */
     condition?: 'excellent' | 'good' | 'fair' | 'poor' | 'unknown' | 'not_applicable';
     /**
@@ -2209,7 +2217,7 @@ export type Asset2 = {
      */
     identifiers?: Array<Identifier2>;
     /**
-     * Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers.
+     * Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item.
      */
     images?: Array<Media>;
     /**
@@ -2304,11 +2312,11 @@ export type Asset2 = {
      */
     description?: string;
     /**
-     * The manufacturer or brand name. Free text — implementations should offer category-aware suggestions from the category guidance reference data, but any value is valid. Brands change over time (acquisitions, rebrands) so this is not an enum.
+     * The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid.
      */
     brand?: string;
     /**
-     * The specific model, product line, or range name within the brand. Combined with brand and identifiers, this uniquely describes the item to a specialist dealer.
+     * The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory.
      */
     model?: string;
     /**
@@ -2401,6 +2409,63 @@ export type Asset2 = {
      * How this specific entity's data was captured. Overrides the document-level default if set.
      */
     dataProvenance?: 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated';
+    /**
+     * Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving.
+     */
+    searchTerms?: Array<string>;
+    /**
+     * Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers.
+     */
+    comparableSearchProfile?: {
+        /**
+         * Marketplaces and platforms to search.
+         */
+        platforms?: Array<string>;
+        /**
+         * Natural-language query an agent should use.
+         */
+        searchQuery?: string;
+        /**
+         * Key-value filters to narrow results. Agents map to platform-specific parameters.
+         */
+        filters?: {
+            [key: string]: string;
+        };
+        /**
+         * Platforms explicitly excluded.
+         */
+        excludePlatforms?: Array<string>;
+        /**
+         * When an agent last executed this search profile.
+         */
+        lastSearchedAt?: string;
+        /**
+         * How often this item should be re-searched.
+         */
+        searchFrequency?: 'once' | 'weekly' | 'monthly' | 'on_demand';
+    };
+    /**
+     * AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated.
+     */
+    suggestedSubcategory?: string;
+    /**
+     * Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities.
+     */
+    confidenceScores?: {
+        [key: string]: number;
+    };
+    /**
+     * Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation.
+     */
+    valuationReliability?: number;
+    /**
+     * When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them.
+     */
+    lastVerifiedAt?: string;
+    /**
+     * Who or what verified this entity — a person's name, a tool, or 'owner'.
+     */
+    verifiedBy?: string;
     /**
      * Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations.
      */
@@ -2782,7 +2847,36 @@ export type Asset2 = {
          * Additional insurance notes.
          */
         notes?: string;
-    } | 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated' | {
+    } | 'manual_entry' | 'ai_extracted' | 'ocr_scanned' | 'imported' | 'migrated' | 'system_generated' | Array<string> | {
+        /**
+         * Marketplaces and platforms to search.
+         */
+        platforms?: Array<string>;
+        /**
+         * Natural-language query an agent should use.
+         */
+        searchQuery?: string;
+        /**
+         * Key-value filters to narrow results. Agents map to platform-specific parameters.
+         */
+        filters?: {
+            [key: string]: string;
+        };
+        /**
+         * Platforms explicitly excluded.
+         */
+        excludePlatforms?: Array<string>;
+        /**
+         * When an agent last executed this search profile.
+         */
+        lastSearchedAt?: string;
+        /**
+         * How often this item should be re-searched.
+         */
+        searchFrequency?: 'once' | 'weekly' | 'monthly' | 'on_demand';
+    } | {
+        [key: string]: number;
+    } | number | string | {
         /**
          * Name of the company in which shares are held.
          */
@@ -4131,6 +4225,18 @@ export type Comparable = {
      * Free-text notes explaining the comparison — differences, adjustments, or caveats.
      */
     matchNotes?: string;
+    /**
+     * Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support.
+     */
+    matchScore?: number;
+    /**
+     * Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches.
+     */
+    humanVerdict?: 'accepted' | 'rejected' | 'adjusted' | 'not_reviewed';
+    /**
+     * Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch.
+     */
+    rejectionReason?: string;
 };
 
 /**
@@ -4180,7 +4286,7 @@ export type Valuation = {
      */
     confidence?: 'high' | 'medium' | 'low' | 'unknown';
     /**
-     * Comparable sales or listings used to support this valuation. Building a library of comparables strengthens the evidential basis for probate, tax, and insurance purposes.
+     * Comparable items found on marketplaces — used to support the valuation. Agent-generated comparables should include matchScore for quantitative filtering and will accumulate humanVerdict feedback over time.
      */
     comparables?: Array<Comparable>;
     /**
@@ -4608,6 +4714,10 @@ export type TaxPosition = {
  */
 export type Schema = {
     /**
+     * JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies.
+     */
+    '@context'?: string;
+    /**
      * Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document.
      */
     inherit: 'https://openinherit.org/v1/schema.json';
@@ -4857,10 +4967,63 @@ export type Schema = {
         warnings?: Array<string>;
     };
     /**
+     * People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here.
+     */
+    legacyContacts?: Array<{
+        /**
+         * Unique identifier for this legacy contact.
+         */
+        id: string;
+        /**
+         * Reference to a Person.id, if the legacy contact is also in the people array.
+         */
+        personId?: string;
+        /**
+         * Display name — required because catalogue-only documents may not have a people array.
+         */
+        name: string;
+        /**
+         * Relationship to the catalogue/estate owner.
+         */
+        relationship?: string;
+        /**
+         * Email address for notification.
+         */
+        email?: string;
+        /**
+         * Phone number.
+         */
+        phone?: string;
+        /**
+         * How to notify this person.
+         */
+        notificationMethod?: 'email' | 'phone' | 'post' | 'in_person';
+        /**
+         * What level of access this person should receive.
+         */
+        accessLevel: 'full' | 'read_only' | 'collection_only' | 'financial_only';
+        /**
+         * Whether the 'Please open when I have passed away' letter has been generated for this contact.
+         */
+        letterGenerated?: boolean;
+        /**
+         * When the letter was last generated.
+         */
+        letterGeneratedAt?: string;
+        /**
+         * How the letter was or should be delivered.
+         */
+        letterDeliveryMethod?: 'printed' | 'digital' | 'both';
+        /**
+         * Additional notes about this legacy contact.
+         */
+        notes?: string;
+    }>;
+    /**
      * URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
      */
     extensions?: Array<string>;
-    [key: string]: unknown | 'https://openinherit.org/v1/schema.json' | 1 | string | string | {
+    [key: string]: unknown | string | 'https://openinherit.org/v1/schema.json' | 1 | string | string | {
         /**
          * Name of the person who exported the document.
          */
@@ -4981,7 +5144,56 @@ export type Schema = {
          * Validation warnings — non-blocking issues that may need attention.
          */
         warnings?: Array<string>;
-    } | Array<string> | undefined;
+    } | Array<{
+        /**
+         * Unique identifier for this legacy contact.
+         */
+        id: string;
+        /**
+         * Reference to a Person.id, if the legacy contact is also in the people array.
+         */
+        personId?: string;
+        /**
+         * Display name — required because catalogue-only documents may not have a people array.
+         */
+        name: string;
+        /**
+         * Relationship to the catalogue/estate owner.
+         */
+        relationship?: string;
+        /**
+         * Email address for notification.
+         */
+        email?: string;
+        /**
+         * Phone number.
+         */
+        phone?: string;
+        /**
+         * How to notify this person.
+         */
+        notificationMethod?: 'email' | 'phone' | 'post' | 'in_person';
+        /**
+         * What level of access this person should receive.
+         */
+        accessLevel: 'full' | 'read_only' | 'collection_only' | 'financial_only';
+        /**
+         * Whether the 'Please open when I have passed away' letter has been generated for this contact.
+         */
+        letterGenerated?: boolean;
+        /**
+         * When the letter was last generated.
+         */
+        letterGeneratedAt?: string;
+        /**
+         * How the letter was or should be delivered.
+         */
+        letterDeliveryMethod?: 'printed' | 'digital' | 'both';
+        /**
+         * Additional notes about this legacy contact.
+         */
+        notes?: string;
+    }> | Array<string> | undefined;
 };
 
 /**

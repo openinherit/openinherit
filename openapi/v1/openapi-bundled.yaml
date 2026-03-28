@@ -2239,6 +2239,18 @@ components:
           examples:
             - email
             - phone
+        confidenceScores:
+          type: object
+          description: Per-field confidence scores (0-100) from AI extraction. Only present on AI-extracted people.
+          additionalProperties:
+            type: integer
+            minimum: 0
+            maximum: 100
+          examples:
+            - givenName: 98
+              familyName: 95
+              roles: 85
+              dateOfBirth: 30
         identifiers:
           type: array
           items:
@@ -3658,7 +3670,7 @@ components:
             - unknown
             - not_applicable
           $comment: 'excellent: like new or pristine. good: normal wear, fully functional. fair: showing age, may need minor repair. poor: significant wear, may need major repair. unknown: condition has not been assessed. not_applicable: condition is not relevant (e.g. bank accounts, pensions).'
-          description: Physical condition of the asset. Use 'not_applicable' for financial assets where condition is meaningless.
+          description: Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless.
           examples:
             - good
             - not_applicable
@@ -3697,7 +3709,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/media'
-          description: Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers.
+          description: Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item.
         possessionStatus:
           type: string
           enum:
@@ -3872,7 +3884,7 @@ components:
             - 18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G
         brand:
           type: string
-          description: The manufacturer or brand name. Free text — implementations should offer category-aware suggestions from the category guidance reference data, but any value is valid. Brands change over time (acquisitions, rebrands) so this is not an enum.
+          description: The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid.
           examples:
             - Hornby
             - Bachmann
@@ -3884,7 +3896,7 @@ components:
             - Gibson
         model:
           type: string
-          description: The specific model, product line, or range name within the brand. Combined with brand and identifiers, this uniquely describes the item to a specialist dealer.
+          description: The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory.
           examples:
             - Class 66
             - Submariner Date
@@ -4053,6 +4065,94 @@ components:
             - system_generated
           $comment: Per-entity override of the document-level dataProvenance. Same values as the root field.
           description: How this specific entity's data was captured. Overrides the document-level default if set.
+        searchTerms:
+          type: array
+          items:
+            type: string
+          description: 'Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving.'
+          examples:
+            - - Hornby R3456
+              - Class 66 OO gauge
+              - EWS livery locomotive
+        comparableSearchProfile:
+          type: object
+          description: Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers.
+          properties:
+            platforms:
+              type: array
+              items:
+                type: string
+              description: Marketplaces and platforms to search.
+              examples:
+                - - ebay
+                  - catawiki
+                  - rails_of_sheffield
+                  - hattons
+            searchQuery:
+              type: string
+              description: Natural-language query an agent should use.
+              examples:
+                - Hornby R3456 Class 66 OO gauge boxed
+            filters:
+              type: object
+              description: Key-value filters to narrow results. Agents map to platform-specific parameters.
+              additionalProperties:
+                type: string
+              examples:
+                - condition: good+
+                  packaging: with_box
+                  gauge: OO
+            excludePlatforms:
+              type: array
+              items:
+                type: string
+              description: Platforms explicitly excluded.
+            lastSearchedAt:
+              type: string
+              format: date-time
+              description: When an agent last executed this search profile.
+            searchFrequency:
+              type: string
+              enum:
+                - once
+                - weekly
+                - monthly
+                - on_demand
+              $comment: 'once: search once and cache. weekly: re-search weekly for price trends. monthly: monthly refresh. on_demand: only when explicitly triggered.'
+              description: How often this item should be re-searched.
+          additionalProperties: false
+        suggestedSubcategory:
+          type: string
+          description: 'AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated.'
+        confidenceScores:
+          type: object
+          description: Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities.
+          additionalProperties:
+            type: integer
+            minimum: 0
+            maximum: 100
+          examples:
+            - brand: 95
+              model: 88
+              category: 92
+              subcategory: 65
+              estimatedValue: 40
+        valuationReliability:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: 'Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation.'
+        lastVerifiedAt:
+          type: string
+          format: date-time
+          description: When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them.
+        verifiedBy:
+          type: string
+          description: Who or what verified this entity — a person's name, a tool, or 'owner'.
+          examples:
+            - James Ashford
+            - INHERIT Scanner v2
+            - Rails of Sheffield (dealer)
         shareholding:
           type: object
           $comment: Category-specific sub-object for shares and shareholdings. Use when category is 'shares' or 'investment'.
@@ -6644,6 +6744,26 @@ components:
           examples:
             - Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%
             - US sale — add 5% for UK market premium on this brand
+        matchScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support.
+        humanVerdict:
+          type: string
+          enum:
+            - accepted
+            - rejected
+            - adjusted
+            - not_reviewed
+          $comment: 'accepted: human confirmed this is a good comparable. rejected: human said this is not comparable. adjusted: human accepted but modified the match. not_reviewed: no human has reviewed this yet.'
+          description: Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches.
+        rejectionReason:
+          type: string
+          description: Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch.
+          examples:
+            - Wrong gauge — this is HO not OO
+            - Repainted model, not original livery
       additionalProperties: false
     valuation:
       $schema: https://openinherit.org/v1/dialect.json
@@ -6735,6 +6855,26 @@ components:
               examples:
                 - Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%
                 - US sale — add 5% for UK market premium on this brand
+            matchScore:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: Numeric match confidence (0-100). Companion to the matchConfidence categorical enum. Agents use this for filtering and ranking — 'show me everything above 70' is quantitative reasoning that categorical enums don't support.
+            humanVerdict:
+              type: string
+              enum:
+                - accepted
+                - rejected
+                - adjusted
+                - not_reviewed
+              $comment: 'accepted: human confirmed this is a good comparable. rejected: human said this is not comparable. adjusted: human accepted but modified the match. not_reviewed: no human has reviewed this yet.'
+              description: Human feedback on this comparable. Creates the learning feedback loop — agents learn which comparables humans accept, improving future searches.
+            rejectionReason:
+              type: string
+              description: Why this comparable was rejected. Feeds back into agent learning — future searches avoid this type of mismatch.
+              examples:
+                - Wrong gauge — this is HO not OO
+                - Repainted model, not original livery
           additionalProperties: false
       properties:
         id:
@@ -6847,7 +6987,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Comparable'
-          description: Comparable sales or listings used to support this valuation. Building a library of comparables strengthens the evidential basis for probate, tax, and insurance purposes.
+          description: Comparable items found on marketplaces — used to support the valuation. Agent-generated comparables should include matchScore for quantitative filtering and will accumulate humanVerdict feedback over time.
         notes:
           type: string
           description: Free-text notes about this valuation — methodology details, caveats, market conditions, or disagreements with other valuations.
@@ -7645,6 +7785,12 @@ components:
       description: Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.
       type: object
       properties:
+        '@context':
+          type: string
+          format: uri
+          description: JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies.
+          examples:
+            - https://openinherit.org/v1/context/inherit-v1.jsonld
         inherit:
           type: string
           const: https://openinherit.org/v1/schema.json
@@ -8035,6 +8181,83 @@ components:
             - validatedBy
             - schemaVersion
           additionalProperties: false
+        legacyContacts:
+          type: array
+          description: People nominated to receive access to the estate data or catalogue when the account owner dies or becomes incapacitated. This is a digital inheritance concept, not a legal role — legacy contacts are notified and given access, not granted legal authority. The 'Please open when I have passed away' letter is generated by the application, not stored here.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: Unique identifier for this legacy contact.
+              personId:
+                type: string
+                format: uuid
+                description: Reference to a Person.id, if the legacy contact is also in the people array.
+              name:
+                type: string
+                minLength: 1
+                description: Display name — required because catalogue-only documents may not have a people array.
+                examples:
+                  - Paul Frith
+                  - Sarah Davies
+              relationship:
+                type: string
+                description: Relationship to the catalogue/estate owner.
+                examples:
+                  - son
+                  - daughter
+                  - partner
+                  - friend
+                  - solicitor
+              email:
+                type: string
+                format: email
+                description: Email address for notification.
+              phone:
+                type: string
+                description: Phone number.
+              notificationMethod:
+                type: string
+                enum:
+                  - email
+                  - phone
+                  - post
+                  - in_person
+                $comment: 'email: send notification by email. phone: call or text. post: physical letter. in_person: notify face to face.'
+                description: How to notify this person.
+              accessLevel:
+                type: string
+                enum:
+                  - full
+                  - read_only
+                  - collection_only
+                  - financial_only
+                $comment: 'full: complete access to all data. read_only: can view but not modify. collection_only: can only see asset collections and items. financial_only: can only see financial information.'
+                description: What level of access this person should receive.
+              letterGenerated:
+                type: boolean
+                description: Whether the 'Please open when I have passed away' letter has been generated for this contact.
+              letterGeneratedAt:
+                type: string
+                format: date-time
+                description: When the letter was last generated.
+              letterDeliveryMethod:
+                type: string
+                enum:
+                  - printed
+                  - digital
+                  - both
+                description: How the letter was or should be delivered.
+              notes:
+                type: string
+                description: Additional notes about this legacy contact.
+            required:
+              - id
+              - name
+              - accessLevel
+            additionalProperties: false
         extensions:
           type: array
           items:
