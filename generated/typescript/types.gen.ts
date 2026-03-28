@@ -1482,6 +1482,10 @@ export type Person2 = {
         address?: Address2;
     };
     /**
+     * This person's preferred communication channel. Helps executors and professionals contact the right people in the right way.
+     */
+    preferredChannel?: 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging';
+    /**
      * External identifiers for this person — passport numbers, national ID, tax reference numbers, etc. Used for probate applications and cross-border identification.
      */
     identifiers?: Array<Identifier2>;
@@ -1588,7 +1592,7 @@ export type Person2 = {
          * Postal address for this person.
          */
         address?: Address2;
-    } | Array<Identifier2> | {
+    } | 'email' | 'phone' | 'post' | 'in_person' | 'video_call' | 'messaging' | Array<Identifier2> | {
         /**
          * The full ritual or religious name as used in religious proceedings.
          */
@@ -3413,10 +3417,14 @@ export type Bequest2 = unknown & {
      */
     inheritanceResponse?: InheritanceResponse;
     /**
+     * References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly.
+     */
+    hotchpotTransferIds?: Array<string>;
+    /**
      * Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.
      */
     notes?: string;
-    [key: string]: unknown | string | 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class' | string | BeneficiaryOrganisation | LifeInterest | Money2 | number | Array<string> | Array<Substitution> | boolean | 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha' | 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default' | 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship' | Array<PostDeathAction> | InheritanceResponse | undefined;
+    [key: string]: unknown | string | 'specific' | 'pecuniary' | 'demonstrative' | 'general' | 'residuary' | 'life_interest' | 'class' | string | BeneficiaryOrganisation | LifeInterest | Money2 | number | Array<string> | Array<Substitution> | boolean | 'per_capita' | 'per_stirpes' | 'modified_per_stirpes' | 'per_capita_at_each_generation' | 'halachic_yerusha' | 'lapse' | 'per_stirpes' | 'substitution' | 'accrual' | 'statutory_default' | 'testamentary_freedom' | 'customary_rule' | 'forced_heirship' | 'religious_rule' | 'coparcenary_survivorship' | Array<PostDeathAction> | InheritanceResponse | Array<string> | undefined;
 };
 
 /**
@@ -4428,6 +4436,172 @@ export type DealerInterest2 = {
 };
 
 /**
+ * Completeness
+ *
+ * A completeness score derived from a weighted checklist of estate data categories, scoped to a specific jurisdiction and estate status.
+ */
+export type Completeness = {
+    /**
+     * Overall completeness percentage, calculated from the weighted checklist items.
+     */
+    score: number;
+    /**
+     * Maximum possible score for this jurisdiction and estate status combination. May be less than 100 if certain categories are not applicable.
+     */
+    maxScore: number;
+    /**
+     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying which jurisdiction this scoring applies to.
+     */
+    jurisdiction?: string;
+    /**
+     * The estate status this completeness score was calculated against. Different statuses may require different data, affecting which checklist items are applicable.
+     */
+    estateStatus?: string;
+    /**
+     * ISO 8601 date-time when this completeness score was computed.
+     */
+    calculatedAt?: string;
+    /**
+     * The individual items assessed to produce the overall score. Each item belongs to a category, has a relative weight, and a status indicating whether the data is present.
+     */
+    checklist: Array<{
+        /**
+         * The data category this checklist item belongs to.
+         */
+        category: 'personal_details' | 'assets_and_valuations' | 'liabilities' | 'beneficiaries' | 'executors' | 'guardians' | 'tax_information' | 'legal_documents' | 'lifetime_transfers' | 'pension_and_insurance';
+        /**
+         * A human-readable label describing what was checked.
+         */
+        item: string;
+        /**
+         * Relative importance of this item. Higher weights contribute more to the overall score.
+         */
+        weight: number;
+        /**
+         * Whether the data for this item is present and sufficient.
+         */
+        status: 'complete' | 'incomplete' | 'not_applicable' | 'unknown';
+        /**
+         * Optional explanation of the status, such as what is missing or why the item is not applicable.
+         */
+        details?: string;
+    }>;
+    [key: string]: unknown | number | number | string | string | Array<{
+        /**
+         * The data category this checklist item belongs to.
+         */
+        category: 'personal_details' | 'assets_and_valuations' | 'liabilities' | 'beneficiaries' | 'executors' | 'guardians' | 'tax_information' | 'legal_documents' | 'lifetime_transfers' | 'pension_and_insurance';
+        /**
+         * A human-readable label describing what was checked.
+         */
+        item: string;
+        /**
+         * Relative importance of this item. Higher weights contribute more to the overall score.
+         */
+        weight: number;
+        /**
+         * Whether the data for this item is present and sufficient.
+         */
+        status: 'complete' | 'incomplete' | 'not_applicable' | 'unknown';
+        /**
+         * Optional explanation of the status, such as what is missing or why the item is not applicable.
+         */
+        details?: string;
+    }> | undefined;
+};
+
+/**
+ * TaxPosition
+ *
+ * An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability.
+ */
+export type TaxPosition = {
+    /**
+     * ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying the tax jurisdiction.
+     */
+    jurisdiction: string;
+    /**
+     * ISO 8601 date-time when this tax position was computed.
+     */
+    calculatedAt: string;
+    /**
+     * Total gross value of the estate before deducting liabilities, in minor currency units.
+     */
+    grossEstateValue: Money2;
+    /**
+     * Net estate value after deducting liabilities, in minor currency units.
+     */
+    netEstateValue?: Money2;
+    /**
+     * Total value of lifetime transfers (gifts, settlements) made within the lookback period, in minor currency units.
+     */
+    lifetimeTransfersInLookback?: Money2;
+    /**
+     * The lookback period for lifetime transfers in this jurisdiction, expressed as a human-readable duration.
+     */
+    lookbackPeriod?: string;
+    /**
+     * Tax exemptions and reliefs that may reduce the taxable estate. Each entry describes one exemption, its value, and whether it has been applied.
+     */
+    availableExemptions?: Array<{
+        /**
+         * The name of the exemption or relief.
+         */
+        name: string;
+        /**
+         * The monetary value of this exemption, in minor currency units.
+         */
+        amount?: Money2;
+        /**
+         * Whether this exemption has been applied in the current calculation.
+         */
+        applied?: boolean;
+        /**
+         * Additional context about eligibility, conditions, or partial application of this exemption.
+         */
+        notes?: string;
+    }>;
+    /**
+     * The estate value subject to tax after applying exemptions, in minor currency units.
+     */
+    taxableEstate?: Money2;
+    /**
+     * The estimated tax due, in minor currency units. This is an estimate and should not be treated as a final liability.
+     */
+    estimatedLiability?: Money2;
+    /**
+     * The effective tax rate as a percentage of the gross estate value.
+     */
+    effectiveRate?: number;
+    /**
+     * Data gaps, simplifying assumptions, or other caveats that may affect the accuracy of this estimate.
+     */
+    warnings?: Array<string>;
+    /**
+     * A mandatory disclaimer stating that this is an estimate and not professional tax advice.
+     */
+    disclaimer: string;
+    [key: string]: unknown | string | string | Money2 | Array<{
+        /**
+         * The name of the exemption or relief.
+         */
+        name: string;
+        /**
+         * The monetary value of this exemption, in minor currency units.
+         */
+        amount?: Money2;
+        /**
+         * Whether this exemption has been applied in the current calculation.
+         */
+        applied?: boolean;
+        /**
+         * Additional context about eligibility, conditions, or partial application of this exemption.
+         */
+        notes?: string;
+    }> | number | Array<string> | undefined;
+};
+
+/**
  * INHERIT v1 Root Schema
  *
  * Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types.
@@ -4593,6 +4767,96 @@ export type Schema = {
         notes?: string;
     }>;
     /**
+     * Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is.
+     */
+    completeness?: Completeness;
+    /**
+     * Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice.
+     */
+    taxPosition?: TaxPosition;
+    /**
+     * Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage.
+     */
+    recommendedActions?: Array<{
+        /**
+         * Unique identifier for this action.
+         */
+        id: string;
+        /**
+         * Category of the recommended action.
+         */
+        category: 'completeness' | 'tax_planning' | 'legal_requirement' | 'valuation' | 'transfer_history' | 'beneficiary_review' | 'document_update';
+        /**
+         * Priority level for this action.
+         */
+        priority: 'critical' | 'high' | 'medium' | 'low';
+        /**
+         * Short action title.
+         */
+        title: string;
+        /**
+         * Detailed explanation of what to do and why.
+         */
+        description?: string;
+        /**
+         * Current status of this action.
+         */
+        status: 'pending' | 'in_progress' | 'completed' | 'dismissed';
+        /**
+         * What data gap or condition generated this action.
+         */
+        triggeredBy?: string;
+        /**
+         * Entity type this action relates to.
+         */
+        relatedEntityType?: string;
+        /**
+         * ID of the specific entity this action relates to.
+         */
+        relatedEntityId?: string;
+    }>;
+    /**
+     * Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation.
+     */
+    conformance?: {
+        /**
+         * Conformance level achieved.
+         */
+        level: 'level_1' | 'level_2' | 'level_3';
+        /**
+         * When the validation was performed.
+         */
+        validatedAt: string;
+        /**
+         * Name of the tool that performed the validation.
+         */
+        validatedBy: string;
+        /**
+         * INHERIT schema version this document was validated against.
+         */
+        schemaVersion: string;
+        /**
+         * Completeness score at time of validation.
+         */
+        completenessScore?: number;
+        /**
+         * Count of entities per type at time of validation.
+         */
+        entityCounts?: {
+            [key: string]: number;
+        };
+        /**
+         * Count of entities by data provenance source.
+         */
+        provenanceSummary?: {
+            [key: string]: number;
+        };
+        /**
+         * Validation warnings — non-blocking issues that may need attention.
+         */
+        warnings?: Array<string>;
+    };
+    /**
      * URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
      */
     extensions?: Array<string>;
@@ -4643,7 +4907,81 @@ export type Schema = {
          * Additional context about the import.
          */
         notes?: string;
-    }> | Array<string> | undefined;
+    }> | Completeness | TaxPosition | Array<{
+        /**
+         * Unique identifier for this action.
+         */
+        id: string;
+        /**
+         * Category of the recommended action.
+         */
+        category: 'completeness' | 'tax_planning' | 'legal_requirement' | 'valuation' | 'transfer_history' | 'beneficiary_review' | 'document_update';
+        /**
+         * Priority level for this action.
+         */
+        priority: 'critical' | 'high' | 'medium' | 'low';
+        /**
+         * Short action title.
+         */
+        title: string;
+        /**
+         * Detailed explanation of what to do and why.
+         */
+        description?: string;
+        /**
+         * Current status of this action.
+         */
+        status: 'pending' | 'in_progress' | 'completed' | 'dismissed';
+        /**
+         * What data gap or condition generated this action.
+         */
+        triggeredBy?: string;
+        /**
+         * Entity type this action relates to.
+         */
+        relatedEntityType?: string;
+        /**
+         * ID of the specific entity this action relates to.
+         */
+        relatedEntityId?: string;
+    }> | {
+        /**
+         * Conformance level achieved.
+         */
+        level: 'level_1' | 'level_2' | 'level_3';
+        /**
+         * When the validation was performed.
+         */
+        validatedAt: string;
+        /**
+         * Name of the tool that performed the validation.
+         */
+        validatedBy: string;
+        /**
+         * INHERIT schema version this document was validated against.
+         */
+        schemaVersion: string;
+        /**
+         * Completeness score at time of validation.
+         */
+        completenessScore?: number;
+        /**
+         * Count of entities per type at time of validation.
+         */
+        entityCounts?: {
+            [key: string]: number;
+        };
+        /**
+         * Count of entities by data provenance source.
+         */
+        provenanceSummary?: {
+            [key: string]: number;
+        };
+        /**
+         * Validation warnings — non-blocking issues that may need attention.
+         */
+        warnings?: Array<string>;
+    } | Array<string> | undefined;
 };
 
 /**

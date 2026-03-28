@@ -2225,6 +2225,20 @@ components:
               $ref: '#/components/schemas/address'
               description: Postal address for this person.
           additionalProperties: false
+        preferredChannel:
+          type: string
+          enum:
+            - email
+            - phone
+            - post
+            - in_person
+            - video_call
+            - messaging
+          $comment: 'email: electronic mail. phone: telephone call. post: physical mail. in_person: face-to-face meeting. video_call: video conferencing (Zoom, Teams, etc.). messaging: text message, WhatsApp, or similar.'
+          description: This person's preferred communication channel. Helps executors and professionals contact the right people in the right way.
+          examples:
+            - email
+            - phone
         identifiers:
           type: array
           items:
@@ -5361,6 +5375,14 @@ components:
         inheritanceResponse:
           $ref: '#/components/schemas/InheritanceResponse'
           description: The beneficiary's formal response to this inheritance, if applicable.
+        hotchpotTransferIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly.
+          examples:
+            - - f1234567-89ab-4cde-8012-3456789abcde
         notes:
           type: string
           description: Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.
@@ -7403,6 +7425,235 @@ components:
       patternProperties:
         ^x-inherit-: {}
       unevaluatedProperties: false
+    completeness:
+      $schema: https://openinherit.org/v1/dialect.json
+      $id: https://openinherit.org/v1/common/completeness.json
+      $comment: Reusable completeness scoring definition. Producers compute a weighted checklist score against a jurisdiction and estate status combination. Consumers can display progress, flag gaps, and compare readiness across estates.
+      title: Completeness
+      description: A completeness score derived from a weighted checklist of estate data categories, scoped to a specific jurisdiction and estate status.
+      type: object
+      properties:
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Overall completeness percentage, calculated from the weighted checklist items.
+          examples:
+            - 72
+            - 100
+            - 0
+            - 45
+        maxScore:
+          type: integer
+          minimum: 0
+          description: Maximum possible score for this jurisdiction and estate status combination. May be less than 100 if certain categories are not applicable.
+          examples:
+            - 100
+            - 85
+            - 92
+        jurisdiction:
+          type: string
+          description: ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying which jurisdiction this scoring applies to.
+          examples:
+            - GB
+            - US
+            - GB-SCT
+            - AU-NSW
+        estateStatus:
+          type: string
+          description: The estate status this completeness score was calculated against. Different statuses may require different data, affecting which checklist items are applicable.
+          examples:
+            - pre_death_planning
+            - grant_application
+            - administration
+        calculatedAt:
+          type: string
+          format: date-time
+          description: ISO 8601 date-time when this completeness score was computed.
+          examples:
+            - '2026-03-28T14:30:00Z'
+        checklist:
+          type: array
+          description: The individual items assessed to produce the overall score. Each item belongs to a category, has a relative weight, and a status indicating whether the data is present.
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+                enum:
+                  - personal_details
+                  - assets_and_valuations
+                  - liabilities
+                  - beneficiaries
+                  - executors
+                  - guardians
+                  - tax_information
+                  - legal_documents
+                  - lifetime_transfers
+                  - pension_and_insurance
+                $comment: 'personal_details: testator identity, addresses, marital status. assets_and_valuations: real property, financial accounts, personal possessions, and their valuations. liabilities: mortgages, loans, debts, guarantees. beneficiaries: named beneficiaries and their shares or bequests. executors: appointed executors and their contact details. guardians: guardians for minor children. tax_information: tax residency, reference numbers, prior returns. legal_documents: wills, codicils, trusts, powers of attorney. lifetime_transfers: gifts, settlements, and transfers within the lookback period. pension_and_insurance: pension schemes, life insurance policies, death-in-service benefits.'
+                description: The data category this checklist item belongs to.
+                examples:
+                  - personal_details
+                  - assets_and_valuations
+                  - tax_information
+              item:
+                type: string
+                description: A human-readable label describing what was checked.
+                examples:
+                  - Testator date of birth
+                  - Property valuations within 12 months
+                  - IHT nil-rate band utilization
+              weight:
+                type: integer
+                minimum: 1
+                description: Relative importance of this item. Higher weights contribute more to the overall score.
+                examples:
+                  - 1
+                  - 3
+                  - 5
+                  - 10
+              status:
+                type: string
+                enum:
+                  - complete
+                  - incomplete
+                  - not_applicable
+                  - unknown
+                $comment: 'complete: the required data is present and valid. incomplete: the data is missing or insufficient. not_applicable: this item does not apply to the current jurisdiction or estate status. unknown: the system cannot determine whether the data is present.'
+                description: Whether the data for this item is present and sufficient.
+                examples:
+                  - complete
+                  - incomplete
+                  - not_applicable
+              details:
+                type: string
+                description: Optional explanation of the status, such as what is missing or why the item is not applicable.
+                examples:
+                  - No valuation on file for 3 of 5 properties
+                  - Guardians not required — no minor children
+            required:
+              - category
+              - item
+              - weight
+              - status
+            additionalProperties: false
+      required:
+        - score
+        - maxScore
+        - checklist
+      patternProperties:
+        ^x-inherit-: {}
+      unevaluatedProperties: false
+    tax-position:
+      $schema: https://openinherit.org/v1/dialect.json
+      $id: https://openinherit.org/v1/common/tax-position.json
+      $comment: Reusable tax position summary. Producers calculate the estimated tax liability for a given jurisdiction, accounting for exemptions and lifetime transfers. This is always an estimate — the disclaimer field is required to make that clear.
+      title: TaxPosition
+      description: An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability.
+      type: object
+      properties:
+        jurisdiction:
+          type: string
+          description: ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying the tax jurisdiction.
+          examples:
+            - GB
+            - US
+            - GB-SCT
+            - DE
+            - AU-NSW
+        calculatedAt:
+          type: string
+          format: date-time
+          description: ISO 8601 date-time when this tax position was computed.
+          examples:
+            - '2026-03-28T14:30:00Z'
+        grossEstateValue:
+          $ref: '#/components/schemas/money'
+          description: Total gross value of the estate before deducting liabilities, in minor currency units.
+        netEstateValue:
+          $ref: '#/components/schemas/money'
+          description: Net estate value after deducting liabilities, in minor currency units.
+        lifetimeTransfersInLookback:
+          $ref: '#/components/schemas/money'
+          description: Total value of lifetime transfers (gifts, settlements) made within the lookback period, in minor currency units.
+        lookbackPeriod:
+          type: string
+          description: The lookback period for lifetime transfers in this jurisdiction, expressed as a human-readable duration.
+          examples:
+            - 7 years
+            - 5 years
+            - 3 years
+        availableExemptions:
+          type: array
+          description: Tax exemptions and reliefs that may reduce the taxable estate. Each entry describes one exemption, its value, and whether it has been applied.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the exemption or relief.
+                examples:
+                  - Nil-rate band
+                  - Residence nil-rate band
+                  - Spouse exemption
+                  - Agricultural property relief
+                  - Business property relief
+                  - Unified credit
+              amount:
+                $ref: '#/components/schemas/money'
+                description: The monetary value of this exemption, in minor currency units.
+              applied:
+                type: boolean
+                description: Whether this exemption has been applied in the current calculation.
+                examples:
+                  - true
+                  - false
+              notes:
+                type: string
+                description: Additional context about eligibility, conditions, or partial application of this exemption.
+                examples:
+                  - Tapered due to estate value exceeding £2m
+                  - Transferred nil-rate band from predeceased spouse
+            required:
+              - name
+            additionalProperties: false
+        taxableEstate:
+          $ref: '#/components/schemas/money'
+          description: The estate value subject to tax after applying exemptions, in minor currency units.
+        estimatedLiability:
+          $ref: '#/components/schemas/money'
+          description: The estimated tax due, in minor currency units. This is an estimate and should not be treated as a final liability.
+        effectiveRate:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: The effective tax rate as a percentage of the gross estate value.
+          examples:
+            - 0
+            - 16.4
+            - 40
+        warnings:
+          type: array
+          description: Data gaps, simplifying assumptions, or other caveats that may affect the accuracy of this estimate.
+          items:
+            type: string
+          examples:
+            - - No valuation on file for 2 properties — using purchase price
+              - Lifetime transfers may be incomplete — only gifts over £3,000 recorded
+        disclaimer:
+          type: string
+          description: A mandatory disclaimer stating that this is an estimate and not professional tax advice.
+          examples:
+            - Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor.
+      required:
+        - jurisdiction
+        - calculatedAt
+        - grossEstateValue
+        - disclaimer
+      patternProperties:
+        ^x-inherit-: {}
+      unevaluatedProperties: false
     schema:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/schema.json
@@ -7648,6 +7899,159 @@ components:
               - id
               - systemName
             additionalProperties: false
+        completeness:
+          $ref: '#/components/schemas/completeness'
+          description: Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is.
+        taxPosition:
+          $ref: '#/components/schemas/tax-position'
+          description: Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice.
+        recommendedActions:
+          type: array
+          description: Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for this action.
+                examples:
+                  - act-001
+                  - act-val-shares
+              category:
+                type: string
+                enum:
+                  - completeness
+                  - tax_planning
+                  - legal_requirement
+                  - valuation
+                  - transfer_history
+                  - beneficiary_review
+                  - document_update
+                $comment: 'completeness: filling data gaps. tax_planning: optimizing tax position. legal_requirement: meeting statutory obligations. valuation: getting or updating valuations. transfer_history: documenting lifetime gifts. beneficiary_review: reviewing nominations and designations. document_update: updating legal documents.'
+                description: Category of the recommended action.
+              priority:
+                type: string
+                enum:
+                  - critical
+                  - high
+                  - medium
+                  - low
+                $comment: 'critical: must address immediately — legal deadline or compliance risk. high: should address soon — significant financial or legal impact. medium: address when convenient — improves estate plan quality. low: nice to have — marginal improvement.'
+                description: Priority level for this action.
+              title:
+                type: string
+                description: Short action title.
+                examples:
+                  - Get professional valuation for share portfolio
+                  - Update pension nomination
+                  - Document lifetime gifts in lookback period
+              description:
+                type: string
+                description: Detailed explanation of what to do and why.
+              status:
+                type: string
+                enum:
+                  - pending
+                  - in_progress
+                  - completed
+                  - dismissed
+                $comment: 'pending: not yet started. in_progress: being worked on. completed: done. dismissed: user chose not to act on this.'
+                description: Current status of this action.
+              triggeredBy:
+                type: string
+                description: What data gap or condition generated this action.
+                examples:
+                  - Asset 'Barclays shares' has estimatedValue > £50,000 but no professional valuation
+                  - No executor appointed
+                  - Pension has no nominated beneficiary
+              relatedEntityType:
+                type: string
+                description: Entity type this action relates to.
+                examples:
+                  - asset
+                  - person
+                  - estate
+                  - bequest
+              relatedEntityId:
+                type: string
+                format: uuid
+                description: ID of the specific entity this action relates to.
+            required:
+              - id
+              - category
+              - priority
+              - title
+              - status
+            additionalProperties: false
+        conformance:
+          type: object
+          description: Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation.
+          properties:
+            level:
+              type: string
+              enum:
+                - level_1
+                - level_2
+                - level_3
+              $comment: 'level_1: structural validity — document parses and validates against JSON Schema. level_2: referential integrity — all cross-references resolve. level_3: jurisdiction complete — all required fields for the estate''s jurisdiction are present.'
+              description: Conformance level achieved.
+            validatedAt:
+              type: string
+              format: date-time
+              description: When the validation was performed.
+              examples:
+                - '2026-03-28T14:00:00Z'
+            validatedBy:
+              type: string
+              description: Name of the tool that performed the validation.
+              examples:
+                - INHERIT Web Validator
+                - MyFamilyInherits v2.1
+                - openinherit-cli
+            schemaVersion:
+              type: string
+              description: INHERIT schema version this document was validated against.
+              examples:
+                - 1.2.0
+            completenessScore:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: Completeness score at time of validation.
+            entityCounts:
+              type: object
+              description: Count of entities per type at time of validation.
+              additionalProperties:
+                type: integer
+              examples:
+                - people: 5
+                  properties: 2
+                  assets: 12
+                  bequests: 4
+                  executors: 2
+            provenanceSummary:
+              type: object
+              description: Count of entities by data provenance source.
+              additionalProperties:
+                type: integer
+              examples:
+                - manual_entry: 15
+                  ai_extracted: 8
+                  imported: 3
+            warnings:
+              type: array
+              items:
+                type: string
+              description: Validation warnings — non-blocking issues that may need attention.
+              examples:
+                - - 2 assets have estimated but no professional valuation
+                  - Lifetime transfer history covers only 5 of 7 required lookback years
+          required:
+            - level
+            - validatedAt
+            - validatedBy
+            - schemaVersion
+          additionalProperties: false
         extensions:
           type: array
           items:
