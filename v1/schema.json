@@ -27,7 +27,7 @@
   ],
   "properties": {
     "@context": {
-      "x-lint-exclude": ["simple_properties_identifiers"],
+      "x-lint-exclude": [ "simple_properties_identifiers" ],
       "description": "JSON-LD context URI. When present, this document can be processed by any JSON-LD processor as linked data. Maps INHERIT fields to Schema.org, FIBO, Wikidata, and GS1 vocabularies",
       "examples": [ "https://openinherit.org/v1/context/inherit-v1.jsonld" ],
       "type": "string",

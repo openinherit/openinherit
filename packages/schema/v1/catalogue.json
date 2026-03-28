@@ -7,7 +7,7 @@
   "required": [ "inherit", "version", "assets" ],
   "properties": {
     "@context": {
-      "x-lint-exclude": ["simple_properties_identifiers"],
+      "x-lint-exclude": [ "simple_properties_identifiers" ],
       "description": "JSON-LD context URI",
       "examples": [ "https://openinherit.org/v1/context/inherit-v1.jsonld" ],
       "type": "string",
