@@ -1,4 +1,5 @@
 {
+  "@context": "https://openinherit.org/v1/context/inherit-v1.jsonld",
   "inherit": "https://openinherit.org/v1/schema.json",
   "version": 1,
   "exportedAt": "2026-03-27",
@@ -142,7 +143,14 @@
         "amount": 8500000,
         "currency": "GBP"
       },
-      "subcategory": "savings_account"
+      "subcategory": "savings_account",
+      "searchTerms": ["Barclays savings account", "easy access savings", "instant access account", "Barclays Blue Rewards"],
+      "comparableSearchProfile": {
+        "platforms": ["barclays", "moneysavingexpert", "which"],
+        "searchQuery": "Barclays easy access savings account current rate",
+        "filters": {},
+        "searchFrequency": "on_demand"
+      }
     }
   ],
   "liabilities": [],
