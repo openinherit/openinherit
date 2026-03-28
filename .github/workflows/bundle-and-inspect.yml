@@ -1,0 +1,51 @@
+name: Bundle Schema & Generate Graph
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'v1/**'
+
+jobs:
+  bundle-and-inspect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Bundle schema
+        run: pnpm run bundle:schema
+
+      - name: Generate graph data
+        run: pnpm run graph:data
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet dist/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit artefacts
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/
+          git commit -m "chore: regenerate bundled schema and graph data"
+          git push
