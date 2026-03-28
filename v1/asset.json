@@ -362,6 +362,56 @@
       "$comment": "Per-entity override of the document-level dataProvenance. Same values as the root field.",
       "description": "How this specific entity's data was captured. Overrides the document-level default if set."
     },
+    "searchTerms": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Keywords for marketplace search — AI-generated or human-curated. Memoization: once derived, cached here so subsequent agents reuse them instantly rather than re-deriving.",
+      "examples": [["Hornby R3456", "Class 66 OO gauge", "EWS livery locomotive"]]
+    },
+    "comparableSearchProfile": {
+      "type": "object",
+      "description": "Structured search instructions for comparable-finding agents. Acts as agent memory — the item teaches future agents how to find its peers.",
+      "properties": {
+        "platforms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Marketplaces and platforms to search.",
+          "examples": [["ebay", "catawiki", "rails_of_sheffield", "hattons"]]
+        },
+        "searchQuery": {
+          "type": "string",
+          "description": "Natural-language query an agent should use.",
+          "examples": ["Hornby R3456 Class 66 OO gauge boxed"]
+        },
+        "filters": {
+          "type": "object",
+          "description": "Key-value filters to narrow results. Agents map to platform-specific parameters.",
+          "additionalProperties": { "type": "string" },
+          "examples": [{"condition": "good+", "packaging": "with_box", "gauge": "OO"}]
+        },
+        "excludePlatforms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Platforms explicitly excluded."
+        },
+        "lastSearchedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When an agent last executed this search profile."
+        },
+        "searchFrequency": {
+          "type": "string",
+          "enum": ["once", "weekly", "monthly", "on_demand"],
+          "$comment": "once: search once and cache. weekly: re-search weekly for price trends. monthly: monthly refresh. on_demand: only when explicitly triggered.",
+          "description": "How often this item should be re-searched."
+        }
+      },
+      "additionalProperties": false
+    },
+    "suggestedSubcategory": {
+      "type": "string",
+      "description": "AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated."
+    },
     "shareholding": {
       "type": "object",
       "$comment": "Category-specific sub-object for shares and shareholdings. Use when category is 'shares' or 'investment'.",
