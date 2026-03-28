@@ -1,0 +1,76 @@
+{
+  "target": "../../../v1/lifetime-transfer.json",
+  "tests": [
+    {
+      "description": "valid minimal lifetime transfer (required fields only)",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-d456-789abcdef012",
+        "transferDate": "2020-03-15",
+        "donorPersonId": "11111111-0000-0000-0000-000000000001",
+        "transferType": "gift"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated lifetime transfer — UK PET with taper relief",
+      "data": {
+        "id": "e5f6a7b8-c9d0-1234-e567-89abcdef0123",
+        "transferDate": "2021-04-06",
+        "donorPersonId": "11111111-0000-0000-0000-000000000001",
+        "doneePersonIds": [
+          "22222222-0000-0000-0000-000000000002",
+          "33333333-0000-0000-0000-000000000003"
+        ],
+        "transferType": "potentially_exempt_transfer",
+        "value": {
+          "amount": 15000000,
+          "currency": "GBP"
+        },
+        "exemptionsClaimed": [
+          {
+            "type": "annual_exemption",
+            "amount": {
+              "amount": 300000,
+              "currency": "GBP"
+            },
+            "notes": "Annual exemption for 2021/22 tax year"
+          }
+        ],
+        "taxReturnFiled": false,
+        "lookbackRelevant": true,
+        "lookbackYearsRemaining": 3.5,
+        "taperReliefPercentage": 20,
+        "notes": "PET made 4 years before death — taper relief reduces IHT by 20%."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing transferDate",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-d456-789abcdef012",
+        "donorPersonId": "11111111-0000-0000-0000-000000000001",
+        "transferType": "gift"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — transferType not in enum",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-d456-789abcdef012",
+        "transferDate": "2020-03-15",
+        "donorPersonId": "11111111-0000-0000-0000-000000000001",
+        "transferType": "donation"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing donorPersonId",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-d456-789abcdef012",
+        "transferDate": "2020-03-15",
+        "transferType": "gift"
+      },
+      "valid": false
+    }
+  ]
+}

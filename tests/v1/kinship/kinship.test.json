@@ -1,0 +1,71 @@
+{
+  "target": "../../../v1/kinship.json",
+  "tests": [
+    {
+      "description": "valid minimal kinship (required fields only)",
+      "data": {
+        "id": "a3b4c5d6-e7f8-9012-a345-6789abcdef01",
+        "kinshipType": "PARENT_CHILD_BIOLOGICAL",
+        "fromPersonId": "11111111-0000-0000-0000-000000000001",
+        "toPersonId": "22222222-0000-0000-0000-000000000002"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated kinship — adopted child with court order",
+      "data": {
+        "id": "b4c5d6e7-f8a9-0123-b456-789abcdef012",
+        "kinshipType": "PARENT_CHILD_ADOPTED",
+        "fromPersonId": "11111111-0000-0000-0000-000000000001",
+        "toPersonId": "33333333-0000-0000-0000-000000000003",
+        "legalStatus": "recognised",
+        "legitimacy": "legitimated",
+        "adoptionDate": "2018-07-15",
+        "courtOrderRef": "ADOPT/2018/MC/001234",
+        "notes": "Adoption order granted by Manchester Family Court. Child treated as biological for all succession purposes."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid paternal half-sibling kinship",
+      "data": {
+        "id": "c5d6e7f8-a9b0-1234-c567-89abcdef0123",
+        "kinshipType": "HALF_SIBLING_PATERNAL",
+        "fromPersonId": "44444444-0000-0000-0000-000000000004",
+        "toPersonId": "55555555-0000-0000-0000-000000000005",
+        "legalStatus": "recognised",
+        "legitimacy": "legitimate",
+        "notes": "Same father, different mothers. Critical distinction for Islamic faraid calculation."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing kinshipType",
+      "data": {
+        "id": "a3b4c5d6-e7f8-9012-a345-6789abcdef01",
+        "fromPersonId": "11111111-0000-0000-0000-000000000001",
+        "toPersonId": "22222222-0000-0000-0000-000000000002"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — kinshipType not in enum",
+      "data": {
+        "id": "a3b4c5d6-e7f8-9012-a345-6789abcdef01",
+        "kinshipType": "COUSIN",
+        "fromPersonId": "11111111-0000-0000-0000-000000000001",
+        "toPersonId": "22222222-0000-0000-0000-000000000002"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing fromPersonId",
+      "data": {
+        "id": "a3b4c5d6-e7f8-9012-a345-6789abcdef01",
+        "kinshipType": "SIBLING",
+        "toPersonId": "22222222-0000-0000-0000-000000000002"
+      },
+      "valid": false
+    }
+  ]
+}

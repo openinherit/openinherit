@@ -1,0 +1,81 @@
+{
+  "target": "../../../v1/common/temporal-rule.json",
+  "tests": [
+    {
+      "description": "valid minimal temporal rule — numeric value",
+      "data": {
+        "value": 32500000,
+        "effectiveFrom": "2017-04-06",
+        "status": "enacted"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid temporal rule — boolean value",
+      "data": {
+        "value": true,
+        "effectiveFrom": "2023-01-01",
+        "status": "enacted"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid temporal rule — string value with fraction",
+      "data": {
+        "value": "0.75",
+        "effectiveFrom": "2024-04-06",
+        "status": "enacted"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated temporal rule — UK IHT nil-rate band",
+      "data": {
+        "value": 32500000,
+        "effectiveFrom": "2017-04-06",
+        "effectiveUntil": null,
+        "status": "enacted",
+        "predecessorValue": 25000000,
+        "legislativeReference": "Inheritance Tax Act 1984 s.7",
+        "notes": "Frozen at £325,000 since 2009 — widely expected to increase in next Budget."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid temporal rule — announced future change",
+      "data": {
+        "value": 50000000,
+        "effectiveFrom": "2027-04-06",
+        "status": "announced",
+        "legislativeReference": "Finance Bill 2027 (draft)",
+        "notes": "Proposed increase to nil-rate band — subject to parliamentary approval."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing value",
+      "data": {
+        "effectiveFrom": "2023-01-01",
+        "status": "enacted"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — status not in enum",
+      "data": {
+        "value": 32500000,
+        "effectiveFrom": "2023-01-01",
+        "status": "proposed"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing effectiveFrom",
+      "data": {
+        "value": 32500000,
+        "status": "enacted"
+      },
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "target": "../../../v1/property.json",
+  "tests": [
+    {
+      "description": "valid minimal property (id + name only)",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+        "name": "Family Home"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated property — UK detached house",
+      "data": {
+        "id": "e5f6a7b8-c9d0-1234-ef01-23456789abcd",
+        "name": "42 Acacia Avenue",
+        "propertyType": "detached",
+        "address": {
+          "streetAddress": "42 Acacia Avenue",
+          "addressLocality": "Guildford",
+          "addressRegion": "Surrey",
+          "postalCode": "GU1 3AA",
+          "addressCountry": "GB"
+        },
+        "estimatedValue": {
+          "amount": 75000000,
+          "currency": "GBP"
+        },
+        "valuationDate": "2024-09-15",
+        "valuationConfidence": "estimated",
+        "isPrimaryResidence": true,
+        "ownershipType": "sole",
+        "ownershipPercentage": 100,
+        "ownershipModel": "individual",
+        "acquisitionType": "self_acquired",
+        "tenureType": "ownership",
+        "registrationStatus": "formally_registered",
+        "ownershipEvidence": "title_deed",
+        "mobilityType": "immoveable",
+        "passesOutsideEstate": false,
+        "notes": "Grade II listed building — consent required for any alterations."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid property — Nigerian family land",
+      "data": {
+        "id": "f6a7b8c9-d0e1-2345-f012-3456789abcde",
+        "name": "Lagos Investment Property",
+        "propertyType": "land",
+        "ownershipModel": "communal_family",
+        "acquisitionType": "ancestral_joint",
+        "tenureType": "customary",
+        "registrationStatus": "informally_held",
+        "ownershipEvidence": "family_recognition",
+        "successionRule": "not_individually_bequeathable",
+        "governmentConsentRequired": true,
+        "notes": "Family compound — held under Yoruba customary law. Custodianship to pass to eldest male in family council."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing name",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+        "propertyType": "detached"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — name is empty string (minLength: 1)",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+        "name": ""
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — propertyType not in enum",
+      "data": {
+        "id": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+        "name": "River Cottage",
+        "propertyType": "houseboat"
+      },
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "target": "../../../v1/dealer-interest.json",
+  "tests": [
+    {
+      "description": "valid minimal dealer interest (required fields only)",
+      "data": {
+        "id": "e7f8a9b0-c1d2-3456-e789-abcdef012345",
+        "interestedParty": {
+          "name": "Christie's",
+          "type": "auction_house"
+        },
+        "offerStatus": "standing_interest",
+        "privacyLevel": "proxy_visible"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated dealer interest — written offer from art dealer",
+      "data": {
+        "id": "f8a9b0c1-d2e3-4567-f890-bcdef0123456",
+        "interestedParty": {
+          "name": "Bonhams",
+          "type": "auction_house",
+          "contactDetails": "privateestates@bonhams.com"
+        },
+        "assets": [
+          {
+            "assetId": "a1b2c3d4-0000-0000-0000-000000000001",
+            "interestLevel": "strong"
+          }
+        ],
+        "offerStatus": "written_offer",
+        "offerDetails": {
+          "amount": {
+            "amount": 12000000,
+            "currency": "GBP"
+          },
+          "conditions": [
+            "Subject to independent valuation",
+            "Catalogue inclusion for autumn sale"
+          ],
+          "validUntil": "2025-12-31",
+          "offerDate": "2025-06-15",
+          "documentRef": "DOC-2025-BONHAMS-001"
+        },
+        "testatorDisposition": "willing_to_sell",
+        "privacyLevel": "executor_visible",
+        "communicationInitiatedBy": "buyer",
+        "notes": "Christie's approached via family friend — informal valuation suggests £120,000-£150,000 for the Victorian watercolour collection."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing interestedParty",
+      "data": {
+        "id": "e7f8a9b0-c1d2-3456-e789-abcdef012345",
+        "offerStatus": "standing_interest",
+        "privacyLevel": "proxy_visible"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — offerStatus not in enum",
+      "data": {
+        "id": "e7f8a9b0-c1d2-3456-e789-abcdef012345",
+        "interestedParty": {
+          "name": "Sotheby's",
+          "type": "auction_house"
+        },
+        "offerStatus": "pending_review",
+        "privacyLevel": "proxy_visible"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — privacyLevel not in enum",
+      "data": {
+        "id": "e7f8a9b0-c1d2-3456-e789-abcdef012345",
+        "interestedParty": {
+          "name": "Savills",
+          "type": "estate_agent"
+        },
+        "offerStatus": "verbal_offer",
+        "privacyLevel": "family_only"
+      },
+      "valid": false
+    }
+  ]
+}
