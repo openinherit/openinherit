@@ -412,6 +412,32 @@
       "type": "string",
       "description": "AI-suggested subcategory refinement, kept separate from the human-set subcategory. Accepted when the user confirms. Provenance: always AI-generated."
     },
+    "confidenceScores": {
+      "type": "object",
+      "description": "Per-field confidence scores (0-100) from AI extraction. Allows agents and humans to see which fields are trusted vs need verification. Only present on AI-extracted entities.",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "examples": [{"brand": 95, "model": 88, "category": 92, "subcategory": 65, "estimatedValue": 40}]
+    },
+    "valuationReliability": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Numeric reliability score (0-100) for the current valuation. Computed from: recency, method, corroborating comparables, variance between estimates. Companion to the categorical valuationConfidence enum — the enum captures source, this number captures trustworthiness now. Agents use this to prioritise which assets need re-valuation."
+    },
+    "lastVerifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this entity's data was last verified by a human or authoritative source. Agents use this to decide whether to trust existing values or re-derive them."
+    },
+    "verifiedBy": {
+      "type": "string",
+      "description": "Who or what verified this entity — a person's name, a tool, or 'owner'.",
+      "examples": ["James Ashford", "INHERIT Scanner v2", "Rails of Sheffield (dealer)"]
+    },
     "shareholding": {
       "type": "object",
       "$comment": "Category-specific sub-object for shares and shareholdings. Use when category is 'shares' or 'investment'.",
