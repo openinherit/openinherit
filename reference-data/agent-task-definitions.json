@@ -1,0 +1,229 @@
+{
+  "_disclaimer": "This file defines the multi-agent task protocol for INHERIT. Agent implementations should consume these definitions to understand their inputs, outputs, and applicable platforms. This is reference data — the schema files in v1/ are the source of truth for field definitions.",
+  "tasks": {
+    "find_comparables": {
+      "description": "Search marketplaces for items comparable to the input asset. Uses brand, model, category, subcategory, and comparableSearchProfile to construct searches. Returns a ranked list of comparable listings with prices, condition notes, and source URLs.",
+      "inputFields": [
+        "id",
+        "name",
+        "brand",
+        "model",
+        "category",
+        "subcategory",
+        "condition",
+        "searchTerms",
+        "comparableSearchProfile",
+        "images"
+      ],
+      "outputFields": [
+        "comparables",
+        "searchTerms",
+        "comparableSearchProfile.lastSearchedAt",
+        "comparableSearchProfile.searchCount"
+      ],
+      "applicablePlatforms": [
+        "ebay",
+        "catawiki",
+        "amazon",
+        "worthpoint",
+        "liveauctioneers",
+        "specialist_dealers"
+      ],
+      "applicableCategories": [
+        "collectibles",
+        "jewellery",
+        "art",
+        "antiques",
+        "vehicles",
+        "electronics",
+        "firearms_sporting",
+        "watches_clocks",
+        "wine_spirits",
+        "coins_medals"
+      ]
+    },
+    "estimate_value": {
+      "description": "Produce an AI-generated valuation for the asset based on comparable listings previously gathered. Synthesises comparables, condition, provenance, and market trends into a low/mid/high estimate range with a recommended insurance value.",
+      "inputFields": [
+        "id",
+        "name",
+        "brand",
+        "model",
+        "category",
+        "subcategory",
+        "condition",
+        "provenance",
+        "comparables",
+        "comparableSearchProfile",
+        "valuations",
+        "images"
+      ],
+      "outputFields": [
+        "valuations",
+        "valuations[].estimatedValue",
+        "valuations[].valuationRangeLow",
+        "valuations[].valuationRangeHigh",
+        "valuations[].valuationBasis",
+        "valuations[].confidence",
+        "valuations[].valuedAt",
+        "valuations[].valuedBy",
+        "valuations[].notes"
+      ],
+      "applicablePlatforms": [
+        "anthropic_claude",
+        "openai_gpt4",
+        "internal_valuation_model"
+      ],
+      "applicableCategories": [
+        "collectibles",
+        "jewellery",
+        "art",
+        "antiques",
+        "vehicles",
+        "electronics",
+        "firearms_sporting",
+        "watches_clocks",
+        "wine_spirits",
+        "coins_medals",
+        "property",
+        "financial_assets"
+      ]
+    },
+    "identify_item": {
+      "description": "Identify an item from one or more photographs using vision AI. Determines category, subcategory, brand, model, and key attributes. Populates or confirms existing metadata fields. Used when an asset record is sparse or when photos alone are provided.",
+      "inputFields": [
+        "id",
+        "images",
+        "name",
+        "category",
+        "subcategory",
+        "brand",
+        "model",
+        "description"
+      ],
+      "outputFields": [
+        "name",
+        "category",
+        "subcategory",
+        "brand",
+        "model",
+        "description",
+        "attributes",
+        "condition",
+        "searchTerms",
+        "identificationConfidence"
+      ],
+      "applicablePlatforms": [
+        "anthropic_claude_vision",
+        "google_vision",
+        "openai_gpt4_vision"
+      ],
+      "applicableCategories": [
+        "collectibles",
+        "jewellery",
+        "art",
+        "antiques",
+        "vehicles",
+        "electronics",
+        "firearms_sporting",
+        "watches_clocks",
+        "wine_spirits",
+        "coins_medals",
+        "furniture",
+        "clothing_accessories"
+      ]
+    },
+    "find_dealers": {
+      "description": "Identify specialist dealers, auction houses, or brokers appropriate for the asset category and subcategory. Returns a list of recommended contacts with name, location, speciality, and contact details where available.",
+      "inputFields": [
+        "id",
+        "name",
+        "category",
+        "subcategory",
+        "brand",
+        "model",
+        "attributes",
+        "location"
+      ],
+      "outputFields": [
+        "recommendedDealers",
+        "recommendedDealers[].name",
+        "recommendedDealers[].type",
+        "recommendedDealers[].speciality",
+        "recommendedDealers[].location",
+        "recommendedDealers[].website",
+        "recommendedDealers[].contactEmail",
+        "recommendedDealers[].notes",
+        "recommendedDealers[].confidence"
+      ],
+      "applicablePlatforms": [
+        "anthropic_claude",
+        "google_search",
+        "dealer_directory_api"
+      ],
+      "applicableCategories": [
+        "collectibles",
+        "jewellery",
+        "art",
+        "antiques",
+        "vehicles",
+        "firearms_sporting",
+        "watches_clocks",
+        "wine_spirits",
+        "coins_medals",
+        "furniture"
+      ]
+    },
+    "verify_authenticity": {
+      "description": "Check identifiers (serial numbers, hallmarks, VINs, ISBNs, certificate numbers) against known databases and registries to verify authenticity and detect stolen or counterfeit items. Returns a verification status and supporting evidence.",
+      "inputFields": [
+        "id",
+        "name",
+        "category",
+        "subcategory",
+        "brand",
+        "model",
+        "serialNumber",
+        "hallmarks",
+        "vin",
+        "isbn",
+        "certificateNumber",
+        "provenance",
+        "images",
+        "attributes"
+      ],
+      "outputFields": [
+        "authenticityVerification",
+        "authenticityVerification.status",
+        "authenticityVerification.verifiedAt",
+        "authenticityVerification.verifiedBy",
+        "authenticityVerification.registriesChecked",
+        "authenticityVerification.matchFound",
+        "authenticityVerification.stolenFlagRaised",
+        "authenticityVerification.notes",
+        "authenticityVerification.confidence",
+        "authenticityVerification.evidenceUrls"
+      ],
+      "applicablePlatforms": [
+        "art_loss_register",
+        "dvla_vehicle_check",
+        "assay_office_hallmark_db",
+        "interpol_stolen_works",
+        "isbn_registry",
+        "immobilise_uk",
+        "anthropic_claude"
+      ],
+      "applicableCategories": [
+        "jewellery",
+        "art",
+        "antiques",
+        "vehicles",
+        "firearms_sporting",
+        "watches_clocks",
+        "coins_medals",
+        "collectibles",
+        "wine_spirits"
+      ]
+    }
+  }
+}
