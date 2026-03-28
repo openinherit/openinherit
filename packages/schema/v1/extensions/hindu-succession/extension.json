@@ -1,6 +1,6 @@
 {
-  "name": "India Hindu Succession",
-  "id": "https://openinherit.org/v1/extensions/india-hindu.json",
+  "name": "Hindu Succession",
+  "id": "https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json",
   "version": "1.0.0",
   "inherit": ">=1.0.0 <2.0.0",
   "maturity": "draft",

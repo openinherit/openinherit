@@ -84,31 +84,31 @@
       "path": "v1/extensions/latin-america/"
     },
     {
-      "id": "https://openinherit.org/v1/extensions/islamic.json",
+      "id": "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json",
       "name": "Islamic Succession",
       "tier": "core",
       "maturity": "draft",
       "jurisdiction": "SA",
       "repo": "openinherit/openinherit",
-      "path": "v1/extensions/islamic/"
+      "path": "v1/extensions/islamic-succession/"
     },
     {
-      "id": "https://openinherit.org/v1/extensions/jewish.json",
-      "name": "Jewish Law",
+      "id": "https://openinherit.org/v1/extensions/jewish-succession/jewish-succession.json",
+      "name": "Jewish Succession",
       "tier": "core",
       "maturity": "draft",
       "jurisdiction": "IL",
       "repo": "openinherit/openinherit",
-      "path": "v1/extensions/jewish/"
+      "path": "v1/extensions/jewish-succession/"
     },
     {
-      "id": "https://openinherit.org/v1/extensions/india-hindu.json",
-      "name": "India Hindu Succession",
+      "id": "https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json",
+      "name": "Hindu Succession",
       "tier": "core",
       "maturity": "draft",
       "jurisdiction": "IN",
       "repo": "openinherit/openinherit",
-      "path": "v1/extensions/india-hindu/"
+      "path": "v1/extensions/hindu-succession/"
     },
     {
       "id": "https://openinherit.org/v1/extensions/africa-customary.json",

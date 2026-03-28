@@ -1,6 +1,6 @@
 {
-  "name": "Jewish Law",
-  "id": "https://openinherit.org/v1/extensions/jewish.json",
+  "name": "Jewish Succession",
+  "id": "https://openinherit.org/v1/extensions/jewish-succession/jewish-succession.json",
   "version": "1.0.0",
   "inherit": ">=1.0.0 <2.0.0",
   "maturity": "draft",

@@ -4799,7 +4799,7 @@ components:
               - enforcer
           minItems: 1
           uniqueItems: true
-          $comment: 'testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person''s function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both ''executor'' (core) and ''karta'' (x-inherit-india-hindu). Extensions should NOT attempt to add values to this enum.'
+          $comment: 'testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person''s function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both ''executor'' (core) and ''karta'' (x-inherit-hindu-succession). Extensions should NOT attempt to add values to this enum.'
           description: The roles this person plays in the estate. A person may hold multiple roles simultaneously (e.g. beneficiary and executor).
           examples:
             - - testator
@@ -5658,7 +5658,7 @@ components:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/kinship.json
       title: Kinship
-      description: 'A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/india-hindu.json.'
+      description: 'A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json.'
       type: object
       properties:
         id:
@@ -8877,8 +8877,8 @@ components:
           $comment: URIs of extension schemas applied to this document.
           description: URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
           examples:
-            - - https://openinherit.org/v1/extensions/india-hindu.json
-              - https://openinherit.org/v1/extensions/islamic-faraid.json
+            - - https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json
+              - https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json
       required:
         - inherit
         - version

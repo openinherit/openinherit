@@ -141,9 +141,9 @@ import { createEstate, listEstates } from '@openinherit/sdk/reference';
 | `prc-china` | CN | Civil law (socialist) |
 | `singapore-malaysia` | SG / MY | Mixed |
 | `latin-america` | LATAM | Civil law |
-| `islamic` | Multiple | Islamic (Sharia) |
-| `jewish` | Multiple | Jewish (Halakha) |
-| `india-hindu` | IN | Hindu / Mixed |
+| `islamic-succession` | Multiple | Islamic succession law |
+| `jewish-succession` | Multiple | Jewish succession law |
+| `hindu-succession` | IN | Hindu succession law |
 | `africa-customary` | Multiple | Customary |
 
 ---

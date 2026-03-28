@@ -124,7 +124,7 @@
       },
       "minItems": 1,
       "uniqueItems": true,
-      "$comment": "Core roles define the person's function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both 'executor' (core) and 'karta' (x-inherit-india-hindu). Extensions should NOT attempt to add values to this enum."
+      "$comment": "Core roles define the person's function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both 'executor' (core) and 'karta' (x-inherit-hindu-succession). Extensions should NOT attempt to add values to this enum."
     },
     "contact": {
       "type": "object",

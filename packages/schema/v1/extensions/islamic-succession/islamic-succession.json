@@ -1,6 +1,7 @@
 {
   "$schema": "https://openinherit.org/v1/dialect.json",
-  "$id": "https://openinherit.org/v1/extensions/islamic.json",
+  "$id": "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json",
+  "$comment": "This extension implements succession rules derived from Islamic law as codified in specific jurisdictions. The extension name references the legal tradition, not the personal religious beliefs of any individual. A person of any faith (or none) may be subject to these rules depending on their jurisdiction of domicile.",
   "title": "Islamic Succession Extension",
   "description": "Faraid (Islamic inheritance) rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf details, and priority debts including mahr.",
   "type": "object",

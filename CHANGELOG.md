@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+- Renamed `islamic` extension to `islamic-succession` — references legal tradition, not personal religious belief
+- Renamed `jewish` extension to `jewish-succession` — references legal tradition, not personal religious belief
+- Renamed `india-hindu` extension to `hindu-succession` — references the Hindu Succession Act, not personal religious belief
+- Each renamed extension now carries a `$comment` explaining the naming rationale
+- Added `docs/legal/taxonomy-provenance.md` documenting taxonomy sources and licence decisions
+
 ## [1.1.0] — 2026-03-27
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "Islamic Succession",
-  "id": "https://openinherit.org/v1/extensions/islamic.json",
+  "id": "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json",
   "version": "1.0.0",
   "inherit": ">=1.0.0 <2.0.0",
   "maturity": "draft",

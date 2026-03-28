@@ -40,6 +40,6 @@ body:
     attributes:
       label: Affected extensions
       description: Which jurisdiction extensions might be affected by this change?
-      placeholder: e.g. uk-england-wales, islamic, none
+      placeholder: e.g. uk-england-wales, islamic-succession, none
     validations:
       required: false

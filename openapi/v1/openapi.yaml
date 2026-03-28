@@ -197,18 +197,18 @@ components:
       description: Latin American succession — legítima, forced heirship, fourths system
       x-inherit-maturity: draft
       $ref: '../../v1/extensions/latin-america/latin-america.json'
-    ExtensionIslamic:
+    ExtensionIslamicSuccession:
       description: Faraid — fixed shares, residuary, awl/radd, wasiyya, waqf
       x-inherit-maturity: draft
-      $ref: '../../v1/extensions/islamic/islamic.json'
-    ExtensionJewish:
+      $ref: '../../v1/extensions/islamic-succession/islamic-succession.json'
+    ExtensionJewishSuccession:
       description: Halachic inheritance — bekhor, mezonot, kinyan
       x-inherit-maturity: draft
-      $ref: '../../v1/extensions/jewish/jewish.json'
-    ExtensionIndiaHindu:
+      $ref: '../../v1/extensions/jewish-succession/jewish-succession.json'
+    ExtensionHinduSuccession:
       description: Hindu succession — Mitakshara/Dayabhaga, HUF, stridhan
       x-inherit-maturity: draft
-      $ref: '../../v1/extensions/india-hindu/india-hindu.json'
+      $ref: '../../v1/extensions/hindu-succession/hindu-succession.json'
     ExtensionAfricaCustomary:
       description: Customary succession — patrilineal/matrilineal, family council, lobola
       x-inherit-maturity: draft

@@ -2241,7 +2241,7 @@ components:
       $schema: https://openinherit.org/v1/dialect.json
       $id: https://openinherit.org/v1/kinship.json
       title: Kinship
-      description: 'A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/india-hindu.json.'
+      description: 'A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json.'
       type: object
       properties:
         id:
@@ -8521,9 +8521,9 @@ components:
         - type
         - amount
       additionalProperties: false
-    islamic:
+    islamic-succession:
       $schema: https://openinherit.org/v1/dialect.json
-      $id: https://openinherit.org/v1/extensions/islamic.json
+      $id: https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json
       title: Islamic Succession Extension
       description: 'Faraid (Islamic inheritance) rules: heir classification, fixed shares, residuary (asaba), awl/radd adjustments, wasiyya limits, iddah periods, waqf details, and priority debts including mahr.'
       type: object
@@ -8874,10 +8874,10 @@ components:
         - type
         - bequestId
       additionalProperties: false
-    jewish:
+    jewish-succession:
       $schema: https://openinherit.org/v1/dialect.json
-      $id: https://openinherit.org/v1/extensions/jewish.json
-      title: Jewish Law Extension
+      $id: https://openinherit.org/v1/extensions/jewish-succession/jewish-succession.json
+      title: Jewish Succession Extension
       description: Halachic inheritance rules including heir classification, bekhor (firstborn) double-share, mezonot (maintenance), kinyan (acquisition), and bequest classification under Jewish law.
       type: object
       $defs:
@@ -9131,10 +9131,10 @@ components:
         - assetId
         - description
       additionalProperties: false
-    india-hindu:
+    hindu-succession:
       $schema: https://openinherit.org/v1/dialect.json
-      $id: https://openinherit.org/v1/extensions/india-hindu.json
-      title: India Hindu Succession Extension
+      $id: https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json
+      title: Hindu Succession Extension
       description: 'Hindu succession law specifics: Mitakshara/Dayabhaga schools, HUF coparcenary, heir classifications under the Hindu Succession Act 1956, stridhan assets, agricultural land ceiling rules, and NRI complications.'
       type: object
       $defs:

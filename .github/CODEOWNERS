@@ -9,9 +9,9 @@
 # Core extensions — jurisdiction partners
 # As partners are onboarded, their GitHub usernames replace @testate-team
 /v1/extensions/uk-england-wales/**    @testate-team
-/v1/extensions/islamic/**             @testate-team
-/v1/extensions/jewish/**              @testate-team
-/v1/extensions/india-hindu/**         @testate-team
+/v1/extensions/islamic-succession/**  @testate-team
+/v1/extensions/jewish-succession/**   @testate-team
+/v1/extensions/hindu-succession/**    @testate-team
 /v1/extensions/japan/**               @testate-team
 /v1/extensions/africa-customary/**    @testate-team
 /v1/extensions/us-estate/**           @testate-team

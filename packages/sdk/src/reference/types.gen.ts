@@ -768,7 +768,7 @@ export type Relationship = {
 /**
  * Kinship
  *
- * A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/india-hindu.json.
+ * A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json.
  */
 export type Kinship = {
     id: string;
