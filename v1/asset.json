@@ -60,7 +60,7 @@
       "type": "string",
       "enum": ["excellent", "good", "fair", "poor", "unknown", "not_applicable"],
       "$comment": "excellent: like new or pristine. good: normal wear, fully functional. fair: showing age, may need minor repair. poor: significant wear, may need major repair. unknown: condition has not been assessed. not_applicable: condition is not relevant (e.g. bank accounts, pensions).",
-      "description": "Physical condition of the asset. Use 'not_applicable' for financial assets where condition is meaningless.",
+      "description": "Physical condition of the asset. Affects resale value — dealers use this to price items. Pair with conditionSystem and conditionGrade for domain-specific grading. Use 'not_applicable' for financial assets where condition is meaningless.",
       "examples": ["good", "not_applicable"]
     },
     "quantity": {
@@ -91,7 +91,7 @@
     "images": {
       "type": "array",
       "items": { "$ref": "common/media.json" },
-      "description": "Photographs, videos, and document scans of this asset. Use viewType to categorise each media item for efficient browsing by executors and dealers."
+      "description": "Photographs, videos, and document scans. Vision-capable AI agents use these to identify items, assess condition, and find visual matches on marketplaces. Use viewType from media.json to categorize each media item."
     },
     "possessionStatus": {
       "type": "string",
@@ -232,12 +232,12 @@
     },
     "brand": {
       "type": "string",
-      "description": "The manufacturer or brand name. Free text — implementations should offer category-aware suggestions from the category guidance reference data, but any value is valid. Brands change over time (acquisitions, rebrands) so this is not an enum.",
+      "description": "The manufacturer or brand name. AI agents should use this as a primary search dimension when finding comparables. Free text — implementations should offer category-aware suggestions from category-guidance.json, but any value is valid.",
       "examples": ["Hornby", "Bachmann", "Rolex", "Cartier", "Hardy Bros", "Steinway", "Hermès", "Gibson"]
     },
     "model": {
       "type": "string",
-      "description": "The specific model, product line, or range name within the brand. Combined with brand and identifiers, this uniquely describes the item to a specialist dealer.",
+      "description": "The specific model, product line, or range name. Combined with brand and identifiers, this is the primary key for marketplace search. AI agents construct search queries from brand + model + subcategory.",
       "examples": ["Class 66", "Submariner Date", "Perfect Reel", "Model D Grand Piano", "Birkin 25", "Les Paul Standard"]
     },
     "purchaseDate": {
