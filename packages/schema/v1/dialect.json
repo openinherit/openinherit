@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openinherit.org/v1/dialect.json",
+  "$vocabulary": {
+    "https://json-schema.org/draft/2020-12/vocab/core": true,
+    "https://json-schema.org/draft/2020-12/vocab/applicator": true,
+    "https://json-schema.org/draft/2020-12/vocab/unevaluated": true,
+    "https://json-schema.org/draft/2020-12/vocab/validation": true,
+    "https://json-schema.org/draft/2020-12/vocab/meta-data": true,
+    "https://json-schema.org/draft/2020-12/vocab/format-assertion": true,
+    "https://json-schema.org/draft/2020-12/vocab/content": true
+  },
+  "title": "INHERIT v1 Dialect",
+  "description": "Custom metaschema for the INHERIT v1 schema suite. Extends JSON Schema 2020-12 with format-assertion enabled — format keywords (uuid, email, date-time, uri) are validated, not just annotated. Exists so that the Sourcemeta CLI and other schema-aware tooling can resolve the $schema reference.",
+  "allOf": [
+    { "$ref": "https://json-schema.org/draft/2020-12/schema" }
+  ]
+}
