@@ -1,0 +1,127 @@
+{
+  "@context": {
+    "@version": 1.1,
+
+    "schema": "https://schema.org/",
+    "fibo": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "gs1": "https://www.gs1.org/voc/",
+    "wd": "http://www.wikidata.org/entity/",
+    "inherit": "https://openinherit.org/v1/vocab/",
+
+    "name": "schema:name",
+    "givenName": "schema:givenName",
+    "familyName": "schema:familyName",
+    "brand": "schema:brand",
+    "model": "schema:model",
+    "description": "schema:description",
+    "estimatedValue": "schema:price",
+    "address": "schema:address",
+    "images": {
+      "@id": "schema:image",
+      "@container": "@set"
+    },
+    "condition": "schema:itemCondition",
+    "category": "schema:category",
+    "subcategory": "gs1:subCategory",
+
+    "shareholding": {
+      "@id": "inherit:shareholding",
+      "@type": "@id",
+      "@context": {
+        "@type": "fibo:EquityInstrument"
+      }
+    },
+    "pension": {
+      "@id": "inherit:pension",
+      "@type": "@id",
+      "@context": {
+        "@type": "fibo:PensionFund"
+      }
+    },
+
+    "people": {
+      "@id": "inherit:people",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:Person"
+      }
+    },
+    "assets": {
+      "@id": "inherit:assets",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:Product"
+      }
+    },
+    "properties": {
+      "@id": "inherit:properties",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:RealEstateListing"
+      }
+    },
+    "valuations": {
+      "@id": "inherit:valuations",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:PriceSpecification"
+      }
+    },
+    "liabilities": {
+      "@id": "inherit:liabilities",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:MonetaryAmount"
+      }
+    },
+    "bequests": {
+      "@id": "inherit:bequests",
+      "@container": "@set",
+      "@context": {
+        "@type": "inherit:Bequest"
+      }
+    },
+    "executors": {
+      "@id": "inherit:executors",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:Role",
+        "roleName": {
+          "@id": "schema:roleName",
+          "@value": "executor"
+        }
+      }
+    },
+    "documents": {
+      "@id": "inherit:documents",
+      "@container": "@set",
+      "@context": {
+        "@type": "schema:DigitalDocument"
+      }
+    },
+
+    "identifiers": {
+      "@id": "inherit:identifiers",
+      "@container": "@set",
+      "@context": {
+        "system": {
+          "@id": "gs1:identificationScheme",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "knownBrands": {
+      "@id": "inherit:knownBrands",
+      "@context": {
+        "Hornby": "wd:Q1567489",
+        "Rolex": "wd:Q62288",
+        "Omega": "wd:Q659488",
+        "Cartier": "wd:Q538587",
+        "RoyalDoulton": "wd:Q1651335",
+        "Wedgwood": "wd:Q368137",
+        "Lladro": "wd:Q1393907"
+      }
+    }
+  }
+}
