@@ -1,0 +1,40 @@
+{
+  "target": "../../../v1/common/jurisdiction.json",
+  "tests": [
+    {
+      "description": "valid jurisdiction with country only",
+      "data": {
+        "country": "GB"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid jurisdiction with country and subdivision",
+      "data": {
+        "country": "GB",
+        "subdivision": "GB-ENG"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid jurisdiction with name",
+      "data": {
+        "country": "JP",
+        "name": "Japan"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid \u2014 missing required country",
+      "data": {
+        "subdivision": "GB-ENG"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid \u2014 empty object",
+      "data": {},
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "target": "../../../v1/person.json",
+  "tests": [
+    {
+      "description": "valid minimal person (id + givenName + roles)",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "givenName": "Margaret",
+        "familyName": "Davies",
+        "roles": [
+          "testator"
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated person",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440001",
+        "givenName": "Hiroshi",
+        "familyName": "Tanaka",
+        "additionalName": "Ken",
+        "preferredName": "Ken",
+        "dateOfBirth": "1955-03-15",
+        "dateOfDeath": "2025-11-01",
+        "gender": "male",
+        "domicile": {
+          "country": "JP",
+          "name": "Japan"
+        },
+        "roles": [
+          "testator"
+        ],
+        "contact": {
+          "email": "hiroshi@example.jp",
+          "phone": "+81-3-1234-5678",
+          "address": {
+            "streetAddress": "1-2-3 Chiyoda",
+            "addressLocality": "Tokyo",
+            "postalCode": "100-0001",
+            "addressCountry": "JP"
+          }
+        },
+        "identifiers": [
+          {
+            "system": "urn:jp:mynumber",
+            "value": "1234-5678-9012",
+            "type": "national_id"
+          }
+        ],
+        "language": "ja-JP",
+        "notes": "Primary testator. Dual citizen (JP/GB)."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid Tamil person with single name (no familyName)",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440011",
+        "givenName": "Ramanathan",
+        "roles": [
+          "testator"
+        ],
+        "clanOrLineage": "Iyer"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid \u2014 missing required id",
+      "data": {
+        "givenName": "Margaret",
+        "familyName": "Davies",
+        "roles": [
+          "testator"
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid \u2014 missing required givenName",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "familyName": "Davies",
+        "roles": [
+          "testator"
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid \u2014 missing required roles",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "givenName": "Margaret",
+        "familyName": "Davies"
+      },
+      "valid": false
+    },
+    {
+      "description": "valid \u2014 non-UUID id string (format-annotation only; Sourcemeta CLI does not enforce UUID format)",
+      "data": {
+        "id": "not-a-uuid",
+        "givenName": "Margaret",
+        "roles": [
+          "testator"
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid \u2014 unknown role value",
+      "data": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "givenName": "Margaret",
+        "roles": [
+          "king"
+        ]
+      },
+      "valid": false
+    }
+  ]
+}
