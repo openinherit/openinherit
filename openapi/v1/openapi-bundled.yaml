@@ -271,7 +271,7 @@ components:
             - kinyan_agav
             - seal_based
             - inkan_registered
-          $comment: 'in_person: traditional in-person execution and witnessing. video: execution witnessed via video link (permitted during COVID in some jurisdictions, now permanent in some). remote: remote execution via electronic means. none: no formal execution method (e.g. nuncupative/oral wills). kinyan_sudar: Jewish acquisition by symbolic exchange of a cloth — used to formalise halachic wills. kinyan_agav: Jewish acquisition ''on the back of'' land transfer — ancillary to a property transaction. seal_based: sealed with a personal seal (common in East Asian systems). inkan_registered: Japanese registered seal (jitsuin) verified against a seal registration certificate (inkan toroku shomeisho).'
+          $comment: 'in_person: traditional in-person execution and witnessing. video: execution witnessed via video link (permitted during COVID in some jurisdictions, now permanent in some). remote: remote execution via electronic means. none: no formal execution method (e.g. nuncupative/oral wills). kinyan_sudar: a legally valid attestation method in jurisdictions that recognise halachic legal instruments — Jewish acquisition by symbolic exchange of a cloth, used to formalise wills in batei din (Israel: binding; UK/US: recognised as contractual formality in secular courts). kinyan_agav: a legally valid attestation method under halachic law — Jewish acquisition ''on the back of'' land transfer, ancillary to a property transaction. seal_based: a legally valid attestation method in East Asian jurisdictions — sealed with a personal seal, carrying legal force equivalent to a signature in China, Korea, and Japan. inkan_registered: a legally valid attestation method under Japanese Civil Code Art. 969 — Japanese registered seal (jitsuin) verified against a seal registration certificate (inkan toroku shomeisho) issued by the municipal government. Required for notarised wills (kōsei shōsho igon) in Japan.'
           description: The method by which the will or document was executed.
           examples:
             - in_person
@@ -452,6 +452,8 @@ components:
           examples:
             - Dr Sarah Patel
             - Dr Kenji Watanabe
+            - Dr Aisha Ibrahim
+            - Dr Tendai Moyo
         assessorRole:
           type: string
           description: Professional role of the assessor — typically a GP, psychiatrist, or solicitor.
@@ -837,6 +839,8 @@ components:
               examples:
                 - Dr Sarah Patel
                 - Dr Kenji Watanabe
+                - Dr Aisha Ibrahim
+                - Dr Tendai Moyo
             assessorRole:
               type: string
               description: Professional role of the assessor — typically a GP, psychiatrist, or solicitor.
@@ -1518,6 +1522,9 @@ components:
                 examples:
                   - Maître Dupont, Paris
                   - Tanaka & Associates, Tokyo
+                  - Okonkwo & Partners, Lagos
+                  - Sharma Legal, Mumbai
+                  - Al-Tamimi & Company, Dubai
               notes:
                 type: string
                 description: Additional notes.
@@ -1868,6 +1875,13 @@ components:
             - 裕子
             - Priya
             - محمد
+            - Soo-jin
+            - Amara
+            - Fatima
+            - Arjun
+            - Chioma
+            - Haruki
+            - Aisha
         familyName:
           type: string
           minLength: 1
@@ -1879,6 +1893,13 @@ components:
             - O'Brien
             - 김
             - Müller
+            - Sharma
+            - Al-Hassan
+            - Okonkwo
+            - Watanabe
+            - Ibrahim
+            - Mensah
+            - Patel
         additionalName:
           type: string
           description: Middle name(s) or additional given names. Multiple middle names should be space-separated.
@@ -1886,6 +1907,9 @@ components:
             - William
             - María del Carmen
             - Raj Kumar
+            - Yuki
+            - Omar
+            - Tendai
         preferredName:
           type: string
           description: Name the person prefers to be called. May differ from legal name — use this for correspondence and display where appropriate.
@@ -1894,6 +1918,9 @@ components:
             - Maggie
             - ゆう
             - Bobby
+            - Riya
+            - Mo
+            - Kwame
         phoneticReading:
           type: object
           $comment: 'Required for CJK names. Japanese: furigana/romaji. Chinese: pinyin. Korean: romanisation. Ensures names can be read by non-native systems.'
@@ -1964,7 +1991,7 @@ components:
             additionalProperties: false
         clanOrLineage:
           type: string
-          $comment: Tribal clan, Indian gotra/caste, family lineage. Determines inheritance rights in customary/Hindu systems.
+          $comment: Used exclusively in jurisdictions where customary succession law determines inheritance rights based on clan membership (e.g. South Africa Customary Marriages Act 1998, Nigerian Igbo/Yoruba customary law, Kenyan Law of Succession Act s.32-33). Also covers Indian gotra under Hindu Succession Act 1956. Not collected in jurisdictions where clan affiliation has no legal relevance to succession.
           description: Clan, tribe, lineage, or gotra affiliation. In some legal systems (Hindu, customary African), this determines inheritance rights and succession order.
           examples:
             - Bharadwaja
@@ -2021,7 +2048,7 @@ components:
               - enforcer
           minItems: 1
           uniqueItems: true
-          $comment: 'testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person''s function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both ''executor'' (core) and ''karta'' (x-inherit-india-hindu). Extensions should NOT attempt to add values to this enum.'
+          $comment: 'testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person''s function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both ''executor'' (core) and ''karta'' (x-inherit-hindu-succession). Extensions should NOT attempt to add values to this enum.'
           description: The roles this person plays in the estate. A person may hold multiple roles simultaneously (e.g. beneficiary and executor).
           examples:
             - - testator
@@ -2041,6 +2068,9 @@ components:
               examples:
                 - james.davies@example.com
                 - tanaka.yuko@example.jp
+                - priya.sharma@example.in
+                - omar.ibrahim@example.ae
+                - amara.mensah@example.gh
             phone:
               type: string
               description: Phone number in E.164 format recommended. National formats are accepted but may be ambiguous across jurisdictions.
@@ -2066,7 +2096,7 @@ components:
                 type: social_security
         ritualName:
           type: object
-          $comment: 'Structured religious name. Hebrew: ''Dovid ben Avraham''. Arabic nasab: ''Ahmed ibn Muhammad''. Hindu: gotra + name. Used for halachic documents, Shariah court filings, religious ceremonies.'
+          $comment: Religiously significant name used in succession documents where religious courts have jurisdiction. Hebrew name (e.g. 'Dovid ben Avraham') is required for Jewish wills (shtar tzava'ah) and ketubah obligations adjudicated by a beth din. Arabic nasab (e.g. 'Ahmed ibn Muhammad') is required for Islamic wills (wasiyya) and Shariah court filings. Hindu gotra name is relevant for Hindu Succession Act proceedings. These are legal identifiers within their respective court systems, not cultural labels.
           description: The person's name within a religious naming tradition. Required for religious court filings, halachic documents, and Shariah proceedings.
           properties:
             name:
@@ -2416,7 +2446,7 @@ components:
             - PRENUPTIAL_AGREEMENT
             - POSTNUPTIAL_AGREEMENT
             - MARRIAGE_SETTLEMENT
-          $comment: 'MAHR: Islamic bridal gift — may be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — establishes the groom''s obligations. LOBOLA: African customary bride price — paid from the groom''s family to the bride''s family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.'
+          $comment: 'MAHR: Islamic bridal gift — a legally recognised financial obligation enforceable in Shariah courts and in secular family/probate courts in 50+ jurisdictions. May be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — a legally recognised financial obligation enforceable in Israeli rabbinical courts and treated as a binding contract by secular courts in the UK, US, Canada, and Australia. Establishes the groom''s obligations. LOBOLA: African customary bride price — a legally recognised financial obligation under the Recognition of Customary Marriages Act 1998 (South Africa) and equivalent statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. Paid from the groom''s family to the bride''s family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.'
           description: The type of financial instrument.
         value:
           $ref: '#/components/schemas/money'
@@ -2521,6 +2551,7 @@ components:
               examples:
                 - Rabbi David Goldstein
                 - Rabbi Miriam Berkowitz
+                - Rabbi Yosef Ben-Ami
           additionalProperties: false
         lobolaDetails:
           type: object
@@ -2534,6 +2565,7 @@ components:
               examples:
                 - Nkosi family, Johannesburg
                 - Chief Okafor, Enugu
+                - Mensah family, Accra
             includesLivestock:
               type: boolean
               description: Whether the lobola includes livestock (cattle are traditional in many Southern African customs).
@@ -2665,7 +2697,7 @@ components:
                 - PRENUPTIAL_AGREEMENT
                 - POSTNUPTIAL_AGREEMENT
                 - MARRIAGE_SETTLEMENT
-              $comment: 'MAHR: Islamic bridal gift — may be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — establishes the groom''s obligations. LOBOLA: African customary bride price — paid from the groom''s family to the bride''s family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.'
+              $comment: 'MAHR: Islamic bridal gift — a legally recognised financial obligation enforceable in Shariah courts and in secular family/probate courts in 50+ jurisdictions. May be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — a legally recognised financial obligation enforceable in Israeli rabbinical courts and treated as a binding contract by secular courts in the UK, US, Canada, and Australia. Establishes the groom''s obligations. LOBOLA: African customary bride price — a legally recognised financial obligation under the Recognition of Customary Marriages Act 1998 (South Africa) and equivalent statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. Paid from the groom''s family to the bride''s family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.'
               description: The type of financial instrument.
             value:
               $ref: '#/components/schemas/money'
@@ -2770,6 +2802,7 @@ components:
                   examples:
                     - Rabbi David Goldstein
                     - Rabbi Miriam Berkowitz
+                    - Rabbi Yosef Ben-Ami
               additionalProperties: false
             lobolaDetails:
               type: object
@@ -2783,6 +2816,7 @@ components:
                   examples:
                     - Nkosi family, Johannesburg
                     - Chief Okafor, Enugu
+                    - Mensah family, Accra
                 includesLivestock:
                   type: boolean
                   description: Whether the lobola includes livestock (cattle are traditional in many Southern African customs).
@@ -2880,7 +2914,7 @@ components:
             - DE_FACTO
         religiousSubtype:
           type: string
-          $comment: 'Specific religious marriage form: nikah, kiddushin, hindu_vivah, anand_karaj (Sikh), etc. Only meaningful when type is MARRIAGE_RELIGIOUS.'
+          $comment: 'Legal relationship categories recognised by specific jurisdictions, not religious labels. nikah: Islamic marriage contract — a legally binding civil contract in 50+ jurisdictions (all OIC member states, plus recognised for succession purposes in UK, US, Canada, Australia, Singapore). kiddushin: Jewish marriage — legally binding in Israel; recognised as a valid marriage for succession in UK/US/Canada where properly registered. hindu_vivah: Hindu marriage — legally binding under Hindu Marriage Act 1955 (India), recognised in UK/Singapore/Malaysia. anand_karaj: Sikh marriage — legally binding under Anand Marriage Act 1909 (India), recognised in UK/Canada. Only meaningful when type is MARRIAGE_RELIGIOUS.'
           description: The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS.
           examples:
             - nikah
@@ -3057,6 +3091,8 @@ components:
             - 42 Acacia Avenue
             - Lagos Investment Property
             - Hokkaido Farmland
+            - Mumbai Flat
+            - Dubai Marina Apartment
         propertyType:
           type: string
           enum:
@@ -3438,7 +3474,7 @@ components:
             - takaful
             - islamic_deposit
             - other
-          $comment: 'bank_account: current or checking account. savings_account: deposit or savings account. investment: stocks, bonds, funds, ISAs. pension: occupational or personal pension. shares: individual company shares. premium_bonds: UK NS&I Premium Bonds. cryptocurrency: Bitcoin, Ethereum, etc. insurance: life insurance or endowment. vehicle: car, motorcycle, boat, etc. jewellery: rings, necklaces, watches. art: paintings, sculptures, prints. antiques: items of historical value. collectibles: stamps, coins, memorabilia. furniture: household furniture. electronics: computers, phones, cameras. musical_instruments: pianos, guitars, etc. books: valuable or collectible books. clothing: valuable clothing items. kitchenware: valuable kitchen items. sports_equipment: golf clubs, etc. firearms: shotguns, rifles (require licensing). wine_and_spirits: wine collections, rare spirits. tools: workshop tools and equipment. garden_and_outdoor: garden machinery, outdoor equipment. business_interest: share in a business or partnership. intellectual_property: patents, copyrights, trademarks. domain_name: internet domain names. social_media_account: accounts with commercial value. digital_subscription: transferable digital subscriptions. sukuk: Islamic bond. takaful: Islamic insurance. islamic_deposit: Shariah-compliant deposit account. other: any asset not covered above.'
+          $comment: 'bank_account: current or checking account. savings_account: deposit or savings account. investment: stocks, bonds, funds, ISAs. pension: occupational or personal pension. shares: individual company shares. premium_bonds: UK NS&I Premium Bonds. cryptocurrency: Bitcoin, Ethereum, etc. insurance: life insurance or endowment. vehicle: car, motorcycle, boat, etc. jewellery: rings, necklaces, watches. art: paintings, sculptures, prints. antiques: items of historical value. collectibles: stamps, coins, memorabilia. furniture: household furniture. electronics: computers, phones, cameras. musical_instruments: pianos, guitars, etc. books: valuable or collectible books. clothing: valuable clothing items. kitchenware: valuable kitchen items. sports_equipment: golf clubs, etc. firearms: shotguns, rifles (require licensing). wine_and_spirits: wine collections, rare spirits. tools: workshop tools and equipment. garden_and_outdoor: garden machinery, outdoor equipment. business_interest: share in a business or partnership. intellectual_property: patents, copyrights, trademarks. domain_name: internet domain names. social_media_account: accounts with commercial value. digital_subscription: transferable digital subscriptions. sukuk: Islamic bond — an internationally recognised financial instrument type defined by AAOIFI (Accounting and Auditing Organization for Islamic Financial Institutions) standards, traded on major exchanges (London, Dubai, Kuala Lumpur) and regulated by secular financial authorities. Not a religious classification. takaful: Islamic insurance — an internationally recognised financial instrument type defined by AAOIFI standards and regulated by insurance authorities in 40+ jurisdictions including the UK (PRA/FCA), Malaysia (BNM), and UAE (CBUAE). Not a religious classification. islamic_deposit: Shariah-compliant deposit account — a regulated banking product offered by licensed banks under secular banking supervision, structured to comply with AAOIFI standards. Not a religious classification. other: any asset not covered above.'
           description: The broad category of this asset. Determines which additional details may be relevant.
           examples:
             - bank_account
@@ -3987,6 +4023,8 @@ components:
           description: Additional context about this interest
           examples:
             - Sarah mentioned at Christmas 2024 that she'd love Mum's engagement ring. Mum seemed pleased.
+            - Haruki has always admired the woodblock print collection — discussed at Obon 2024.
+            - Amara expressed strong interest in the family compound during the last family council meeting.
       required:
         - id
         - estateId
@@ -4026,7 +4064,7 @@ components:
             - care_fees
             - mezonot
             - other
-          $comment: 'mortgage: secured loan against property. personal_loan: unsecured personal borrowing. credit_card: credit card balance. overdraft: bank overdraft. student_loan: education loan (may be forgiven on death in some jurisdictions). car_finance: vehicle finance agreement. hire_purchase: hire purchase agreement. mahr: Islamic deferred bridal gift — priority debt that must be paid before inheritance distribution. ketubah_debt: Jewish marriage contract obligation — priority debt under halacha. lobola: African customary bride price — may be partially refundable on certain events. tax_liability: income tax, capital gains tax, or other tax owed. funeral_costs: funeral and burial expenses — typically first priority debt. care_fees: care home or nursing fees owed. mezonot: Jewish widow''s maintenance obligation — paid from the estate before distribution. other: any liability not covered above.'
+          $comment: 'mortgage: secured loan against property. personal_loan: unsecured personal borrowing. credit_card: credit card balance. overdraft: bank overdraft. student_loan: education loan (may be forgiven on death in some jurisdictions). car_finance: vehicle finance agreement. hire_purchase: hire purchase agreement. mahr: Islamic deferred bridal gift — a legally recognised financial obligation that is a priority debt under Shariah law, enforceable in Shariah courts and in secular courts that recognise Islamic marriage contracts (e.g. UAE, Malaysia, Pakistan, and increasingly in UK/US family courts). ketubah_debt: Jewish marriage contract obligation — a legally recognised financial obligation under halachic law, enforceable in batei din and in secular courts where the ketubah is recognised as a binding contract (e.g. Israel; treated as a prenuptial in US/UK courts). lobola: African customary bride price — a legally recognised financial obligation under customary law, with statutory recognition under the Recognition of Customary Marriages Act 1998 (South Africa), and customary law statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. May be partially refundable on certain events. tax_liability: income tax, capital gains tax, or other tax owed. funeral_costs: funeral and burial expenses — typically first priority debt. care_fees: care home or nursing fees owed. mezonot: Jewish widow''s maintenance obligation — a legally recognised financial obligation under halachic law, paid from the estate before distribution, enforceable in Israeli rabbinical courts and in batei din worldwide. other: any liability not covered above.'
           description: The category of liability. Cultural and religious obligations are included because they are priority debts in their respective legal systems.
           examples:
             - mortgage
@@ -4041,6 +4079,9 @@ components:
             - HMRC
             - Manchester City Council
             - Fatimah bint Hassan
+            - Sumitomo Mitsui Banking Corporation
+            - Priya Sharma
+            - Chioma Okonkwo
         amount:
           $ref: '#/components/schemas/money'
           description: Outstanding balance of this liability in minor currency units.
@@ -4482,6 +4523,8 @@ components:
             - All my grandchildren living at my death
             - My children in equal shares
             - The children of my late brother Ahmed
+            - The descendants of my sister Lakshmi
+            - The children of my late uncle Kwame
         lifeInterest:
           $ref: '#/components/schemas/LifeInterest'
           description: Life interest details, required when type is 'life_interest'.
@@ -4763,6 +4806,9 @@ components:
             - The Davies Family Trust
             - NRB Discretionary Trust
             - Al-Rahman Waqf
+            - Tanaka Family Trust
+            - Sharma Children's Trust
+            - Okonkwo Education Trust
         trustType:
           type: string
           enum:
@@ -5108,6 +5154,9 @@ components:
             - Irwin Mitchell LLP
             - Evelyn Partners
             - National Westminster Bank Trustee Services
+            - Nishimura & Asahi
+            - Anjarwalla & Khanna LLP
+            - Shardul Amarchand Mangaldas
         grantType:
           type: string
           enum:
@@ -5139,6 +5188,9 @@ components:
             - Leeds District Probate Registry
             - Supreme Court of Victoria
             - Surrogate's Court, New York County
+            - Tokyo Family Court
+            - Lagos High Court
+            - Bombay High Court
         notes:
           type: string
           description: Free-text notes about this executor appointment — reservations, renunciations, or special circumstances.
@@ -5228,6 +5280,8 @@ components:
           examples:
             - Guardian lives in Canada — may need to apply for child's visa
             - Both parents wish the child to be raised in the Islamic faith
+            - Guardian Auntie Lakshmi confirmed — child to continue at current school in Mumbai
+            - Kwame Mensah agreed to act as guardian — family council approved
       required:
         - id
         - personId
@@ -5280,6 +5334,8 @@ components:
           examples:
             - I wish to be cremated and my ashes scattered at Coniston Water
             - Please ensure my cat Mochi is rehomed with my sister Akiko
+            - Burial in accordance with Islamic rites — contact Imam Hassan at the East London Mosque
+            - Please ensure my dog is cared for by my nephew Tendai
         bindingNature:
           type: string
           enum:
@@ -5347,6 +5403,9 @@ components:
             - Last Will and Testament of James Davies
             - First Codicil dated 15 June 2024
             - Nikah Nama — Ahmed and Fatimah
+            - 遺言書 — 田中裕子
+            - Will of Amara Okonkwo
+            - Testament de Priya Sharma
         fileFormat:
           type: string
           $comment: File extension or format identifier (e.g. pdf, docx, jpg).
@@ -5774,6 +5833,9 @@ components:
             - Savills
             - Dr Heinrich Müller
             - Bonhams
+            - Galerie Tanaka, Tokyo
+            - Rahul Mehta Fine Art
+            - Al-Futtaim Auction House
         type:
           type: string
           enum:
@@ -5920,6 +5982,9 @@ components:
                 - Savills
                 - Dr Heinrich Müller
                 - Bonhams
+                - Galerie Tanaka, Tokyo
+                - Rahul Mehta Fine Art
+                - Al-Futtaim Auction House
             type:
               type: string
               enum:
@@ -6186,6 +6251,9 @@ components:
               examples:
                 - James Davies
                 - Priya Sharma
+                - Yuki Tanaka
+                - Fatima Al-Hassan
+                - Kwame Mensah
             email:
               type: string
               format: email
@@ -6320,8 +6388,8 @@ components:
           $comment: URIs of extension schemas applied to this document.
           description: URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.
           examples:
-            - - https://openinherit.org/v1/extensions/india-hindu.json
-              - https://openinherit.org/v1/extensions/islamic-faraid.json
+            - - https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json
+              - https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json
       required:
         - inherit
         - version
