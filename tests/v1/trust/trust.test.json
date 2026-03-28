@@ -1,0 +1,142 @@
+{
+  "target": "../../../v1/trust.json",
+  "tests": [
+    {
+      "description": "valid minimal trust (required fields only)",
+      "data": {
+        "id": "b8c9d0e1-f2a3-4567-b890-123456789abc",
+        "name": "The Davies Family Trust",
+        "trustType": "discretionary",
+        "trustees": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "role": "trustee"
+          }
+        ],
+        "beneficiaries": [
+          {
+            "interestType": "discretionary"
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated trust — testamentary nil rate band trust",
+      "data": {
+        "id": "c9d0e1f2-a3b4-5678-c901-23456789abcd",
+        "name": "NRB Discretionary Trust",
+        "trustType": "nil_rate_band",
+        "trustees": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "role": "trustee"
+          },
+          {
+            "personId": "22222222-0000-0000-0000-000000000002",
+            "role": "trustee"
+          }
+        ],
+        "beneficiaries": [
+          {
+            "personId": "33333333-0000-0000-0000-000000000003",
+            "interestType": "both"
+          },
+          {
+            "classDefinition": "All my grandchildren and their descendants",
+            "interestType": "discretionary"
+          }
+        ],
+        "settlor": "44444444-0000-0000-0000-000000000004",
+        "isTestamentary": true,
+        "creationType": "testamentary",
+        "revocability": "irrevocable",
+        "perpetual": false,
+        "trustPeriod": "125 years from date of settlement",
+        "vestingConditions": [
+          "Beneficiary must have reached age 18"
+        ],
+        "notes": "Established to absorb the nil-rate band and reduce IHT on the survivor's estate."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid trust — Islamic waqf (perpetual endowment)",
+      "data": {
+        "id": "d0e1f2a3-b4c5-6789-d012-3456789abcde",
+        "name": "Al-Rahman Waqf",
+        "trustType": "waqf",
+        "trustees": [
+          {
+            "personId": "55555555-0000-0000-0000-000000000005",
+            "role": "trustee"
+          }
+        ],
+        "beneficiaries": [
+          {
+            "organisationName": "Islamic Relief UK",
+            "interestType": "income"
+          }
+        ],
+        "revocability": "perpetual",
+        "perpetual": true,
+        "notes": "Waqf income designated for educational scholarships in perpetuity. Cannot be revoked or inherited."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing name",
+      "data": {
+        "id": "b8c9d0e1-f2a3-4567-b890-123456789abc",
+        "trustType": "discretionary",
+        "trustees": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "role": "trustee"
+          }
+        ],
+        "beneficiaries": [
+          {
+            "interestType": "discretionary"
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — trustees array is empty (minItems: 1)",
+      "data": {
+        "id": "b8c9d0e1-f2a3-4567-b890-123456789abc",
+        "name": "The Smith Trust",
+        "trustType": "bare",
+        "trustees": [],
+        "beneficiaries": [
+          {
+            "interestType": "capital"
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — trustType not in enum",
+      "data": {
+        "id": "b8c9d0e1-f2a3-4567-b890-123456789abc",
+        "name": "The Smith Trust",
+        "trustType": "pension_trust",
+        "trustees": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "role": "trustee"
+          }
+        ],
+        "beneficiaries": [
+          {
+            "interestType": "income"
+          }
+        ]
+      },
+      "valid": false
+    }
+  ]
+}

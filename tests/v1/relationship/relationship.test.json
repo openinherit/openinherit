@@ -1,0 +1,139 @@
+{
+  "target": "../../../v1/relationship.json",
+  "tests": [
+    {
+      "description": "valid minimal relationship (required fields only)",
+      "data": {
+        "id": "f2a3b4c5-d6e7-8901-f234-56789abcdef0",
+        "type": "MARRIAGE_CIVIL",
+        "partners": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "ordinal": 1
+          },
+          {
+            "personId": "22222222-0000-0000-0000-000000000002",
+            "ordinal": 2
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated relationship — Islamic nikah with mahr",
+      "data": {
+        "id": "a3b4c5d6-e7f8-9012-a345-6789abcdef01",
+        "type": "MARRIAGE_RELIGIOUS",
+        "religiousSubtype": "nikah",
+        "selfDeclaredType": "married",
+        "partners": [
+          {
+            "personId": "33333333-0000-0000-0000-000000000003",
+            "ordinal": 1,
+            "displayLabel": "Husband"
+          },
+          {
+            "personId": "44444444-0000-0000-0000-000000000004",
+            "ordinal": 2,
+            "displayLabel": "Wife"
+          }
+        ],
+        "events": [
+          {
+            "type": "CEREMONY",
+            "date": "2015-06-20",
+            "notes": "Nikah ceremony held at the East London Mosque."
+          },
+          {
+            "type": "REGISTRATION",
+            "date": "2015-07-01"
+          }
+        ],
+        "currentStatus": "ACTIVE",
+        "propertyRegime": "SEPARATION_OF_PROPERTY",
+        "financialInstruments": [
+          {
+            "type": "MAHR",
+            "status": "DEFERRED",
+            "description": "Deferred mahr of 50,000 AED — payable on death or divorce",
+            "maharDetails": {
+              "maharType": "deferred",
+              "recipientPersonId": "44444444-0000-0000-0000-000000000004"
+            }
+          }
+        ],
+        "notes": "Nikah recognised in UK for succession purposes."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid relationship — de facto with events timeline",
+      "data": {
+        "id": "b4c5d6e7-f8a9-0123-b456-789abcdef012",
+        "type": "DE_FACTO",
+        "partners": [
+          {
+            "personId": "55555555-0000-0000-0000-000000000005",
+            "ordinal": 1
+          },
+          {
+            "personId": "66666666-0000-0000-0000-000000000006",
+            "ordinal": 2
+          }
+        ],
+        "currentStatus": "ACTIVE",
+        "notes": "De facto couple — cohabitating since 2018 in New South Wales."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing type",
+      "data": {
+        "id": "f2a3b4c5-d6e7-8901-f234-56789abcdef0",
+        "partners": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "ordinal": 1
+          },
+          {
+            "personId": "22222222-0000-0000-0000-000000000002",
+            "ordinal": 2
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — partners array has fewer than 2 items",
+      "data": {
+        "id": "f2a3b4c5-d6e7-8901-f234-56789abcdef0",
+        "type": "MARRIAGE_CIVIL",
+        "partners": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "ordinal": 1
+          }
+        ]
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — type not in enum",
+      "data": {
+        "id": "f2a3b4c5-d6e7-8901-f234-56789abcdef0",
+        "type": "POLYAMOROUS",
+        "partners": [
+          {
+            "personId": "11111111-0000-0000-0000-000000000001",
+            "ordinal": 1
+          },
+          {
+            "personId": "22222222-0000-0000-0000-000000000002",
+            "ordinal": 2
+          }
+        ]
+      },
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "target": "../../../v1/common/visibility.json",
+  "tests": [
+    {
+      "description": "valid — testator_only",
+      "data": "testator_only",
+      "valid": true
+    },
+    {
+      "description": "valid — proxy_visible",
+      "data": "proxy_visible",
+      "valid": true
+    },
+    {
+      "description": "valid — companion_visible",
+      "data": "companion_visible",
+      "valid": true
+    },
+    {
+      "description": "valid — executor_visible",
+      "data": "executor_visible",
+      "valid": true
+    },
+    {
+      "description": "valid — beneficiary_visible",
+      "data": "beneficiary_visible",
+      "valid": true
+    },
+    {
+      "description": "valid — all_parties",
+      "data": "all_parties",
+      "valid": true
+    },
+    {
+      "description": "invalid — value not in enum",
+      "data": "family_only",
+      "valid": false
+    },
+    {
+      "description": "invalid — empty string",
+      "data": "",
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "target": "../../../v1/proxy-authorisation.json",
+  "tests": [
+    {
+      "description": "valid minimal proxy authorisation (required fields only)",
+      "data": {
+        "id": "d6e7f8a9-b0c1-2345-d678-9abcdef01234",
+        "proxyPersonId": "11111111-0000-0000-0000-000000000001",
+        "testatorPersonId": "22222222-0000-0000-0000-000000000002",
+        "scope": "information_gathering",
+        "consentRecord": {
+          "consentGiven": true
+        }
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated proxy authorisation — full scope with witnesses",
+      "data": {
+        "id": "e7f8a9b0-c1d2-3456-e789-abcdef012345",
+        "proxyPersonId": "33333333-0000-0000-0000-000000000003",
+        "testatorPersonId": "44444444-0000-0000-0000-000000000004",
+        "scope": "full",
+        "consentRecord": {
+          "consentGiven": true,
+          "consentDate": "2025-03-15",
+          "consentMethod": "in_person_written",
+          "witnesses": [
+            {
+              "personId": "55555555-0000-0000-0000-000000000005",
+              "role": "solicitor",
+              "witnessedDate": "2025-03-15"
+            },
+            {
+              "personId": "66666666-0000-0000-0000-000000000006",
+              "role": "family_elder",
+              "witnessedDate": "2025-03-15"
+            }
+          ],
+          "documentRef": "DOC-2025-PROXY-001",
+          "notes": "Consent given in the presence of solicitor and family elder."
+        },
+        "dealerNegotiationPermitted": true,
+        "startDate": "2025-03-15",
+        "expiryDate": "2026-03-15",
+        "auditTrailEnabled": true,
+        "notes": "Proxy is testator's daughter — authorised to liaise with Bonhams regarding the art collection."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing proxyPersonId",
+      "data": {
+        "id": "d6e7f8a9-b0c1-2345-d678-9abcdef01234",
+        "testatorPersonId": "22222222-0000-0000-0000-000000000002",
+        "scope": "communication",
+        "consentRecord": {
+          "consentGiven": true
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — scope not in enum",
+      "data": {
+        "id": "d6e7f8a9-b0c1-2345-d678-9abcdef01234",
+        "proxyPersonId": "11111111-0000-0000-0000-000000000001",
+        "testatorPersonId": "22222222-0000-0000-0000-000000000002",
+        "scope": "limited",
+        "consentRecord": {
+          "consentGiven": true
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — consentRecord missing consentGiven",
+      "data": {
+        "id": "d6e7f8a9-b0c1-2345-d678-9abcdef01234",
+        "proxyPersonId": "11111111-0000-0000-0000-000000000001",
+        "testatorPersonId": "22222222-0000-0000-0000-000000000002",
+        "scope": "information_gathering",
+        "consentRecord": {
+          "consentDate": "2025-03-15"
+        }
+      },
+      "valid": false
+    }
+  ]
+}

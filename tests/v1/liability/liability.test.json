@@ -1,0 +1,95 @@
+{
+  "target": "../../../v1/liability.json",
+  "tests": [
+    {
+      "description": "valid minimal liability (required fields only)",
+      "data": {
+        "id": "f6a7b8c9-d0e1-2345-f012-3456789abcde",
+        "liabilityType": "mortgage",
+        "amount": {
+          "amount": 18750000,
+          "currency": "GBP"
+        }
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated liability — deferred mahr",
+      "data": {
+        "id": "a7b8c9d0-e1f2-3456-a012-3456789abcde",
+        "liabilityType": "mahr",
+        "creditor": "Fatimah bint Hassan",
+        "amount": {
+          "amount": 5000000,
+          "currency": "AED"
+        },
+        "monthlyPayment": {
+          "amount": 0,
+          "currency": "AED"
+        },
+        "interestRate": 0,
+        "startDate": "2015-06-20",
+        "accountReference": "MAHR-2015-FH",
+        "notes": "Deferred mahr — becomes payable on death or divorce. Priority debt under Shariah law."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid liability — UK mortgage with full detail",
+      "data": {
+        "id": "b8c9d0e1-f2a3-4567-b890-3456789abcde",
+        "liabilityType": "mortgage",
+        "creditor": "Nationwide Building Society",
+        "amount": {
+          "amount": 23500000,
+          "currency": "GBP"
+        },
+        "securedAgainst": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+        "monthlyPayment": {
+          "amount": 110000,
+          "currency": "GBP"
+        },
+        "interestRate": 4.5,
+        "startDate": "2020-06-01",
+        "endDate": "2045-06-01",
+        "accountReference": "MORT-2020-123456",
+        "notes": "Fixed rate until 2027, then reverts to SVR."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing liabilityType",
+      "data": {
+        "id": "f6a7b8c9-d0e1-2345-f012-3456789abcde",
+        "amount": {
+          "amount": 18750000,
+          "currency": "GBP"
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — amount missing currency",
+      "data": {
+        "id": "f6a7b8c9-d0e1-2345-f012-3456789abcde",
+        "liabilityType": "credit_card",
+        "amount": {
+          "amount": 250000
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — liabilityType not in enum",
+      "data": {
+        "id": "f6a7b8c9-d0e1-2345-f012-3456789abcde",
+        "liabilityType": "crypto_loan",
+        "amount": {
+          "amount": 500000,
+          "currency": "GBP"
+        }
+      },
+      "valid": false
+    }
+  ]
+}

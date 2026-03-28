@@ -1,0 +1,109 @@
+{
+  "target": "../../../v1/common/tax-position.json",
+  "tests": [
+    {
+      "description": "valid minimal tax position (required fields only)",
+      "data": {
+        "jurisdiction": "GB",
+        "calculatedAt": "2026-03-28T14:30:00Z",
+        "grossEstateValue": {
+          "amount": 185000000,
+          "currency": "GBP"
+        },
+        "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid fully populated tax position — UK IHT calculation",
+      "data": {
+        "jurisdiction": "GB",
+        "calculatedAt": "2026-03-28T14:30:00Z",
+        "grossEstateValue": {
+          "amount": 185000000,
+          "currency": "GBP"
+        },
+        "netEstateValue": {
+          "amount": 162500000,
+          "currency": "GBP"
+        },
+        "lifetimeTransfersInLookback": {
+          "amount": 15000000,
+          "currency": "GBP"
+        },
+        "lookbackPeriod": "7 years",
+        "availableExemptions": [
+          {
+            "name": "Nil-rate band",
+            "amount": {
+              "amount": 32500000,
+              "currency": "GBP"
+            },
+            "applied": true,
+            "notes": "Transferred nil-rate band from predeceased spouse — double allowance."
+          },
+          {
+            "name": "Residence nil-rate band",
+            "amount": {
+              "amount": 17500000,
+              "currency": "GBP"
+            },
+            "applied": true,
+            "notes": "Primary residence passes to direct descendant."
+          }
+        ],
+        "taxableEstate": {
+          "amount": 112500000,
+          "currency": "GBP"
+        },
+        "estimatedLiability": {
+          "amount": 45000000,
+          "currency": "GBP"
+        },
+        "effectiveRate": 24.32,
+        "warnings": [
+          "No professional valuation on file for 2 properties — using owner estimates.",
+          "Lifetime transfers may be incomplete — only gifts over £3,000 recorded."
+        ],
+        "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing jurisdiction",
+      "data": {
+        "calculatedAt": "2026-03-28T14:30:00Z",
+        "grossEstateValue": {
+          "amount": 185000000,
+          "currency": "GBP"
+        },
+        "disclaimer": "Estimated for planning purposes only."
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing disclaimer",
+      "data": {
+        "jurisdiction": "GB",
+        "calculatedAt": "2026-03-28T14:30:00Z",
+        "grossEstateValue": {
+          "amount": 185000000,
+          "currency": "GBP"
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — grossEstateValue missing currency",
+      "data": {
+        "jurisdiction": "GB",
+        "calculatedAt": "2026-03-28T14:30:00Z",
+        "grossEstateValue": {
+          "amount": 185000000
+        },
+        "disclaimer": "Estimated for planning purposes only."
+      },
+      "valid": false
+    }
+  ]
+}
