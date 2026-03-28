@@ -418,6 +418,12 @@
       "$ref": "#/$defs/InheritanceResponse",
       "description": "The beneficiary's formal response to this inheritance, if applicable."
     },
+    "hotchpotTransferIds": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "References to lifetime transfer IDs that should be brought into account (hotchpot) when calculating this beneficiary's entitlement. Links bequests to prior gifts — if the testator gave the beneficiary £50,000 during their lifetime, this bequest may be reduced accordingly.",
+      "examples": [["f1234567-89ab-4cde-8012-3456789abcde"]]
+    },
     "notes": {
       "type": "string",
       "description": "Free-text notes about this bequest. Use for context, testator intent, or special instructions to executors.",

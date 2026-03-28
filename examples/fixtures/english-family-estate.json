@@ -195,5 +195,186 @@
   "assetCollections": [],
   "assetInterests": [],
   "valuations": [],
-  "lifetimeTransfers": []
+  "lifetimeTransfers": [],
+  "completeness": {
+    "score": 72,
+    "maxScore": 100,
+    "jurisdiction": "GB-ENG",
+    "estateStatus": "confirmed",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "checklist": [
+      {
+        "category": "personal_details",
+        "item": "Testator full name recorded",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "personal_details",
+        "item": "Testator date of birth",
+        "weight": 5,
+        "status": "complete"
+      },
+      {
+        "category": "personal_details",
+        "item": "Testator address",
+        "weight": 5,
+        "status": "complete"
+      },
+      {
+        "category": "assets_and_valuations",
+        "item": "At least one asset recorded",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "assets_and_valuations",
+        "item": "Professional valuations for assets over \u00a350,000",
+        "weight": 8,
+        "status": "incomplete",
+        "details": "Barclays shares portfolio lacks professional valuation"
+      },
+      {
+        "category": "executors",
+        "item": "At least one executor appointed",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "tax_information",
+        "item": "Tax position calculated",
+        "weight": 8,
+        "status": "complete"
+      },
+      {
+        "category": "lifetime_transfers",
+        "item": "Lifetime gifts in 7-year lookback documented",
+        "weight": 7,
+        "status": "incomplete",
+        "details": "No lifetime transfers recorded \u2014 confirm none were made"
+      },
+      {
+        "category": "pension_and_insurance",
+        "item": "Pension nominations current",
+        "weight": 6,
+        "status": "unknown",
+        "details": "Pension exists but nomination status not recorded"
+      },
+      {
+        "category": "legal_documents",
+        "item": "Will execution date recorded",
+        "weight": 5,
+        "status": "incomplete"
+      }
+    ]
+  },
+  "taxPosition": {
+    "jurisdiction": "GB-ENG",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "grossEstateValue": {
+      "amount": 95000000,
+      "currency": "GBP"
+    },
+    "netEstateValue": {
+      "amount": 72000000,
+      "currency": "GBP"
+    },
+    "lifetimeTransfersInLookback": {
+      "amount": 0,
+      "currency": "GBP"
+    },
+    "lookbackPeriod": "7 years",
+    "availableExemptions": [
+      {
+        "name": "Nil Rate Band",
+        "amount": {
+          "amount": 32500000,
+          "currency": "GBP"
+        },
+        "applied": true
+      },
+      {
+        "name": "Residence Nil Rate Band",
+        "amount": {
+          "amount": 17500000,
+          "currency": "GBP"
+        },
+        "applied": true,
+        "notes": "Primary residence passes to direct descendant"
+      }
+    ],
+    "taxableEstate": {
+      "amount": 22000000,
+      "currency": "GBP"
+    },
+    "estimatedLiability": {
+      "amount": 8800000,
+      "currency": "GBP"
+    },
+    "effectiveRate": 12.22,
+    "warnings": [
+      "No lifetime transfer history \u2014 verify none were made in the last 7 years",
+      "Pension death benefits not included in estate value calculation"
+    ],
+    "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+  },
+  "recommendedActions": [
+    {
+      "id": "act-001",
+      "category": "valuation",
+      "priority": "high",
+      "title": "Get professional valuation for share portfolio",
+      "description": "The Barclays shares are estimated at over \u00a350,000 but have no professional valuation. HMRC may challenge the estate value.",
+      "status": "pending",
+      "triggeredBy": "Asset 'Barclays shares' estimated > \u00a350,000 without professional valuation"
+    },
+    {
+      "id": "act-002",
+      "category": "transfer_history",
+      "priority": "high",
+      "title": "Document lifetime gifts in 7-year lookback",
+      "description": "No lifetime transfers are recorded. Confirm whether any gifts were made in the last 7 years \u2014 these affect IHT calculations.",
+      "status": "pending",
+      "triggeredBy": "Zero lifetime transfers recorded for estate in 'confirmed' status"
+    },
+    {
+      "id": "act-003",
+      "category": "beneficiary_review",
+      "priority": "medium",
+      "title": "Update pension nomination",
+      "description": "The pension scheme has no recorded beneficiary nomination. Pension trustees have discretion but will consider nominations.",
+      "status": "pending",
+      "triggeredBy": "Pension asset exists without nominated beneficiaries"
+    },
+    {
+      "id": "act-004",
+      "category": "document_update",
+      "priority": "medium",
+      "title": "Record will execution date",
+      "description": "The will execution date is not recorded. This is needed for lookback period calculations.",
+      "status": "pending",
+      "triggeredBy": "Estate in 'confirmed' status but no executionDate on estate"
+    }
+  ],
+  "conformance": {
+    "level": "level_2",
+    "validatedAt": "2026-03-28T12:00:00Z",
+    "validatedBy": "INHERIT Web Validator",
+    "schemaVersion": "1.2.0",
+    "completenessScore": 72,
+    "entityCounts": {
+      "people": 5,
+      "properties": 1,
+      "assets": 4,
+      "bequests": 3,
+      "executors": 2,
+      "guardians": 1
+    },
+    "provenanceSummary": {
+      "manual_entry": 16
+    },
+    "warnings": [
+      "2 assets have estimated but no professional valuation"
+    ]
+  }
 }

@@ -58,5 +58,28 @@
   "assetCollections": [],
   "assetInterests": [],
   "valuations": [],
-  "lifetimeTransfers": []
+  "lifetimeTransfers": [],
+  "completeness": {
+    "score": 0,
+    "maxScore": 100,
+    "checklist": [],
+    "jurisdiction": "GB-ENG",
+    "estateStatus": "planning"
+  },
+  "taxPosition": {
+    "jurisdiction": "GB-ENG",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "grossEstateValue": {
+      "amount": 0,
+      "currency": "GBP"
+    },
+    "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+  },
+  "recommendedActions": [],
+  "conformance": {
+    "level": "level_1",
+    "validatedAt": "2026-03-28T12:00:00Z",
+    "validatedBy": "INHERIT Examples",
+    "schemaVersion": "1.2.0"
+  }
 }

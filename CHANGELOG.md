@@ -6,7 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
+### Added (Steps 15-20: Intelligence Layer)
+- `common/completeness.json` — reusable completeness scoring with jurisdiction-aware checklist (step 15)
+- `common/tax-position.json` — tax position summary with mandatory disclaimer (step 16)
+- `completeness` property on root schema — estate completeness score (step 15)
+- `taxPosition` property on root schema — estimated tax position (step 16)
+- `recommendedActions` array on root schema — data-driven next actions (step 17)
+- `conformance` object on root schema — machine-readable validation certificate (step 18)
+- `preferredChannel` on person contact — email, phone, post, in_person, video_call, messaging (step 19)
+- `hotchpotTransferIds` on bequest — links bequests to lifetime transfers for advancement accounting (step 19)
+- `reference-data/completeness-rules.json` — jurisdiction-aware completeness checklist rules (step 15)
+- `reference-data/action-rules.json` — declarative rules for generating recommended actions (step 17)
+- `reference-data/validation-rules.json` — declarative Level 2+ cross-reference validation rules (step 20)
+- `docs/narrative-template.md` — template for generating human-readable estate summaries with worked example (step 20)
+
+### Added (Steps 3.5-14: Foundation + Territory Neutrality)
 - `valuation.json` — new entity for multiple valuations per asset/property/collection with comparables array (step 5)
 - `lifetime-transfer.json` — new entity for gift/transfer tax calculations across 10 jurisdictions (step 6)
 - 8 intangible asset sub-objects on `asset.json`: shareholding, businessInterest, pension, insurancePolicy, coOwnership, intellectualProperty, stockCompensation, debtReceivable (step 5.5)

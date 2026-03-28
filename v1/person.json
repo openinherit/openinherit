@@ -178,6 +178,13 @@
       },
       "additionalProperties": false
     },
+    "preferredChannel": {
+      "type": "string",
+      "enum": ["email", "phone", "post", "in_person", "video_call", "messaging"],
+      "$comment": "email: electronic mail. phone: telephone call. post: physical mail. in_person: face-to-face meeting. video_call: video conferencing (Zoom, Teams, etc.). messaging: text message, WhatsApp, or similar.",
+      "description": "This person's preferred communication channel. Helps executors and professionals contact the right people in the right way.",
+      "examples": ["email", "phone"]
+    },
     "identifiers": {
       "type": "array",
       "items": {

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/common/tax-position.json",
+  "$comment": "Reusable tax position summary. Producers calculate the estimated tax liability for a given jurisdiction, accounting for exemptions and lifetime transfers. This is always an estimate — the disclaimer field is required to make that clear.",
+  "title": "TaxPosition",
+  "description": "An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability.",
+  "type": "object",
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code or ISO 3166-2 subdivision code identifying the tax jurisdiction.",
+      "examples": ["GB", "US", "GB-SCT", "DE", "AU-NSW"]
+    },
+    "calculatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time when this tax position was computed.",
+      "examples": ["2026-03-28T14:30:00Z"]
+    },
+    "grossEstateValue": {
+      "$ref": "money.json",
+      "description": "Total gross value of the estate before deducting liabilities, in minor currency units."
+    },
+    "netEstateValue": {
+      "$ref": "money.json",
+      "description": "Net estate value after deducting liabilities, in minor currency units."
+    },
+    "lifetimeTransfersInLookback": {
+      "$ref": "money.json",
+      "description": "Total value of lifetime transfers (gifts, settlements) made within the lookback period, in minor currency units."
+    },
+    "lookbackPeriod": {
+      "type": "string",
+      "description": "The lookback period for lifetime transfers in this jurisdiction, expressed as a human-readable duration.",
+      "examples": ["7 years", "5 years", "3 years"]
+    },
+    "availableExemptions": {
+      "type": "array",
+      "description": "Tax exemptions and reliefs that may reduce the taxable estate. Each entry describes one exemption, its value, and whether it has been applied.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the exemption or relief.",
+            "examples": ["Nil-rate band", "Residence nil-rate band", "Spouse exemption", "Agricultural property relief", "Business property relief", "Unified credit"]
+          },
+          "amount": {
+            "$ref": "money.json",
+            "description": "The monetary value of this exemption, in minor currency units."
+          },
+          "applied": {
+            "type": "boolean",
+            "description": "Whether this exemption has been applied in the current calculation.",
+            "examples": [true, false]
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional context about eligibility, conditions, or partial application of this exemption.",
+            "examples": ["Tapered due to estate value exceeding £2m", "Transferred nil-rate band from predeceased spouse"]
+          }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+    "taxableEstate": {
+      "$ref": "money.json",
+      "description": "The estate value subject to tax after applying exemptions, in minor currency units."
+    },
+    "estimatedLiability": {
+      "$ref": "money.json",
+      "description": "The estimated tax due, in minor currency units. This is an estimate and should not be treated as a final liability."
+    },
+    "effectiveRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "The effective tax rate as a percentage of the gross estate value.",
+      "examples": [0, 16.4, 40]
+    },
+    "warnings": {
+      "type": "array",
+      "description": "Data gaps, simplifying assumptions, or other caveats that may affect the accuracy of this estimate.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [
+        ["No valuation on file for 2 properties — using purchase price", "Lifetime transfers may be incomplete — only gifts over £3,000 recorded"]
+      ]
+    },
+    "disclaimer": {
+      "type": "string",
+      "description": "A mandatory disclaimer stating that this is an estimate and not professional tax advice.",
+      "examples": ["Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."]
+    }
+  },
+  "required": ["jurisdiction", "calculatedAt", "grossEstateValue", "disclaimer"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

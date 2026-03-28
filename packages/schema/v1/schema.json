@@ -220,6 +220,126 @@
         "additionalProperties": false
       }
     },
+    "completeness": {
+      "$ref": "common/completeness.json",
+      "description": "Estate completeness score — jurisdiction-aware checklist tracking what data has been captured, what's missing, and how complete the estate plan is."
+    },
+    "taxPosition": {
+      "$ref": "common/tax-position.json",
+      "description": "Estimated tax position summary computed from valuations, lifetime transfers, exemptions, and jurisdiction-specific thresholds. Always includes a disclaimer — this is informational, not tax advice."
+    },
+    "recommendedActions": {
+      "type": "array",
+      "description": "Recommended next actions generated from data gaps, urgency flags, incomplete transfer history, missing valuations, and estate status. Actions adapt to the current lifecycle stage.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this action.",
+            "examples": ["act-001", "act-val-shares"]
+          },
+          "category": {
+            "type": "string",
+            "enum": ["completeness", "tax_planning", "legal_requirement", "valuation", "transfer_history", "beneficiary_review", "document_update"],
+            "$comment": "completeness: filling data gaps. tax_planning: optimizing tax position. legal_requirement: meeting statutory obligations. valuation: getting or updating valuations. transfer_history: documenting lifetime gifts. beneficiary_review: reviewing nominations and designations. document_update: updating legal documents.",
+            "description": "Category of the recommended action."
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"],
+            "$comment": "critical: must address immediately — legal deadline or compliance risk. high: should address soon — significant financial or legal impact. medium: address when convenient — improves estate plan quality. low: nice to have — marginal improvement.",
+            "description": "Priority level for this action."
+          },
+          "title": {
+            "type": "string",
+            "description": "Short action title.",
+            "examples": ["Get professional valuation for share portfolio", "Update pension nomination", "Document lifetime gifts in lookback period"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed explanation of what to do and why."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "in_progress", "completed", "dismissed"],
+            "$comment": "pending: not yet started. in_progress: being worked on. completed: done. dismissed: user chose not to act on this.",
+            "description": "Current status of this action."
+          },
+          "triggeredBy": {
+            "type": "string",
+            "description": "What data gap or condition generated this action.",
+            "examples": ["Asset 'Barclays shares' has estimatedValue > £50,000 but no professional valuation", "No executor appointed", "Pension has no nominated beneficiary"]
+          },
+          "relatedEntityType": {
+            "type": "string",
+            "description": "Entity type this action relates to.",
+            "examples": ["asset", "person", "estate", "bequest"]
+          },
+          "relatedEntityId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID of the specific entity this action relates to."
+          }
+        },
+        "required": ["id", "category", "priority", "title", "status"],
+        "additionalProperties": false
+      }
+    },
+    "conformance": {
+      "type": "object",
+      "description": "Machine-readable conformance certificate — records the validation level, schema version, completeness score, and provenance summary at time of validation.",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["level_1", "level_2", "level_3"],
+          "$comment": "level_1: structural validity — document parses and validates against JSON Schema. level_2: referential integrity — all cross-references resolve. level_3: jurisdiction complete — all required fields for the estate's jurisdiction are present.",
+          "description": "Conformance level achieved."
+        },
+        "validatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the validation was performed.",
+          "examples": ["2026-03-28T14:00:00Z"]
+        },
+        "validatedBy": {
+          "type": "string",
+          "description": "Name of the tool that performed the validation.",
+          "examples": ["INHERIT Web Validator", "MyFamilyInherits v2.1", "openinherit-cli"]
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "INHERIT schema version this document was validated against.",
+          "examples": ["1.2.0"]
+        },
+        "completenessScore": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Completeness score at time of validation."
+        },
+        "entityCounts": {
+          "type": "object",
+          "description": "Count of entities per type at time of validation.",
+          "additionalProperties": { "type": "integer" },
+          "examples": [{ "people": 5, "properties": 2, "assets": 12, "bequests": 4, "executors": 2 }]
+        },
+        "provenanceSummary": {
+          "type": "object",
+          "description": "Count of entities by data provenance source.",
+          "additionalProperties": { "type": "integer" },
+          "examples": [{ "manual_entry": 15, "ai_extracted": 8, "imported": 3 }]
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Validation warnings — non-blocking issues that may need attention.",
+          "examples": [["2 assets have estimated but no professional valuation", "Lifetime transfer history covers only 5 of 7 required lookback years"]]
+        }
+      },
+      "required": ["level", "validatedAt", "validatedBy", "schemaVersion"],
+      "additionalProperties": false
+    },
     "extensions": {
       "type": "array",
       "items": { "type": "string" },

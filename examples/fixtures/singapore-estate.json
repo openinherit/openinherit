@@ -176,5 +176,32 @@
   "assetCollections": [],
   "assetInterests": [],
   "valuations": [],
-  "lifetimeTransfers": []
+  "lifetimeTransfers": [],
+  "taxPosition": {
+    "jurisdiction": "SG",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "grossEstateValue": {
+      "amount": 180000000,
+      "currency": "SGD"
+    },
+    "taxableEstate": {
+      "amount": 0,
+      "currency": "SGD"
+    },
+    "estimatedLiability": {
+      "amount": 0,
+      "currency": "SGD"
+    },
+    "effectiveRate": 0,
+    "warnings": [
+      "Singapore abolished estate duty in February 2008. No estate tax applies."
+    ],
+    "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+  },
+  "conformance": {
+    "level": "level_2",
+    "validatedAt": "2026-03-28T12:00:00Z",
+    "validatedBy": "INHERIT Web Validator",
+    "schemaVersion": "1.2.0"
+  }
 }

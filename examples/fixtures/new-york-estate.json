@@ -221,5 +221,129 @@
   "assetCollections": [],
   "assetInterests": [],
   "valuations": [],
-  "lifetimeTransfers": []
+  "lifetimeTransfers": [],
+  "completeness": {
+    "score": 68,
+    "maxScore": 100,
+    "jurisdiction": "US-NY",
+    "estateStatus": "confirmed",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "checklist": [
+      {
+        "category": "personal_details",
+        "item": "Testator full name recorded",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "assets_and_valuations",
+        "item": "At least one asset recorded",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "executors",
+        "item": "At least one executor appointed",
+        "weight": 10,
+        "status": "complete"
+      },
+      {
+        "category": "tax_information",
+        "item": "Tax position calculated",
+        "weight": 8,
+        "status": "complete"
+      },
+      {
+        "category": "lifetime_transfers",
+        "item": "Lifetime gifts documented",
+        "weight": 7,
+        "status": "incomplete",
+        "details": "No lifetime transfers recorded"
+      },
+      {
+        "category": "legal_documents",
+        "item": "Will execution date recorded",
+        "weight": 5,
+        "status": "incomplete"
+      }
+    ]
+  },
+  "taxPosition": {
+    "jurisdiction": "US-NY",
+    "calculatedAt": "2026-03-28T12:00:00Z",
+    "grossEstateValue": {
+      "amount": 250000000,
+      "currency": "USD"
+    },
+    "netEstateValue": {
+      "amount": 215000000,
+      "currency": "USD"
+    },
+    "lifetimeTransfersInLookback": {
+      "amount": 0,
+      "currency": "USD"
+    },
+    "lookbackPeriod": "unlimited (unified credit)",
+    "availableExemptions": [
+      {
+        "name": "Federal Estate Tax Exemption",
+        "amount": {
+          "amount": 1361000000,
+          "currency": "USD"
+        },
+        "applied": true,
+        "notes": "2024 exemption amount \u2014 estate is well below threshold"
+      }
+    ],
+    "taxableEstate": {
+      "amount": 0,
+      "currency": "USD"
+    },
+    "estimatedLiability": {
+      "amount": 0,
+      "currency": "USD"
+    },
+    "effectiveRate": 0,
+    "warnings": [
+      "NY state estate tax has lower threshold ($6.94M) \u2014 estate is below both thresholds"
+    ],
+    "disclaimer": "Estimated for planning purposes only. This is not tax advice. Consult a qualified tax advisor."
+  },
+  "recommendedActions": [
+    {
+      "id": "act-001",
+      "category": "transfer_history",
+      "priority": "medium",
+      "title": "Document lifetime gifts",
+      "description": "No lifetime transfers recorded. Even though the estate is below the federal exemption, gift history should be documented for the unified credit calculation.",
+      "status": "pending",
+      "triggeredBy": "Zero lifetime transfers recorded"
+    },
+    {
+      "id": "act-002",
+      "category": "document_update",
+      "priority": "medium",
+      "title": "Record will execution date",
+      "description": "The will execution date is not recorded.",
+      "status": "pending",
+      "triggeredBy": "No executionDate on estate"
+    }
+  ],
+  "conformance": {
+    "level": "level_2",
+    "validatedAt": "2026-03-28T12:00:00Z",
+    "validatedBy": "INHERIT Web Validator",
+    "schemaVersion": "1.2.0",
+    "completenessScore": 68,
+    "entityCounts": {
+      "people": 4,
+      "properties": 1,
+      "assets": 3,
+      "bequests": 2,
+      "executors": 1
+    },
+    "provenanceSummary": {
+      "manual_entry": 11
+    }
+  }
 }
