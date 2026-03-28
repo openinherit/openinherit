@@ -5,6 +5,8 @@
 [![CI: Tests](https://github.com/openinherit/openinherit/actions/workflows/run-tests.yml/badge.svg)](https://github.com/openinherit/openinherit/actions/workflows/run-tests.yml)
 [![npm: @openinherit/schema](https://img.shields.io/npm/v/@openinherit/schema)](https://www.npmjs.com/package/@openinherit/schema)
 [![npm: @openinherit/sdk](https://img.shields.io/npm/v/@openinherit/sdk)](https://www.npmjs.com/package/@openinherit/sdk)
+[![CI: Examples Validated](https://github.com/openinherit/openinherit/actions/workflows/validate-examples.yml/badge.svg)](https://github.com/openinherit/openinherit/actions/workflows/validate-examples.yml)
+[![CI: Schema Bundled](https://github.com/openinherit/openinherit/actions/workflows/bundle-and-inspect.yml/badge.svg)](https://github.com/openinherit/openinherit/actions/workflows/bundle-and-inspect.yml)
 
 > **"Clarity changes families."**
 
@@ -78,6 +80,14 @@ import activities from '@openinherit/schema/reference-data/practitioner-activiti
 import { type Estate, type Person } from '@openinherit/sdk';
 import { createEstate, listEstates } from '@openinherit/sdk/reference';
 ```
+
+### Download the bundled schema
+
+A single self-contained JSON Schema file with all `$ref` references inlined:
+
+- **[inherit-v1-bundled.json](dist/inherit-v1-bundled.json)** — validate INHERIT documents with one file, no dependencies
+
+This file is regenerated automatically by CI whenever schemas change.
 
 ---
 
