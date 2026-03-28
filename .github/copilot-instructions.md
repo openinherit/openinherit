@@ -1,7 +1,7 @@
 # INHERIT — Open Estate Data Interchange Standard
 
 This repo contains the INHERIT open estate data interchange standard:
-- 22 core entity schemas + 7 common types + 13 jurisdiction/cultural extensions
+- 22 core entity schemas + 9 common types + 13 jurisdiction/cultural extensions
 - OpenAPI 3.1 Reference REST API (109 endpoints)
 - TypeScript SDK (`@openinherit/sdk`) and JSON Schema package (`@openinherit/schema`)
 

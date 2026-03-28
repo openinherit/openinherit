@@ -1,12 +1,12 @@
 # INHERIT Roadmap
 
-## Current: v1.1.0 (March 2026)
+## Current: v1.2.0 (March 2026)
 
-*Published to npm as `@openinherit/schema@1.1.0` and `@openinherit/sdk@1.1.0`.*
+*Published to npm as `@openinherit/schema@1.2.0` and `@openinherit/sdk@1.2.0`.*
 
 ### Core Standard
 - 22 core entity schemas (20 original + valuation + lifetime-transfer)
-- 7 common type schemas (money, address, jurisdiction, temporal-rule, identifier, visibility, media)
+- 9 common type schemas (money, address, jurisdiction, temporal-rule, identifier, visibility, media, completeness, tax-position)
 - 13 jurisdiction/cultural extensions (all draft)
 - OpenAPI 3.1 schema bundle + 109-endpoint Reference REST API
 - `schemaVersion` field on root document for version detection
