@@ -1148,15 +1148,18 @@ components:
         status:
           type: string
           enum:
-            - draft
-            - active
-            - locked
-            - archived
-          $comment: 'draft: estate plan is being prepared, not yet finalised. active: estate plan is current and in effect. locked: estate is in probate or administration — no further changes permitted. archived: estate administration is complete.'
-          description: The lifecycle status of this estate record.
+            - planning
+            - confirmed
+            - pre_probate
+            - in_administration
+            - distributed
+            - closed
+          $comment: 'planning: estate plan is being prepared, not yet finalised. confirmed: estate plan is signed and in effect — the will has been executed. pre_probate: testator has died, estate is being gathered before applying for probate/grant. in_administration: grant obtained, estate is being administered — collecting assets, paying debts, distributing. distributed: all assets distributed to beneficiaries, final accounts pending. closed: estate administration is complete — all accounts filed, all distributions confirmed.'
+          description: The lifecycle status of this estate record. Progresses from planning through to closure.
           examples:
-            - draft
-            - active
+            - planning
+            - confirmed
+            - in_administration
         jurisdiction:
           $ref: '#/components/schemas/jurisdiction'
           description: Primary jurisdiction governing this estate. For cross-border estates, this is the domiciliary jurisdiction.
@@ -1685,6 +1688,146 @@ components:
           description: Date this estate record was last modified.
           examples:
             - '2025-03-27'
+        executionDate:
+          type: string
+          format: date
+          description: Date the will was formally executed (signed with proper attestation). Enables look-back period calculations when combined with lifetime transfers.
+          examples:
+            - '2024-06-15'
+            - '2020-03-01'
+        administration:
+          type: object
+          $comment: Administration phase data — populated when the testator dies and the estate enters pre_probate or in_administration status.
+          description: Estate administration details. Tracks the journey from death through grant, tax clearance, distribution, and closure.
+          properties:
+            dateOfDeath:
+              type: string
+              format: date
+              description: Date of death — the date from which succession takes effect.
+              examples:
+                - '2026-01-15'
+            dateOfGrant:
+              type: string
+              format: date
+              description: Date the probate grant or letters of administration were issued.
+              examples:
+                - '2026-06-01'
+            grantType:
+              type: string
+              enum:
+                - grant_of_probate
+                - letters_of_administration
+                - letters_of_administration_with_will_annexed
+                - succession_certificate
+                - certificate_of_inheritance
+                - court_appointment
+                - resealing
+                - european_certificate_of_succession
+                - other
+              $comment: 'grant_of_probate: E&W/AU/NZ — court confirms named executor. letters_of_administration: E&W — no will, court appoints administrator. letters_of_administration_with_will_annexed: E&W — will exists but named executor cannot act. succession_certificate: IN/PK — Indian Succession Act s.372. certificate_of_inheritance: DE/JP/FR — Erbschein (DE), 相続証明書 (JP), Acte de notoriété (FR). court_appointment: generic court appointment of administrator. resealing: foreign grant recognised locally (Commonwealth). european_certificate_of_succession: EU Brussels IV certificate. other: jurisdiction-specific grant type.'
+              description: Type of grant authorising estate administration.
+            grantReference:
+              type: string
+              description: Court reference number for the grant.
+              examples:
+                - PRO-2026-123456
+            court:
+              type: string
+              description: Name of the issuing court or registry.
+              examples:
+                - Principal Registry of the Family Division
+                - Leeds District Probate Registry
+                - Tokyo Family Court
+            grossEstateValue:
+              $ref: '#/components/schemas/money'
+              description: Gross value of the estate at date of death, before deducting liabilities.
+            netEstateValue:
+              $ref: '#/components/schemas/money'
+              description: Net value of the estate after deducting liabilities.
+            taxLiability:
+              $ref: '#/components/schemas/money'
+              description: Total inheritance/estate tax liability.
+            taxPaid:
+              $ref: '#/components/schemas/money'
+              description: Amount of inheritance/estate tax paid so far.
+            taxClearance:
+              type: object
+              description: Tax clearance status — confirmation from the tax authority that no further tax is owed.
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - not_applied
+                    - applied
+                    - received
+                    - not_required
+                  $comment: 'not_applied: clearance not yet applied for. applied: application submitted. received: clearance certificate received. not_required: estate below tax threshold.'
+                  description: Current status of tax clearance.
+                clearanceDate:
+                  type: string
+                  format: date
+                  description: Date clearance was received.
+                reference:
+                  type: string
+                  description: Tax clearance reference number.
+                  examples:
+                    - HMRC-IHT-CLR-2026-789
+              additionalProperties: false
+            distributions:
+              type: array
+              description: Record of distributions made to beneficiaries during administration.
+              items:
+                type: object
+                properties:
+                  beneficiaryPersonId:
+                    type: string
+                    format: uuid
+                    description: Person ID of the beneficiary receiving the distribution.
+                  bequestId:
+                    type: string
+                    format: uuid
+                    description: Reference to the Bequest being fulfilled.
+                  distributionDate:
+                    type: string
+                    format: date
+                    description: Date the distribution was made.
+                  assetId:
+                    type: string
+                    format: uuid
+                    description: Asset ID if a specific asset was transferred.
+                  propertyId:
+                    type: string
+                    format: uuid
+                    description: Property ID if a property was transferred.
+                  cashAmount:
+                    $ref: '#/components/schemas/money'
+                    description: Cash amount distributed, in minor currency units.
+                  receipt:
+                    type: boolean
+                    description: Whether a receipt/acknowledgement has been obtained from the beneficiary.
+                    examples:
+                      - true
+                      - false
+                  notes:
+                    type: string
+                    description: Additional distribution notes.
+                    examples:
+                      - Interim distribution — further distribution expected after property sale
+                required:
+                  - beneficiaryPersonId
+                  - distributionDate
+                additionalProperties: false
+            estateAccountsFiled:
+              type: boolean
+              description: Whether the estate accounts have been prepared and filed/approved.
+              examples:
+                - false
+            notes:
+              type: string
+              description: Additional administration notes.
+              examples:
+                - Awaiting sale of Spanish property before final distribution
+          additionalProperties: false
         notes:
           type: string
           description: Free-text notes about the estate. Use for anything not captured by structured fields.
@@ -3096,26 +3239,21 @@ components:
         propertyType:
           type: string
           enum:
-            - detached_house
-            - semi_detached_house
-            - terraced_house
-            - flat
-            - maisonette
-            - bungalow
-            - cottage
-            - farmhouse
-            - barn_conversion
+            - detached
+            - attached
+            - apartment
             - land
             - commercial
             - mixed_use
-            - houseboat
-            - mobile_home
+            - rural
+            - mobile
+            - watercraft
             - other
-          $comment: 'detached_house: standalone house. semi_detached_house: shares one wall with another. terraced_house: shares walls on both sides. flat: apartment within a larger building. maisonette: flat with its own entrance, typically over two floors. bungalow: single-storey dwelling. cottage: small rural dwelling. farmhouse: dwelling on agricultural land. barn_conversion: former agricultural building converted to residential. land: undeveloped plot. commercial: office, shop, warehouse, etc. mixed_use: combination of residential and commercial. houseboat: floating dwelling. mobile_home: transportable dwelling. other: any type not listed.'
-          description: The type of property. UK-centric terms are used as defaults — map to local equivalents as needed.
+          $comment: 'detached: standalone dwelling (UK detached house, US single-family home, JP 一戸建て). attached: dwelling sharing walls with neighbours (UK terraced/semi-detached, US townhouse/duplex). apartment: unit within a larger building (UK flat, US condo/co-op, SG HDB flat, JP マンション). land: undeveloped plot or agricultural land. commercial: office, shop, warehouse, industrial. mixed_use: combination of residential and commercial. rural: farmhouse, smallholding, rural dwelling. mobile: mobile home, park home, transportable dwelling. watercraft: houseboat, floating dwelling. other: any type not listed. For jurisdiction-specific subtypes (maisonette, bungalow, cottage, barn conversion), use the localPropertyType field in the relevant extension.'
+          description: Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.
           examples:
-            - detached_house
-            - flat
+            - detached
+            - apartment
             - land
             - commercial
         address:
@@ -3139,9 +3277,9 @@ components:
           enum:
             - estimated
             - professional
-            - probate
+            - official
             - unknown
-          $comment: 'estimated: owner''s own estimate, no professional input. professional: assessed by a qualified surveyor or valuer. probate: valuation agreed with HMRC or equivalent tax authority for probate purposes. unknown: no information on how the value was derived.'
+          $comment: 'estimated: owner''s own estimate, no professional input. professional: assessed by a qualified surveyor or valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing ''probate''. unknown: no information on how the value was derived.'
           description: Level of confidence in the stated valuation.
           examples:
             - estimated
@@ -3214,20 +3352,18 @@ components:
         tenureType:
           type: string
           enum:
-            - freehold
-            - leasehold
-            - certificate_of_occupancy
-            - customary_right_of_occupancy
+            - ownership
+            - lease
             - communal
+            - customary
+            - informal
             - government_allocated
-            - traditional_authority_granted
-            - informal_unregistered
-          $comment: 'freehold: outright ownership of land and buildings in perpetuity. leasehold: right to occupy for a fixed term (common for flats in E&W). certificate_of_occupancy: Nigerian Land Use Act 1978 — all urban land vested in state governor. customary_right_of_occupancy: right to occupy under customary law. communal: communal land held by a group. government_allocated: land allocated by government but not freehold. traditional_authority_granted: land granted by a chief or traditional authority. informal_unregistered: occupation without formal title — common in developing countries.'
-          description: The legal basis on which the property is held. Varies dramatically by jurisdiction.
+          $comment: 'ownership: outright ownership in perpetuity (UK freehold, US fee simple, AU Torrens title, JP 所有権). lease: time-limited right to occupy (UK leasehold, SG 99-year lease, HDB lease). communal: communal or clan land held by a group. customary: held under customary or traditional law (Nigerian customary right of occupancy, traditional authority grants). informal: occupation without formal title — unregistered, disputed, or undocumented. government_allocated: land allocated by government (Nigerian Certificate of Occupancy, government-vested land). For jurisdiction-specific subtypes, use the localTenureType field in the relevant extension.'
+          description: Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.
           examples:
-            - freehold
-            - leasehold
-            - certificate_of_occupancy
+            - ownership
+            - lease
+            - communal
         registrationStatus:
           type: string
           enum:
@@ -3508,9 +3644,9 @@ components:
           enum:
             - estimated
             - professional
-            - probate
+            - official
             - unknown
-          $comment: 'estimated: owner''s own estimate. professional: assessed by a qualified valuer. probate: valuation agreed with tax authority for probate. unknown: basis of valuation is unknown.'
+          $comment: 'estimated: owner''s own estimate. professional: assessed by a qualified valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing ''probate''. unknown: basis of valuation is unknown.'
           description: Level of confidence in the stated valuation.
           examples:
             - estimated
@@ -3835,6 +3971,564 @@ components:
             - MS-65
             - VS1
             - Fine
+        urgency:
+          type: string
+          enum:
+            - immediate
+            - within_7_days
+            - within_30_days
+            - none
+          $comment: 'immediate: must be dealt with at once — live animals, perishable goods, firearms (7-day surrender in UK). within_7_days: urgent but not immediate — vehicles with insurance expiring, time-limited subscriptions. within_30_days: should be addressed within a month — tenanted property, business interests needing continuity. none: no time pressure — most personal possessions, financial accounts.'
+          description: How urgently this asset needs attention after the testator's death. Drives the executor's priority list.
+          examples:
+            - immediate
+            - none
+        urgencyReason:
+          type: string
+          description: Explanation of why this asset is urgent. Particularly important for 'immediate' items.
+          examples:
+            - Firearm requires Section 1 certificate — must be surrendered or transferred to a licence holder within 7 days of death
+            - Live animals requiring daily care
+            - Perishable wine collection in temperature-controlled storage — power must be maintained
+        containedInAssetId:
+          type: string
+          format: uuid
+          description: Reference to another Asset.id if this asset is physically contained within or logically part of another asset. Enables hierarchical asset nesting — e.g. a watch inside a safe, tools inside a toolbox.
+          examples:
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        insurance:
+          type: object
+          description: Insurance coverage for this asset. The executor needs to know what's insured, by whom, and whether cover continues after death.
+          properties:
+            provider:
+              type: string
+              description: Name of the insurance provider.
+              examples:
+                - Hiscox
+                - Chubb
+                - NFU Mutual
+                - Allianz
+            policyReference:
+              type: string
+              description: Policy reference number.
+              examples:
+                - HX-2024-5678
+                - CHB/ART/2024/001
+            insuredValue:
+              $ref: '#/components/schemas/money'
+              description: The insured value in minor currency units.
+            renewalDate:
+              type: string
+              format: date
+              description: Next renewal date. Important — cover may lapse if not renewed after death.
+              examples:
+                - '2026-09-01'
+            notes:
+              type: string
+              description: Additional insurance notes.
+              examples:
+                - Cover continues for 30 days after death per policy terms
+          additionalProperties: false
+        purchasedFrom:
+          type: string
+          description: Where the asset was purchased or acquired from. Collectors track provenance — valuable for dealers and for establishing authenticity.
+          examples:
+            - Rails of Sheffield
+            - Christie's
+            - Sotheby's
+            - Private sale
+            - eBay seller vintage-trains-uk
+            - Car boot sale, Wrexham
+        importSourceId:
+          type: string
+          description: Reference to an importSources entry on the root document, indicating which system this entity was imported from.
+          examples:
+            - src-clio-001
+            - src-legacylists-export
+        dataProvenance:
+          type: string
+          enum:
+            - manual_entry
+            - ai_extracted
+            - ocr_scanned
+            - imported
+            - migrated
+            - system_generated
+          $comment: Per-entity override of the document-level dataProvenance. Same values as the root field.
+          description: How this specific entity's data was captured. Overrides the document-level default if set.
+        shareholding:
+          type: object
+          $comment: Category-specific sub-object for shares and shareholdings. Use when category is 'shares' or 'investment'.
+          description: Detailed shareholding information — company, share class, voting rights, restrictions. Relevant for BPR (UK), stepped-up basis (US), and controlling interest calculations.
+          properties:
+            companyName:
+              type: string
+              description: Name of the company in which shares are held.
+              examples:
+                - Acme Ltd
+                - Berkshire Hathaway Inc
+                - Toyota Motor Corporation
+            companyNumber:
+              type: string
+              description: Company registration number.
+              examples:
+                - '12345678'
+                - DE-HRB-12345
+            shareClass:
+              type: string
+              description: Class of shares held.
+              examples:
+                - Ordinary
+                - Preference
+                - Class A
+                - Class B
+            numberOfShares:
+              type: integer
+              minimum: 1
+              description: Number of shares held.
+              examples:
+                - 1000
+                - 50000
+            totalSharesIssued:
+              type: integer
+              minimum: 1
+              description: Total shares issued by the company (for calculating percentage ownership).
+              examples:
+                - 100000
+                - 1000000
+            votingRights:
+              type: boolean
+              description: Whether these shares carry voting rights.
+              examples:
+                - true
+            restrictedTransfer:
+              type: boolean
+              description: Whether transfer of these shares is restricted (e.g. pre-emption rights, shareholder agreement).
+              examples:
+                - true
+                - false
+            listedExchange:
+              type: string
+              description: Stock exchange where shares are listed, if publicly traded. Null/absent for private companies.
+              examples:
+                - LSE
+                - NYSE
+                - TSE
+                - ASX
+            ticker:
+              type: string
+              description: Stock ticker symbol.
+              examples:
+                - AAPL
+                - TSCO.L
+                - 7203.T
+            cusip:
+              type: string
+              description: CUSIP identifier (US/Canada). 9-character alphanumeric.
+              examples:
+                - '037833100'
+            isin:
+              type: string
+              description: International Securities Identification Number.
+              examples:
+                - US0378331005
+                - GB0031215220
+          additionalProperties: false
+        businessInterest:
+          type: object
+          $comment: Category-specific sub-object for business interests. Use when category is 'business_interest'.
+          description: Detailed business interest information — partnership shares, LLP membership, sole trader business. Relevant for BPR (UK), QFOBI (US), and succession planning.
+          properties:
+            businessName:
+              type: string
+              description: Trading name of the business.
+              examples:
+                - Davies & Sons Builders
+                - Manchester Model Supplies
+            businessType:
+              type: string
+              enum:
+                - sole_trader
+                - partnership
+                - llp
+                - limited_company
+                - plc
+                - franchise
+                - cooperative
+                - other
+              $comment: 'sole_trader: individual trading. partnership: traditional partnership. llp: limited liability partnership. limited_company: private limited company (Ltd). plc: public limited company. franchise: franchise operation. cooperative: cooperative business. other: any other structure.'
+              description: Legal structure of the business.
+            ownershipPercentage:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: The testator's ownership percentage.
+              examples:
+                - 50
+                - 33.33
+                - 100
+            controllingInterest:
+              type: boolean
+              description: Whether the testator holds a controlling interest. Affects BPR eligibility and valuation discounts.
+              examples:
+                - true
+                - false
+            partnershipAgreement:
+              type: boolean
+              description: Whether a written partnership/operating agreement exists.
+              examples:
+                - true
+            successionProvision:
+              type: string
+              description: What the partnership/operating agreement says about succession on death.
+              examples:
+                - Surviving partners must buy out deceased's share at book value
+                - Option to purchase at market value within 90 days
+            annualTurnover:
+              $ref: '#/components/schemas/money'
+              description: Approximate annual turnover — helps with BPR qualification and valuation.
+            employees:
+              type: integer
+              minimum: 0
+              description: Number of employees.
+              examples:
+                - 5
+                - 50
+          additionalProperties: false
+        pension:
+          type: object
+          $comment: Category-specific sub-object for pension and retirement accounts. Use when category is 'pension'.
+          description: Detailed pension information — scheme type, nominated beneficiaries, death benefits. Pensions often pass outside the estate via nomination.
+          properties:
+            schemeType:
+              type: string
+              enum:
+                - defined_benefit
+                - defined_contribution
+                - sipp
+                - state_pension
+                - annuity
+                - drawdown
+                - other
+              $comment: 'defined_benefit: employer guarantees a specific retirement income. defined_contribution: value depends on contributions and investment returns. sipp: self-invested personal pension (UK). state_pension: government state pension. annuity: purchased annuity providing guaranteed income. drawdown: flexible drawdown from pension pot. other: any other pension type.'
+              description: The type of pension scheme.
+            provider:
+              type: string
+              description: Pension provider name.
+              examples:
+                - Aviva
+                - Scottish Widows
+                - Fidelity
+                - Vanguard
+                - LGPS
+            policyReference:
+              type: string
+              description: Policy or membership reference number.
+              examples:
+                - PEN-2015-123456
+            nominatedBeneficiaries:
+              type: array
+              items:
+                type: string
+                format: uuid
+              description: Person IDs of nominated beneficiaries. Pension trustees usually have discretion but will consider nominations.
+            nominationDate:
+              type: string
+              format: date
+              description: Date the beneficiary nomination was last updated.
+              examples:
+                - '2024-01-15'
+            deathBenefitType:
+              type: string
+              enum:
+                - lump_sum
+                - dependants_pension
+                - drawdown_transfer
+                - annuity_guarantee
+                - none
+              $comment: 'lump_sum: a one-off payment to beneficiaries. dependants_pension: ongoing pension payments to dependants. drawdown_transfer: pension pot transfers to beneficiary for drawdown. annuity_guarantee: guaranteed payments for remaining guarantee period. none: no death benefit (e.g. annuity with no guarantee).'
+              description: Type of death benefit payable from this pension.
+            crystallised:
+              type: boolean
+              description: 'Whether the pension has been accessed/crystallised. Affects tax treatment on death (UK: pre-75 tax-free, post-75 taxed as income).'
+              examples:
+                - false
+                - true
+            lifetimeAllowanceUsed:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Percentage of lifetime allowance used (UK). Abolished April 2024 but transitional protections remain.
+              examples:
+                - 45.5
+          additionalProperties: false
+        insurancePolicy:
+          type: object
+          $comment: Category-specific sub-object for life insurance and endowment policies. Use when category is 'insurance'.
+          description: Life insurance policy details — type, sum assured, beneficiaries, trust status. Policies written in trust pass outside the estate.
+          properties:
+            policyType:
+              type: string
+              enum:
+                - term_life
+                - whole_life
+                - endowment
+                - critical_illness
+                - income_protection
+                - key_person
+                - other
+              $comment: 'term_life: pays out on death within term. whole_life: pays out whenever death occurs. endowment: savings + life cover, matures at set date. critical_illness: pays on diagnosis of specified illness. income_protection: replaces income during illness. key_person: business policy on key employee. other: any other type.'
+              description: Type of insurance policy.
+            provider:
+              type: string
+              description: Insurance company name.
+              examples:
+                - Aviva
+                - Legal & General
+                - Prudential
+                - MetLife
+            policyReference:
+              type: string
+              description: Policy reference number.
+              examples:
+                - LG-LIFE-2020-789
+            sumAssured:
+              $ref: '#/components/schemas/money'
+              description: The amount payable on death, in minor currency units.
+            writtenInTrust:
+              type: boolean
+              description: Whether the policy is written in trust. If true, proceeds pass outside the estate and are not subject to inheritance tax.
+              examples:
+                - true
+                - false
+            trusteeNames:
+              type: array
+              items:
+                type: string
+              description: Names of the policy trustees, if written in trust.
+              examples:
+                - - Sarah Davies
+                  - James Davies
+            beneficiaryPersonIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+              description: Person IDs of named beneficiaries.
+            premiumFrequency:
+              type: string
+              enum:
+                - monthly
+                - annual
+                - single_premium
+                - paid_up
+              description: How often premiums are paid.
+            expiryDate:
+              type: string
+              format: date
+              description: Policy expiry date (for term policies).
+              examples:
+                - '2035-06-01'
+          additionalProperties: false
+        coOwnership:
+          type: object
+          $comment: Category-specific sub-object for co-owned assets. Use when the asset has shared ownership that affects how it passes on death.
+          description: Co-ownership details for assets held jointly or in common with others. Determines whether the asset passes by survivorship or under the will.
+          properties:
+            coOwnerPersonIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+              description: Person IDs of co-owners.
+            ownershipType:
+              type: string
+              enum:
+                - joint_tenants
+                - tenants_in_common
+                - community_property
+                - partnership
+                - other
+              $comment: 'joint_tenants: right of survivorship — passes automatically to survivor(s). tenants_in_common: no survivorship — each owner''s share passes under their will. community_property: marital community property (US). partnership: business partnership asset. other: other arrangement.'
+              description: How ownership is structured between co-owners.
+            ownershipPercentage:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: The testator's ownership percentage.
+              examples:
+                - 50
+                - 33.33
+            severanceDate:
+              type: string
+              format: date
+              description: Date joint tenancy was severed to become tenants in common (if applicable).
+              examples:
+                - '2024-06-15'
+          additionalProperties: false
+        intellectualProperty:
+          type: object
+          $comment: Category-specific sub-object for IP assets. Use when category is 'intellectual_property'.
+          description: Intellectual property details — patents, copyrights, trademarks, trade secrets. IP succession varies by jurisdiction and type.
+          properties:
+            ipType:
+              type: string
+              enum:
+                - patent
+                - copyright
+                - trademark
+                - design_right
+                - trade_secret
+                - database_right
+                - other
+              $comment: 'patent: registered invention. copyright: creative works (literary, artistic, musical). trademark: registered brand/logo. design_right: registered or unregistered design. trade_secret: confidential business information. database_right: sui generis database right (EU/UK). other: any other IP type.'
+              description: Type of intellectual property.
+            registrationNumber:
+              type: string
+              description: Registration or application number.
+              examples:
+                - GB2345678
+                - US10,123,456
+            registrationOffice:
+              type: string
+              description: Intellectual property office where registered.
+              examples:
+                - UK IPO
+                - USPTO
+                - EPO
+                - WIPO
+            expiryDate:
+              type: string
+              format: date
+              description: Date the IP right expires.
+              examples:
+                - '2040-03-15'
+            annualRevenue:
+              $ref: '#/components/schemas/money'
+              description: Approximate annual revenue generated from this IP (licensing, royalties, etc.).
+            licensees:
+              type: array
+              items:
+                type: string
+              description: Current licensees of this IP.
+              examples:
+                - - Publisher A
+                  - Manufacturer B
+          additionalProperties: false
+        stockCompensation:
+          type: object
+          $comment: Category-specific sub-object for employee stock options, RSUs, and equity compensation. Common in tech sector estates.
+          description: Employee stock compensation details — options, RSUs, ESPPs. Vesting schedules and exercise windows are critical on death.
+          properties:
+            compensationType:
+              type: string
+              enum:
+                - iso
+                - nso
+                - rsu
+                - espp
+                - phantom_stock
+                - sar
+                - other
+              $comment: 'iso: incentive stock option (US tax-advantaged). nso: non-qualified stock option. rsu: restricted stock unit. espp: employee stock purchase plan. phantom_stock: phantom equity (cash settlement). sar: stock appreciation right. other: any other type.'
+              description: Type of stock compensation.
+            grantDate:
+              type: string
+              format: date
+              description: Date the award was granted.
+              examples:
+                - '2022-03-15'
+            vestingSchedule:
+              type: string
+              description: Description of the vesting schedule.
+              examples:
+                - 4-year vest with 1-year cliff
+                - 3-year monthly vesting
+                - Fully vested
+            vestedQuantity:
+              type: integer
+              minimum: 0
+              description: Number of shares/units currently vested.
+              examples:
+                - 2500
+            unvestedQuantity:
+              type: integer
+              minimum: 0
+              description: Number of shares/units not yet vested. May be forfeited on death depending on plan terms.
+              examples:
+                - 7500
+            exercisePrice:
+              $ref: '#/components/schemas/money'
+              description: Strike/exercise price per share for options.
+            expirationDate:
+              type: string
+              format: date
+              description: Date the options expire. Estate typically has limited window to exercise after death.
+              examples:
+                - '2032-03-15'
+            postDeathExerciseWindow:
+              type: string
+              description: Time allowed for estate to exercise options after death.
+              examples:
+                - 12 months from date of death
+                - 90 days
+                - Per plan administrator discretion
+            acceleratesOnDeath:
+              type: boolean
+              description: Whether unvested awards accelerate (fully vest) on death.
+              examples:
+                - true
+                - false
+          additionalProperties: false
+        debtReceivable:
+          type: object
+          $comment: Category-specific sub-object for debts owed TO the estate. The mirror of a liability — someone else owes the testator money.
+          description: Details of money owed to the testator by others. These are estate assets that the executor must collect.
+          properties:
+            debtorName:
+              type: string
+              description: Name of the person or organisation that owes the debt.
+              examples:
+                - John Smith
+                - Acme Trading Ltd
+            debtorPersonId:
+              type: string
+              format: uuid
+              description: Reference to Person.id if the debtor is in the people array.
+            originalAmount:
+              $ref: '#/components/schemas/money'
+              description: Original amount of the debt.
+            outstandingAmount:
+              $ref: '#/components/schemas/money'
+              description: Amount currently outstanding.
+            interestRate:
+              type: number
+              minimum: 0
+              description: Annual interest rate on the debt, as a percentage.
+              examples:
+                - 0
+                - 3.5
+                - 8
+            secured:
+              type: boolean
+              description: Whether the debt is secured against collateral.
+              examples:
+                - false
+            documentRef:
+              type: string
+              description: Reference to any loan agreement or promissory note.
+              examples:
+                - Promissory note dated 15 March 2023
+            collectibility:
+              type: string
+              enum:
+                - likely
+                - uncertain
+                - doubtful
+                - uncollectible
+              $comment: 'likely: debtor is solvent and able to pay. uncertain: some risk of non-payment. doubtful: significant risk of non-payment. uncollectible: debt is effectively worthless.'
+              description: Likelihood of collecting this debt.
+          additionalProperties: false
       required:
         - id
         - name
@@ -3927,6 +4621,46 @@ components:
           description: Free-text guidance from the testator about what should happen to this collection — keep together, sell at auction, donate to a museum, etc.
           examples:
             - Keep together if possible. Contact Dave at Manchester Model Railway Club — he knows the right dealers. Do not sell on eBay individually.
+        disposalStrategy:
+          type: string
+          enum:
+            - keep_together
+            - sell_as_collection
+            - sell_individually
+            - auction
+            - donate
+            - gift_to_person
+            - dealer_bids
+            - mixed
+            - undecided
+          $comment: 'keep_together: collection should remain intact — bequeathed to one person or institution. sell_as_collection: sell as a single lot to one buyer. sell_individually: break up and sell items separately. auction: sell through an auction house. donate: donate to a museum, institution, or charity. gift_to_person: give to a specific named person. dealer_bids: use CherishedItems-style competitive dealer bidding. mixed: combination of approaches for different parts. undecided: testator has not decided.'
+          description: The testator's preferred strategy for disposing of this collection. More structured than disposalWishes.
+          examples:
+            - dealer_bids
+            - keep_together
+        minimumAcceptableValue:
+          $ref: '#/components/schemas/money'
+          description: The minimum total value the testator or executor will accept for the collection. Prevents fire-sale disposal. In minor currency units.
+        preferredDisposalMethod:
+          type: string
+          enum:
+            - private_sale
+            - auction_house
+            - dealer_network
+            - online_marketplace
+            - specialist_fair
+            - museum_acquisition
+            - other
+          $comment: 'private_sale: direct sale to a known buyer. auction_house: through an established auction house (Christie''s, Bonhams, etc.). dealer_network: through specialist dealers in the collecting domain. online_marketplace: eBay, Catawiki, etc. specialist_fair: at a collecting fair or exhibition. museum_acquisition: sale or donation to a museum. other: any other method.'
+          description: Preferred channel for disposing of the collection.
+          examples:
+            - dealer_network
+            - auction_house
+        specialistDealerNotes:
+          type: string
+          description: Notes about specialist dealers who might be interested in this collection. Names, contact details, areas of expertise.
+          examples:
+            - Rails of Sheffield (01onal@railsofsheffield.com) — largest UK model railway dealer. Hattons of Liverpool — strong on Bachmann/Hornby. Avoid eBay 'lot sellers' — they undervalue specialist items.
         notes:
           type: string
           description: Any additional notes about this collection
@@ -5163,13 +5897,18 @@ components:
             - grant_of_probate
             - letters_of_administration
             - letters_of_administration_with_will_annexed
+            - succession_certificate
+            - certificate_of_inheritance
+            - court_appointment
             - resealing
             - european_certificate_of_succession
-          $comment: 'grant_of_probate: court confirms the executor named in the will. letters_of_administration: court appoints an administrator when there is no will. letters_of_administration_with_will_annexed: court appoints an administrator when the named executor cannot act. resealing: a foreign grant is recognised by a local court (common in Commonwealth jurisdictions). european_certificate_of_succession: EU document proving an heir''s or executor''s status under the Brussels IV Regulation. Without a grant, the executor has no legal authority to administer the estate.'
-          description: The type of grant issued by the court authorising this person to act.
+          $comment: 'grant_of_probate: E&W/AU/NZ — court confirms the executor named in the will. letters_of_administration: E&W — court appoints an administrator when there is no will. letters_of_administration_with_will_annexed: E&W — court appoints an administrator when the named executor cannot act. succession_certificate: IN/PK — Indian Succession Act s.372, entitles holder to collect assets. certificate_of_inheritance: DE (Erbschein), JP (相続証明書), FR (Acte de notoriété) — certifies inheritance rights. court_appointment: generic court appointment of administrator (various jurisdictions). resealing: a foreign grant is recognised by a local court (common in Commonwealth jurisdictions). european_certificate_of_succession: EU document proving an heir''s or executor''s status under the Brussels IV Regulation.'
+          description: The type of grant issued by the court authorising this person to act. Includes territory-neutral alternatives for non-Commonwealth jurisdictions.
           examples:
             - grant_of_probate
             - letters_of_administration
+            - succession_certificate
+            - certificate_of_inheritance
         grantDate:
           type: string
           format: date
@@ -5817,6 +6556,463 @@ components:
       patternProperties:
         ^x-inherit-: {}
       unevaluatedProperties: false
+    Comparable:
+      type: object
+      description: A comparable sale or listing used to support the valuation. Capturing comparables with screenshots and metadata creates an auditable evidence trail for executors, HMRC, and probate courts.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Link to the comparable sale or listing.
+          examples:
+            - https://www.ebay.co.uk/itm/123456789
+            - https://www.sothebys.com/en/buy/auction/2025/lot-42
+        screenshotUrl:
+          type: string
+          format: uri
+          description: Screenshot of the listing at the time it was captured. Listings are often removed after sale — the screenshot preserves the evidence.
+          examples:
+            - https://storage.example.com/comparables/ebay-123456789.png
+        title:
+          type: string
+          description: Description of the comparable item.
+          examples:
+            - Hornby R3456 Class 66 EWS DCC Fitted — mint, boxed
+            - 18ct gold solitaire diamond ring, 1.1ct, VS2/H
+        salePrice:
+          $ref: '#/components/schemas/money'
+          description: The sale price of the comparable item, in minor currency units.
+        saleDate:
+          type: string
+          format: date
+          description: Date the comparable item sold.
+          examples:
+            - '2025-01-15'
+            - '2024-11-20'
+        platform:
+          type: string
+          description: Where the comparable sold — marketplace, auction house, or dealer.
+          examples:
+            - eBay
+            - Sotheby's
+            - Bonhams
+            - Catawiki
+            - 1stDibs
+            - The Saleroom
+            - Rightmove
+            - Zoopla
+        capturedAt:
+          type: string
+          format: date
+          description: Date the comparable was captured or recorded. Important because market values shift and stale comparables lose evidential weight.
+          examples:
+            - '2025-02-01'
+            - '2025-03-10'
+        matchConfidence:
+          type: string
+          enum:
+            - exact
+            - close
+            - approximate
+            - weak
+          $comment: 'exact: same item, same condition, same era — direct comparison. close: very similar item with minor differences (e.g. different colourway, slightly different specification). approximate: broadly similar item — same category and era but notable differences. weak: loosely related — useful for establishing a price range but not a direct comparison.'
+          description: How closely the comparable matches the item being valued.
+          examples:
+            - close
+            - approximate
+        matchFactors:
+          type: array
+          items:
+            type: string
+          description: What makes this item comparable — the specific attributes that justify the comparison.
+          examples:
+            - - same manufacturer
+              - same era
+              - similar condition
+              - original box
+            - - same carat weight
+              - similar clarity grade
+              - same metal
+        matchNotes:
+          type: string
+          description: Free-text notes explaining the comparison — differences, adjustments, or caveats.
+          examples:
+            - Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%
+            - US sale — add 5% for UK market premium on this brand
+      additionalProperties: false
+    valuation:
+      $schema: https://openinherit.org/v1/dialect.json
+      $id: https://openinherit.org/v1/valuation.json
+      title: Valuation
+      description: A valuation of an estate asset, property, or asset collection. Supports multiple valuations per entity over time — owner estimates, professional valuations, AI analyses, dealer offers, and probate-agreed figures.
+      type: object
+      $defs:
+        Comparable:
+          type: object
+          description: A comparable sale or listing used to support the valuation. Capturing comparables with screenshots and metadata creates an auditable evidence trail for executors, HMRC, and probate courts.
+          properties:
+            url:
+              type: string
+              format: uri
+              description: Link to the comparable sale or listing.
+              examples:
+                - https://www.ebay.co.uk/itm/123456789
+                - https://www.sothebys.com/en/buy/auction/2025/lot-42
+            screenshotUrl:
+              type: string
+              format: uri
+              description: Screenshot of the listing at the time it was captured. Listings are often removed after sale — the screenshot preserves the evidence.
+              examples:
+                - https://storage.example.com/comparables/ebay-123456789.png
+            title:
+              type: string
+              description: Description of the comparable item.
+              examples:
+                - Hornby R3456 Class 66 EWS DCC Fitted — mint, boxed
+                - 18ct gold solitaire diamond ring, 1.1ct, VS2/H
+            salePrice:
+              $ref: '#/components/schemas/money'
+              description: The sale price of the comparable item, in minor currency units.
+            saleDate:
+              type: string
+              format: date
+              description: Date the comparable item sold.
+              examples:
+                - '2025-01-15'
+                - '2024-11-20'
+            platform:
+              type: string
+              description: Where the comparable sold — marketplace, auction house, or dealer.
+              examples:
+                - eBay
+                - Sotheby's
+                - Bonhams
+                - Catawiki
+                - 1stDibs
+                - The Saleroom
+                - Rightmove
+                - Zoopla
+            capturedAt:
+              type: string
+              format: date
+              description: Date the comparable was captured or recorded. Important because market values shift and stale comparables lose evidential weight.
+              examples:
+                - '2025-02-01'
+                - '2025-03-10'
+            matchConfidence:
+              type: string
+              enum:
+                - exact
+                - close
+                - approximate
+                - weak
+              $comment: 'exact: same item, same condition, same era — direct comparison. close: very similar item with minor differences (e.g. different colourway, slightly different specification). approximate: broadly similar item — same category and era but notable differences. weak: loosely related — useful for establishing a price range but not a direct comparison.'
+              description: How closely the comparable matches the item being valued.
+              examples:
+                - close
+                - approximate
+            matchFactors:
+              type: array
+              items:
+                type: string
+              description: What makes this item comparable — the specific attributes that justify the comparison.
+              examples:
+                - - same manufacturer
+                  - same era
+                  - similar condition
+                  - original box
+                - - same carat weight
+                  - similar clarity grade
+                  - same metal
+            matchNotes:
+              type: string
+              description: Free-text notes explaining the comparison — differences, adjustments, or caveats.
+              examples:
+                - Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%
+                - US sale — add 5% for UK market premium on this brand
+          additionalProperties: false
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for this valuation within the INHERIT document.
+          examples:
+            - a1b2c3d4-e5f6-7890-abcd-ef0123456789
+        entityType:
+          type: string
+          enum:
+            - asset
+            - property
+            - asset_collection
+          $comment: 'asset: a valuation of a single Asset. property: a valuation of a Property. asset_collection: a valuation of an AssetCollection as a whole (which may differ from the sum of individual asset valuations).'
+          description: The type of entity being valued.
+          examples:
+            - asset
+            - property
+        entityId:
+          type: string
+          format: uuid
+          description: Reference to the entity being valued — an Asset.id, Property.id, or AssetCollection.id.
+          examples:
+            - e5f6a7b8-c9d0-1234-ef01-23456789abcd
+        valuedAmount:
+          $ref: '#/components/schemas/money'
+          description: The valuation amount, in minor currency units.
+        valuationDate:
+          type: string
+          format: date
+          description: Date the valuation was performed or assessed.
+          examples:
+            - '2025-01-15'
+            - '2025-03-28'
+        provider:
+          type: string
+          description: Who performed the valuation — the name of the person, firm, or service.
+          examples:
+            - Bonhams
+            - RICS Surveyor — John Smith FRICS
+            - HMRC Shares & Assets Valuation
+            - OpenInherit AI
+            - Estate owner
+        providerType:
+          type: string
+          enum:
+            - owner
+            - professional_valuer
+            - auction_house
+            - dealer
+            - insurance_assessor
+            - tax_authority
+            - ai_estimate
+            - other
+          $comment: 'owner: the asset owner''s own estimate. professional_valuer: a qualified valuer (RICS, ASA, IVSC-accredited). auction_house: valuation by an auction house (Bonhams, Christie''s, Sotheby''s). dealer: valuation by a specialist dealer. insurance_assessor: valuation for insurance purposes. tax_authority: valuation agreed with or imposed by a tax authority (HMRC, IRS). ai_estimate: automated valuation by an AI or algorithmic model. other: any other type of valuer.'
+          description: The type of person or organisation that provided the valuation.
+          examples:
+            - professional_valuer
+            - auction_house
+            - ai_estimate
+        method:
+          type: string
+          enum:
+            - comparable_sales
+            - replacement_cost
+            - income_approach
+            - market_listing
+            - insurance_schedule
+            - ai_analysis
+            - expert_opinion
+            - other
+          $comment: 'comparable_sales: based on recent sales of similar items — the most common method for personal property and real estate. replacement_cost: cost to replace the item with an equivalent — common for insurance valuations. income_approach: value based on income the asset generates (rental yield, dividend income) — common for investment properties and business interests. market_listing: value derived from current market listings for similar items. insurance_schedule: value stated on an existing insurance schedule or policy. ai_analysis: automated valuation using AI, machine learning, or algorithmic models. expert_opinion: professional judgement by a qualified expert without formal methodology. other: any other valuation method.'
+          description: The valuation methodology used.
+          examples:
+            - comparable_sales
+            - expert_opinion
+            - ai_analysis
+        valuationPurpose:
+          type: string
+          enum:
+            - current_estimate
+            - date_of_death
+            - insurance
+            - official
+            - tax_return
+            - dealer_offer
+            - ai_estimate
+            - pre_sale
+            - probate
+          $comment: 'current_estimate: a current market value estimate for planning purposes. date_of_death: valuation as at the date of death — required for IHT and estate tax. insurance: valuation for insurance cover (often replacement cost, which may exceed market value). official: valuation agreed with or imposed by an official body. tax_return: valuation for inclusion on a tax return. dealer_offer: a valuation implicit in a dealer''s offer to purchase. ai_estimate: an automated estimate for initial triage and planning. pre_sale: valuation in anticipation of sale. probate: valuation submitted for and accepted by the probate court.'
+          description: The purpose for which this valuation was obtained.
+          examples:
+            - date_of_death
+            - insurance
+            - probate
+        confidence:
+          type: string
+          enum:
+            - high
+            - medium
+            - low
+            - unknown
+          $comment: 'high: strong evidential basis — professional valuation, multiple close comparables, or agreed with tax authority. medium: reasonable basis but some uncertainty — fewer comparables, older data, or owner estimate with domain knowledge. low: limited evidence — rough estimate, weak comparables, or unfamiliar category. unknown: confidence has not been assessed.'
+          description: Confidence level in this valuation.
+          examples:
+            - high
+            - medium
+        comparables:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comparable'
+          description: Comparable sales or listings used to support this valuation. Building a library of comparables strengthens the evidential basis for probate, tax, and insurance purposes.
+        notes:
+          type: string
+          description: Free-text notes about this valuation — methodology details, caveats, market conditions, or disagreements with other valuations.
+          examples:
+            - RICS Red Book valuation — market value basis. Assumes vacant possession.
+            - AI estimate based on 47 eBay sold listings over the past 90 days. Excludes outliers above £500.
+            - Owner estimate — collected model railways for 30 years, knowledgeable about market values in this niche.
+      required:
+        - id
+        - entityType
+        - entityId
+        - valuedAmount
+        - valuationDate
+      patternProperties:
+        ^x-inherit-: {}
+      unevaluatedProperties: false
+    lifetime-transfer:
+      $schema: https://openinherit.org/v1/dialect.json
+      $id: https://openinherit.org/v1/lifetime-transfer.json
+      title: Lifetime Transfer
+      description: A gift or transfer made during the testator's lifetime, relevant for tax calculations such as the UK 7-year rule, US unified gift/estate tax, and similar lookback provisions in other jurisdictions.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for this lifetime transfer within the INHERIT document.
+          examples:
+            - d4e5f6a7-b8c9-0123-d456-789abcdef012
+        transferDate:
+          type: string
+          format: date
+          description: Date the transfer was made.
+          examples:
+            - '2020-03-15'
+            - '2023-11-01'
+        donorPersonId:
+          type: string
+          format: uuid
+          description: Reference to the Person.id of the donor (typically the testator).
+        doneePersonIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Person IDs of the recipients of the transfer.
+        transferType:
+          type: string
+          enum:
+            - gift
+            - potentially_exempt_transfer
+            - chargeable_lifetime_transfer
+            - gift_with_reservation
+            - failed_pet
+            - settlement
+            - advancement
+            - loan_forgiveness
+            - sale_at_undervalue
+            - gift_of_shares
+            - other
+          $comment: 'gift: outright gift. potentially_exempt_transfer: UK PET (exempt if donor survives 7 years). chargeable_lifetime_transfer: UK CLT (into trust). gift_with_reservation: donor retains benefit. failed_pet: PET where donor died within 7 years. settlement: transfer into a settlement/trust. advancement: advance of inheritance. loan_forgiveness: debt written off. sale_at_undervalue: deliberate deprivation. gift_of_shares: transfer of company shares. other: any other type.'
+          description: The category of lifetime transfer.
+          examples:
+            - gift
+            - potentially_exempt_transfer
+            - chargeable_lifetime_transfer
+        value:
+          $ref: '#/components/schemas/money'
+          description: Value of the transfer at the date it was made, in minor currency units.
+        assetId:
+          type: string
+          format: uuid
+          description: Reference to the Asset.id of the asset transferred, if it is still recorded in the document.
+        propertyId:
+          type: string
+          format: uuid
+          description: Reference to the Property.id of the property transferred.
+        valuationId:
+          type: string
+          format: uuid
+          description: Reference to a Valuation entity providing a formal valuation of the transferred asset.
+        exemptionsClaimed:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - annual_exemption
+                  - small_gift
+                  - marriage_gift
+                  - normal_expenditure
+                  - business_property_relief
+                  - agricultural_property_relief
+                  - spouse_exemption
+                  - charity_exemption
+                  - taper_relief
+                  - annual_exclusion
+                  - lifetime_exemption
+                  - gift_splitting
+                  - other
+                $comment: 'annual_exemption: UK annual exemption (currently GBP 3,000 per tax year). small_gift: UK small gifts exemption (GBP 250 per recipient per tax year). marriage_gift: UK exemption for gifts in consideration of marriage or civil partnership. normal_expenditure: UK exemption for gifts from surplus income as part of normal expenditure. business_property_relief: UK BPR — relief on transfers of qualifying business assets. agricultural_property_relief: UK APR — relief on transfers of qualifying agricultural property. spouse_exemption: transfers between spouses or civil partners (exempt in most jurisdictions). charity_exemption: transfers to qualifying charities. taper_relief: UK taper relief reducing IHT on failed PETs between 3 and 7 years. annual_exclusion: US annual gift tax exclusion (per donee per year). lifetime_exemption: US unified lifetime gift/estate tax exemption. gift_splitting: US election to split gifts between spouses. other: any other exemption or relief not covered above.'
+                description: The type of exemption or relief claimed against this transfer.
+                examples:
+                  - annual_exemption
+                  - spouse_exemption
+                  - annual_exclusion
+              amount:
+                $ref: '#/components/schemas/money'
+                description: Amount of the exemption claimed, in minor currency units.
+              notes:
+                type: string
+                description: Free-text notes about this exemption claim.
+                examples:
+                  - Used remaining GBP 1,500 of annual exemption carried forward from previous tax year
+                  - Gift splitting election filed jointly with spouse on Form 709
+            required:
+              - type
+            additionalProperties: false
+          description: Exemptions and reliefs claimed against this transfer to reduce its taxable value.
+        taxReturnFiled:
+          type: boolean
+          description: Whether a gift tax return or similar filing has been submitted for this transfer.
+          examples:
+            - true
+            - false
+        taxPaid:
+          $ref: '#/components/schemas/money'
+          description: Amount of tax paid on this transfer, in minor currency units.
+        lookbackRelevant:
+          type: boolean
+          description: Whether this transfer falls within the jurisdiction's lookback period for tax purposes (e.g. 7 years in the UK, 3 years in the US for certain gifts).
+          examples:
+            - true
+            - false
+        lookbackYearsRemaining:
+          type: number
+          minimum: 0
+          description: Years remaining in the lookback period. In the UK, this counts down from 7 — a PET made 4 years before death has 3 years remaining.
+          examples:
+            - 7
+            - 3.5
+            - 0
+        taperReliefPercentage:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: UK taper relief percentage reducing the IHT charge on failed PETs and CLTs. Ranges from 0% (3 years or less before death) to 40% reduction (6-7 years before death).
+          examples:
+            - 0
+            - 20
+            - 40
+        jurisdiction:
+          $ref: '#/components/schemas/jurisdiction'
+          description: Jurisdiction governing this lifetime transfer.
+        notes:
+          type: string
+          description: Free-text notes about this lifetime transfer.
+          examples:
+            - Gift of family home to daughter — donor continued to live in the property, so gift with reservation rules apply
+            - PET made 5 years before death — taper relief reduces IHT by 40%
+      required:
+        - id
+        - transferDate
+        - donorPersonId
+        - transferType
+      patternProperties:
+        ^x-inherit-: {}
+      unevaluatedProperties: false
     InterestedParty:
       type: object
       description: A third party expressing interest in purchasing or acquiring estate assets.
@@ -5852,9 +7048,9 @@ components:
             - fund_manager
             - family_office
             - estate_agent
-            - solicitor_firm
+            - legal_practice
             - other
-          $comment: 'art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie''s, Sotheby''s, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. solicitor_firm: law firm acting for a buyer. other: any other type of interested party.'
+          $comment: 'art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie''s, Sotheby''s, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. legal_practice: law firm or legal practice acting for a buyer — territory-neutral term replacing ''solicitor_firm''. other: any other type of interested party.'
           description: The type of interested party.
         contactDetails:
           type: string
@@ -6001,9 +7197,9 @@ components:
                 - fund_manager
                 - family_office
                 - estate_agent
-                - solicitor_firm
+                - legal_practice
                 - other
-              $comment: 'art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie''s, Sotheby''s, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. solicitor_firm: law firm acting for a buyer. other: any other type of interested party.'
+              $comment: 'art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie''s, Sotheby''s, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. legal_practice: law firm or legal practice acting for a buyer — territory-neutral term replacing ''solicitor_firm''. other: any other type of interested party.'
               description: The type of interested party.
             contactDetails:
               type: string
@@ -6376,11 +7572,82 @@ components:
           items:
             $ref: '#/components/schemas/proxy-authorisation'
           description: Authorisations for proxies to act on behalf of the testator.
+        valuations:
+          type: array
+          items:
+            $ref: '#/components/schemas/valuation'
+          description: Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers.
+        lifetimeTransfers:
+          type: array
+          items:
+            $ref: '#/components/schemas/lifetime-transfer'
+          description: Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc.
         dealerInterests:
           type: array
           items:
             $ref: '#/components/schemas/dealer-interest'
           description: Third-party interest in estate assets — dealers, investors, collectors.
+        dataProvenance:
+          type: string
+          enum:
+            - manual_entry
+            - ai_extracted
+            - ocr_scanned
+            - imported
+            - migrated
+            - system_generated
+          $comment: 'manual_entry: data entered by hand by a person. ai_extracted: extracted by an AI model (e.g. INHERIT Scanner). ocr_scanned: extracted via optical character recognition. imported: imported from another system (Clio, LEAP, etc.). migrated: migrated from a legacy format or previous version. system_generated: generated by software without human input.'
+          description: Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured.
+          examples:
+            - manual_entry
+            - ai_extracted
+        importSources:
+          type: array
+          description: Systems from which data was imported into this document. Enables audit trail and source tracking.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for this import source, referenced by importSourceId on entities.
+                examples:
+                  - src-clio-001
+                  - src-paper-file
+              systemName:
+                type: string
+                description: Name of the source system.
+                examples:
+                  - Clio Manage
+                  - LEAP Legal Software
+                  - Paper file
+                  - Previous solicitor's firm
+                  - LegacyLists
+              importDate:
+                type: string
+                format: date
+                description: Date the data was imported from this source.
+                examples:
+                  - '2026-03-15'
+              importMethod:
+                type: string
+                enum:
+                  - api
+                  - file_upload
+                  - manual_copy
+                  - ai_extraction
+                  - ocr
+                  - migration_script
+                $comment: 'api: imported via API integration. file_upload: imported from an uploaded file (CSV, JSON, etc.). manual_copy: manually copied from the source. ai_extraction: extracted by an AI model from documents or images. ocr: extracted via optical character recognition from scanned documents. migration_script: automated migration from a legacy system.'
+                description: How the data was imported from this source.
+              notes:
+                type: string
+                description: Additional context about the import.
+                examples:
+                  - 'Migrated from Clio matter #12345 — assets and liabilities only'
+            required:
+              - id
+              - systemName
+            additionalProperties: false
         extensions:
           type: array
           items:
@@ -6556,6 +7823,75 @@ components:
               - category
             additionalProperties: false
           $comment: Persons eligible to claim under Inheritance (Provision for Family and Dependants) Act 1975.
+        localPropertyTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              propertyId:
+                type: string
+                format: uuid
+              localType:
+                type: string
+                enum:
+                  - detached_house
+                  - semi_detached_house
+                  - terraced_house
+                  - flat
+                  - maisonette
+                  - bungalow
+                  - cottage
+                  - farmhouse
+                  - barn_conversion
+                  - houseboat
+                  - park_home
+                  - other
+            required:
+              - propertyId
+              - localType
+            additionalProperties: false
+          $comment: Maps each property to its local E&W property type. The core propertyType holds the universal value; this provides the familiar local term.
+        localTenureTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              propertyId:
+                type: string
+                format: uuid
+              localType:
+                type: string
+                enum:
+                  - freehold
+                  - leasehold
+                  - commonhold
+                  - share_of_freehold
+            required:
+              - propertyId
+              - localType
+            additionalProperties: false
+          $comment: 'Maps each property to its local E&W tenure type. commonhold: an alternative to leasehold introduced by the Commonhold and Leasehold Reform Act 2002. share_of_freehold: leaseholders collectively own the freehold.'
+        localGrantTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              executorId:
+                type: string
+                format: uuid
+              localType:
+                type: string
+                enum:
+                  - grant_of_probate
+                  - letters_of_administration
+                  - letters_of_administration_with_will_annexed
+                  - limited_grant
+                  - de_bonis_non
+            required:
+              - executorId
+              - localType
+            additionalProperties: false
+          $comment: 'Maps each executor to the local E&W grant type. limited_grant: grant limited in scope (e.g. foreign property excluded). de_bonis_non: grant for unadministered estate when original executor dies.'
         legislativeChanges:
           type: array
           items:
