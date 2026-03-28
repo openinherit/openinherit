@@ -1,0 +1,106 @@
+{
+  "target": "../../../v1/executor.json",
+  "tests": [
+    {
+      "description": "valid — minimal executor with required fields only",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "role": "primary"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — professional executor with full grant details",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000002",
+        "personId": "p0000001-0000-4000-a000-000000000002",
+        "role": "primary",
+        "isProfessional": true,
+        "firmName": "Irwin Mitchell LLP",
+        "grantType": "grant_of_probate",
+        "grantDate": "2025-08-01",
+        "grantReference": "PRO-2025-654321",
+        "issuingCourt": "Leeds District Probate Registry",
+        "notes": "Lead solicitor is Ms Helen Rao. Power reserved to the secondary executor."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Indian executor with succession certificate",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000003",
+        "personId": "p0000001-0000-4000-a000-000000000003",
+        "role": "administrator",
+        "isProfessional": false,
+        "grantType": "succession_certificate",
+        "grantDate": "2025-11-12",
+        "grantReference": "SC-MUM-2025-7821",
+        "issuingCourt": "Bombay High Court",
+        "notes": "Succession certificate issued under Indian Succession Act s.372 to authorise collection of fixed deposits."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Japanese executor with certificate of inheritance",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000004",
+        "personId": "p0000001-0000-4000-a000-000000000004",
+        "role": "administrator",
+        "isProfessional": true,
+        "firmName": "Nishimura & Asahi",
+        "grantType": "certificate_of_inheritance",
+        "grantDate": "2025-07-20",
+        "issuingCourt": "Tokyo Family Court",
+        "notes": "Acting as judicial scrivener for the estate of Hiroshi Tanaka."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — substitute executor (lay person)",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000005",
+        "personId": "p0000001-0000-4000-a000-000000000005",
+        "role": "substitute",
+        "isProfessional": false,
+        "notes": "Named as substitute if both primary and secondary executors are unable or unwilling to act."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "role": "primary"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required personId",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000001",
+        "role": "primary"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — role is not a valid enum value",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "role": "executor_in_chief"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — grantType is not a valid enum value",
+      "data": {
+        "id": "x0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "role": "primary",
+        "grantType": "letters_rogatoire"
+      },
+      "valid": false
+    }
+  ]
+}

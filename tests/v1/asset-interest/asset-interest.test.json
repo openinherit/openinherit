@@ -1,0 +1,97 @@
+{
+  "target": "../../../v1/asset-interest.json",
+  "tests": [
+    {
+      "description": "valid — minimal asset interest with required fields only",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "interestLevel": "expressed_interest"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated interest in a specific asset",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000002",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "assetId": "a0000001-0000-4000-a000-000000000002",
+        "collectionId": null,
+        "personId": "p0000001-0000-4000-a000-000000000002",
+        "interestLevel": "agreed",
+        "sourceType": "family_conversation",
+        "testatorAcknowledged": true,
+        "notes": "Sarah mentioned at Christmas 2024 that she'd love Mum's engagement ring. Mum seemed pleased and would like Sarah to have it."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — interest in a collection, strongly wants, observed by testator",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000003",
+        "estateId": "e0000001-0000-4000-a000-000000000002",
+        "collectionId": "c0000001-0000-4000-a000-000000000002",
+        "personId": "p0000001-0000-4000-a000-000000000003",
+        "interestLevel": "strongly_wants",
+        "sourceType": "testator_observed",
+        "testatorAcknowledged": false,
+        "notes": "Haruki has always admired the woodblock print collection — discussed at Obon 2024. He has studied Japanese art history and would be a natural custodian."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — interest with proxy-reported source",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000004",
+        "estateId": "e0000001-0000-4000-a000-000000000003",
+        "assetId": "a0000001-0000-4000-a000-000000000007",
+        "personId": "p0000001-0000-4000-a000-000000000004",
+        "interestLevel": "mentioned",
+        "sourceType": "proxy_reported",
+        "testatorAcknowledged": false,
+        "notes": "Amara expressed interest in the family compound during the last family council meeting in Lagos. Reported by elder brother Emeka."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "interestLevel": "expressed_interest"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required personId",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "interestLevel": "expressed_interest"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — interestLevel is not a valid enum value",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "interestLevel": "obsessed"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — sourceType is not a valid enum value",
+      "data": {
+        "id": "i0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000001",
+        "interestLevel": "mentioned",
+        "sourceType": "telepathy"
+      },
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "target": "../../../v1/asset-collection.json",
+  "tests": [
+    {
+      "description": "valid — minimal asset collection with required fields only",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "name": "Model railway collection"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated vinyl record collection with disposal strategy",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000002",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "name": "Vinyl record library — Northern Soul and Motown",
+        "description": "Approximately 800 Northern Soul and Motown 45s collected over 40 years. Includes rare UK pressings. Stored in custom library cabinets in the back bedroom at 14 Ashfield Road, Leeds.",
+        "category": "vinyl_records",
+        "estimatedValue": { "amount": 1200000, "currency": "GBP" },
+        "valuationSource": "dealer_valuation",
+        "valuationDate": "2025-10-20",
+        "disposalWishes": "Please keep together — do not split and sell individually. Contact Soul Source forum members first.",
+        "disposalStrategy": "sell_as_collection",
+        "minimumAcceptableValue": { "amount": 800000, "currency": "GBP" },
+        "preferredDisposalMethod": "dealer_network",
+        "specialistDealerNotes": "Soul Brother Records, Brixton — specialist in Northern Soul. Goldmine Records, Manchester. Avoid general eBay lot sellers.",
+        "notes": "Insurance policy with Hiscox, ref HX-VINYL-2024. Photos in Google Drive folder 'Record Collection'."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Japanese woodblock print collection with auction disposal",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000003",
+        "estateId": "e0000001-0000-4000-a000-000000000002",
+        "name": "Edo-period woodblock prints — Hiroshige and Hokusai",
+        "description": "Collection of 23 Edo-period ukiyo-e woodblock prints. Assembled by Haruki Tanaka over 35 years. Documented in a handwritten catalogue stored with the prints.",
+        "category": "art",
+        "estimatedValue": { "amount": 8500000, "currency": "JPY" },
+        "valuationSource": "auction_estimate",
+        "valuationDate": "2025-06-01",
+        "disposalStrategy": "auction",
+        "preferredDisposalMethod": "auction_house",
+        "specialistDealerNotes": "Christie's Tokyo have expressed interest. Contact Yamada-san at Mitsukoshi Gallery as secondary option.",
+        "disposalWishes": "Should be sold as a complete collection. The pieces were acquired together and have greater value as a set."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "name": "Model railway collection"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required estateId",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000001",
+        "name": "Model railway collection"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required name",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — category is not a valid enum value",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "name": "Vintage typewriter collection",
+        "category": "typewriters"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — disposalStrategy is not a valid enum value",
+      "data": {
+        "id": "c0000001-0000-4000-a000-000000000001",
+        "estateId": "e0000001-0000-4000-a000-000000000001",
+        "name": "Stamp collection",
+        "disposalStrategy": "burn_it"
+      },
+      "valid": false
+    }
+  ]
+}

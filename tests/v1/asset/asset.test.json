@@ -1,0 +1,173 @@
+{
+  "target": "../../../v1/asset.json",
+  "tests": [
+    {
+      "description": "valid — minimal asset with required fields only",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000001",
+        "name": "Barclays Current Account",
+        "category": "financial"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated jewellery asset with provenance and insurance",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000002",
+        "name": "Grandmother's 18ct gold engagement ring",
+        "category": "jewellery_watches",
+        "subcategory": "engagement ring",
+        "description": "18ct yellow gold solitaire engagement ring, 1.2ct round brilliant diamond, GIA certified VS1/G. Purchased 1962.",
+        "brand": "Mappin & Webb",
+        "model": "Solitaire Brilliant",
+        "estimatedValue": { "amount": 450000, "currency": "GBP" },
+        "valuationDate": "2025-09-15",
+        "valuationConfidence": "professional",
+        "condition": "excellent",
+        "conditionSystem": "gia",
+        "conditionGrade": "VS1",
+        "originalPackaging": "none",
+        "location": "Home safe, Flat 4, Sunningdale Road, Manchester",
+        "purchaseDate": "1962-06-14",
+        "purchasedFrom": "Mappin & Webb, Manchester",
+        "possessionStatus": "possessed_at_death",
+        "mobilityType": "moveable",
+        "acquisitionType": "gifted",
+        "registrationStatus": "informally_held",
+        "ownershipEvidence": "receipts_only",
+        "notes": "Significant sentimental value to the family. Passed down from Priya Sharma's mother-in-law.",
+        "insurance": {
+          "provider": "Hiscox",
+          "policyReference": "HX-2025-9912",
+          "insuredValue": { "amount": 500000, "currency": "GBP" },
+          "renewalDate": "2026-03-01",
+          "notes": "Cover continues 30 days after death per policy terms"
+        },
+        "urgency": "none",
+        "dataProvenance": "manual_entry"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — v1.3.0 fields: searchTerms, comparableSearchProfile, confidenceScores, valuationReliability, lastVerifiedAt, verifiedBy, suggestedSubcategory",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000003",
+        "name": "Hornby R3456 Class 66 EWS Locomotive",
+        "category": "collectibles",
+        "subcategory": "model_railways",
+        "brand": "Hornby",
+        "model": "R3456 Class 66 EWS",
+        "condition": "excellent",
+        "originalPackaging": "complete",
+        "estimatedValue": { "amount": 18500, "currency": "GBP" },
+        "valuationReliability": 82,
+        "searchTerms": [
+          "Hornby R3456",
+          "Class 66 OO gauge",
+          "EWS livery locomotive",
+          "DCC fitted boxed"
+        ],
+        "comparableSearchProfile": {
+          "platforms": ["ebay", "catawiki", "rails_of_sheffield", "hattons"],
+          "searchQuery": "Hornby R3456 Class 66 EWS OO gauge boxed DCC",
+          "filters": {
+            "condition": "good+",
+            "packaging": "with_box",
+            "gauge": "OO"
+          },
+          "excludePlatforms": ["facebook_marketplace"],
+          "searchFrequency": "monthly"
+        },
+        "confidenceScores": {
+          "brand": 95,
+          "model": 88,
+          "category": 92,
+          "subcategory": 85,
+          "estimatedValue": 70
+        },
+        "suggestedSubcategory": "OO gauge locomotive",
+        "lastVerifiedAt": "2026-02-15T14:30:00Z",
+        "verifiedBy": "INHERIT Scanner v2",
+        "dataProvenance": "ai_extracted"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — digital asset with RUFADAA consent and digital access fields",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000004",
+        "name": "Gmail Account — haruki.tanaka@gmail.com",
+        "category": "digital",
+        "subcategory": "email account",
+        "notes": "Contains important financial correspondence. Password manager entry: Gmail Personal.",
+        "passesOutsideEstate": false,
+        "urgency": "within_30_days",
+        "urgencyReason": "Account may be reclaimed by Google if inactive for 2 years",
+        "digitalAccessConsent": {
+          "consentGiven": true,
+          "scope": "limited_access",
+          "designatedRecipientPersonId": "p0000001-0000-4000-a000-000000000005",
+          "onlineToolDirective": false
+        },
+        "dataProvenance": "manual_entry"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "name": "Barclays Current Account",
+        "category": "financial"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required name",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000001",
+        "category": "financial"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required category",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000001",
+        "name": "Barclays Current Account"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — category is not a valid enum value",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000001",
+        "name": "Mystery Asset",
+        "category": "treasure"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — confidenceScores contains a value > 100",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000005",
+        "name": "Rolex Submariner Date",
+        "category": "jewellery_watches",
+        "confidenceScores": {
+          "brand": 110,
+          "model": 95
+        }
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — valuationReliability > 100",
+      "data": {
+        "id": "a0000001-0000-4000-a000-000000000006",
+        "name": "Hermès Birkin 25",
+        "category": "clothing_textiles",
+        "valuationReliability": 150
+      },
+      "valid": false
+    }
+  ]
+}
