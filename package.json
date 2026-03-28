@@ -18,7 +18,8 @@
     "clean": "pnpm --filter @openinherit/sdk run clean",
     "lint:schema": "jsonschema lint v1/*.json v1/common/*.json --resolve v1/dialect.json --resolve v1/common/ --resolve v1/ --exclude top_level_examples --exclude simple_properties_identifiers",
     "fmt:schema": "jsonschema fmt --check --keep-ordering v1/*.json v1/common/*.json",
-    "metaschema": "jsonschema metaschema v1/*.json v1/common/*.json --resolve v1/dialect.json --resolve v1/common/"
+    "metaschema": "jsonschema metaschema v1/*.json v1/common/*.json --resolve v1/dialect.json --resolve v1/common/",
+    "bundle:schema": "jsonschema bundle v1/schema.json --resolve v1/dialect.json --resolve v1/ --resolve v1/common/ > dist/inherit-v1-bundled.json"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "latest",
