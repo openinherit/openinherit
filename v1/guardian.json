@@ -90,7 +90,9 @@
       "description": "Free-text notes about this guardianship appointment.",
       "examples": [
         "Guardian lives in Canada — may need to apply for child's visa",
-        "Both parents wish the child to be raised in the Islamic faith"
+        "Both parents wish the child to be raised in the Islamic faith",
+        "Guardian Auntie Lakshmi confirmed — child to continue at current school in Mumbai",
+        "Kwame Mensah agreed to act as guardian — family council approved"
       ]
     }
   },

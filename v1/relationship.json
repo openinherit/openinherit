@@ -96,7 +96,7 @@
             "POSTNUPTIAL_AGREEMENT",
             "MARRIAGE_SETTLEMENT"
           ],
-          "$comment": "MAHR: Islamic bridal gift — may be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — establishes the groom's obligations. LOBOLA: African customary bride price — paid from the groom's family to the bride's family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.",
+          "$comment": "MAHR: Islamic bridal gift — a legally recognised financial obligation enforceable in Shariah courts and in secular family/probate courts in 50+ jurisdictions. May be prompt (paid at marriage) or deferred (payable on death or divorce). KETUBAH: Jewish marriage contract — a legally recognised financial obligation enforceable in Israeli rabbinical courts and treated as a binding contract by secular courts in the UK, US, Canada, and Australia. Establishes the groom's obligations. LOBOLA: African customary bride price — a legally recognised financial obligation under the Recognition of Customary Marriages Act 1998 (South Africa) and equivalent statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. Paid from the groom's family to the bride's family. PRENUPTIAL_AGREEMENT: agreement before marriage governing property division. POSTNUPTIAL_AGREEMENT: agreement after marriage governing property division. MARRIAGE_SETTLEMENT: formal settlement of property in connection with a marriage.",
           "description": "The type of financial instrument."
         },
         "value": {
@@ -209,7 +209,7 @@
             "officiatingRabbi": {
               "type": "string",
               "description": "Name of the rabbi who officiated the ceremony.",
-              "examples": ["Rabbi David Goldstein", "Rabbi Miriam Berkowitz"]
+              "examples": ["Rabbi David Goldstein", "Rabbi Miriam Berkowitz", "Rabbi Yosef Ben-Ami"]
             }
           },
           "additionalProperties": false
@@ -223,7 +223,7 @@
               "type": "string",
               "$comment": "Family or person lobola was negotiated with",
               "description": "The family or person with whom the lobola was negotiated.",
-              "examples": ["Nkosi family, Johannesburg", "Chief Okafor, Enugu"]
+              "examples": ["Nkosi family, Johannesburg", "Chief Okafor, Enugu", "Mensah family, Accra"]
             },
             "includesLivestock": {
               "type": "boolean",
@@ -342,7 +342,7 @@
     },
     "religiousSubtype": {
       "type": "string",
-      "$comment": "Specific religious marriage form: nikah, kiddushin, hindu_vivah, anand_karaj (Sikh), etc. Only meaningful when type is MARRIAGE_RELIGIOUS.",
+      "$comment": "Legal relationship categories recognised by specific jurisdictions, not religious labels. nikah: Islamic marriage contract — a legally binding civil contract in 50+ jurisdictions (all OIC member states, plus recognised for succession purposes in UK, US, Canada, Australia, Singapore). kiddushin: Jewish marriage — legally binding in Israel; recognised as a valid marriage for succession in UK/US/Canada where properly registered. hindu_vivah: Hindu marriage — legally binding under Hindu Marriage Act 1955 (India), recognised in UK/Singapore/Malaysia. anand_karaj: Sikh marriage — legally binding under Anand Marriage Act 1909 (India), recognised in UK/Canada. Only meaningful when type is MARRIAGE_RELIGIOUS.",
       "description": "The specific religious marriage form, when the type is MARRIAGE_RELIGIOUS.",
       "examples": ["nikah", "kiddushin", "hindu_vivah", "anand_karaj"]
     },

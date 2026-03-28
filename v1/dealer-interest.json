@@ -17,7 +17,7 @@
         "name": {
           "type": "string",
           "description": "Name of the interested party — individual or organisation.",
-          "examples": ["Christie's", "Savills", "Dr Heinrich Müller", "Bonhams"]
+          "examples": ["Christie's", "Savills", "Dr Heinrich Müller", "Bonhams", "Galerie Tanaka, Tokyo", "Rahul Mehta Fine Art", "Al-Futtaim Auction House"]
         },
         "type": {
           "type": "string",

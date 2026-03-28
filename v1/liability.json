@@ -32,7 +32,7 @@
         "mezonot",
         "other"
       ],
-      "$comment": "mortgage: secured loan against property. personal_loan: unsecured personal borrowing. credit_card: credit card balance. overdraft: bank overdraft. student_loan: education loan (may be forgiven on death in some jurisdictions). car_finance: vehicle finance agreement. hire_purchase: hire purchase agreement. mahr: Islamic deferred bridal gift — priority debt that must be paid before inheritance distribution. ketubah_debt: Jewish marriage contract obligation — priority debt under halacha. lobola: African customary bride price — may be partially refundable on certain events. tax_liability: income tax, capital gains tax, or other tax owed. funeral_costs: funeral and burial expenses — typically first priority debt. care_fees: care home or nursing fees owed. mezonot: Jewish widow's maintenance obligation — paid from the estate before distribution. other: any liability not covered above.",
+      "$comment": "mortgage: secured loan against property. personal_loan: unsecured personal borrowing. credit_card: credit card balance. overdraft: bank overdraft. student_loan: education loan (may be forgiven on death in some jurisdictions). car_finance: vehicle finance agreement. hire_purchase: hire purchase agreement. mahr: Islamic deferred bridal gift — a legally recognised financial obligation that is a priority debt under Shariah law, enforceable in Shariah courts and in secular courts that recognise Islamic marriage contracts (e.g. UAE, Malaysia, Pakistan, and increasingly in UK/US family courts). ketubah_debt: Jewish marriage contract obligation — a legally recognised financial obligation under halachic law, enforceable in batei din and in secular courts where the ketubah is recognised as a binding contract (e.g. Israel; treated as a prenuptial in US/UK courts). lobola: African customary bride price — a legally recognised financial obligation under customary law, with statutory recognition under the Recognition of Customary Marriages Act 1998 (South Africa), and customary law statutes in Nigeria, Kenya, Zimbabwe, and other jurisdictions. May be partially refundable on certain events. tax_liability: income tax, capital gains tax, or other tax owed. funeral_costs: funeral and burial expenses — typically first priority debt. care_fees: care home or nursing fees owed. mezonot: Jewish widow's maintenance obligation — a legally recognised financial obligation under halachic law, paid from the estate before distribution, enforceable in Israeli rabbinical courts and in batei din worldwide. other: any liability not covered above.",
       "description": "The category of liability. Cultural and religious obligations are included because they are priority debts in their respective legal systems.",
       "examples": [
         "mortgage",
@@ -48,7 +48,10 @@
         "Barclays Bank",
         "HMRC",
         "Manchester City Council",
-        "Fatimah bint Hassan"
+        "Fatimah bint Hassan",
+        "Sumitomo Mitsui Banking Corporation",
+        "Priya Sharma",
+        "Chioma Okonkwo"
       ]
     },
     "amount": {

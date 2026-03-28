@@ -15,24 +15,24 @@
       "type": "string",
       "minLength": 1,
       "description": "The person's given (first) name. For cultures where given name follows family name (e.g. Japanese, Chinese), this is still the given name — display ordering is a presentation concern.",
-      "examples": ["James", "Margaret", "裕子", "Priya", "محمد"]
+      "examples": ["James", "Margaret", "裕子", "Priya", "محمد", "Soo-jin", "Amara", "Fatima", "Arjun", "Chioma", "Haruki", "Aisha"]
     },
     "familyName": {
       "type": "string",
       "minLength": 1,
       "$comment": "Optional — Tamil naming uses a single name. Systems must handle absent familyName.",
       "description": "The person's family name (surname). Some cultures do not use family names — Tamil, Icelandic patronymic, and mononymous naming conventions are all valid without this field.",
-      "examples": ["Davies", "Nakamura", "O'Brien", "김", "Müller"]
+      "examples": ["Davies", "Nakamura", "O'Brien", "김", "Müller", "Sharma", "Al-Hassan", "Okonkwo", "Watanabe", "Ibrahim", "Mensah", "Patel"]
     },
     "additionalName": {
       "type": "string",
       "description": "Middle name(s) or additional given names. Multiple middle names should be space-separated.",
-      "examples": ["William", "María del Carmen", "Raj Kumar"]
+      "examples": ["William", "María del Carmen", "Raj Kumar", "Yuki", "Omar", "Tendai"]
     },
     "preferredName": {
       "type": "string",
       "description": "Name the person prefers to be called. May differ from legal name — use this for correspondence and display where appropriate.",
-      "examples": ["Jim", "Maggie", "ゆう", "Bobby"]
+      "examples": ["Jim", "Maggie", "ゆう", "Bobby", "Riya", "Mo", "Kwame"]
     },
     "phoneticReading": {
       "type": "object",
@@ -98,7 +98,7 @@
     },
     "clanOrLineage": {
       "type": "string",
-      "$comment": "Tribal clan, Indian gotra/caste, family lineage. Determines inheritance rights in customary/Hindu systems.",
+      "$comment": "Used exclusively in jurisdictions where customary succession law determines inheritance rights based on clan membership (e.g. South Africa Customary Marriages Act 1998, Nigerian Igbo/Yoruba customary law, Kenyan Law of Succession Act s.32-33). Also covers Indian gotra under Hindu Succession Act 1956. Not collected in jurisdictions where clan affiliation has no legal relevance to succession.",
       "description": "Clan, tribe, lineage, or gotra affiliation. In some legal systems (Hindu, customary African), this determines inheritance rights and succession order.",
       "examples": ["Bharadwaja", "Ogbuagu", "MacDonald"]
     },
@@ -152,7 +152,7 @@
       },
       "minItems": 1,
       "uniqueItems": true,
-      "$comment": "testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person's function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both 'executor' (core) and 'karta' (x-inherit-india-hindu). Extensions should NOT attempt to add values to this enum.",
+      "$comment": "testator: the person whose estate this is. beneficiary: someone who receives a gift or share. executor: appointed to administer the estate. guardian: appointed to care for minor children. trustee: manages trust assets. witness: attested the will signing. attorney: holds power of attorney. proxy: authorised to act on behalf of a party. protector: oversees a trust. enforcer: enforces trust terms (common in Islamic trusts and Cayman STAR trusts). Core roles define the person's function in the estate. Extension-specific roles (bekhor, karta, okpara, mutawalli) should be added via x-inherit-* blocks alongside core roles. The array is intentionally extensible — a person can be both 'executor' (core) and 'karta' (x-inherit-hindu-succession). Extensions should NOT attempt to add values to this enum.",
       "description": "The roles this person plays in the estate. A person may hold multiple roles simultaneously (e.g. beneficiary and executor).",
       "examples": [["testator"], ["beneficiary", "executor"], ["witness"], ["trustee", "protector"]]
     },
@@ -164,7 +164,7 @@
           "type": "string",
           "format": "email",
           "description": "Email address for correspondence.",
-          "examples": ["james.davies@example.com", "tanaka.yuko@example.jp"]
+          "examples": ["james.davies@example.com", "tanaka.yuko@example.jp", "priya.sharma@example.in", "omar.ibrahim@example.ae", "amara.mensah@example.gh"]
         },
         "phone": {
           "type": "string",
@@ -191,7 +191,7 @@
     },
     "ritualName": {
       "type": "object",
-      "$comment": "Structured religious name. Hebrew: 'Dovid ben Avraham'. Arabic nasab: 'Ahmed ibn Muhammad'. Hindu: gotra + name. Used for halachic documents, Shariah court filings, religious ceremonies.",
+      "$comment": "Religiously significant name used in succession documents where religious courts have jurisdiction. Hebrew name (e.g. 'Dovid ben Avraham') is required for Jewish wills (shtar tzava'ah) and ketubah obligations adjudicated by a beth din. Arabic nasab (e.g. 'Ahmed ibn Muhammad') is required for Islamic wills (wasiyya) and Shariah court filings. Hindu gotra name is relevant for Hindu Succession Act proceedings. These are legal identifiers within their respective court systems, not cultural labels.",
       "description": "The person's name within a religious naming tradition. Required for religious court filings, halachic documents, and Shariah proceedings.",
       "properties": {
         "name": {

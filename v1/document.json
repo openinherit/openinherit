@@ -21,7 +21,7 @@
     "title": {
       "type": "string",
       "description": "Human-readable title of the document.",
-      "examples": ["Last Will and Testament of James Davies", "First Codicil dated 15 June 2024", "Nikah Nama — Ahmed and Fatimah"]
+      "examples": ["Last Will and Testament of James Davies", "First Codicil dated 15 June 2024", "Nikah Nama — Ahmed and Fatimah", "遺言書 — 田中裕子", "Will of Amara Okonkwo", "Testament de Priya Sharma"]
     },
     "fileFormat": {
       "type": "string",

@@ -31,7 +31,7 @@
     "firmName": {
       "type": "string",
       "description": "Name of the professional firm, if the executor is acting in a professional capacity.",
-      "examples": ["Irwin Mitchell LLP", "Evelyn Partners", "National Westminster Bank Trustee Services"]
+      "examples": ["Irwin Mitchell LLP", "Evelyn Partners", "National Westminster Bank Trustee Services", "Nishimura & Asahi", "Anjarwalla & Khanna LLP", "Shardul Amarchand Mangaldas"]
     },
     "grantType": {
       "type": "string",
@@ -60,7 +60,7 @@
     "issuingCourt": {
       "type": "string",
       "description": "Name of the court or registry that issued the grant.",
-      "examples": ["Leeds District Probate Registry", "Supreme Court of Victoria", "Surrogate's Court, New York County"]
+      "examples": ["Leeds District Probate Registry", "Supreme Court of Victoria", "Surrogate's Court, New York County", "Tokyo Family Court", "Lagos High Court", "Bombay High Court"]
     },
     "notes": {
       "type": "string",

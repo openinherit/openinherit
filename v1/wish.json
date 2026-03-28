@@ -47,7 +47,9 @@
       "description": "The full text content of the wish. May be lengthy for letters of wishes.",
       "examples": [
         "I wish to be cremated and my ashes scattered at Coniston Water",
-        "Please ensure my cat Mochi is rehomed with my sister Akiko"
+        "Please ensure my cat Mochi is rehomed with my sister Akiko",
+        "Burial in accordance with Islamic rites — contact Imam Hassan at the East London Mosque",
+        "Please ensure my dog is cared for by my nephew Tendai"
       ]
     },
     "bindingNature": {

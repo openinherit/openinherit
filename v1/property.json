@@ -15,7 +15,7 @@
       "type": "string",
       "minLength": 1,
       "description": "Display name for this property — a familiar label or street address. Should be recognisable to all parties involved in the estate.",
-      "examples": ["Family Home", "42 Acacia Avenue", "Lagos Investment Property", "Hokkaido Farmland"]
+      "examples": ["Family Home", "42 Acacia Avenue", "Lagos Investment Property", "Hokkaido Farmland", "Mumbai Flat", "Dubai Marina Apartment"]
     },
     "propertyType": {
       "type": "string",

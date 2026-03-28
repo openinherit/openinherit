@@ -37,7 +37,7 @@
         "name": {
           "type": "string",
           "description": "Name of the person who exported the document.",
-          "examples": ["James Davies", "Priya Sharma"]
+          "examples": ["James Davies", "Priya Sharma", "Yuki Tanaka", "Fatima Al-Hassan", "Kwame Mensah"]
         },
         "email": {
           "type": "string",
@@ -170,7 +170,7 @@
       "items": { "type": "string" },
       "$comment": "URIs of extension schemas applied to this document.",
       "description": "URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.",
-      "examples": [["https://openinherit.org/v1/extensions/india-hindu.json", "https://openinherit.org/v1/extensions/islamic-faraid.json"]]
+      "examples": [["https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json", "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json"]]
     }
   },
   "required": [

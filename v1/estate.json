@@ -57,7 +57,7 @@
         "assessorName": {
           "type": "string",
           "description": "Name of the person who assessed capacity.",
-          "examples": ["Dr Sarah Patel", "Dr Kenji Watanabe"]
+          "examples": ["Dr Sarah Patel", "Dr Kenji Watanabe", "Dr Aisha Ibrahim", "Dr Tendai Moyo"]
         },
         "assessorRole": {
           "type": "string",
@@ -694,7 +694,7 @@
           "localCounsel": {
             "type": "string",
             "description": "Name of local legal counsel handling this jurisdiction.",
-            "examples": ["Maître Dupont, Paris", "Tanaka & Associates, Tokyo"]
+            "examples": ["Maître Dupont, Paris", "Tanaka & Associates, Tokyo", "Okonkwo & Partners, Lagos", "Sharma Legal, Mumbai", "Al-Tamimi & Company, Dubai"]
           },
           "notes": {
             "type": "string",
