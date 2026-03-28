@@ -1,0 +1,577 @@
+{
+  "generated": "2026-03-28T19:44:21.732Z",
+  "nodeCount": 32,
+  "edgeCount": 56,
+  "nodes": [
+    {
+      "id": "https://openinherit.org/v1/asset-collection.json",
+      "slug": "asset-collection",
+      "title": "Asset Collection",
+      "description": "A named group of related assets — e.g. a model railway collection, vinyl record library, or art portfolio. Lets families and dealers understand which items belong together and should be considered as a set",
+      "category": "core",
+      "path": "v1/asset-collection.json",
+      "propertyCount": 15
+    },
+    {
+      "id": "https://openinherit.org/v1/asset-interest.json",
+      "slug": "asset-interest",
+      "title": "Asset Interest",
+      "description": "Captures informal beneficiary interest in an asset or collection — pre-bequest soft preferences. Not legally binding. Helps the testator understand who wants what before making formal bequests",
+      "category": "core",
+      "path": "v1/asset-interest.json",
+      "propertyCount": 9
+    },
+    {
+      "id": "https://openinherit.org/v1/asset.json",
+      "slug": "asset",
+      "title": "Asset",
+      "description": "A non-property asset: financial accounts, personal property, vehicles, digital assets, business interests, Islamic finance instruments, etc",
+      "category": "core",
+      "path": "v1/asset.json",
+      "propertyCount": 54
+    },
+    {
+      "id": "https://openinherit.org/v1/attestation.json",
+      "slug": "attestation",
+      "title": "Attestation",
+      "description": "Will execution formalities. Standalone — reused by estate, codicils, trusts, extensions. Supports written (E&W Wills Act s.9), oral (Islamic/customary), seal-based (Japanese inkan), kinyan-based (Jewish)",
+      "category": "core",
+      "path": "v1/attestation.json",
+      "propertyCount": 10
+    },
+    {
+      "id": "https://openinherit.org/v1/bequest.json",
+      "slug": "bequest",
+      "title": "Bequest",
+      "description": "A disposition of property or money in a will. Supports 7 core types (specific, pecuniary, demonstrative, general, residuary, life_interest, class) and extension types via extensionType (e.g. wasiyya, halachic_matanah)",
+      "category": "core",
+      "path": "v1/bequest.json",
+      "propertyCount": 22
+    },
+    {
+      "id": "https://openinherit.org/v1/catalogue.json",
+      "slug": "catalogue",
+      "title": "INHERIT v1 Catalogue Schema",
+      "description": "Lightweight root schema for catalogue-only documents — living collectors cataloguing items without the full estate envelope. Assets, collections, valuations, and legacy contacts. Upgrade path: wrap in a full estate document (schema.json) when needed",
+      "category": "core",
+      "path": "v1/catalogue.json",
+      "propertyCount": 16
+    },
+    {
+      "id": "https://openinherit.org/v1/dealer-interest.json",
+      "slug": "dealer-interest",
+      "title": "Dealer Interest",
+      "description": "Level D data — records third-party interest in estate assets (art dealers, property investors, collectors). Privacy-controlled. Managed via proxy authorisation",
+      "category": "core",
+      "path": "v1/dealer-interest.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/document.json",
+      "slug": "document",
+      "title": "Document",
+      "description": "A document associated with an estate — wills, codicils, trust deeds, and religious documents (shtar_chov, ketubah_document, nikah_nama, etc.). Type is a free string (minLength 1) to accommodate jurisdiction-specific and religious document types",
+      "category": "core",
+      "path": "v1/document.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/estate.json",
+      "slug": "estate",
+      "title": "Estate",
+      "description": "The root estate record — will, intestacy, or trust-based succession plan. Contains testator details, jurisdiction, will formalities, forced heirship, probate grants, death record, multi-jurisdiction administration, and tax treaty positions",
+      "category": "core",
+      "path": "v1/estate.json",
+      "propertyCount": 43
+    },
+    {
+      "id": "https://openinherit.org/v1/executor.json",
+      "slug": "executor",
+      "title": "Executor",
+      "description": "A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed",
+      "category": "core",
+      "path": "v1/executor.json",
+      "propertyCount": 10
+    },
+    {
+      "id": "https://openinherit.org/v1/guardian.json",
+      "slug": "guardian",
+      "title": "Guardian",
+      "description": "A guardian appointment for a minor child. Supports testamentary, court-appointed, shariah court, community-appointed, and religious court appointments. Guardianship structures include individual, collective, rotating, and family council determined",
+      "category": "core",
+      "path": "v1/guardian.json",
+      "propertyCount": 9
+    },
+    {
+      "id": "https://openinherit.org/v1/kinship.json",
+      "slug": "kinship",
+      "title": "Kinship",
+      "description": "A familial bond between two people. Essential for intestacy calculation — inheritance rules in every jurisdiction depend on parent-child, sibling, and other familial relationships. Direction: fromPersonId is the parent/elder, toPersonId is the child/younger (for parent-child types). Indian extensions may add PARENT_CHILD_COPARCENARY, KARTA_MEMBER. See extensions/hindu-succession/hindu-succession.json",
+      "category": "core",
+      "path": "v1/kinship.json",
+      "propertyCount": 9
+    },
+    {
+      "id": "https://openinherit.org/v1/liability.json",
+      "slug": "liability",
+      "title": "Liability",
+      "description": "A debt or financial obligation. Includes mortgages, loans, credit cards, and cultural obligations (mahr, ketubah debt, lobola) that are priority debts in certain jurisdictions",
+      "category": "core",
+      "path": "v1/liability.json",
+      "propertyCount": 11
+    },
+    {
+      "id": "https://openinherit.org/v1/lifetime-transfer.json",
+      "slug": "lifetime-transfer",
+      "title": "Lifetime Transfer",
+      "description": "A gift or transfer made during the testator's lifetime, relevant for tax calculations such as the UK 7-year rule, US unified gift/estate tax, and similar lookback provisions in other jurisdictions",
+      "category": "core",
+      "path": "v1/lifetime-transfer.json",
+      "propertyCount": 17
+    },
+    {
+      "id": "https://openinherit.org/v1/nonprobate-transfer.json",
+      "slug": "nonprobate-transfer",
+      "title": "Nonprobate Transfer",
+      "description": "Assets that pass outside the probate estate — revocable trusts, TOD deeds, POD accounts, JTWROS, beneficiary designations, superannuation/CPF/EPF nominations",
+      "category": "core",
+      "path": "v1/nonprobate-transfer.json",
+      "propertyCount": 16
+    },
+    {
+      "id": "https://openinherit.org/v1/person.json",
+      "slug": "person",
+      "title": "Person",
+      "description": "A person involved in the estate. Schema.org name alignment. Any Unicode script. Supports CJK phonetic readings, chieftaincy titles, clan/lineage identifiers, dual legal personalities, and tax residency across multiple jurisdictions",
+      "category": "core",
+      "path": "v1/person.json",
+      "propertyCount": 23
+    },
+    {
+      "id": "https://openinherit.org/v1/property.json",
+      "slug": "property",
+      "title": "Property",
+      "description": "Real estate. Supports individual ownership, communal/family property (Nigeria), HUF coparcenary (India), government-vested land (Land Use Act), US community property, and informal/unregistered holdings",
+      "category": "core",
+      "path": "v1/property.json",
+      "propertyCount": 28
+    },
+    {
+      "id": "https://openinherit.org/v1/proxy-authorisation.json",
+      "slug": "proxy-authorisation",
+      "title": "Proxy Authorisation",
+      "description": "Authorises a proxy to act on behalf of a testator — information gathering, communication, negotiation, or full decision-making. Includes consent record with cultural consent methods",
+      "category": "core",
+      "path": "v1/proxy-authorisation.json",
+      "propertyCount": 11
+    },
+    {
+      "id": "https://openinherit.org/v1/relationship.json",
+      "slug": "relationship",
+      "title": "Relationship",
+      "description": "Spousal/partnership relationship. N-partner support (no structural two-partner limit). Event-based timeline (status derived from events). No gendered role names. Financial instruments with MAHR/KETUBAH subtype validation. Cross-jurisdiction recognition for dual civil/religious status",
+      "category": "core",
+      "path": "v1/relationship.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/schema.json",
+      "slug": "schema",
+      "title": "INHERIT v1 Root Schema",
+      "description": "Root entry point for an INHERIT v1 estate data interchange document. Contains a single estate and arrays of all entity types",
+      "category": "core",
+      "path": "v1/schema.json",
+      "propertyCount": 35
+    },
+    {
+      "id": "https://openinherit.org/v1/trust.json",
+      "slug": "trust",
+      "title": "Trust",
+      "description": "A trust instrument — testamentary or inter vivos. Covers discretionary, bare, life interest, charitable, nil rate band, waqf (Islamic endowment), and offshore structures with governance features (reserved powers, flee clauses, protector powers)",
+      "category": "core",
+      "path": "v1/trust.json",
+      "propertyCount": 23
+    },
+    {
+      "id": "https://openinherit.org/v1/valuation.json",
+      "slug": "valuation",
+      "title": "Valuation",
+      "description": "A valuation of an estate asset, property, or asset collection. Supports multiple valuations per entity over time — owner estimates, professional valuations, AI analyses, dealer offers, and probate-agreed figures",
+      "category": "core",
+      "path": "v1/valuation.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/wish.json",
+      "slug": "wish",
+      "title": "Wish",
+      "description": "A non-binding (or culturally/religiously binding) wish — funeral, letter of wishes, care instructions, pet care, digital estate, distribution preferences",
+      "category": "core",
+      "path": "v1/wish.json",
+      "propertyCount": 8
+    },
+    {
+      "id": "https://openinherit.org/v1/common/address.json",
+      "slug": "address",
+      "title": "PostalAddress",
+      "description": "A physical address. Culturally neutral — supports any global addressing convention",
+      "category": "common",
+      "path": "v1/common/address.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/common/completeness.json",
+      "slug": "completeness",
+      "title": "Completeness",
+      "description": "A completeness score derived from a weighted checklist of estate data categories, scoped to a specific jurisdiction and estate status",
+      "category": "common",
+      "path": "v1/common/completeness.json",
+      "propertyCount": 6
+    },
+    {
+      "id": "https://openinherit.org/v1/common/identifier.json",
+      "slug": "identifier",
+      "title": "Identifier",
+      "description": "A typed external identifier. Use 'system' to namespace identifiers and prevent collisions across jurisdictions and organisations",
+      "category": "common",
+      "path": "v1/common/identifier.json",
+      "propertyCount": 3
+    },
+    {
+      "id": "https://openinherit.org/v1/common/jurisdiction.json",
+      "slug": "jurisdiction",
+      "title": "Jurisdiction",
+      "description": "A legal jurisdiction identified by ISO 3166 codes. Succession law varies not just by country but by subdivision — Scotland differs from England and Wales, and US states have radically different rules",
+      "category": "common",
+      "path": "v1/common/jurisdiction.json",
+      "propertyCount": 4
+    },
+    {
+      "id": "https://openinherit.org/v1/common/media.json",
+      "slug": "media",
+      "title": "Media",
+      "description": "A media attachment — photograph, video, or document scan. Used for identification, valuation, condition documentation, and provenance records",
+      "category": "common",
+      "path": "v1/common/media.json",
+      "propertyCount": 6
+    },
+    {
+      "id": "https://openinherit.org/v1/common/money.json",
+      "slug": "money",
+      "title": "Money",
+      "description": "Monetary value in integer minor currency units with ISO 4217 code. Never floating point",
+      "category": "common",
+      "path": "v1/common/money.json",
+      "propertyCount": 2
+    },
+    {
+      "id": "https://openinherit.org/v1/common/tax-position.json",
+      "slug": "tax-position",
+      "title": "TaxPosition",
+      "description": "An estimated tax position for an estate in a specific jurisdiction, including gross and net values, available exemptions, and estimated liability",
+      "category": "common",
+      "path": "v1/common/tax-position.json",
+      "propertyCount": 12
+    },
+    {
+      "id": "https://openinherit.org/v1/common/temporal-rule.json",
+      "slug": "temporal-rule",
+      "title": "TemporalRule",
+      "description": "A jurisdiction rule value with effective dates, legislative status, and change history",
+      "category": "common",
+      "path": "v1/common/temporal-rule.json",
+      "propertyCount": 7
+    },
+    {
+      "id": "https://openinherit.org/v1/common/visibility.json",
+      "slug": "visibility",
+      "title": "Visibility",
+      "description": "Reusable visibility level controlling which parties can see an entity. Used across dealer interests, asset interests, and other privacy-sensitive records",
+      "category": "common",
+      "path": "v1/common/visibility.json",
+      "propertyCount": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "https://openinherit.org/v1/asset-collection.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/asset-collection.json",
+      "target": "https://openinherit.org/v1/common/media.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/asset.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/asset.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/asset.json",
+      "target": "https://openinherit.org/v1/common/identifier.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/asset.json",
+      "target": "https://openinherit.org/v1/common/media.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/bequest.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/bequest.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/catalogue.json",
+      "target": "https://openinherit.org/v1/asset-collection.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/catalogue.json",
+      "target": "https://openinherit.org/v1/asset.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/catalogue.json",
+      "target": "https://openinherit.org/v1/common/completeness.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/catalogue.json",
+      "target": "https://openinherit.org/v1/schema.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/catalogue.json",
+      "target": "https://openinherit.org/v1/valuation.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/dealer-interest.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/document.json",
+      "target": "https://openinherit.org/v1/common/media.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/estate.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/estate.json",
+      "target": "https://openinherit.org/v1/attestation.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/estate.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/liability.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/lifetime-transfer.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/lifetime-transfer.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/nonprobate-transfer.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/person.json",
+      "target": "https://openinherit.org/v1/common/address.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/person.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/person.json",
+      "target": "https://openinherit.org/v1/common/identifier.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/property.json",
+      "target": "https://openinherit.org/v1/common/address.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/property.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/property.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/property.json",
+      "target": "https://openinherit.org/v1/common/media.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/relationship.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/relationship.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/asset-collection.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/asset-interest.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/asset.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/bequest.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/common/completeness.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/dealer-interest.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/document.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/estate.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/executor.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/guardian.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/kinship.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/liability.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/lifetime-transfer.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/nonprobate-transfer.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/person.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/property.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/proxy-authorisation.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/relationship.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/common/tax-position.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/trust.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/valuation.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/schema.json",
+      "target": "https://openinherit.org/v1/wish.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/trust.json",
+      "target": "https://openinherit.org/v1/common/jurisdiction.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/valuation.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    },
+    {
+      "source": "https://openinherit.org/v1/common/tax-position.json",
+      "target": "https://openinherit.org/v1/common/money.json",
+      "property": ""
+    }
+  ]
+}
