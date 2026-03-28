@@ -17,6 +17,9 @@ importers:
       '@redocly/cli':
         specifier: latest
         version: 2.25.1(@opentelemetry/api@1.9.1)(core-js@3.49.0)
+      '@sourcemeta/jsonschema':
+        specifier: ^14.17.0
+        version: 14.17.0
       ajv:
         specifier: ^8.17.1
         version: 8.18.0
@@ -240,6 +243,13 @@ packages:
   '@redocly/respect-core@2.25.1':
     resolution: {integrity: sha512-iF/7uP/kI5BPzdp4e2Ug3UQWU1ghYJoAPURFcqPvtRc0S4G3olyecJggOhDQqyC8iDHvN7SJNmm/O3VWn4QU4Q==}
     engines: {node: '>=22.12.0 || >=20.19.0 <21.0.0', npm: '>=10'}
+
+  '@sourcemeta/jsonschema@14.17.0':
+    resolution: {integrity: sha512-UBSOVAMN726+g+3LvR0E52g/Le8YzR+GsutUlyXPv7glWh4Q8/4TBwTaHSCs4ieHQCoH4psYuowjj2J15qLa6w==}
+    engines: {node: '>=16'}
+    cpu: [x64, arm64]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -1351,6 +1361,8 @@ snapshots:
       openapi-sampler: 1.7.2
       outdent: 0.8.0
       picomatch: 4.0.4
+
+  '@sourcemeta/jsonschema@14.17.0': {}
 
   '@types/json-schema@7.0.15': {}
 
