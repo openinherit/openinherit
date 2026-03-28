@@ -185,6 +185,16 @@
       "description": "This person's preferred communication channel. Helps executors and professionals contact the right people in the right way.",
       "examples": ["email", "phone"]
     },
+    "confidenceScores": {
+      "type": "object",
+      "description": "Per-field confidence scores (0-100) from AI extraction. Only present on AI-extracted people.",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "examples": [{"givenName": 98, "familyName": 95, "roles": 85, "dateOfBirth": 30}]
+    },
     "identifiers": {
       "type": "array",
       "items": {
