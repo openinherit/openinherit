@@ -5,7 +5,14 @@
 **Status:** Approved
 **Context:** Juan Cruz Viotti (author of *Unifying Business, Data, and Code*, O'Reilly 2024) recommended using the Sourcemeta JSON Schema CLI (`https://github.com/sourcemeta/jsonschema`) to lint schemas and write tests. INHERIT v1.3.0 has 45 schemas but only 5 have tests (33 test cases total). The bespoke AJV test runner works but doesn't catch schema anti-patterns. This spec integrates the Sourcemeta CLI as the primary schema quality tool.
 
-**Reference:** `https://www.learnjsonschema.com/2020-12/` — companion documentation site for JSON Schema 2020-12.
+**References:**
+- `https://www.learnjsonschema.com/2020-12/` — companion documentation site for JSON Schema 2020-12
+- Itelman & Viotti, *Unifying Business, Data, and Code* (O'Reilly, 2024) — Chapter 12 (Designing Data Products Using JSON Schema) and Chapter 13 (Extending JSON Schema)
+
+**Key insights from references (incorporated into plan):**
+1. **`format-assertion` vocabulary** — JSON Schema 2020-12 treats `format` as annotation-only by default. INHERIT uses `format: "uuid"`, `format: "email"`, `format: "date-time"` extensively with AJV's `validateFormats: true`. The dialect.json must declare `format-assertion: true` to make this part of the spec, not just a validator configuration choice.
+2. **`title` on every schema** — Chapter 12 recommends every schema carry `title`, `description`, and `examples` as the *meaning* facet of a data product. The linter's `top_level_title` rule enforces this. Fix missing titles rather than excluding the rule.
+3. **`$comment` for specification links** — Chapter 12 demonstrates using `$comment` to link to external standards (ISO, IETF). Add these to standards-referencing schemas (money → ISO 4217, jurisdiction → ISO 3166, etc.).
 
 ---
 
