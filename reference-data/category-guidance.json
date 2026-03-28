@@ -1,0 +1,334 @@
+{
+  "_disclaimer": "Guidance data for INHERIT tools and UIs. Not professional valuation or cataloguing advice.",
+  "_generatedFrom": "INHERIT Product Taxonomy, derived from the Standard Product Taxonomy (MIT licence)",
+  "lastUpdated": "2026-03-28",
+  "categories": {
+    "financial": {
+      "label": "Financial",
+      "description": "Bank accounts, savings, investments, pensions, shares, bonds, cryptocurrency, and insurance policies. Covers all monetary instruments and financial products held by the deceased.",
+      "subcategories": [
+        { "value": "bank_account", "label": "Bank Account" },
+        { "value": "savings_account", "label": "Savings Account" },
+        { "value": "investment", "label": "Investment" },
+        { "value": "pension", "label": "Pension" },
+        { "value": "shares", "label": "Shares" },
+        { "value": "bonds", "label": "Bonds" },
+        { "value": "cryptocurrency", "label": "Cryptocurrency" },
+        { "value": "insurance", "label": "Insurance" }
+      ],
+      "recommendedIdentifiers": ["account_number", "sort_code", "IBAN", "ISIN", "CUSIP"],
+      "recommendedViewTypes": ["certificate", "label"],
+      "recommendedBrands": [],
+      "defaultUrgency": "within_7_days",
+      "containerFlag": false,
+      "locationClass": "financial",
+      "disposalComplexity": "low",
+      "typicalValuationMethod": "statement"
+    },
+    "property_contents": {
+      "label": "Property Contents",
+      "description": "General household items including furniture, kitchenware, electronics, tools, and garden equipment. Covers the everyday contents of a home that do not fall into a specialized category.",
+      "subcategories": [
+        { "value": "furniture", "label": "Furniture" },
+        { "value": "kitchenware", "label": "Kitchenware" },
+        { "value": "electronics", "label": "Electronics" },
+        { "value": "tools", "label": "Tools" },
+        { "value": "garden_outdoor", "label": "Garden & Outdoor" },
+        { "value": "household_appliances", "label": "Household Appliances" },
+        { "value": "lighting", "label": "Lighting" },
+        { "value": "bedding_linen", "label": "Bedding & Linen" }
+      ],
+      "recommendedIdentifiers": ["serial_number", "model_number"],
+      "recommendedViewTypes": ["overview", "condition"],
+      "recommendedBrands": [],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "low",
+      "typicalValuationMethod": "estimated"
+    },
+    "vehicle": {
+      "label": "Vehicle",
+      "description": "Motor vehicles, watercraft, and other registered transport. Includes cars, motorcycles, boats, caravans, bicycles, classic vehicles, and commercial vehicles.",
+      "subcategories": [
+        { "value": "car", "label": "Car" },
+        { "value": "motorcycle", "label": "Motorcycle" },
+        { "value": "boat", "label": "Boat" },
+        { "value": "caravan", "label": "Caravan" },
+        { "value": "bicycle", "label": "Bicycle" },
+        { "value": "classic_vehicle", "label": "Classic Vehicle" },
+        { "value": "commercial_vehicle", "label": "Commercial Vehicle" }
+      ],
+      "recommendedIdentifiers": ["VIN", "registration_number", "V5C_reference"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "damage", "serial_number"],
+      "recommendedBrands": ["Toyota", "Ford", "BMW", "Mercedes-Benz", "Volkswagen", "Audi", "Honda", "Jaguar", "Land Rover", "Vauxhall"],
+      "defaultUrgency": "within_7_days",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "dealer"
+    },
+    "jewellery_watches": {
+      "label": "Jewellery & Watches",
+      "description": "Precious and costume jewellery, watches, gemstones, silver, and pearls. Items in this category often require specialist appraisal due to fluctuating market values.",
+      "subcategories": [
+        { "value": "jewellery", "label": "Jewellery" },
+        { "value": "watches", "label": "Watches" },
+        { "value": "precious_stones", "label": "Precious Stones" },
+        { "value": "costume_jewellery", "label": "Costume Jewellery" },
+        { "value": "silver", "label": "Silver" },
+        { "value": "pearls", "label": "Pearls" }
+      ],
+      "recommendedIdentifiers": ["serial_number", "hallmark", "GIA_certificate"],
+      "recommendedViewTypes": ["overview", "identification", "maker_mark", "condition", "certificate", "scale_reference"],
+      "recommendedBrands": ["Rolex", "Cartier", "Omega", "Tiffany", "Patek Philippe", "Bulgari"],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "art": {
+      "label": "Art",
+      "description": "Fine art including paintings, sculptures, prints, photography, and mixed media works. High-value items typically require authentication and provenance documentation.",
+      "subcategories": [
+        { "value": "painting", "label": "Painting" },
+        { "value": "sculpture", "label": "Sculpture" },
+        { "value": "print", "label": "Print" },
+        { "value": "photograph", "label": "Photograph" },
+        { "value": "mixed_media", "label": "Mixed Media" },
+        { "value": "drawing", "label": "Drawing" },
+        { "value": "ceramic_art", "label": "Ceramic Art" }
+      ],
+      "recommendedIdentifiers": ["catalogue_raisonne_reference", "gallery_inventory"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "provenance", "maker_mark", "damage", "label"],
+      "recommendedBrands": [],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "auction_house"
+    },
+    "antiques": {
+      "label": "Antiques",
+      "description": "Items of significant age and collectible value, including antique furniture, ceramics, silverware, clocks, glass, metalwork, and textiles. Provenance and period attribution are key to valuation.",
+      "subcategories": [
+        { "value": "antique_furniture", "label": "Antique Furniture" },
+        { "value": "ceramics", "label": "Ceramics" },
+        { "value": "silverware", "label": "Silverware" },
+        { "value": "clocks", "label": "Clocks" },
+        { "value": "glass", "label": "Glass" },
+        { "value": "metalwork", "label": "Metalwork" },
+        { "value": "textiles", "label": "Textiles" }
+      ],
+      "recommendedIdentifiers": ["maker_mark", "period_reference", "auction_lot"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "maker_mark", "provenance", "damage"],
+      "recommendedBrands": [],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "collectibles": {
+      "label": "Collectibles",
+      "description": "Hobbyist and enthusiast collections such as stamps, coins, model railways, vinyl records, trading cards, memorabilia, die-cast models, and figurines. Collections may be stored in containers or display cases.",
+      "subcategories": [
+        { "value": "model_railways", "label": "Model Railways" },
+        { "value": "stamps", "label": "Stamps" },
+        { "value": "coins", "label": "Coins" },
+        { "value": "vinyl_records", "label": "Vinyl Records" },
+        { "value": "trading_cards", "label": "Trading Cards" },
+        { "value": "memorabilia", "label": "Memorabilia" },
+        { "value": "die_cast", "label": "Die-Cast" },
+        { "value": "figurines", "label": "Figurines" },
+        { "value": "other", "label": "Other" }
+      ],
+      "recommendedIdentifiers": ["catalogue_number", "manufacturer_reference"],
+      "recommendedViewTypes": ["overview", "identification", "maker_mark", "serial_number", "condition", "scale_reference"],
+      "recommendedBrands": ["Hornby", "Bachmann", "Heljan", "Dapol", "Royal Mail", "Royal Mint"],
+      "defaultUrgency": "none",
+      "containerFlag": true,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "musical_instruments": {
+      "label": "Musical Instruments",
+      "description": "Acoustic and electric instruments, amplifiers, and accessories. Vintage and high-end instruments can appreciate significantly and may require specialist valuation.",
+      "subcategories": [
+        { "value": "piano", "label": "Piano" },
+        { "value": "guitar", "label": "Guitar" },
+        { "value": "orchestral", "label": "Orchestral" },
+        { "value": "brass", "label": "Brass" },
+        { "value": "woodwind", "label": "Woodwind" },
+        { "value": "percussion", "label": "Percussion" },
+        { "value": "vintage_instrument", "label": "Vintage Instrument" },
+        { "value": "amplifier", "label": "Amplifier" }
+      ],
+      "recommendedIdentifiers": ["serial_number", "manufacturer_reference"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "maker_mark", "serial_number", "label"],
+      "recommendedBrands": ["Steinway", "Gibson", "Fender", "Yamaha", "Stradivarius", "C.F. Martin"],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "books_manuscripts": {
+      "label": "Books & Manuscripts",
+      "description": "Rare books, first editions, manuscripts, maps, ephemera, and signed copies. Condition and provenance are critical factors in determining value.",
+      "subcategories": [
+        { "value": "rare_book", "label": "Rare Book" },
+        { "value": "first_edition", "label": "First Edition" },
+        { "value": "manuscript", "label": "Manuscript" },
+        { "value": "map", "label": "Map" },
+        { "value": "ephemera", "label": "Ephemera" },
+        { "value": "signed_copy", "label": "Signed Copy" }
+      ],
+      "recommendedIdentifiers": ["ISBN", "OCLC", "catalogue_reference"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "label", "provenance"],
+      "recommendedBrands": [],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "auction_house"
+    },
+    "wine_spirits": {
+      "label": "Wine & Spirits",
+      "description": "Wine collections, whisky, spirits, champagne, port, and cellar contents. Temperature-controlled storage should be maintained until disposal to preserve value.",
+      "subcategories": [
+        { "value": "wine", "label": "Wine" },
+        { "value": "whisky", "label": "Whisky" },
+        { "value": "spirits", "label": "Spirits" },
+        { "value": "champagne", "label": "Champagne" },
+        { "value": "port", "label": "Port" },
+        { "value": "cellar_collection", "label": "Cellar Collection" }
+      ],
+      "recommendedIdentifiers": ["Liv_ex_LWIN", "vintage", "chateau_name"],
+      "recommendedViewTypes": ["overview", "label", "condition", "certificate", "environment"],
+      "recommendedBrands": [],
+      "defaultUrgency": "within_30_days",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "clothing_textiles": {
+      "label": "Clothing & Textiles",
+      "description": "Designer clothing, vintage fashion, textiles, rugs, tapestries, handbags, and shoes. Authentication is important for high-value designer items.",
+      "subcategories": [
+        { "value": "designer_clothing", "label": "Designer Clothing" },
+        { "value": "vintage_fashion", "label": "Vintage Fashion" },
+        { "value": "textile", "label": "Textile" },
+        { "value": "rug", "label": "Rug" },
+        { "value": "tapestry", "label": "Tapestry" },
+        { "value": "handbag", "label": "Handbag" },
+        { "value": "shoes", "label": "Shoes" }
+      ],
+      "recommendedIdentifiers": ["designer_label", "authentication_code"],
+      "recommendedViewTypes": ["overview", "identification", "condition", "label", "maker_mark"],
+      "recommendedBrands": ["Hermès", "Chanel", "Louis Vuitton", "Burberry"],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "firearms_sporting": {
+      "label": "Firearms & Sporting",
+      "description": "Firearms, sporting equipment, fishing tackle, golf equipment, and outdoor gear. Firearms must be surrendered to police within 7 days of death in the UK under the Firearms Act.",
+      "subcategories": [
+        { "value": "firearms", "label": "Firearms" },
+        { "value": "sporting_equipment", "label": "Sporting Equipment" },
+        { "value": "fishing_tackle", "label": "Fishing Tackle" },
+        { "value": "golf_equipment", "label": "Golf Equipment" },
+        { "value": "outdoor_gear", "label": "Outdoor Gear" }
+      ],
+      "recommendedIdentifiers": ["serial_number", "firearms_certificate", "section_reference"],
+      "recommendedViewTypes": ["overview", "identification", "serial_number", "condition", "maker_mark"],
+      "recommendedBrands": ["Purdey", "Holland & Holland", "Hardy Bros", "Titleist", "Ping"],
+      "defaultUrgency": "immediate",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "specialist_dealer"
+    },
+    "digital": {
+      "label": "Digital",
+      "description": "Digital assets including domain names, social media accounts, subscriptions, digital media libraries, cryptocurrency wallets, NFTs, and cloud storage. Access credentials are critical for asset recovery.",
+      "subcategories": [
+        { "value": "domain_name", "label": "Domain Name" },
+        { "value": "social_media", "label": "Social Media" },
+        { "value": "subscription", "label": "Subscription" },
+        { "value": "digital_media", "label": "Digital Media" },
+        { "value": "cryptocurrency", "label": "Cryptocurrency" },
+        { "value": "nft", "label": "NFT" },
+        { "value": "cloud_storage", "label": "Cloud Storage" }
+      ],
+      "recommendedIdentifiers": ["registrar_reference", "wallet_address", "account_handle"],
+      "recommendedViewTypes": [],
+      "recommendedBrands": [],
+      "defaultUrgency": "within_7_days",
+      "containerFlag": false,
+      "locationClass": "digital",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "market_value"
+    },
+    "business": {
+      "label": "Business",
+      "description": "Business interests, partnerships, intellectual property, stock compensation, franchises, and royalty streams. Early engagement with the business or its accountant is essential for continuity.",
+      "subcategories": [
+        { "value": "business_interest", "label": "Business Interest" },
+        { "value": "partnership", "label": "Partnership" },
+        { "value": "intellectual_property", "label": "Intellectual Property" },
+        { "value": "stock_compensation", "label": "Stock Compensation" },
+        { "value": "franchise", "label": "Franchise" },
+        { "value": "royalty_stream", "label": "Royalty Stream" }
+      ],
+      "recommendedIdentifiers": ["company_number", "patent_number", "trademark_reference"],
+      "recommendedViewTypes": ["certificate", "label"],
+      "recommendedBrands": [],
+      "defaultUrgency": "within_7_days",
+      "containerFlag": false,
+      "locationClass": "intangible",
+      "disposalComplexity": "high",
+      "typicalValuationMethod": "professional_accountant"
+    },
+    "islamic_financial": {
+      "label": "Islamic Financial",
+      "description": "Shariah-compliant financial instruments including sukuk, takaful, Islamic deposits, mudarabah, and musharakah contracts. These require handling in accordance with Islamic finance principles.",
+      "subcategories": [
+        { "value": "sukuk", "label": "Sukuk" },
+        { "value": "takaful", "label": "Takaful" },
+        { "value": "islamic_deposit", "label": "Islamic Deposit" },
+        { "value": "mudarabah", "label": "Mudarabah" },
+        { "value": "musharakah", "label": "Musharakah" }
+      ],
+      "recommendedIdentifiers": ["certificate_reference", "ISIN"],
+      "recommendedViewTypes": ["certificate"],
+      "recommendedBrands": [],
+      "defaultUrgency": "within_7_days",
+      "containerFlag": false,
+      "locationClass": "financial",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "statement"
+    },
+    "other": {
+      "label": "Other",
+      "description": "A catch-all category for items that do not fit into any other specialized category. Use this when no better classification is available.",
+      "subcategories": [
+        { "value": "other", "label": "Other" }
+      ],
+      "recommendedIdentifiers": [],
+      "recommendedViewTypes": ["overview", "identification", "condition"],
+      "recommendedBrands": [],
+      "defaultUrgency": "none",
+      "containerFlag": false,
+      "locationClass": "physical",
+      "disposalComplexity": "medium",
+      "typicalValuationMethod": "estimated"
+    }
+  }
+}

@@ -137,11 +137,12 @@
     {
       "id": "51000002-0000-4000-a000-000000000001",
       "name": "Barclays Savings Account",
-      "category": "savings_account",
+      "category": "financial",
       "estimatedValue": {
         "amount": 8500000,
         "currency": "GBP"
-      }
+      },
+      "subcategory": "savings_account"
     }
   ],
   "liabilities": [],

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added (Steps 1-3: Product Taxonomy & Category Infrastructure)
+- INHERIT Product Taxonomy — 16 top-level categories replacing 33 ad-hoc values (step 1)
+- `subcategory` field on asset.json — freeform finer classification within top-level category (step 1)
+- `reference-data/category-guidance.json` — per-category subcategories, recommended identifiers, viewTypes, brands, urgency, disposal complexity (step 3)
+- `docs/identifier-systems.md` — per-domain identifier guidance for 12+ item categories (step 2)
+- `docs/photography-guide.md` — per-category viewType recommendations and photography tips (step 2)
+- `docs/category-migration.md` — migration mapping from 33 old categories to 16 new (step 1)
+- `THIRD-PARTY-NOTICES` — MIT licence attribution for Standard Product Taxonomy (step 1)
+- `docs/legal/taxonomy-provenance.md` updated — reframed as INHERIT Product Taxonomy with snapshot-and-diverge approach (step 1)
+
 ### Added (Steps 15-20: Intelligence Layer)
 - `common/completeness.json` — reusable completeness scoring with jurisdiction-aware checklist (step 15)
 - `common/tax-position.json` — tax position summary with mandatory disclaimer (step 16)

@@ -121,7 +121,7 @@
     {
       "id": "51000004-0000-4000-a000-000000000001",
       "name": "Fidelity 401(k) Retirement Account",
-      "category": "pension",
+      "category": "financial",
       "estimatedValue": {
         "amount": 42000000,
         "currency": "USD"
@@ -135,7 +135,8 @@
           "a1000004-0000-4000-a000-000000000003"
         ],
         "designationType": "retirement_account"
-      }
+      },
+      "subcategory": "pension"
     }
   ],
   "liabilities": [],

@@ -113,22 +113,24 @@
     {
       "id": "51000005-0000-4000-a000-000000000001",
       "name": "CPF Account (Ordinary, Special, Medisave)",
-      "category": "pension",
+      "category": "financial",
       "estimatedValue": {
         "amount": 32000000,
         "currency": "SGD"
       },
       "passesOutsideEstate": true,
-      "notes": "CPF savings are NOT part of the estate. Distribution follows the CPF nomination made with the CPF Board."
+      "notes": "CPF savings are NOT part of the estate. Distribution follows the CPF nomination made with the CPF Board.",
+      "subcategory": "pension"
     },
     {
       "id": "51000005-0000-4000-a000-000000000002",
       "name": "POSB Savings Account",
-      "category": "savings_account",
+      "category": "financial",
       "estimatedValue": {
         "amount": 8000000,
         "currency": "SGD"
-      }
+      },
+      "subcategory": "savings_account"
     }
   ],
   "liabilities": [],

@@ -114,11 +114,12 @@
     {
       "id": "51000003-0000-4000-a000-000000000001",
       "name": "Royal Bank of Scotland Current Account",
-      "category": "bank_account",
+      "category": "financial",
       "estimatedValue": {
         "amount": 4200000,
         "currency": "GBP"
-      }
+      },
+      "subcategory": "bank_account"
     }
   ],
   "liabilities": [],

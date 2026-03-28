@@ -138,22 +138,24 @@
     {
       "id": "51000010-0000-4000-a000-000000000001",
       "name": "Shinhan Bank Savings Account",
-      "category": "savings_account",
+      "category": "financial",
       "estimatedValue": {
         "amount": 450000000,
         "currency": "KRW"
       },
-      "notes": "\u20a9450,000,000 held in a Shinhan Bank savings account. Korean bank accounts are frozen upon death \u2014 the Family Court must issue a certificate of inheritance (\uc0c1\uc18d\uc7ac\uc0b0\ubd84\ud560\ud611\uc758\uc11c) or court order before funds are released."
+      "notes": "\u20a9450,000,000 held in a Shinhan Bank savings account. Korean bank accounts are frozen upon death \u2014 the Family Court must issue a certificate of inheritance (\uc0c1\uc18d\uc7ac\uc0b0\ubd84\ud560\ud611\uc758\uc11c) or court order before funds are released.",
+      "subcategory": "savings_account"
     },
     {
       "id": "51000010-0000-4000-a000-000000000002",
       "name": "Samsung Securities Investment Account",
-      "category": "investment",
+      "category": "financial",
       "estimatedValue": {
         "amount": 300000000,
         "currency": "KRW"
       },
-      "notes": "\u20a9300,000,000 in Korean equities and ETFs held at Samsung Securities."
+      "notes": "\u20a9300,000,000 in Korean equities and ETFs held at Samsung Securities.",
+      "subcategory": "investment"
     },
     {
       "id": "51000010-0000-4000-a000-000000000003",

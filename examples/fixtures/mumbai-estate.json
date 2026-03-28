@@ -127,22 +127,24 @@
     {
       "id": "51000007-0000-4000-a000-000000000001",
       "name": "Gold Jewellery (Priya's Stridhan)",
-      "category": "jewellery",
+      "category": "jewellery_watches",
       "acquisitionType": "stridhan",
       "estimatedValue": {
         "amount": 1500000000,
         "currency": "INR"
       },
-      "notes": "Stridhan \u2014 Priya's absolute property under Hindu law. Not part of Rajesh's bequeathable estate. Includes wedding jewellery and gifts received at marriage."
+      "notes": "Stridhan \u2014 Priya's absolute property under Hindu law. Not part of Rajesh's bequeathable estate. Includes wedding jewellery and gifts received at marriage.",
+      "subcategory": "jewellery"
     },
     {
       "id": "51000007-0000-4000-a000-000000000002",
       "name": "State Bank of India Savings Account",
-      "category": "savings_account",
+      "category": "financial",
       "estimatedValue": {
         "amount": 300000000,
         "currency": "INR"
-      }
+      },
+      "subcategory": "savings_account"
     }
   ],
   "liabilities": [],
