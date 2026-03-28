@@ -7,7 +7,7 @@
   "scripts": {
     "validate": "node scripts/validate-schemas.mjs",
     "lint:openapi": "npx @redocly/cli lint openapi/v1/openapi.yaml",
-    "test": "node scripts/run-tests.mjs",
+    "test": "jsonschema test tests/ --resolve v1/dialect.json --resolve v1/asset-collection.json --resolve v1/asset-interest.json --resolve v1/asset.json --resolve v1/attestation.json --resolve v1/bequest.json --resolve v1/catalogue.json --resolve v1/dealer-interest.json --resolve v1/document.json --resolve v1/estate.json --resolve v1/executor.json --resolve v1/guardian.json --resolve v1/kinship.json --resolve v1/liability.json --resolve v1/lifetime-transfer.json --resolve v1/nonprobate-transfer.json --resolve v1/person.json --resolve v1/property.json --resolve v1/proxy-authorisation.json --resolve v1/relationship.json --resolve v1/schema.json --resolve v1/trust.json --resolve v1/valuation.json --resolve v1/wish.json --resolve v1/common/address.json --resolve v1/common/completeness.json --resolve v1/common/identifier.json --resolve v1/common/jurisdiction.json --resolve v1/common/media.json --resolve v1/common/money.json --resolve v1/common/tax-position.json --resolve v1/common/temporal-rule.json --resolve v1/common/visibility.json --extension .test.json",
     "generate": "npx @hey-api/openapi-ts -i openapi/v1/openapi-bundled.yaml -o generated/typescript -c @hey-api/client-fetch",
     "bundle": "npx @redocly/cli bundle openapi/v1/openapi.yaml -o openapi/v1/openapi-bundled.yaml",
     "lint:reference-api": "npx @redocly/cli lint openapi/v1/reference-api.yaml",

@@ -1,0 +1,69 @@
+{
+  "target": "../../../v1/bequest.json",
+  "tests": [
+    {
+      "description": "valid specific bequest with beneficiaryId",
+      "data": {
+        "id": "b0000001-0000-0000-0000-000000000001",
+        "bequestType": "specific",
+        "beneficiaryId": "a0000001-0000-0000-0000-000000000001",
+        "description": "My Rolex Submariner watch"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid specific bequest with beneficiaryOrganisation",
+      "data": {
+        "id": "b0000001-0000-0000-0000-000000000002",
+        "bequestType": "specific",
+        "beneficiaryOrganisation": {
+          "name": "British Heart Foundation",
+          "type": "charity",
+          "registrationNumber": "225971"
+        },
+        "description": "My art collection"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid pecuniary bequest",
+      "data": {
+        "id": "b0000001-0000-0000-0000-000000000003",
+        "bequestType": "pecuniary",
+        "beneficiaryId": "a0000001-0000-0000-0000-000000000002",
+        "amount": {
+          "amount": 1000000,
+          "currency": "GBP"
+        }
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid \u2014 missing required id",
+      "data": {
+        "bequestType": "specific",
+        "beneficiaryId": "a0000001-0000-0000-0000-000000000001",
+        "description": "My watch"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid \u2014 missing required type",
+      "data": {
+        "id": "b0000001-0000-0000-0000-000000000001",
+        "beneficiaryId": "a0000001-0000-0000-0000-000000000001",
+        "description": "My watch"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid \u2014 unknown type value",
+      "data": {
+        "id": "b0000001-0000-0000-0000-000000000001",
+        "bequestType": "magic",
+        "beneficiaryId": "a0000001-0000-0000-0000-000000000001"
+      },
+      "valid": false
+    }
+  ]
+}
