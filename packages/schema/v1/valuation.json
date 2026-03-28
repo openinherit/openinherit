@@ -1,0 +1,151 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/valuation.json",
+  "title": "Valuation",
+  "description": "A valuation of an estate asset, property, or asset collection. Supports multiple valuations per entity over time — owner estimates, professional valuations, AI analyses, dealer offers, and probate-agreed figures.",
+  "type": "object",
+  "$defs": {
+    "Comparable": {
+      "type": "object",
+      "description": "A comparable sale or listing used to support the valuation. Capturing comparables with screenshots and metadata creates an auditable evidence trail for executors, HMRC, and probate courts.",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to the comparable sale or listing.",
+          "examples": ["https://www.ebay.co.uk/itm/123456789", "https://www.sothebys.com/en/buy/auction/2025/lot-42"]
+        },
+        "screenshotUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Screenshot of the listing at the time it was captured. Listings are often removed after sale — the screenshot preserves the evidence.",
+          "examples": ["https://storage.example.com/comparables/ebay-123456789.png"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Description of the comparable item.",
+          "examples": ["Hornby R3456 Class 66 EWS DCC Fitted — mint, boxed", "18ct gold solitaire diamond ring, 1.1ct, VS2/H"]
+        },
+        "salePrice": {
+          "$ref": "common/money.json",
+          "description": "The sale price of the comparable item, in minor currency units."
+        },
+        "saleDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the comparable item sold.",
+          "examples": ["2025-01-15", "2024-11-20"]
+        },
+        "platform": {
+          "type": "string",
+          "description": "Where the comparable sold — marketplace, auction house, or dealer.",
+          "examples": ["eBay", "Sotheby's", "Bonhams", "Catawiki", "1stDibs", "The Saleroom", "Rightmove", "Zoopla"]
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the comparable was captured or recorded. Important because market values shift and stale comparables lose evidential weight.",
+          "examples": ["2025-02-01", "2025-03-10"]
+        },
+        "matchConfidence": {
+          "type": "string",
+          "enum": ["exact", "close", "approximate", "weak"],
+          "$comment": "exact: same item, same condition, same era — direct comparison. close: very similar item with minor differences (e.g. different colourway, slightly different specification). approximate: broadly similar item — same category and era but notable differences. weak: loosely related — useful for establishing a price range but not a direct comparison.",
+          "description": "How closely the comparable matches the item being valued.",
+          "examples": ["close", "approximate"]
+        },
+        "matchFactors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What makes this item comparable — the specific attributes that justify the comparison.",
+          "examples": [["same manufacturer", "same era", "similar condition", "original box"], ["same carat weight", "similar clarity grade", "same metal"]]
+        },
+        "matchNotes": {
+          "type": "string",
+          "description": "Free-text notes explaining the comparison — differences, adjustments, or caveats.",
+          "examples": ["Slightly lower carat weight (1.1ct vs 1.2ct) but same clarity — adjust upward ~8%", "US sale — add 5% for UK market premium on this brand"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this valuation within the INHERIT document.",
+      "examples": ["a1b2c3d4-e5f6-7890-abcd-ef0123456789"]
+    },
+    "entityType": {
+      "type": "string",
+      "enum": ["asset", "property", "asset_collection"],
+      "$comment": "asset: a valuation of a single Asset. property: a valuation of a Property. asset_collection: a valuation of an AssetCollection as a whole (which may differ from the sum of individual asset valuations).",
+      "description": "The type of entity being valued.",
+      "examples": ["asset", "property"]
+    },
+    "entityId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the entity being valued — an Asset.id, Property.id, or AssetCollection.id.",
+      "examples": ["e5f6a7b8-c9d0-1234-ef01-23456789abcd"]
+    },
+    "valuedAmount": {
+      "$ref": "common/money.json",
+      "description": "The valuation amount, in minor currency units."
+    },
+    "valuationDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the valuation was performed or assessed.",
+      "examples": ["2025-01-15", "2025-03-28"]
+    },
+    "provider": {
+      "type": "string",
+      "description": "Who performed the valuation — the name of the person, firm, or service.",
+      "examples": ["Bonhams", "RICS Surveyor — John Smith FRICS", "HMRC Shares & Assets Valuation", "OpenInherit AI", "Estate owner"]
+    },
+    "providerType": {
+      "type": "string",
+      "enum": ["owner", "professional_valuer", "auction_house", "dealer", "insurance_assessor", "tax_authority", "ai_estimate", "other"],
+      "$comment": "owner: the asset owner's own estimate. professional_valuer: a qualified valuer (RICS, ASA, IVSC-accredited). auction_house: valuation by an auction house (Bonhams, Christie's, Sotheby's). dealer: valuation by a specialist dealer. insurance_assessor: valuation for insurance purposes. tax_authority: valuation agreed with or imposed by a tax authority (HMRC, IRS). ai_estimate: automated valuation by an AI or algorithmic model. other: any other type of valuer.",
+      "description": "The type of person or organisation that provided the valuation.",
+      "examples": ["professional_valuer", "auction_house", "ai_estimate"]
+    },
+    "method": {
+      "type": "string",
+      "enum": ["comparable_sales", "replacement_cost", "income_approach", "market_listing", "insurance_schedule", "ai_analysis", "expert_opinion", "other"],
+      "$comment": "comparable_sales: based on recent sales of similar items — the most common method for personal property and real estate. replacement_cost: cost to replace the item with an equivalent — common for insurance valuations. income_approach: value based on income the asset generates (rental yield, dividend income) — common for investment properties and business interests. market_listing: value derived from current market listings for similar items. insurance_schedule: value stated on an existing insurance schedule or policy. ai_analysis: automated valuation using AI, machine learning, or algorithmic models. expert_opinion: professional judgement by a qualified expert without formal methodology. other: any other valuation method.",
+      "description": "The valuation methodology used.",
+      "examples": ["comparable_sales", "expert_opinion", "ai_analysis"]
+    },
+    "valuationPurpose": {
+      "type": "string",
+      "enum": ["current_estimate", "date_of_death", "insurance", "official", "tax_return", "dealer_offer", "ai_estimate", "pre_sale", "probate"],
+      "$comment": "current_estimate: a current market value estimate for planning purposes. date_of_death: valuation as at the date of death — required for IHT and estate tax. insurance: valuation for insurance cover (often replacement cost, which may exceed market value). official: valuation agreed with or imposed by an official body. tax_return: valuation for inclusion on a tax return. dealer_offer: a valuation implicit in a dealer's offer to purchase. ai_estimate: an automated estimate for initial triage and planning. pre_sale: valuation in anticipation of sale. probate: valuation submitted for and accepted by the probate court.",
+      "description": "The purpose for which this valuation was obtained.",
+      "examples": ["date_of_death", "insurance", "probate"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "unknown"],
+      "$comment": "high: strong evidential basis — professional valuation, multiple close comparables, or agreed with tax authority. medium: reasonable basis but some uncertainty — fewer comparables, older data, or owner estimate with domain knowledge. low: limited evidence — rough estimate, weak comparables, or unfamiliar category. unknown: confidence has not been assessed.",
+      "description": "Confidence level in this valuation.",
+      "examples": ["high", "medium"]
+    },
+    "comparables": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Comparable" },
+      "description": "Comparable sales or listings used to support this valuation. Building a library of comparables strengthens the evidential basis for probate, tax, and insurance purposes."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this valuation — methodology details, caveats, market conditions, or disagreements with other valuations.",
+      "examples": ["RICS Red Book valuation — market value basis. Assumes vacant possession.", "AI estimate based on 47 eBay sold listings over the past 90 days. Excludes outliers above £500.", "Owner estimate — collected model railways for 30 years, knowledgeable about market values in this niche."]
+    }
+  },
+  "required": ["id", "entityType", "entityId", "valuedAmount", "valuationDate"],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

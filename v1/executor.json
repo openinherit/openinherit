@@ -39,12 +39,15 @@
         "grant_of_probate",
         "letters_of_administration",
         "letters_of_administration_with_will_annexed",
+        "succession_certificate",
+        "certificate_of_inheritance",
+        "court_appointment",
         "resealing",
         "european_certificate_of_succession"
       ],
-      "$comment": "grant_of_probate: court confirms the executor named in the will. letters_of_administration: court appoints an administrator when there is no will. letters_of_administration_with_will_annexed: court appoints an administrator when the named executor cannot act. resealing: a foreign grant is recognised by a local court (common in Commonwealth jurisdictions). european_certificate_of_succession: EU document proving an heir's or executor's status under the Brussels IV Regulation. Without a grant, the executor has no legal authority to administer the estate.",
-      "description": "The type of grant issued by the court authorising this person to act.",
-      "examples": ["grant_of_probate", "letters_of_administration"]
+      "$comment": "grant_of_probate: E&W/AU/NZ — court confirms the executor named in the will. letters_of_administration: E&W — court appoints an administrator when there is no will. letters_of_administration_with_will_annexed: E&W — court appoints an administrator when the named executor cannot act. succession_certificate: IN/PK — Indian Succession Act s.372, entitles holder to collect assets. certificate_of_inheritance: DE (Erbschein), JP (相続証明書), FR (Acte de notoriété) — certifies inheritance rights. court_appointment: generic court appointment of administrator (various jurisdictions). resealing: a foreign grant is recognised by a local court (common in Commonwealth jurisdictions). european_certificate_of_succession: EU document proving an heir's or executor's status under the Brussels IV Regulation.",
+      "description": "The type of grant issued by the court authorising this person to act. Includes territory-neutral alternatives for non-Commonwealth jurisdictions.",
+      "examples": ["grant_of_probate", "letters_of_administration", "succession_certificate", "certificate_of_inheritance"]
     },
     "grantDate": {
       "type": "string",

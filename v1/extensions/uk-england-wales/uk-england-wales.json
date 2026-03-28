@@ -60,6 +60,65 @@
       },
       "$comment": "Persons eligible to claim under Inheritance (Provision for Family and Dependants) Act 1975."
     },
+    "localPropertyTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "propertyId": { "type": "string", "format": "uuid" },
+          "localType": {
+            "type": "string",
+            "enum": [
+              "detached_house", "semi_detached_house", "terraced_house",
+              "flat", "maisonette", "bungalow", "cottage",
+              "farmhouse", "barn_conversion", "houseboat",
+              "park_home", "other"
+            ]
+          }
+        },
+        "required": ["propertyId", "localType"],
+        "additionalProperties": false
+      },
+      "$comment": "Maps each property to its local E&W property type. The core propertyType holds the universal value; this provides the familiar local term."
+    },
+    "localTenureTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "propertyId": { "type": "string", "format": "uuid" },
+          "localType": {
+            "type": "string",
+            "enum": ["freehold", "leasehold", "commonhold", "share_of_freehold"]
+          }
+        },
+        "required": ["propertyId", "localType"],
+        "additionalProperties": false
+      },
+      "$comment": "Maps each property to its local E&W tenure type. commonhold: an alternative to leasehold introduced by the Commonhold and Leasehold Reform Act 2002. share_of_freehold: leaseholders collectively own the freehold."
+    },
+    "localGrantTypes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "executorId": { "type": "string", "format": "uuid" },
+          "localType": {
+            "type": "string",
+            "enum": [
+              "grant_of_probate",
+              "letters_of_administration",
+              "letters_of_administration_with_will_annexed",
+              "limited_grant",
+              "de_bonis_non"
+            ]
+          }
+        },
+        "required": ["executorId", "localType"],
+        "additionalProperties": false
+      },
+      "$comment": "Maps each executor to the local E&W grant type. limited_grant: grant limited in scope (e.g. foreign property excluded). de_bonis_non: grant for unadministered estate when original executor dies."
+    },
     "legislativeChanges": {
       "type": "array",
       "items": {

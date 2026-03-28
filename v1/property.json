@@ -20,14 +20,13 @@
     "propertyType": {
       "type": "string",
       "enum": [
-        "detached_house", "semi_detached_house", "terraced_house",
-        "flat", "maisonette", "bungalow", "cottage",
-        "farmhouse", "barn_conversion", "land",
-        "commercial", "mixed_use", "houseboat", "mobile_home", "other"
+        "detached", "attached", "apartment", "land",
+        "commercial", "mixed_use", "rural", "mobile",
+        "watercraft", "other"
       ],
-      "$comment": "detached_house: standalone house. semi_detached_house: shares one wall with another. terraced_house: shares walls on both sides. flat: apartment within a larger building. maisonette: flat with its own entrance, typically over two floors. bungalow: single-storey dwelling. cottage: small rural dwelling. farmhouse: dwelling on agricultural land. barn_conversion: former agricultural building converted to residential. land: undeveloped plot. commercial: office, shop, warehouse, etc. mixed_use: combination of residential and commercial. houseboat: floating dwelling. mobile_home: transportable dwelling. other: any type not listed.",
-      "description": "The type of property. UK-centric terms are used as defaults — map to local equivalents as needed.",
-      "examples": ["detached_house", "flat", "land", "commercial"]
+      "$comment": "detached: standalone dwelling (UK detached house, US single-family home, JP 一戸建て). attached: dwelling sharing walls with neighbours (UK terraced/semi-detached, US townhouse/duplex). apartment: unit within a larger building (UK flat, US condo/co-op, SG HDB flat, JP マンション). land: undeveloped plot or agricultural land. commercial: office, shop, warehouse, industrial. mixed_use: combination of residential and commercial. rural: farmhouse, smallholding, rural dwelling. mobile: mobile home, park home, transportable dwelling. watercraft: houseboat, floating dwelling. other: any type not listed. For jurisdiction-specific subtypes (maisonette, bungalow, cottage, barn conversion), use the localPropertyType field in the relevant extension.",
+      "description": "Territory-neutral property type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.",
+      "examples": ["detached", "apartment", "land", "commercial"]
     },
     "address": {
       "$ref": "common/address.json",
@@ -49,8 +48,8 @@
     },
     "valuationConfidence": {
       "type": "string",
-      "enum": ["estimated", "professional", "probate", "unknown"],
-      "$comment": "estimated: owner's own estimate, no professional input. professional: assessed by a qualified surveyor or valuer. probate: valuation agreed with HMRC or equivalent tax authority for probate purposes. unknown: no information on how the value was derived.",
+      "enum": ["estimated", "professional", "official", "unknown"],
+      "$comment": "estimated: owner's own estimate, no professional input. professional: assessed by a qualified surveyor or valuer. official: valuation agreed with tax authority for probate, inheritance tax, or equivalent official purpose — territory-neutral term replacing 'probate'. unknown: no information on how the value was derived.",
       "description": "Level of confidence in the stated valuation.",
       "examples": ["estimated", "professional"]
     },
@@ -99,14 +98,12 @@
     "tenureType": {
       "type": "string",
       "enum": [
-        "freehold", "leasehold", "certificate_of_occupancy",
-        "customary_right_of_occupancy", "communal",
-        "government_allocated", "traditional_authority_granted",
-        "informal_unregistered"
+        "ownership", "lease", "communal",
+        "customary", "informal", "government_allocated"
       ],
-      "$comment": "freehold: outright ownership of land and buildings in perpetuity. leasehold: right to occupy for a fixed term (common for flats in E&W). certificate_of_occupancy: Nigerian Land Use Act 1978 — all urban land vested in state governor. customary_right_of_occupancy: right to occupy under customary law. communal: communal land held by a group. government_allocated: land allocated by government but not freehold. traditional_authority_granted: land granted by a chief or traditional authority. informal_unregistered: occupation without formal title — common in developing countries.",
-      "description": "The legal basis on which the property is held. Varies dramatically by jurisdiction.",
-      "examples": ["freehold", "leasehold", "certificate_of_occupancy"]
+      "$comment": "ownership: outright ownership in perpetuity (UK freehold, US fee simple, AU Torrens title, JP 所有権). lease: time-limited right to occupy (UK leasehold, SG 99-year lease, HDB lease). communal: communal or clan land held by a group. customary: held under customary or traditional law (Nigerian customary right of occupancy, traditional authority grants). informal: occupation without formal title — unregistered, disputed, or undocumented. government_allocated: land allocated by government (Nigerian Certificate of Occupancy, government-vested land). For jurisdiction-specific subtypes, use the localTenureType field in the relevant extension.",
+      "description": "Territory-neutral tenure type. Use reference-data/local-term-mappings.json to display jurisdiction-appropriate labels in UIs.",
+      "examples": ["ownership", "lease", "communal"]
     },
     "registrationStatus": {
       "type": "string",

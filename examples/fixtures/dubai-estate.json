@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000008-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000008-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "AE",
       "legalSystem": "plural",
@@ -135,8 +135,8 @@
     {
       "id": "f1000008-0000-4000-a000-000000000001",
       "name": "Villa 47, Al Sufouh Gardens, Dubai Marina",
-      "propertyType": "detached_house",
-      "tenureType": "freehold",
+      "propertyType": "detached",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

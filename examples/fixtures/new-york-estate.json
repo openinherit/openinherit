@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000004-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000004-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "US",
       "subdivision": "US-NY",
@@ -99,8 +99,8 @@
     {
       "id": "f1000004-0000-4000-a000-000000000001",
       "name": "450 Park Avenue, Apt 12B, Manhattan",
-      "propertyType": "flat",
-      "tenureType": "freehold",
+      "propertyType": "apartment",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

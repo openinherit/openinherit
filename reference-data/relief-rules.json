@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openinherit.org/reference-data/relief-rules.json",
+  "$comment": "DISCLAIMER: This reference data is for informational purposes only. It does NOT constitute legal or tax advice. Tax laws change frequently — always verify with current legislation and qualified professionals. Data current as of March 2026.",
+  "title": "Tax Reliefs & Deductions",
+  "description": "Inheritance and estate tax reliefs, deductions, and exemptions by jurisdiction, including conditions, limitations, and qualifying criteria.",
+  "lastUpdated": "2026-03-28",
+  "jurisdictions": {
+    "GB": {
+      "name": "United Kingdom",
+      "currency": "GBP",
+      "reliefs": [
+        {
+          "type": "businessPropertyRelief",
+          "label": "Business Property Relief (BPR)",
+          "rates": [
+            {
+              "rate": 100,
+              "appliesTo": ["Unquoted shares", "Business or interest in a business", "Land, buildings, or machinery used in the business (owned by a partner or controlling shareholder)"]
+            },
+            {
+              "rate": 50,
+              "appliesTo": ["Quoted shares giving control (>50%)", "Land, buildings, or machinery used in the business (owned personally and used by a partnership/company the deceased controlled)"]
+            }
+          ],
+          "minimumOwnership": "2 years",
+          "exclusions": ["Investment companies", "Companies dealing in securities, stocks, shares, land, or buildings", "Companies making or holding investments"],
+          "note": "From April 2026, the government has announced reforms to BPR for AIM-listed shares (reducing relief from 100% to 50%) and a £1,000,000 cap on combined APR/BPR at 100%, with 50% relief above this threshold.",
+          "reformDate": "2026-04-06"
+        },
+        {
+          "type": "agriculturalPropertyRelief",
+          "label": "Agricultural Property Relief (APR)",
+          "rates": [
+            {
+              "rate": 100,
+              "appliesTo": ["Agricultural property with vacant possession or right to obtain it within 24 months", "Let agricultural property on tenancies beginning on or after 1 September 1995"]
+            },
+            {
+              "rate": 50,
+              "appliesTo": ["Let agricultural property on tenancies beginning before 1 September 1995"]
+            }
+          ],
+          "minimumOwnership": "2 years (owner-occupied) or 7 years (let)",
+          "definition": "Agricultural property means agricultural land or pasture, including woodland and buildings used in connection with the intensive rearing of livestock or fish, cottages, farm buildings, and farmhouses.",
+          "note": "From April 2026, combined APR/BPR will be capped at £1,000,000 for 100% relief, with 50% relief on the excess."
+        },
+        {
+          "type": "spouseExemption",
+          "label": "Spouse/Civil Partner Exemption",
+          "rate": 100,
+          "unlimited": true,
+          "description": "Transfers between spouses or civil partners are wholly exempt from IHT, whether made during lifetime or on death.",
+          "nonDomicileLimit": 325000,
+          "nonDomicileNote": "Where the recipient spouse is non-UK-domiciled, the exemption is limited to £325,000 unless the recipient elects to be treated as UK-domiciled for IHT purposes."
+        },
+        {
+          "type": "charityExemption",
+          "label": "Charity Exemption",
+          "rate": 100,
+          "unlimited": true,
+          "description": "Gifts to qualifying UK charities and registered community amateur sports clubs are wholly exempt from IHT."
+        },
+        {
+          "type": "woodlandsRelief",
+          "label": "Woodlands Relief",
+          "description": "IHT on the value of timber (not the land) can be deferred until the timber is sold or otherwise disposed of. The land itself may qualify for APR.",
+          "deferral": true
+        },
+        {
+          "type": "quickSuccessionRelief",
+          "label": "Quick Succession Relief",
+          "description": "Where the same property is taxed twice within 5 years (because the first recipient dies shortly after inheriting), relief is given as a percentage of the tax paid on the first death.",
+          "bands": [
+            { "years": "0–1", "reliefPercent": 100 },
+            { "years": "1–2", "reliefPercent": 80 },
+            { "years": "2–3", "reliefPercent": 60 },
+            { "years": "3–4", "reliefPercent": 40 },
+            { "years": "4–5", "reliefPercent": 20 }
+          ]
+        },
+        {
+          "type": "heritageRelief",
+          "label": "Heritage Property Exemption",
+          "description": "Conditionally exempt for property of national, scientific, historic, or artistic interest, subject to undertakings regarding public access and maintenance."
+        }
+      ],
+      "source": "Inheritance Tax Act 1984, ss. 18, 23–28, 103–124C, 125–130; Finance Act 2024",
+      "regulatoryBody": "HM Revenue & Customs (HMRC)"
+    },
+    "US": {
+      "name": "United States",
+      "currency": "USD",
+      "reliefs": [
+        {
+          "type": "unlimitedMaritalDeduction",
+          "label": "Unlimited Marital Deduction",
+          "rate": 100,
+          "unlimited": true,
+          "description": "Property passing to a surviving spouse who is a US citizen is fully deductible from the gross estate. For non-citizen spouses, a Qualified Domestic Trust (QDOT) is required to claim the deduction.",
+          "nonCitizenRequirement": "Qualified Domestic Trust (QDOT)"
+        },
+        {
+          "type": "charitableDeduction",
+          "label": "Charitable Deduction",
+          "rate": 100,
+          "unlimited": true,
+          "description": "Bequests to qualifying charitable organisations are fully deductible from the gross estate."
+        },
+        {
+          "type": "qualifiedFamilyOwnedBusinessInterest",
+          "label": "Qualified Family-Owned Business Interest (QFOBI) Deduction — §2057",
+          "description": "Allowed an additional deduction for qualifying family-owned business interests. Note: this provision was effectively repealed by the Economic Growth and Tax Relief Reconciliation Act of 2001 (EGTRRA) for estates of decedents dying after 2003, as the increased unified credit makes it redundant. Included for historical reference.",
+          "status": "effectively repealed",
+          "repealedBy": "EGTRRA 2001"
+        },
+        {
+          "type": "specialUseValuation",
+          "label": "Special Use Valuation (IRC § 2032A)",
+          "description": "Allows qualifying real property used in farming or closely held business to be valued at its current use value rather than highest and best use value. Maximum reduction of $1,390,000 (2024, indexed for inflation).",
+          "maximumReduction": 1390000,
+          "effectiveDate": "2024-01-01",
+          "conditions": [
+            "Real property used in farming or closely held business",
+            "Property must pass to qualified heir",
+            "Decedent or family member must have used property for 5 of 8 years preceding death",
+            "Property must continue in qualifying use for 10 years after death (recapture rules apply)"
+          ]
+        },
+        {
+          "type": "deferredPayment",
+          "label": "Deferred Payment of Estate Tax (IRC § 6166)",
+          "description": "Estates with closely held business interests exceeding 35% of the adjusted gross estate may defer estate tax payments for up to 14 years (5-year deferral of principal, then 10 annual instalments). Interest-only payments during the deferral period at a reduced 2% rate on the first $1,750,000 (2024) of deferred tax.",
+          "deferralPeriod": "Up to 14 years",
+          "threshold": "Business interest > 35% of adjusted gross estate"
+        },
+        {
+          "type": "stateDeathTaxDeduction",
+          "label": "State Death Tax Deduction (IRC § 2058)",
+          "description": "Estate taxes paid to state governments are deductible from the federal gross estate."
+        },
+        {
+          "type": "administrationExpenses",
+          "label": "Administration Expenses and Debts Deduction",
+          "description": "Funeral expenses, administration costs, debts of the decedent, and certain unpaid mortgages are deductible from the gross estate.",
+          "source": "IRC §§ 2053, 2054"
+        }
+      ],
+      "source": "Internal Revenue Code §§ 2053–2058, 2032A, 2056, 6166",
+      "regulatoryBody": "Internal Revenue Service (IRS)"
+    },
+    "AU": {
+      "name": "Australia",
+      "reliefs": [],
+      "description": "No inheritance tax, therefore no specific reliefs. CGT rollover relief is available for assets transferred to beneficiaries from a deceased estate — the beneficiary inherits the deceased's cost base and acquisition date.",
+      "source": "Income Tax Assessment Act 1997 (Cth), Subdivision 128-A",
+      "regulatoryBody": "Australian Taxation Office (ATO)"
+    },
+    "CA": {
+      "name": "Canada",
+      "currency": "CAD",
+      "reliefs": [
+        {
+          "type": "spousalRollover",
+          "label": "Spousal Rollover",
+          "description": "Assets transferred to a surviving spouse or common-law partner on death are deemed to be disposed of at the deceased's adjusted cost base, deferring any capital gain until the surviving spouse disposes of the asset or dies."
+        },
+        {
+          "type": "principalResidence",
+          "label": "Principal Residence Exemption",
+          "description": "Capital gains on a principal residence are exempt from tax on deemed disposition at death."
+        },
+        {
+          "type": "qualifiedFarmProperty",
+          "label": "Qualified Farm or Fishing Property",
+          "description": "Eligible farm or fishing property can be transferred to a child at the deceased's adjusted cost base. Lifetime capital gains exemption of $1,250,000 (2024) available.",
+          "lifetimeExemption": 1250000
+        },
+        {
+          "type": "qualifiedSmallBusinessShares",
+          "label": "Qualified Small Business Corporation Shares",
+          "description": "Lifetime capital gains exemption of $1,250,000 (2024) on qualifying small business corporation shares.",
+          "lifetimeExemption": 1250000
+        }
+      ],
+      "source": "Income Tax Act (R.S.C., 1985, c. 1 (5th Supp.)), ss. 40(2)(b), 70(6), 73, 110.6",
+      "regulatoryBody": "Canada Revenue Agency (CRA)"
+    },
+    "FR": {
+      "name": "France",
+      "currency": "EUR",
+      "reliefs": [
+        {
+          "type": "spouseExemption",
+          "label": "Spouse/PACS Partner Exemption",
+          "rate": 100,
+          "unlimited": true,
+          "description": "Surviving spouse or PACS partner is fully exempt from succession tax."
+        },
+        {
+          "type": "lifeInsurance",
+          "label": "Life Insurance (Assurance-vie)",
+          "description": "Life insurance proceeds benefit from a separate tax regime. Premiums paid before age 70: €152,500 per beneficiary exempt, then 20% up to €700,000 and 31.25% above. Premiums paid after age 70: €30,500 global exemption, then subject to succession tax.",
+          "thresholdBefore70": 152500,
+          "thresholdAfter70": 30500
+        },
+        {
+          "type": "pacteduval",
+          "label": "Pacte Dutreil — Business Transmission Relief",
+          "rate": 75,
+          "description": "75% exemption on the value of business interests (shares or sole trader businesses) subject to a collective commitment to hold the shares for at least 2 years and individual commitment for at least 4 years after.",
+          "conditions": ["Collective holding commitment of 2 years", "Individual holding commitment of 4 years", "One beneficiary must exercise a management function for 3 years"]
+        }
+      ],
+      "source": "Code général des impôts, Articles 757B, 787B, 790A, 796-0",
+      "regulatoryBody": "Direction générale des finances publiques (DGFiP)"
+    },
+    "DE": {
+      "name": "Germany",
+      "currency": "EUR",
+      "reliefs": [
+        {
+          "type": "familyHome",
+          "label": "Family Home Exemption",
+          "description": "The family home is exempt from inheritance tax if inherited by the surviving spouse or children (for children, limited to 200 m² living space), provided the heir continues to use it as their main residence for 10 years.",
+          "condition": "Continued residence for 10 years",
+          "childSizeLimit": "200 m²"
+        },
+        {
+          "type": "businessPropertyRelief",
+          "label": "Business Asset Exemption (Regelverschonung / Optionsverschonung)",
+          "rates": [
+            {
+              "scheme": "Regelverschonung",
+              "rate": 85,
+              "holdingPeriod": "5 years",
+              "payrollRequirement": "400% of average payroll maintained over 5 years",
+              "adminAssetLimit": "90% (business must not consist of more than 90% administrative assets)"
+            },
+            {
+              "scheme": "Optionsverschonung",
+              "rate": 100,
+              "holdingPeriod": "7 years",
+              "payrollRequirement": "700% of average payroll maintained over 7 years",
+              "adminAssetLimit": "20%"
+            }
+          ]
+        },
+        {
+          "type": "pensionExemption",
+          "label": "Pension/Maintenance Allowance (Versorgungsfreibetrag)",
+          "description": "Additional tax-free allowance for the surviving spouse (€256,000) and children (up to €52,000 depending on age), reduced by the present value of any pension or annuity rights.",
+          "spouseAmount": 256000,
+          "childAmounts": [
+            { "ageUnder": 5, "amount": 52000 },
+            { "ageUnder": 10, "amount": 41000 },
+            { "ageUnder": 15, "amount": 30700 },
+            { "ageUnder": 20, "amount": 20500 },
+            { "ageUnder": 27, "amount": 10300 }
+          ]
+        }
+      ],
+      "source": "Erbschaftsteuer- und Schenkungsteuergesetz (ErbStG), §§ 13, 13a, 13b, 13c, 17",
+      "regulatoryBody": "Bundeszentralamt für Steuern"
+    },
+    "IN": {
+      "name": "India",
+      "reliefs": [],
+      "description": "No inheritance or estate tax — no reliefs required. Income from inherited assets is taxed under normal income tax provisions.",
+      "source": "Income Tax Act 1961",
+      "regulatoryBody": "Central Board of Direct Taxes (CBDT)"
+    },
+    "JP": {
+      "name": "Japan",
+      "currency": "JPY",
+      "reliefs": [
+        {
+          "type": "spouseDeduction",
+          "label": "Spouse Tax Credit",
+          "description": "The surviving spouse pays no inheritance tax on the greater of ¥160,000,000 or their statutory share of the estate (typically one-half).",
+          "amount": 160000000
+        },
+        {
+          "type": "minorDeduction",
+          "label": "Minor's Deduction",
+          "description": "Heirs under 18 receive a deduction of ¥100,000 per year until they reach age 18.",
+          "perYear": 100000
+        },
+        {
+          "type": "disabledDeduction",
+          "label": "Disabled Person's Deduction",
+          "description": "Disabled heirs receive a deduction of ¥100,000 (or ¥200,000 for severely disabled) per year until age 85.",
+          "amounts": { "standard": 100000, "severe": 200000 }
+        },
+        {
+          "type": "smallResidenceLand",
+          "label": "Small-scale Residential Land Reduction",
+          "description": "Up to 80% reduction in assessed value for qualifying residential land (up to 330 m²) used as the primary residence, and up to 80% for business-use land (up to 400 m²).",
+          "residentialRate": 80,
+          "residentialMaxArea": 330,
+          "businessRate": 80,
+          "businessMaxArea": 400
+        },
+        {
+          "type": "quickSuccession",
+          "label": "Quick Succession Relief (相次相続控除)",
+          "description": "Where inheritance tax was paid on a previous death within 10 years, relief is available on a sliding scale (10% reduction per year elapsed)."
+        }
+      ],
+      "source": "Sōzokuzei-hō (相続税法), Articles 19-2 to 20-2; Sozei Tokubetsu Sochi-hō (租税特別措置法), Article 69-4",
+      "regulatoryBody": "National Tax Agency (国税庁)"
+    },
+    "SG": {
+      "name": "Singapore",
+      "reliefs": [],
+      "description": "No estate duty — no reliefs applicable.",
+      "source": "Estate Duty (Abolition) Act 2008",
+      "regulatoryBody": "Inland Revenue Authority of Singapore (IRAS)"
+    },
+    "IE": {
+      "name": "Ireland",
+      "currency": "EUR",
+      "reliefs": [
+        {
+          "type": "agriculturalRelief",
+          "label": "Agricultural Relief",
+          "rate": 90,
+          "description": "90% reduction in the market value of agricultural property (land, livestock, bloodstock, machinery) for CAT purposes. The beneficiary must be a 'farmer' (at least 80% of their assets after the gift/inheritance must be agricultural property).",
+          "condition": "Beneficiary must be a 'farmer' — 80% asset test"
+        },
+        {
+          "type": "businessRelief",
+          "label": "Business Relief",
+          "rate": 90,
+          "description": "90% reduction in the taxable value of relevant business property. Minimum ownership period of 5 years for the disponer (2 years if the disponer inherited the property).",
+          "minimumOwnership": "5 years (2 years if inherited)"
+        },
+        {
+          "type": "favouriteNieceNephew",
+          "label": "Favourite Niece/Nephew Relief",
+          "description": "A niece or nephew who has worked substantially on a full-time basis in the business for 5 of the 6 years preceding the transfer may qualify for Group A threshold (€335,000) instead of Group B (€32,500).",
+          "condition": "5 of 6 years full-time work in the business"
+        },
+        {
+          "type": "dwellingHouseExemption",
+          "label": "Dwelling House Exemption",
+          "description": "Complete exemption for inherited dwelling houses where the beneficiary resided for 3 years prior and does not own another property. Must continue to reside for 6 years after.",
+          "conditions": ["3 years prior residence", "No other residential property owned", "6 years continued residence"]
+        }
+      ],
+      "source": "Capital Acquisitions Tax Consolidation Act 2003, ss. 86, 89, 92, 93",
+      "regulatoryBody": "Revenue Commissioners"
+    },
+    "NZ": {
+      "name": "New Zealand",
+      "reliefs": [],
+      "description": "No inheritance or estate tax — no reliefs applicable.",
+      "source": "Estate Duty Abolition Act 1993",
+      "regulatoryBody": "Inland Revenue (Te Tari Taake)"
+    }
+  }
+}

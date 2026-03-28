@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000003-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000003-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "GB",
       "subdivision": "GB-SCT",
@@ -94,8 +94,8 @@
     {
       "id": "f1000003-0000-4000-a000-000000000001",
       "name": "Glenmore Farmhouse, Perthshire",
-      "propertyType": "farmhouse",
-      "tenureType": "freehold",
+      "propertyType": "rural",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

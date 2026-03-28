@@ -8,97 +8,224 @@
   "properties": {
     "inherit": {
       "type": "string",
-      "const": "https://openinherit.org/v1/schema.json"
+      "const": "https://openinherit.org/v1/schema.json",
+      "description": "Schema identifier — must always be 'https://openinherit.org/v1/schema.json'. Used by consumers to identify this as an INHERIT v1 document.",
+      "examples": ["https://openinherit.org/v1/schema.json"]
     },
     "version": {
       "type": "integer",
-      "const": 1
+      "const": 1,
+      "description": "Major version number of the INHERIT schema. Always 1 for v1 documents.",
+      "examples": [1]
     },
-    "exportedAt": { "type": "string", "format": "date" },
+    "schemaVersion": {
+      "type": "string",
+      "description": "Semver version of the INHERIT schema this document was created against. Enables consumers to detect compatibility and handle graceful degradation.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["1.0.0", "1.1.0", "1.2.3"]
+    },
+    "exportedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this document was exported from the producing system.",
+      "examples": ["2025-03-27"]
+    },
     "exportedBy": {
       "type": "object",
+      "description": "The person who exported or prepared this document.",
       "properties": {
-        "name": { "type": "string" },
-        "email": { "type": "string", "format": "email" },
-        "organisationName": { "type": "string" }
+        "name": {
+          "type": "string",
+          "description": "Name of the person who exported the document.",
+          "examples": ["James Davies", "Priya Sharma", "Yuki Tanaka", "Fatima Al-Hassan", "Kwame Mensah"]
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the person who exported the document.",
+          "examples": ["james.davies@example.com"]
+        },
+        "organisationName": {
+          "type": "string",
+          "description": "Organisation the exporter works for.",
+          "examples": ["Irwin Mitchell LLP", "MyFamilyInherits.com"]
+        }
       },
       "additionalProperties": false
     },
     "generator": {
       "type": "object",
+      "description": "The software that generated this INHERIT document.",
       "properties": {
-        "name": { "type": "string" },
-        "version": { "type": "string" },
-        "url": { "type": "string" }
+        "name": {
+          "type": "string",
+          "description": "Name of the generating software.",
+          "examples": ["MyFamilyInherits", "LegacyLists WillWriter Pro", "INHERIT CLI"]
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the generating software.",
+          "examples": ["2.1.0", "1.0.0-beta.3"]
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the generating software or organisation.",
+          "examples": ["https://www.myfamilyinherits.com", "https://www.legacylists.com"]
+        }
       },
       "required": ["name"],
       "additionalProperties": false
     },
-    "estate": { "$ref": "estate.json" },
+    "estate": {
+      "$ref": "estate.json",
+      "description": "The single estate record for this document."
+    },
     "people": {
       "type": "array",
-      "items": { "$ref": "person.json" }
+      "items": { "$ref": "person.json" },
+      "description": "All people involved in the estate — testator, beneficiaries, executors, witnesses, guardians, etc."
     },
     "kinships": {
       "type": "array",
-      "items": { "$ref": "kinship.json" }
+      "items": { "$ref": "kinship.json" },
+      "description": "Familial bonds between people in the estate. Essential for intestacy calculations."
     },
     "relationships": {
       "type": "array",
-      "items": { "$ref": "relationship.json" }
+      "items": { "$ref": "relationship.json" },
+      "description": "Spousal and partnership relationships. Determines marital property rights and surviving spouse claims."
     },
     "properties": {
       "type": "array",
-      "items": { "$ref": "property.json" }
+      "items": { "$ref": "property.json" },
+      "description": "Real estate owned or partly owned by the testator."
     },
     "assets": {
       "type": "array",
-      "items": { "$ref": "asset.json" }
+      "items": { "$ref": "asset.json" },
+      "description": "Non-property assets — financial accounts, personal property, vehicles, digital assets, etc."
+    },
+    "assetCollections": {
+      "type": "array",
+      "items": { "$ref": "asset-collection.json" },
+      "description": "Named groups of related assets — collections (model railways, art, wine, etc.) that have collective significance and value."
+    },
+    "assetInterests": {
+      "type": "array",
+      "items": { "$ref": "asset-interest.json" },
+      "description": "Informal beneficiary interest in specific assets or collections, captured before formal bequest allocation."
     },
     "liabilities": {
       "type": "array",
-      "items": { "$ref": "liability.json" }
+      "items": { "$ref": "liability.json" },
+      "description": "Debts and financial obligations of the estate, including cultural obligations (mahr, ketubah debt)."
     },
     "bequests": {
       "type": "array",
-      "items": { "$ref": "bequest.json" }
+      "items": { "$ref": "bequest.json" },
+      "description": "Dispositions of property or money in the will."
     },
     "trusts": {
       "type": "array",
-      "items": { "$ref": "trust.json" }
+      "items": { "$ref": "trust.json" },
+      "description": "Trusts — testamentary or inter vivos — associated with the estate."
     },
     "executors": {
       "type": "array",
-      "items": { "$ref": "executor.json" }
+      "items": { "$ref": "executor.json" },
+      "description": "Persons appointed to administer the estate."
     },
     "guardians": {
       "type": "array",
-      "items": { "$ref": "guardian.json" }
+      "items": { "$ref": "guardian.json" },
+      "description": "Guardian appointments for minor children."
     },
     "wishes": {
       "type": "array",
-      "items": { "$ref": "wish.json" }
+      "items": { "$ref": "wish.json" },
+      "description": "Non-binding (or culturally binding) wishes — funeral, letters, pet care, digital estate."
     },
     "documents": {
       "type": "array",
-      "items": { "$ref": "document.json" }
+      "items": { "$ref": "document.json" },
+      "description": "Documents associated with the estate — wills, codicils, trust deeds, certificates."
     },
     "nonprobateTransfers": {
       "type": "array",
-      "items": { "$ref": "nonprobate-transfer.json" }
+      "items": { "$ref": "nonprobate-transfer.json" },
+      "description": "Assets that pass outside the probate estate — JTWROS, TOD deeds, beneficiary designations."
     },
     "proxyAuthorisations": {
       "type": "array",
-      "items": { "$ref": "proxy-authorisation.json" }
+      "items": { "$ref": "proxy-authorisation.json" },
+      "description": "Authorisations for proxies to act on behalf of the testator."
+    },
+    "valuations": {
+      "type": "array",
+      "items": { "$ref": "valuation.json" },
+      "description": "Valuations of assets, properties, and collections. Multiple valuations per entity are supported — owner estimates, professional valuations, AI estimates, dealer offers."
+    },
+    "lifetimeTransfers": {
+      "type": "array",
+      "items": { "$ref": "lifetime-transfer.json" },
+      "description": "Gifts and transfers made during the testator's lifetime. Critical for inheritance tax calculations — UK 7-year rule, US unified gift/estate tax, etc."
     },
     "dealerInterests": {
       "type": "array",
-      "items": { "$ref": "dealer-interest.json" }
+      "items": { "$ref": "dealer-interest.json" },
+      "description": "Third-party interest in estate assets — dealers, investors, collectors."
+    },
+    "dataProvenance": {
+      "type": "string",
+      "enum": ["manual_entry", "ai_extracted", "ocr_scanned", "imported", "migrated", "system_generated"],
+      "$comment": "manual_entry: data entered by hand by a person. ai_extracted: extracted by an AI model (e.g. INHERIT Scanner). ocr_scanned: extracted via optical character recognition. imported: imported from another system (Clio, LEAP, etc.). migrated: migrated from a legacy format or previous version. system_generated: generated by software without human input.",
+      "description": "Default data provenance for all entities in this document. Individual entities may override this with their own provenance. Tracks how the data was originally captured.",
+      "examples": ["manual_entry", "ai_extracted"]
+    },
+    "importSources": {
+      "type": "array",
+      "description": "Systems from which data was imported into this document. Enables audit trail and source tracking.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this import source, referenced by importSourceId on entities.",
+            "examples": ["src-clio-001", "src-paper-file"]
+          },
+          "systemName": {
+            "type": "string",
+            "description": "Name of the source system.",
+            "examples": ["Clio Manage", "LEAP Legal Software", "Paper file", "Previous solicitor's firm", "LegacyLists"]
+          },
+          "importDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the data was imported from this source.",
+            "examples": ["2026-03-15"]
+          },
+          "importMethod": {
+            "type": "string",
+            "enum": ["api", "file_upload", "manual_copy", "ai_extraction", "ocr", "migration_script"],
+            "$comment": "api: imported via API integration. file_upload: imported from an uploaded file (CSV, JSON, etc.). manual_copy: manually copied from the source. ai_extraction: extracted by an AI model from documents or images. ocr: extracted via optical character recognition from scanned documents. migration_script: automated migration from a legacy system.",
+            "description": "How the data was imported from this source."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional context about the import.",
+            "examples": ["Migrated from Clio matter #12345 — assets and liabilities only"]
+          }
+        },
+        "required": ["id", "systemName"],
+        "additionalProperties": false
+      }
     },
     "extensions": {
       "type": "array",
       "items": { "type": "string" },
-      "$comment": "URIs of extension schemas applied to this document."
+      "$comment": "URIs of extension schemas applied to this document.",
+      "description": "URIs of extension schemas applied to this document. Consumers should load and validate against these extensions.",
+      "examples": [["https://openinherit.org/v1/extensions/hindu-succession/hindu-succession.json", "https://openinherit.org/v1/extensions/islamic-succession/islamic-succession.json"]]
     }
   },
   "required": [

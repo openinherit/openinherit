@@ -334,10 +334,10 @@
     },
     "status": {
       "type": "string",
-      "enum": ["draft", "active", "locked", "archived"],
-      "$comment": "draft: estate plan is being prepared, not yet finalised. active: estate plan is current and in effect. locked: estate is in probate or administration — no further changes permitted. archived: estate administration is complete.",
-      "description": "The lifecycle status of this estate record.",
-      "examples": ["draft", "active"]
+      "enum": ["planning", "confirmed", "pre_probate", "in_administration", "distributed", "closed"],
+      "$comment": "planning: estate plan is being prepared, not yet finalised. confirmed: estate plan is signed and in effect — the will has been executed. pre_probate: testator has died, estate is being gathered before applying for probate/grant. in_administration: grant obtained, estate is being administered — collecting assets, paying debts, distributing. distributed: all assets distributed to beneficiaries, final accounts pending. closed: estate administration is complete — all accounts filed, all distributions confirmed.",
+      "description": "The lifecycle status of this estate record. Progresses from planning through to closure.",
+      "examples": ["planning", "confirmed", "in_administration"]
     },
     "jurisdiction": {
       "$ref": "common/jurisdiction.json",
@@ -841,6 +841,147 @@
       "format": "date",
       "description": "Date this estate record was last modified.",
       "examples": ["2025-03-27"]
+    },
+    "executionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the will was formally executed (signed with proper attestation). Enables look-back period calculations when combined with lifetime transfers.",
+      "examples": ["2024-06-15", "2020-03-01"]
+    },
+    "administration": {
+      "type": "object",
+      "$comment": "Administration phase data — populated when the testator dies and the estate enters pre_probate or in_administration status.",
+      "description": "Estate administration details. Tracks the journey from death through grant, tax clearance, distribution, and closure.",
+      "properties": {
+        "dateOfDeath": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of death — the date from which succession takes effect.",
+          "examples": ["2026-01-15"]
+        },
+        "dateOfGrant": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the probate grant or letters of administration were issued.",
+          "examples": ["2026-06-01"]
+        },
+        "grantType": {
+          "type": "string",
+          "enum": ["grant_of_probate", "letters_of_administration", "letters_of_administration_with_will_annexed", "succession_certificate", "certificate_of_inheritance", "court_appointment", "resealing", "european_certificate_of_succession", "other"],
+          "$comment": "grant_of_probate: E&W/AU/NZ — court confirms named executor. letters_of_administration: E&W — no will, court appoints administrator. letters_of_administration_with_will_annexed: E&W — will exists but named executor cannot act. succession_certificate: IN/PK — Indian Succession Act s.372. certificate_of_inheritance: DE/JP/FR — Erbschein (DE), 相続証明書 (JP), Acte de notoriété (FR). court_appointment: generic court appointment of administrator. resealing: foreign grant recognised locally (Commonwealth). european_certificate_of_succession: EU Brussels IV certificate. other: jurisdiction-specific grant type.",
+          "description": "Type of grant authorising estate administration."
+        },
+        "grantReference": {
+          "type": "string",
+          "description": "Court reference number for the grant.",
+          "examples": ["PRO-2026-123456"]
+        },
+        "court": {
+          "type": "string",
+          "description": "Name of the issuing court or registry.",
+          "examples": ["Principal Registry of the Family Division", "Leeds District Probate Registry", "Tokyo Family Court"]
+        },
+        "grossEstateValue": {
+          "$ref": "common/money.json",
+          "description": "Gross value of the estate at date of death, before deducting liabilities."
+        },
+        "netEstateValue": {
+          "$ref": "common/money.json",
+          "description": "Net value of the estate after deducting liabilities."
+        },
+        "taxLiability": {
+          "$ref": "common/money.json",
+          "description": "Total inheritance/estate tax liability."
+        },
+        "taxPaid": {
+          "$ref": "common/money.json",
+          "description": "Amount of inheritance/estate tax paid so far."
+        },
+        "taxClearance": {
+          "type": "object",
+          "description": "Tax clearance status — confirmation from the tax authority that no further tax is owed.",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["not_applied", "applied", "received", "not_required"],
+              "$comment": "not_applied: clearance not yet applied for. applied: application submitted. received: clearance certificate received. not_required: estate below tax threshold.",
+              "description": "Current status of tax clearance."
+            },
+            "clearanceDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Date clearance was received."
+            },
+            "reference": {
+              "type": "string",
+              "description": "Tax clearance reference number.",
+              "examples": ["HMRC-IHT-CLR-2026-789"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "distributions": {
+          "type": "array",
+          "description": "Record of distributions made to beneficiaries during administration.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "beneficiaryPersonId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Person ID of the beneficiary receiving the distribution."
+              },
+              "bequestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Reference to the Bequest being fulfilled."
+              },
+              "distributionDate": {
+                "type": "string",
+                "format": "date",
+                "description": "Date the distribution was made."
+              },
+              "assetId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Asset ID if a specific asset was transferred."
+              },
+              "propertyId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Property ID if a property was transferred."
+              },
+              "cashAmount": {
+                "$ref": "common/money.json",
+                "description": "Cash amount distributed, in minor currency units."
+              },
+              "receipt": {
+                "type": "boolean",
+                "description": "Whether a receipt/acknowledgement has been obtained from the beneficiary.",
+                "examples": [true, false]
+              },
+              "notes": {
+                "type": "string",
+                "description": "Additional distribution notes.",
+                "examples": ["Interim distribution — further distribution expected after property sale"]
+              }
+            },
+            "required": ["beneficiaryPersonId", "distributionDate"],
+            "additionalProperties": false
+          }
+        },
+        "estateAccountsFiled": {
+          "type": "boolean",
+          "description": "Whether the estate accounts have been prepared and filed/approved.",
+          "examples": [false]
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional administration notes.",
+          "examples": ["Awaiting sale of Spanish property before final distribution"]
+        }
+      },
+      "additionalProperties": false
     },
     "notes": {
       "type": "string",

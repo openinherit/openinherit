@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000006-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000006-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "JP",
       "legalSystem": "civil_law",
@@ -117,8 +117,8 @@
     {
       "id": "f1000006-0000-4000-a000-000000000001",
       "name": "Akasaka Residence, Minato-ku",
-      "propertyType": "flat",
-      "tenureType": "freehold",
+      "propertyType": "apartment",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

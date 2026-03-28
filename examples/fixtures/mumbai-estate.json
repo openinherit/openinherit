@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000007-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000007-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "IN",
       "subdivision": "IN-MH",
@@ -94,8 +94,8 @@
     {
       "id": "f1000007-0000-4000-a000-000000000001",
       "name": "14 Carter Road, Bandra West, Mumbai",
-      "propertyType": "flat",
-      "tenureType": "freehold",
+      "propertyType": "apartment",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipModel": "huf_coparcenary",
       "acquisitionType": "ancestral_joint",

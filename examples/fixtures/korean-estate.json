@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000010-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000010-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "KR",
       "legalSystem": "civil_law",
@@ -115,8 +115,8 @@
     {
       "id": "f1000010-0000-4000-a000-000000000001",
       "name": "Gangnam Apartment, Teheran-ro 152",
-      "propertyType": "flat",
-      "tenureType": "freehold",
+      "propertyType": "apartment",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

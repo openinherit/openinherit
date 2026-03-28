@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000005-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000005-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "SG",
       "legalSystem": "mixed",
@@ -90,8 +90,8 @@
     {
       "id": "f1000005-0000-4000-a000-000000000001",
       "name": "HDB Flat, Block 123 Toa Payoh",
-      "propertyType": "flat",
-      "tenureType": "leasehold",
+      "propertyType": "apartment",
+      "tenureType": "lease",
       "ownershipType": "joint_tenants",
       "isPrimaryResidence": true,
       "estimatedValue": {

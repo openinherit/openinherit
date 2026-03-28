@@ -5,20 +5,33 @@
   "description": "A person appointed to administer an estate. Includes professional executors, administrators (intestacy), and administrators with will annexed.",
   "type": "object",
   "properties": {
-    "id": { "type": "string", "format": "uuid" },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this executor appointment within the INHERIT document.",
+      "examples": ["c9d0e1f2-a3b4-5678-c901-23456789abcd"]
+    },
     "personId": {
       "type": "string",
       "format": "uuid",
-      "description": "Reference to a Person.id"
+      "description": "Reference to the Person.id of the appointed executor or administrator."
     },
     "role": {
       "type": "string",
-      "enum": ["primary", "secondary", "substitute", "administrator", "administrator_with_will_annexed"]
+      "enum": ["primary", "secondary", "substitute", "administrator", "administrator_with_will_annexed"],
+      "$comment": "primary: the first-named executor who acts unless unable or unwilling. secondary: acts alongside the primary executor or takes over if the primary cannot act. substitute: named as a replacement if the primary and secondary cannot act. administrator: appointed by the court when there is no will (intestacy). administrator_with_will_annexed: appointed by the court when the will exists but the named executor cannot or will not act.",
+      "description": "The executor's role in the estate administration.",
+      "examples": ["primary", "substitute", "administrator"]
     },
-    "isProfessional": { "type": "boolean" },
+    "isProfessional": {
+      "type": "boolean",
+      "description": "Whether this executor is a professional (solicitor, accountant, trust corporation). Professional executors typically charge fees.",
+      "examples": [true, false]
+    },
     "firmName": {
       "type": "string",
-      "description": "Firm name if the executor is a professional (solicitor, accountant, trust corporation)"
+      "description": "Name of the professional firm, if the executor is acting in a professional capacity.",
+      "examples": ["Irwin Mitchell LLP", "Evelyn Partners", "National Westminster Bank Trustee Services", "Nishimura & Asahi", "Anjarwalla & Khanna LLP", "Shardul Amarchand Mangaldas"]
     },
     "grantType": {
       "type": "string",
@@ -26,15 +39,37 @@
         "grant_of_probate",
         "letters_of_administration",
         "letters_of_administration_with_will_annexed",
+        "succession_certificate",
+        "certificate_of_inheritance",
+        "court_appointment",
         "resealing",
         "european_certificate_of_succession"
       ],
-      "$comment": "Without a grant, the executor has no legal authority to administer the estate."
+      "$comment": "grant_of_probate: E&W/AU/NZ — court confirms the executor named in the will. letters_of_administration: E&W — court appoints an administrator when there is no will. letters_of_administration_with_will_annexed: E&W — court appoints an administrator when the named executor cannot act. succession_certificate: IN/PK — Indian Succession Act s.372, entitles holder to collect assets. certificate_of_inheritance: DE (Erbschein), JP (相続証明書), FR (Acte de notoriété) — certifies inheritance rights. court_appointment: generic court appointment of administrator (various jurisdictions). resealing: a foreign grant is recognised by a local court (common in Commonwealth jurisdictions). european_certificate_of_succession: EU document proving an heir's or executor's status under the Brussels IV Regulation.",
+      "description": "The type of grant issued by the court authorising this person to act. Includes territory-neutral alternatives for non-Commonwealth jurisdictions.",
+      "examples": ["grant_of_probate", "letters_of_administration", "succession_certificate", "certificate_of_inheritance"]
     },
-    "grantDate": { "type": "string", "format": "date" },
-    "grantReference": { "type": "string" },
-    "issuingCourt": { "type": "string" },
-    "notes": { "type": "string" }
+    "grantDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the grant was issued.",
+      "examples": ["2025-08-01"]
+    },
+    "grantReference": {
+      "type": "string",
+      "description": "Court reference number for the grant.",
+      "examples": ["PRO-2025-654321"]
+    },
+    "issuingCourt": {
+      "type": "string",
+      "description": "Name of the court or registry that issued the grant.",
+      "examples": ["Leeds District Probate Registry", "Supreme Court of Victoria", "Surrogate's Court, New York County", "Tokyo Family Court", "Lagos High Court", "Bombay High Court"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this executor appointment — reservations, renunciations, or special circumstances.",
+      "examples": ["Power reserved to the secondary executor", "Executor renounced — administrator with will annexed appointed"]
+    }
   },
   "required": ["id", "personId", "role"],
   "patternProperties": {

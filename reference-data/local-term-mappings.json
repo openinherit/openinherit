@@ -1,0 +1,597 @@
+{
+  "$id": "https://openinherit.org/reference-data/local-term-mappings.json",
+  "$comment": "Maps core INHERIT enum values to local terminology per jurisdiction. UIs should use this to display jurisdiction-appropriate labels.",
+  "title": "Local Term Mappings",
+  "description": "Bidirectional mappings between INHERIT core enum values and jurisdiction-specific terminology. Enables UIs to display familiar local terms while maintaining interoperable core values.",
+  "lastUpdated": "2026-03-28",
+  "mappings": {
+    "propertyType": {
+      "detached": {
+        "label": "Detached house",
+        "localTerms": {
+          "GB": { "label": "Detached house" },
+          "US": { "label": "Single-family home" },
+          "AU": { "label": "Detached house" },
+          "CA": { "label": "Detached house" },
+          "FR": { "label": "Maison individuelle", "romanised": "maison individuelle" },
+          "DE": { "label": "Einfamilienhaus", "romanised": "einfamilienhaus" },
+          "IN": { "label": "Bungalow" },
+          "JP": { "label": "一戸建て", "romanised": "ikkodate" },
+          "SG": { "label": "Detached house" },
+          "NZ": { "label": "Detached house" },
+          "IE": { "label": "Detached house" },
+          "NG": { "label": "Detached house" }
+        }
+      },
+      "attached": {
+        "label": "Attached house",
+        "localTerms": {
+          "GB": { "label": "Terraced house", "aliases": ["semi-detached", "end-of-terrace"] },
+          "US": { "label": "Townhouse", "aliases": ["row house", "duplex"] },
+          "AU": { "label": "Townhouse", "aliases": ["terrace house"] },
+          "CA": { "label": "Townhouse", "aliases": ["row house"] },
+          "FR": { "label": "Maison mitoyenne", "romanised": "maison mitoyenne" },
+          "DE": { "label": "Reihenhaus", "romanised": "reihenhaus" },
+          "IN": { "label": "Row house" },
+          "JP": { "label": "テラスハウス", "romanised": "terasu hausu" },
+          "SG": { "label": "Terrace house" },
+          "NZ": { "label": "Townhouse" },
+          "IE": { "label": "Terraced house" },
+          "NG": { "label": "Compound" }
+        }
+      },
+      "apartment": {
+        "label": "Apartment",
+        "localTerms": {
+          "GB": { "label": "Flat" },
+          "US": { "label": "Condo", "aliases": ["condominium", "apartment"] },
+          "AU": { "label": "Unit", "aliases": ["flat", "apartment"] },
+          "CA": { "label": "Condominium", "aliases": ["condo", "apartment"] },
+          "FR": { "label": "Appartement", "romanised": "appartement" },
+          "DE": { "label": "Eigentumswohnung", "romanised": "eigentumswohnung" },
+          "IN": { "label": "Flat" },
+          "JP": { "label": "マンション", "romanised": "manshon" },
+          "SG": { "label": "HDB flat", "aliases": ["condo", "condominium"] },
+          "NZ": { "label": "Flat", "aliases": ["unit", "apartment"] },
+          "IE": { "label": "Flat", "aliases": ["apartment"] },
+          "NG": { "label": "Block of flats" }
+        }
+      },
+      "land": {
+        "label": "Land",
+        "localTerms": {
+          "GB": { "label": "Land" },
+          "US": { "label": "Lot", "aliases": ["parcel", "land"] },
+          "AU": { "label": "Land", "aliases": ["block"] },
+          "CA": { "label": "Lot", "aliases": ["land"] },
+          "FR": { "label": "Terrain", "romanised": "terrain" },
+          "DE": { "label": "Grundstück", "romanised": "grundstueck" },
+          "IN": { "label": "Plot", "aliases": ["land"] },
+          "JP": { "label": "土地", "romanised": "tochi" },
+          "SG": { "label": "Land" },
+          "NZ": { "label": "Section", "aliases": ["land"] },
+          "IE": { "label": "Site", "aliases": ["land"] },
+          "NG": { "label": "Plot", "aliases": ["land"] }
+        }
+      },
+      "commercial": {
+        "label": "Commercial property",
+        "localTerms": {
+          "GB": { "label": "Commercial property" },
+          "US": { "label": "Commercial property", "aliases": ["commercial real estate"] },
+          "AU": { "label": "Commercial property" },
+          "CA": { "label": "Commercial property" },
+          "FR": { "label": "Local commercial", "romanised": "local commercial" },
+          "DE": { "label": "Gewerbeimmobilie", "romanised": "gewerbeimmobilie" },
+          "IN": { "label": "Commercial property" },
+          "JP": { "label": "商業用不動産", "romanised": "shōgyōyō fudōsan" },
+          "SG": { "label": "Commercial property" },
+          "NZ": { "label": "Commercial property" },
+          "IE": { "label": "Commercial property" },
+          "NG": { "label": "Commercial property" }
+        }
+      },
+      "mixed_use": {
+        "label": "Mixed-use property",
+        "localTerms": {
+          "GB": { "label": "Mixed-use property" },
+          "US": { "label": "Mixed-use property" },
+          "AU": { "label": "Mixed-use property" },
+          "CA": { "label": "Mixed-use property" },
+          "FR": { "label": "Immeuble mixte", "romanised": "immeuble mixte" },
+          "DE": { "label": "Mischobjekt", "romanised": "mischobjekt" },
+          "IN": { "label": "Mixed-use property" },
+          "JP": { "label": "複合用途不動産", "romanised": "fukugō yōto fudōsan" },
+          "SG": { "label": "Mixed-use property" },
+          "NZ": { "label": "Mixed-use property" },
+          "IE": { "label": "Mixed-use property" },
+          "NG": { "label": "Mixed-use property" }
+        }
+      },
+      "rural": {
+        "label": "Rural property",
+        "localTerms": {
+          "GB": { "label": "Rural property", "aliases": ["farmhouse", "smallholding"] },
+          "US": { "label": "Rural property", "aliases": ["ranch", "farmstead"] },
+          "AU": { "label": "Rural property", "aliases": ["station", "hobby farm"] },
+          "CA": { "label": "Rural property", "aliases": ["farm", "acreage"] },
+          "FR": { "label": "Propriété rurale", "romanised": "propriété rurale" },
+          "DE": { "label": "Ländliche Immobilie", "romanised": "laendliche immobilie" },
+          "IN": { "label": "Agricultural land", "aliases": ["farmland"] },
+          "JP": { "label": "農地", "romanised": "nōchi" },
+          "SG": { "label": "Rural property" },
+          "NZ": { "label": "Lifestyle block", "aliases": ["rural property", "farm"] },
+          "IE": { "label": "Rural property", "aliases": ["farm", "smallholding"] },
+          "NG": { "label": "Farmland", "aliases": ["rural property"] }
+        }
+      },
+      "mobile": {
+        "label": "Mobile home",
+        "localTerms": {
+          "GB": { "label": "Park home", "aliases": ["mobile home", "static caravan"] },
+          "US": { "label": "Mobile home", "aliases": ["manufactured home", "trailer"] },
+          "AU": { "label": "Relocatable home", "aliases": ["mobile home"] },
+          "CA": { "label": "Mobile home", "aliases": ["manufactured home"] },
+          "FR": { "label": "Mobil-home", "romanised": "mobil-home" },
+          "DE": { "label": "Mobilheim", "romanised": "mobilheim" },
+          "IN": { "label": "Mobile home" },
+          "JP": { "label": "トレーラーハウス", "romanised": "torērā hausu" },
+          "SG": { "label": "Mobile home" },
+          "NZ": { "label": "Relocatable home", "aliases": ["mobile home"] },
+          "IE": { "label": "Mobile home" },
+          "NG": { "label": "Mobile home" }
+        }
+      },
+      "watercraft": {
+        "label": "Watercraft",
+        "localTerms": {
+          "GB": { "label": "Houseboat", "aliases": ["narrowboat", "canal boat"] },
+          "US": { "label": "Houseboat", "aliases": ["floating home"] },
+          "AU": { "label": "Houseboat" },
+          "CA": { "label": "Houseboat", "aliases": ["float home"] },
+          "FR": { "label": "Péniche", "romanised": "péniche" },
+          "DE": { "label": "Hausboot", "romanised": "hausboot" },
+          "IN": { "label": "Houseboat" },
+          "JP": { "label": "ハウスボート", "romanised": "hausubōto" },
+          "SG": { "label": "Houseboat" },
+          "NZ": { "label": "Houseboat" },
+          "IE": { "label": "Houseboat" },
+          "NG": { "label": "Houseboat" }
+        }
+      },
+      "other": {
+        "label": "Other property",
+        "localTerms": {
+          "GB": { "label": "Other property" },
+          "US": { "label": "Other property" },
+          "AU": { "label": "Other property" },
+          "CA": { "label": "Other property" },
+          "FR": { "label": "Autre bien immobilier", "romanised": "autre bien immobilier" },
+          "DE": { "label": "Sonstige Immobilie", "romanised": "sonstige immobilie" },
+          "IN": { "label": "Other property" },
+          "JP": { "label": "その他の不動産", "romanised": "sonota no fudōsan" },
+          "SG": { "label": "Other property" },
+          "NZ": { "label": "Other property" },
+          "IE": { "label": "Other property" },
+          "NG": { "label": "Other property" }
+        }
+      }
+    },
+    "tenureType": {
+      "ownership": {
+        "label": "Ownership",
+        "localTerms": {
+          "GB": { "label": "Freehold" },
+          "US": { "label": "Fee simple", "aliases": ["fee simple absolute"] },
+          "AU": { "label": "Torrens title", "aliases": ["freehold"] },
+          "CA": { "label": "Fee simple", "aliases": ["freehold"] },
+          "FR": { "label": "Pleine propriété", "romanised": "pleine propriété" },
+          "DE": { "label": "Eigentum", "romanised": "eigentum" },
+          "IN": { "label": "Freehold" },
+          "JP": { "label": "所有権", "romanised": "shoyūken" },
+          "SG": { "label": "Freehold" },
+          "NZ": { "label": "Fee simple", "aliases": ["freehold"] },
+          "IE": { "label": "Freehold" },
+          "NG": { "label": "Certificate of Occupancy", "aliases": ["C of O"] }
+        }
+      },
+      "lease": {
+        "label": "Lease",
+        "localTerms": {
+          "GB": { "label": "Leasehold" },
+          "US": { "label": "Lease", "aliases": ["leasehold estate"] },
+          "AU": { "label": "Strata title", "aliases": ["leasehold"] },
+          "CA": { "label": "Leasehold" },
+          "FR": { "label": "Bail", "romanised": "bail" },
+          "DE": { "label": "Erbbaurecht", "romanised": "erbbaurecht" },
+          "IN": { "label": "Leasehold" },
+          "JP": { "label": "借地権", "romanised": "shakuchiken" },
+          "SG": { "label": "99-year leasehold", "aliases": ["HDB lease", "leasehold"] },
+          "NZ": { "label": "Leasehold" },
+          "IE": { "label": "Leasehold" },
+          "NG": { "label": "Leasehold", "aliases": ["right of occupancy"] }
+        }
+      },
+      "communal": {
+        "label": "Communal ownership",
+        "localTerms": {
+          "GB": { "label": "Commonhold" },
+          "US": { "label": "Community property", "aliases": ["joint tenancy"] },
+          "AU": { "label": "Community title" },
+          "CA": { "label": "Communal ownership" },
+          "FR": { "label": "Copropriété", "romanised": "copropriété" },
+          "DE": { "label": "Wohnungseigentum", "romanised": "wohnungseigentum" },
+          "IN": { "label": "Co-operative housing society" },
+          "JP": { "label": "区分所有", "romanised": "kubun shoyū" },
+          "SG": { "label": "Strata title" },
+          "NZ": { "label": "Unit title", "aliases": ["cross-lease"] },
+          "IE": { "label": "Commonhold" },
+          "NG": { "label": "Communal ownership" }
+        }
+      },
+      "customary": {
+        "label": "Customary tenure",
+        "localTerms": {
+          "GB": { "label": "Customary tenure" },
+          "US": { "label": "Tribal land", "aliases": ["reservation land"] },
+          "AU": { "label": "Native title" },
+          "CA": { "label": "Indigenous land", "aliases": ["reserve land"] },
+          "FR": { "label": "Droit coutumier", "romanised": "droit coutumier" },
+          "DE": { "label": "Gewohnheitsrecht", "romanised": "gewohnheitsrecht" },
+          "IN": { "label": "Ancestral property", "aliases": ["Hindu undivided family property"] },
+          "JP": { "label": "慣習的所有権", "romanised": "kanshūteki shoyūken" },
+          "SG": { "label": "Customary tenure" },
+          "NZ": { "label": "Māori freehold land" },
+          "IE": { "label": "Customary tenure" },
+          "NG": { "label": "Customary right of occupancy" }
+        }
+      },
+      "informal": {
+        "label": "Informal tenure",
+        "localTerms": {
+          "GB": { "label": "Informal tenure" },
+          "US": { "label": "Informal tenure", "aliases": ["squatter's rights"] },
+          "AU": { "label": "Informal tenure" },
+          "CA": { "label": "Informal tenure" },
+          "FR": { "label": "Occupation informelle", "romanised": "occupation informelle" },
+          "DE": { "label": "Informeller Besitz", "romanised": "informeller besitz" },
+          "IN": { "label": "Informal tenure", "aliases": ["unauthorised occupation"] },
+          "JP": { "label": "非公式占有", "romanised": "hikōshiki senyū" },
+          "SG": { "label": "Informal tenure" },
+          "NZ": { "label": "Informal tenure" },
+          "IE": { "label": "Informal tenure" },
+          "NG": { "label": "Informal tenure", "aliases": ["undocumented ownership"] }
+        }
+      },
+      "government_allocated": {
+        "label": "Government-allocated tenure",
+        "localTerms": {
+          "GB": { "label": "Council housing", "aliases": ["social housing"] },
+          "US": { "label": "Public housing", "aliases": ["Section 8"] },
+          "AU": { "label": "Public housing", "aliases": ["social housing"] },
+          "CA": { "label": "Social housing" },
+          "FR": { "label": "Logement social", "romanised": "logement social", "aliases": ["HLM"] },
+          "DE": { "label": "Sozialwohnung", "romanised": "sozialwohnung" },
+          "IN": { "label": "Government-allotted housing", "aliases": ["DDA flat", "EWS housing"] },
+          "JP": { "label": "公営住宅", "romanised": "kōei jūtaku" },
+          "SG": { "label": "HDB flat" },
+          "NZ": { "label": "State house", "aliases": ["Kāinga Ora housing"] },
+          "IE": { "label": "Local authority housing", "aliases": ["council housing"] },
+          "NG": { "label": "Government-allocated housing" }
+        }
+      }
+    },
+    "grantType": {
+      "grant_of_probate": {
+        "label": "Grant of probate",
+        "localTerms": {
+          "GB": { "label": "Grant of Probate" },
+          "US": { "label": "Letters Testamentary" },
+          "AU": { "label": "Grant of Probate" },
+          "CA": { "label": "Certificate of Appointment of Estate Trustee with a Will" },
+          "FR": { "label": "Acte de notoriété", "romanised": "acte de notoriété" },
+          "DE": { "label": "Erbschein", "romanised": "erbschein" },
+          "IN": { "label": "Probate" },
+          "JP": { "label": "遺言検認", "romanised": "yuigon kennin" },
+          "SG": { "label": "Grant of Probate" },
+          "NZ": { "label": "Grant of Probate" },
+          "IE": { "label": "Grant of Probate" },
+          "NG": { "label": "Probate" }
+        }
+      },
+      "letters_of_administration": {
+        "label": "Letters of administration",
+        "localTerms": {
+          "GB": { "label": "Letters of Administration" },
+          "US": { "label": "Letters of Administration" },
+          "AU": { "label": "Letters of Administration" },
+          "CA": { "label": "Certificate of Appointment of Estate Trustee without a Will" },
+          "FR": { "label": "Certificat d'hérédité", "romanised": "certificat d'hérédité" },
+          "DE": { "label": "Erbschein (ohne Testament)", "romanised": "erbschein ohne testament" },
+          "IN": { "label": "Letters of Administration" },
+          "JP": { "label": "遺産管理許可", "romanised": "isan kanri kyoka" },
+          "SG": { "label": "Letters of Administration" },
+          "NZ": { "label": "Letters of Administration" },
+          "IE": { "label": "Letters of Administration" },
+          "NG": { "label": "Letters of Administration" }
+        }
+      },
+      "succession_certificate": {
+        "label": "Succession certificate",
+        "localTerms": {
+          "GB": { "label": "Succession certificate" },
+          "US": { "label": "Succession certificate" },
+          "AU": { "label": "Succession certificate" },
+          "CA": { "label": "Succession certificate" },
+          "FR": { "label": "Certificat de succession", "romanised": "certificat de succession" },
+          "DE": { "label": "Erbschein", "romanised": "erbschein" },
+          "IN": { "label": "Succession Certificate" },
+          "JP": { "label": "相続証明書", "romanised": "sōzoku shōmeisho" },
+          "SG": { "label": "Succession certificate" },
+          "NZ": { "label": "Succession certificate" },
+          "IE": { "label": "Succession certificate" },
+          "NG": { "label": "Succession certificate" }
+        }
+      },
+      "certificate_of_inheritance": {
+        "label": "Certificate of inheritance",
+        "localTerms": {
+          "GB": { "label": "Certificate of inheritance" },
+          "US": { "label": "Certificate of inheritance" },
+          "AU": { "label": "Certificate of inheritance" },
+          "CA": { "label": "Certificate of inheritance" },
+          "FR": { "label": "Acte de notoriété", "romanised": "acte de notoriété" },
+          "DE": { "label": "Erbschein", "romanised": "erbschein" },
+          "IN": { "label": "Certificate of inheritance" },
+          "JP": { "label": "相続証明書", "romanised": "sōzoku shōmeisho" },
+          "SG": { "label": "Certificate of inheritance" },
+          "NZ": { "label": "Certificate of inheritance" },
+          "IE": { "label": "Certificate of inheritance" },
+          "NG": { "label": "Certificate of inheritance" }
+        }
+      },
+      "court_appointment": {
+        "label": "Court appointment",
+        "localTerms": {
+          "GB": { "label": "Court appointment" },
+          "US": { "label": "Court appointment", "aliases": ["letters of conservatorship"] },
+          "AU": { "label": "Court appointment" },
+          "CA": { "label": "Court appointment" },
+          "FR": { "label": "Désignation judiciaire", "romanised": "désignation judiciaire" },
+          "DE": { "label": "Gerichtliche Bestellung", "romanised": "gerichtliche bestellung" },
+          "IN": { "label": "Court appointment" },
+          "JP": { "label": "裁判所任命", "romanised": "saibansho ninmei" },
+          "SG": { "label": "Court appointment" },
+          "NZ": { "label": "Court appointment" },
+          "IE": { "label": "Court appointment" },
+          "NG": { "label": "Court appointment" }
+        }
+      },
+      "small_estate_affidavit": {
+        "label": "Small estate affidavit",
+        "localTerms": {
+          "GB": { "label": "Small estate affidavit" },
+          "US": { "label": "Small Estate Affidavit", "aliases": ["summary administration"] },
+          "AU": { "label": "Election to administer" },
+          "CA": { "label": "Small estate declaration" },
+          "FR": { "label": "Attestation de petite succession", "romanised": "attestation de petite succession" },
+          "DE": { "label": "Eidesstattliche Versicherung (kleiner Nachlass)", "romanised": "eidesstattliche versicherung kleiner nachlass" },
+          "IN": { "label": "Small estate affidavit" },
+          "JP": { "label": "少額遺産宣誓書", "romanised": "shōgaku isan senseisho" },
+          "SG": { "label": "Public Trustee administration" },
+          "NZ": { "label": "Summary administration" },
+          "IE": { "label": "Small estate affidavit" },
+          "NG": { "label": "Small estate affidavit" }
+        }
+      },
+      "resealing": {
+        "label": "Resealing of grant",
+        "localTerms": {
+          "GB": { "label": "Resealing of grant" },
+          "US": { "label": "Ancillary probate" },
+          "AU": { "label": "Resealing of grant" },
+          "CA": { "label": "Resealing of grant" },
+          "FR": { "label": "Exequatur", "romanised": "exequatur" },
+          "DE": { "label": "Anerkennung ausländischer Erbscheine", "romanised": "anerkennung auslaendischer erbscheine" },
+          "IN": { "label": "Resealing of grant" },
+          "JP": { "label": "外国遺言検認の承認", "romanised": "gaikoku yuigon kennin no shōnin" },
+          "SG": { "label": "Resealing of grant" },
+          "NZ": { "label": "Resealing of grant" },
+          "IE": { "label": "Resealing of grant" },
+          "NG": { "label": "Resealing of grant" }
+        }
+      }
+    },
+    "pensionType": {
+      "state_pension": {
+        "label": "State pension",
+        "localTerms": {
+          "GB": { "label": "State Pension", "aliases": ["New State Pension", "Basic State Pension"] },
+          "US": { "label": "Social Security", "aliases": ["OASDI"] },
+          "AU": { "label": "Age Pension" },
+          "CA": { "label": "Canada Pension Plan", "aliases": ["CPP", "Old Age Security", "OAS"] },
+          "FR": { "label": "Retraite de base", "romanised": "retraite de base" },
+          "DE": { "label": "Gesetzliche Rente", "romanised": "gesetzliche rente" },
+          "IN": { "label": "Employee Pension Scheme", "aliases": ["EPS"] },
+          "JP": { "label": "国民年金", "romanised": "kokumin nenkin", "aliases": ["基礎年金"] },
+          "SG": { "label": "CPF LIFE", "aliases": ["Central Provident Fund"] },
+          "NZ": { "label": "NZ Super", "aliases": ["New Zealand Superannuation"] },
+          "IE": { "label": "State Pension (Contributory)", "aliases": ["State Pension (Non-Contributory)"] },
+          "NG": { "label": "National Pension", "aliases": ["Contributory Pension Scheme"] }
+        }
+      },
+      "occupational_pension": {
+        "label": "Occupational pension",
+        "localTerms": {
+          "GB": { "label": "Workplace pension", "aliases": ["defined benefit", "final salary scheme", "defined contribution"] },
+          "US": { "label": "401(k)", "aliases": ["employer-sponsored plan", "defined benefit plan", "pension plan"] },
+          "AU": { "label": "Superannuation", "aliases": ["super", "employer super"] },
+          "CA": { "label": "Registered Pension Plan", "aliases": ["RPP", "employer pension"] },
+          "FR": { "label": "Retraite complémentaire", "romanised": "retraite complémentaire", "aliases": ["AGIRC-ARRCO"] },
+          "DE": { "label": "Betriebsrente", "romanised": "betriebsrente", "aliases": ["betriebliche Altersvorsorge"] },
+          "IN": { "label": "Employees' Provident Fund", "aliases": ["EPF", "PF"] },
+          "JP": { "label": "厚生年金", "romanised": "kōsei nenkin" },
+          "SG": { "label": "CPF Ordinary Account", "aliases": ["CPF OA"] },
+          "NZ": { "label": "KiwiSaver", "aliases": ["employer scheme"] },
+          "IE": { "label": "Occupational pension", "aliases": ["company pension"] },
+          "NG": { "label": "Pension Fund Administrator", "aliases": ["PFA", "RSA"] }
+        }
+      },
+      "personal_pension": {
+        "label": "Personal pension",
+        "localTerms": {
+          "GB": { "label": "Personal pension", "aliases": ["SIPP", "self-invested personal pension", "stakeholder pension"] },
+          "US": { "label": "IRA", "aliases": ["Individual Retirement Account", "Roth IRA", "Traditional IRA"] },
+          "AU": { "label": "Self-managed super fund", "aliases": ["SMSF", "personal super"] },
+          "CA": { "label": "RRSP", "aliases": ["Registered Retirement Savings Plan", "TFSA"] },
+          "FR": { "label": "Plan d'épargne retraite", "romanised": "plan d'épargne retraite", "aliases": ["PER"] },
+          "DE": { "label": "Riester-Rente", "romanised": "riester-rente", "aliases": ["Rürup-Rente", "private Altersvorsorge"] },
+          "IN": { "label": "National Pension System", "aliases": ["NPS"] },
+          "JP": { "label": "個人型確定拠出年金", "romanised": "kojingata kakutei kyoshutsu nenkin", "aliases": ["iDeCo"] },
+          "SG": { "label": "Supplementary Retirement Scheme", "aliases": ["SRS"] },
+          "NZ": { "label": "KiwiSaver (voluntary)", "aliases": ["personal superannuation"] },
+          "IE": { "label": "Personal Retirement Savings Account", "aliases": ["PRSA", "personal pension"] },
+          "NG": { "label": "Voluntary contribution", "aliases": ["additional voluntary contribution", "AVC"] }
+        }
+      },
+      "public_service_pension": {
+        "label": "Public-service pension",
+        "localTerms": {
+          "GB": { "label": "Public-sector pension", "aliases": ["civil service pension", "NHS pension", "teachers' pension", "local government pension"] },
+          "US": { "label": "Government pension", "aliases": ["FERS", "CSRS", "state pension plan"] },
+          "AU": { "label": "Commonwealth Superannuation", "aliases": ["CSS", "PSS", "PSSap"] },
+          "CA": { "label": "Public Service Pension Plan", "aliases": ["PSPP"] },
+          "FR": { "label": "Retraite de la fonction publique", "romanised": "retraite de la fonction publique" },
+          "DE": { "label": "Beamtenversorgung", "romanised": "beamtenversorgung" },
+          "IN": { "label": "Government pension", "aliases": ["civil service pension", "central/state government pension"] },
+          "JP": { "label": "共済年金", "romanised": "kyōsai nenkin" },
+          "SG": { "label": "Government pension" },
+          "NZ": { "label": "Government Superannuation Fund", "aliases": ["GSF"] },
+          "IE": { "label": "Public-service pension" },
+          "NG": { "label": "Government pension" }
+        }
+      },
+      "military_pension": {
+        "label": "Military pension",
+        "localTerms": {
+          "GB": { "label": "Armed Forces Pension Scheme", "aliases": ["AFPS", "war pension"] },
+          "US": { "label": "Military retirement pay", "aliases": ["VA pension", "veterans' pension"] },
+          "AU": { "label": "Military superannuation", "aliases": ["MSBS", "ADF Super"] },
+          "CA": { "label": "Canadian Armed Forces pension", "aliases": ["CAF pension"] },
+          "FR": { "label": "Pension militaire", "romanised": "pension militaire" },
+          "DE": { "label": "Soldatenversorgung", "romanised": "soldatenversorgung" },
+          "IN": { "label": "Defence pension", "aliases": ["military pension"] },
+          "JP": { "label": "自衛隊年金", "romanised": "jieitai nenkin" },
+          "SG": { "label": "SAF pension" },
+          "NZ": { "label": "Military pension" },
+          "IE": { "label": "Defence Forces pension" },
+          "NG": { "label": "Military pension" }
+        }
+      }
+    },
+    "insuranceType": {
+      "life_insurance": {
+        "label": "Life insurance",
+        "localTerms": {
+          "GB": { "label": "Life assurance", "aliases": ["life insurance", "whole of life", "term assurance"] },
+          "US": { "label": "Life insurance", "aliases": ["whole life", "term life", "universal life"] },
+          "AU": { "label": "Life insurance", "aliases": ["life cover"] },
+          "CA": { "label": "Life insurance" },
+          "FR": { "label": "Assurance-vie", "romanised": "assurance-vie" },
+          "DE": { "label": "Lebensversicherung", "romanised": "lebensversicherung" },
+          "IN": { "label": "Life insurance", "aliases": ["LIC policy"] },
+          "JP": { "label": "生命保険", "romanised": "seimei hoken" },
+          "SG": { "label": "Life insurance" },
+          "NZ": { "label": "Life insurance", "aliases": ["life cover"] },
+          "IE": { "label": "Life assurance", "aliases": ["life insurance"] },
+          "NG": { "label": "Life insurance" }
+        }
+      },
+      "death_in_service": {
+        "label": "Death-in-service benefit",
+        "localTerms": {
+          "GB": { "label": "Death-in-service benefit", "aliases": ["DIS", "group life"] },
+          "US": { "label": "Group life insurance", "aliases": ["employer life insurance", "AD&D"] },
+          "AU": { "label": "Death benefit (super)", "aliases": ["group life cover"] },
+          "CA": { "label": "Group life insurance", "aliases": ["employer life benefit"] },
+          "FR": { "label": "Capital décès", "romanised": "capital décès" },
+          "DE": { "label": "Sterbegeld", "romanised": "sterbegeld", "aliases": ["betriebliche Todesfallleistung"] },
+          "IN": { "label": "Group term life insurance", "aliases": ["GTLI", "death benefit"] },
+          "JP": { "label": "死亡退職金", "romanised": "shibō taishokukin" },
+          "SG": { "label": "Group term life insurance" },
+          "NZ": { "label": "Death benefit (group)", "aliases": ["group life cover"] },
+          "IE": { "label": "Death-in-service benefit" },
+          "NG": { "label": "Group life insurance" }
+        }
+      },
+      "critical_illness": {
+        "label": "Critical illness cover",
+        "localTerms": {
+          "GB": { "label": "Critical illness cover", "aliases": ["CIC"] },
+          "US": { "label": "Critical illness insurance" },
+          "AU": { "label": "Trauma insurance", "aliases": ["critical illness cover"] },
+          "CA": { "label": "Critical illness insurance" },
+          "FR": { "label": "Assurance maladie grave", "romanised": "assurance maladie grave" },
+          "DE": { "label": "Dread-Disease-Versicherung", "romanised": "dread-disease-versicherung", "aliases": ["Schwere-Krankheiten-Versicherung"] },
+          "IN": { "label": "Critical illness cover" },
+          "JP": { "label": "特定疾病保険", "romanised": "tokutei shippei hoken" },
+          "SG": { "label": "Critical illness cover", "aliases": ["CI cover"] },
+          "NZ": { "label": "Trauma insurance", "aliases": ["critical illness cover"] },
+          "IE": { "label": "Serious illness cover" },
+          "NG": { "label": "Critical illness insurance" }
+        }
+      },
+      "income_protection": {
+        "label": "Income protection",
+        "localTerms": {
+          "GB": { "label": "Income protection insurance", "aliases": ["permanent health insurance", "PHI"] },
+          "US": { "label": "Disability insurance", "aliases": ["long-term disability", "LTD", "short-term disability"] },
+          "AU": { "label": "Income protection insurance", "aliases": ["salary continuance"] },
+          "CA": { "label": "Disability insurance", "aliases": ["income replacement"] },
+          "FR": { "label": "Prévoyance incapacité", "romanised": "prévoyance incapacité" },
+          "DE": { "label": "Berufsunfähigkeitsversicherung", "romanised": "berufsunfaehigkeitsversicherung", "aliases": ["BU-Versicherung"] },
+          "IN": { "label": "Income protection" },
+          "JP": { "label": "所得補償保険", "romanised": "shotoku hoshō hoken" },
+          "SG": { "label": "Income protection" },
+          "NZ": { "label": "Income protection insurance" },
+          "IE": { "label": "Income protection insurance" },
+          "NG": { "label": "Income protection insurance" }
+        }
+      },
+      "funeral_plan": {
+        "label": "Funeral plan",
+        "localTerms": {
+          "GB": { "label": "Funeral plan", "aliases": ["pre-paid funeral plan"] },
+          "US": { "label": "Burial insurance", "aliases": ["final expense insurance", "pre-need plan"] },
+          "AU": { "label": "Funeral insurance", "aliases": ["funeral bond", "pre-paid funeral"] },
+          "CA": { "label": "Funeral insurance", "aliases": ["pre-arranged funeral plan"] },
+          "FR": { "label": "Assurance obsèques", "romanised": "assurance obsèques" },
+          "DE": { "label": "Sterbegeldversicherung", "romanised": "sterbegeldversicherung" },
+          "IN": { "label": "Funeral insurance" },
+          "JP": { "label": "葬儀保険", "romanised": "sōgi hoken" },
+          "SG": { "label": "Funeral plan" },
+          "NZ": { "label": "Funeral insurance", "aliases": ["pre-paid funeral"] },
+          "IE": { "label": "Funeral plan" },
+          "NG": { "label": "Burial insurance", "aliases": ["funeral plan"] }
+        }
+      },
+      "mortgage_protection": {
+        "label": "Mortgage protection",
+        "localTerms": {
+          "GB": { "label": "Mortgage protection insurance", "aliases": ["decreasing term assurance"] },
+          "US": { "label": "Mortgage protection insurance", "aliases": ["MPI"] },
+          "AU": { "label": "Mortgage protection insurance" },
+          "CA": { "label": "Mortgage insurance", "aliases": ["creditor insurance"] },
+          "FR": { "label": "Assurance emprunteur", "romanised": "assurance emprunteur" },
+          "DE": { "label": "Restschuldversicherung", "romanised": "restschuldversicherung" },
+          "IN": { "label": "Home loan protection plan" },
+          "JP": { "label": "団体信用生命保険", "romanised": "dantai shin'yō seimei hoken" },
+          "SG": { "label": "Home Protection Scheme", "aliases": ["HPS", "mortgage insurance"] },
+          "NZ": { "label": "Mortgage protection insurance" },
+          "IE": { "label": "Mortgage protection insurance" },
+          "NG": { "label": "Mortgage protection insurance" }
+        }
+      }
+    }
+  }
+}

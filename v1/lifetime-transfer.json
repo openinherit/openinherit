@@ -1,0 +1,194 @@
+{
+  "$schema": "https://openinherit.org/v1/dialect.json",
+  "$id": "https://openinherit.org/v1/lifetime-transfer.json",
+  "title": "Lifetime Transfer",
+  "description": "A gift or transfer made during the testator's lifetime, relevant for tax calculations such as the UK 7-year rule, US unified gift/estate tax, and similar lookback provisions in other jurisdictions.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this lifetime transfer within the INHERIT document.",
+      "examples": [
+        "d4e5f6a7-b8c9-0123-d456-789abcdef012"
+      ]
+    },
+    "transferDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the transfer was made.",
+      "examples": [
+        "2020-03-15",
+        "2023-11-01"
+      ]
+    },
+    "donorPersonId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the Person.id of the donor (typically the testator)."
+    },
+    "doneePersonIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "description": "Person IDs of the recipients of the transfer."
+    },
+    "transferType": {
+      "type": "string",
+      "enum": [
+        "gift",
+        "potentially_exempt_transfer",
+        "chargeable_lifetime_transfer",
+        "gift_with_reservation",
+        "failed_pet",
+        "settlement",
+        "advancement",
+        "loan_forgiveness",
+        "sale_at_undervalue",
+        "gift_of_shares",
+        "other"
+      ],
+      "$comment": "gift: outright gift. potentially_exempt_transfer: UK PET (exempt if donor survives 7 years). chargeable_lifetime_transfer: UK CLT (into trust). gift_with_reservation: donor retains benefit. failed_pet: PET where donor died within 7 years. settlement: transfer into a settlement/trust. advancement: advance of inheritance. loan_forgiveness: debt written off. sale_at_undervalue: deliberate deprivation. gift_of_shares: transfer of company shares. other: any other type.",
+      "description": "The category of lifetime transfer.",
+      "examples": [
+        "gift",
+        "potentially_exempt_transfer",
+        "chargeable_lifetime_transfer"
+      ]
+    },
+    "value": {
+      "$ref": "common/money.json",
+      "description": "Value of the transfer at the date it was made, in minor currency units."
+    },
+    "assetId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the Asset.id of the asset transferred, if it is still recorded in the document."
+    },
+    "propertyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the Property.id of the property transferred."
+    },
+    "valuationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Valuation entity providing a formal valuation of the transferred asset."
+    },
+    "exemptionsClaimed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "annual_exemption",
+              "small_gift",
+              "marriage_gift",
+              "normal_expenditure",
+              "business_property_relief",
+              "agricultural_property_relief",
+              "spouse_exemption",
+              "charity_exemption",
+              "taper_relief",
+              "annual_exclusion",
+              "lifetime_exemption",
+              "gift_splitting",
+              "other"
+            ],
+            "$comment": "annual_exemption: UK annual exemption (currently GBP 3,000 per tax year). small_gift: UK small gifts exemption (GBP 250 per recipient per tax year). marriage_gift: UK exemption for gifts in consideration of marriage or civil partnership. normal_expenditure: UK exemption for gifts from surplus income as part of normal expenditure. business_property_relief: UK BPR — relief on transfers of qualifying business assets. agricultural_property_relief: UK APR — relief on transfers of qualifying agricultural property. spouse_exemption: transfers between spouses or civil partners (exempt in most jurisdictions). charity_exemption: transfers to qualifying charities. taper_relief: UK taper relief reducing IHT on failed PETs between 3 and 7 years. annual_exclusion: US annual gift tax exclusion (per donee per year). lifetime_exemption: US unified lifetime gift/estate tax exemption. gift_splitting: US election to split gifts between spouses. other: any other exemption or relief not covered above.",
+            "description": "The type of exemption or relief claimed against this transfer.",
+            "examples": [
+              "annual_exemption",
+              "spouse_exemption",
+              "annual_exclusion"
+            ]
+          },
+          "amount": {
+            "$ref": "common/money.json",
+            "description": "Amount of the exemption claimed, in minor currency units."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Free-text notes about this exemption claim.",
+            "examples": [
+              "Used remaining GBP 1,500 of annual exemption carried forward from previous tax year",
+              "Gift splitting election filed jointly with spouse on Form 709"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "description": "Exemptions and reliefs claimed against this transfer to reduce its taxable value."
+    },
+    "taxReturnFiled": {
+      "type": "boolean",
+      "description": "Whether a gift tax return or similar filing has been submitted for this transfer.",
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "taxPaid": {
+      "$ref": "common/money.json",
+      "description": "Amount of tax paid on this transfer, in minor currency units."
+    },
+    "lookbackRelevant": {
+      "type": "boolean",
+      "description": "Whether this transfer falls within the jurisdiction's lookback period for tax purposes (e.g. 7 years in the UK, 3 years in the US for certain gifts).",
+      "examples": [
+        true,
+        false
+      ]
+    },
+    "lookbackYearsRemaining": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Years remaining in the lookback period. In the UK, this counts down from 7 — a PET made 4 years before death has 3 years remaining.",
+      "examples": [
+        7,
+        3.5,
+        0
+      ]
+    },
+    "taperReliefPercentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "UK taper relief percentage reducing the IHT charge on failed PETs and CLTs. Ranges from 0% (3 years or less before death) to 40% reduction (6-7 years before death).",
+      "examples": [
+        0,
+        20,
+        40
+      ]
+    },
+    "jurisdiction": {
+      "$ref": "common/jurisdiction.json",
+      "description": "Jurisdiction governing this lifetime transfer."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this lifetime transfer.",
+      "examples": [
+        "Gift of family home to daughter — donor continued to live in the property, so gift with reservation rules apply",
+        "PET made 5 years before death — taper relief reduces IHT by 40%"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "transferDate",
+    "donorPersonId",
+    "transferType"
+  ],
+  "patternProperties": {
+    "^x-inherit-": {}
+  },
+  "unevaluatedProperties": false
+}

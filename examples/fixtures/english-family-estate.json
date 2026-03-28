@@ -9,7 +9,7 @@
   "estate": {
     "id": "e0000002-0000-4000-a000-000000000001",
     "testatorPersonId": "a1000002-0000-4000-a000-000000000001",
-    "status": "active",
+    "status": "confirmed",
     "jurisdiction": {
       "country": "GB",
       "subdivision": "GB-ENG",
@@ -116,8 +116,8 @@
     {
       "id": "f1000002-0000-4000-a000-000000000001",
       "name": "42 Acacia Avenue, Bristol",
-      "propertyType": "detached_house",
-      "tenureType": "freehold",
+      "propertyType": "detached",
+      "tenureType": "ownership",
       "isPrimaryResidence": true,
       "ownershipType": "sole",
       "estimatedValue": {

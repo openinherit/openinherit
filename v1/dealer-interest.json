@@ -26,9 +26,9 @@
             "auction_house", "gallery", "private_collector",
             "museum", "institution", "charity",
             "developer", "fund_manager", "family_office",
-            "estate_agent", "solicitor_firm", "other"
+            "estate_agent", "legal_practice", "other"
           ],
-          "$comment": "art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie's, Sotheby's, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. solicitor_firm: law firm acting for a buyer. other: any other type of interested party.",
+          "$comment": "art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie's, Sotheby's, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. legal_practice: law firm or legal practice acting for a buyer — territory-neutral term replacing 'solicitor_firm'. other: any other type of interested party.",
           "description": "The type of interested party."
         },
         "contactDetails": {

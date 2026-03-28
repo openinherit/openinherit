@@ -7,9 +7,18 @@
   "$defs": {
     "InterestedParty": {
       "type": "object",
+      "description": "A third party expressing interest in purchasing or acquiring estate assets.",
       "properties": {
-        "personId": { "type": "string", "format": "uuid" },
-        "name": { "type": "string" },
+        "personId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Reference to a Person.id if the interested party is an individual in the people array."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the interested party — individual or organisation.",
+          "examples": ["Christie's", "Savills", "Dr Heinrich Müller", "Bonhams", "Galerie Tanaka, Tokyo", "Rahul Mehta Fine Art", "Al-Futtaim Auction House"]
+        },
         "type": {
           "type": "string",
           "enum": [
@@ -17,39 +26,68 @@
             "auction_house", "gallery", "private_collector",
             "museum", "institution", "charity",
             "developer", "fund_manager", "family_office",
-            "estate_agent", "solicitor_firm", "other"
-          ]
+            "estate_agent", "legal_practice", "other"
+          ],
+          "$comment": "art_dealer: professional art dealer. antique_dealer: dealer in antiques and collectibles. property_investor: individual or company interested in purchasing property. auction_house: auction house (Christie's, Sotheby's, Bonhams). gallery: art gallery interested in acquiring works. private_collector: individual collector. museum: museum interested in acquisition or donation. institution: academic or cultural institution. charity: charitable organisation interested in a bequest or donation. developer: property developer. fund_manager: investment fund manager. family_office: family office managing wealth. estate_agent: estate agent or realtor. legal_practice: law firm or legal practice acting for a buyer — territory-neutral term replacing 'solicitor_firm'. other: any other type of interested party.",
+          "description": "The type of interested party."
         },
-        "contactDetails": { "type": "string" }
+        "contactDetails": {
+          "type": "string",
+          "description": "Contact details for the interested party.",
+          "examples": ["acquisitions@christies.com", "+44 20 7839 9060", "Dr Müller, Galerie Müller, Zurich"]
+        }
       },
       "required": ["name", "type"],
       "additionalProperties": false
     },
     "AssetInterestItem": {
       "type": "object",
+      "description": "A specific asset or property that the interested party wants to acquire.",
       "properties": {
-        "assetId": { "type": "string", "format": "uuid" },
-        "propertyId": { "type": "string", "format": "uuid" },
+        "assetId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Reference to an Asset.id."
+        },
+        "propertyId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Reference to a Property.id."
+        },
         "interestLevel": {
           "type": "string",
-          "enum": ["exploratory", "moderate", "strong", "committed"]
+          "enum": ["exploratory", "moderate", "strong", "committed"],
+          "$comment": "exploratory: casual interest, no commitment. moderate: genuine interest, may proceed if terms are right. strong: actively pursuing acquisition. committed: firm intent to acquire, willing to formalise.",
+          "description": "How strong the interested party's intent is.",
+          "examples": ["strong", "exploratory"]
         }
       },
       "additionalProperties": false
     },
     "CollectionInterest": {
       "type": "object",
+      "description": "Interest in a collection of assets or properties as a whole, rather than individual items.",
       "properties": {
-        "name": { "type": "string" },
+        "name": {
+          "type": "string",
+          "description": "Name of the collection.",
+          "examples": ["Victorian watercolour collection", "Hampstead property portfolio", "Japanese woodblock print collection"]
+        },
         "assetIds": {
           "type": "array",
-          "items": { "type": "string", "format": "uuid" }
+          "items": { "type": "string", "format": "uuid" },
+          "description": "Asset IDs that make up this collection."
         },
         "propertyIds": {
           "type": "array",
-          "items": { "type": "string", "format": "uuid" }
+          "items": { "type": "string", "format": "uuid" },
+          "description": "Property IDs that make up this collection."
         },
-        "notes": { "type": "string" }
+        "notes": {
+          "type": "string",
+          "description": "Additional notes about the collection interest.",
+          "examples": ["Interested in acquiring the complete collection, not individual pieces"]
+        }
       },
       "anyOf": [
         { "required": ["assetIds"] },
@@ -59,54 +97,113 @@
     },
     "OfferDetails": {
       "type": "object",
+      "description": "Details of a specific offer made by the interested party.",
       "properties": {
-        "amount": { "$ref": "common/money.json" },
+        "amount": {
+          "$ref": "common/money.json",
+          "description": "The offer amount in minor currency units."
+        },
         "conditions": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": { "type": "string" },
+          "description": "Conditions attached to the offer.",
+          "examples": [["Subject to independent valuation", "Conditional on vacant possession"]]
         },
-        "validUntil": { "type": "string", "format": "date" },
-        "offerDate": { "type": "string", "format": "date" },
-        "documentRef": { "type": "string" }
+        "validUntil": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the offer expires.",
+          "examples": ["2025-12-31"]
+        },
+        "offerDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the offer was made.",
+          "examples": ["2025-06-15"]
+        },
+        "documentRef": {
+          "type": "string",
+          "description": "Reference to the document containing the offer.",
+          "examples": ["DOC-2025-OFFER-001"]
+        }
       },
       "additionalProperties": false
     }
   },
   "properties": {
-    "id": { "type": "string", "format": "uuid" },
-    "interestedParty": { "$ref": "#/$defs/InterestedParty" },
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this dealer interest record within the INHERIT document.",
+      "examples": ["e7f8a9b0-c1d2-3456-e789-abcdef012345"]
+    },
+    "interestedParty": {
+      "$ref": "#/$defs/InterestedParty",
+      "description": "The third party expressing interest in estate assets."
+    },
     "assets": {
       "type": "array",
-      "items": { "$ref": "#/$defs/AssetInterestItem" }
+      "items": { "$ref": "#/$defs/AssetInterestItem" },
+      "description": "Specific assets or properties the interested party wants to acquire."
     },
-    "collection": { "$ref": "#/$defs/CollectionInterest" },
+    "collection": {
+      "$ref": "#/$defs/CollectionInterest",
+      "description": "Interest in a collection of assets as a whole."
+    },
     "offerStatus": {
       "type": "string",
       "enum": [
         "standing_interest", "verbal_offer", "written_offer",
         "formal_valuation", "conditional_offer", "accepted",
         "declined", "expired", "withdrawn"
-      ]
+      ],
+      "$comment": "standing_interest: general interest registered, no specific offer. verbal_offer: informal verbal offer made. written_offer: formal written offer submitted. formal_valuation: independent valuation commissioned as part of negotiation. conditional_offer: offer subject to conditions. accepted: offer accepted by the testator or executor. declined: offer declined. expired: offer has passed its validity date. withdrawn: offer withdrawn by the interested party.",
+      "description": "Current status of the offer or expression of interest.",
+      "examples": ["standing_interest", "written_offer", "accepted"]
     },
-    "offerDetails": { "$ref": "#/$defs/OfferDetails" },
+    "offerDetails": {
+      "$ref": "#/$defs/OfferDetails",
+      "description": "Details of a specific offer, if one has been made."
+    },
     "testatorDisposition": {
       "type": "string",
       "enum": [
         "willing_to_sell", "prefer_not_to_sell", "hold_for_executor",
         "deferred_to_family", "promised_to_institution", "undecided"
-      ]
+      ],
+      "$comment": "willing_to_sell: testator is open to selling. prefer_not_to_sell: testator would rather not sell but hasn't ruled it out. hold_for_executor: testator defers to executor's judgement after death. deferred_to_family: decision deferred to family. promised_to_institution: item informally promised to a museum, gallery, or institution. undecided: testator has not expressed a preference.",
+      "description": "The testator's disposition towards selling this asset.",
+      "examples": ["willing_to_sell", "hold_for_executor"]
     },
-    "linkedBequestId": { "type": "string", "format": "uuid" },
+    "linkedBequestId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to a Bequest.id if this asset is also subject to a bequest. A dealer interest and a bequest may conflict."
+    },
     "privacyLevel": {
       "type": "string",
-      "enum": ["testator_only", "proxy_visible", "executor_visible", "all_parties"]
+      "enum": ["testator_only", "proxy_visible", "executor_visible", "all_parties"],
+      "$comment": "testator_only: only the testator can see this dealer interest. proxy_visible: the testator and authorised proxy can see it. executor_visible: the testator, proxy, and executor can see it. all_parties: visible to all parties with access to the estate data.",
+      "description": "Who may see this dealer interest record. Privacy is critical — the testator may not want family to know about dealer approaches.",
+      "examples": ["proxy_visible", "executor_visible"]
     },
     "communicationInitiatedBy": {
       "type": "string",
-      "enum": ["buyer", "testator", "proxy", "executor"]
+      "enum": ["buyer", "testator", "proxy", "executor"],
+      "$comment": "buyer: the interested party initiated contact. testator: the testator reached out to the interested party. proxy: the proxy initiated contact on behalf of the testator. executor: the executor initiated contact post-death.",
+      "description": "Who initiated the communication about this potential transaction.",
+      "examples": ["buyer", "proxy"]
     },
-    "managedByProxyId": { "type": "string", "format": "uuid" },
-    "notes": { "type": "string" }
+    "managedByProxyId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Reference to the ProxyAuthorisation.id that governs this dealer interest — the proxy managing the negotiation."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this dealer interest.",
+      "examples": ["Christie's approached via family friend — informal valuation suggests £120,000-£150,000", "Testator does not want this disclosed to the family during their lifetime"]
+    }
   },
   "required": ["id", "interestedParty", "offerStatus", "privacyLevel"],
   "patternProperties": {

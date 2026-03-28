@@ -8,7 +8,7 @@
         "data": {
           "id": "e1000001-0000-0000-0000-000000000001",
           "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
-          "status": "draft",
+          "status": "planning",
           "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
           "createdAt": "2025-01-15",
           "lastModifiedAt": "2025-01-15"
@@ -20,7 +20,7 @@
         "data": {
           "id": "e1000001-0000-0000-0000-000000000002",
           "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
-          "status": "active",
+          "status": "confirmed",
           "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
           "createdAt": "2025-01-15",
           "lastModifiedAt": "2025-06-01",
@@ -35,7 +35,7 @@
         "description": "invalid — missing testatorPersonId",
         "data": {
           "id": "e1000001-0000-0000-0000-000000000001",
-          "status": "draft",
+          "status": "planning",
           "jurisdiction": { "country": "GB", "subdivision": "GB-ENG" },
           "createdAt": "2025-01-15",
           "lastModifiedAt": "2025-01-15"
@@ -59,7 +59,7 @@
         "data": {
           "id": "e1000001-0000-0000-0000-000000000001",
           "testatorPersonId": "a0000001-0000-0000-0000-000000000001",
-          "status": "draft",
+          "status": "planning",
           "createdAt": "2025-01-15",
           "lastModifiedAt": "2025-01-15"
         },
