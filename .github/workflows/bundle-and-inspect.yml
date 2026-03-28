@@ -1,6 +1,7 @@
 name: Bundle Schema & Generate Graph
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
