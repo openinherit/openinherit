@@ -1,0 +1,100 @@
+{
+  "target": "../../../v1/wish.json",
+  "tests": [
+    {
+      "description": "valid — minimal wish with required fields only",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000001",
+        "wishType": "funeral",
+        "title": "Funeral wishes"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated funeral wish with Islamic rites",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000002",
+        "wishType": "funeral",
+        "title": "Funeral wishes — burial according to Islamic rites",
+        "content": "I wish to be buried in accordance with Islamic rites. Burial must take place within 24 hours of death if at all possible. Please contact Imam Hassan at the East London Mosque (+44 20 7247 2702) immediately. I do not wish to be cremated. Simple white kafan shroud — no coffin unless legally required. Qibla direction in the grave.",
+        "bindingNature": "religiously_obligatory",
+        "addresseePersonId": "p0000001-0000-4000-a000-000000000030",
+        "notes": "Written in consultation with Imam Hassan \u2014 follows Hanafi funeral practice. Updated February 2026."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — letter of wishes to executors",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000003",
+        "wishType": "letter",
+        "title": "Letter to my executors",
+        "content": "Dear James and Priya, I trust your judgement completely. Please ensure my mother is well cared for. The house at Sunningdale Road holds many memories — do not sell it too quickly. Give the family time to collect what they want from it before clearing. My sister Akiko knows where the important documents are kept.",
+        "bindingNature": "non_binding",
+        "addresseePersonId": "p0000001-0000-4000-a000-000000000031",
+        "notes": "Written alongside the formal will. Executors have been given a copy."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — pet care wish with asset reference",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000004",
+        "wishType": "pets",
+        "title": "Care of my dog Biscuit and cat Mochi",
+        "content": "Please ensure my dog Biscuit (golden retriever, aged 4) and cat Mochi (tabby, aged 7) are rehomed together if possible. My sister Akiko in Leeds has agreed to take them. Biscuit's vet is Oadby Vets, 12 Station Road \u2014 tel 0116 271 5555. Mochi is fully vaccinated, microchipped, and spayed.",
+        "bindingNature": "non_binding",
+        "relatedAssetId": "a0000001-0000-4000-a000-000000000009",
+        "notes": "Updated after acquiring Mochi in December 2024. Akiko confirmed she is willing to take both animals."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — digital estate wish",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000005",
+        "wishType": "digital",
+        "title": "Digital accounts and online presence instructions",
+        "content": "My passwords are in the 1Password vault. The master password is with my solicitor in a sealed envelope. Please delete my Facebook and Instagram accounts. My Google account contains important family photos \u2014 please download the Google Photos library before closing the account. My work email at Testate Technologies should be handled by my co-founder.",
+        "bindingNature": "non_binding",
+        "addresseePersonId": "p0000001-0000-4000-a000-000000000031"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "wishType": "funeral",
+        "title": "Funeral wishes"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required wishType",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000001",
+        "title": "Funeral wishes"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — wishType is not a valid enum value",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000001",
+        "wishType": "revenge",
+        "title": "My revenge plan"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — bindingNature is not a valid enum value",
+      "data": {
+        "id": "w0000001-0000-4000-a000-000000000001",
+        "wishType": "funeral",
+        "title": "Funeral wishes",
+        "bindingNature": "morally_binding"
+      },
+      "valid": false
+    }
+  ]
+}

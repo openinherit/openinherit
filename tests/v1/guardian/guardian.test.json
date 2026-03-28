@@ -1,0 +1,112 @@
+{
+  "target": "../../../v1/guardian.json",
+  "tests": [
+    {
+      "description": "valid — minimal guardian with required fields only",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000010",
+        "childPersonId": "p0000001-0000-4000-a000-000000000011",
+        "role": "primary",
+        "appointmentType": "testamentary"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated testamentary guardian with conditions",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000002",
+        "personId": "p0000001-0000-4000-a000-000000000012",
+        "childPersonId": "p0000001-0000-4000-a000-000000000013",
+        "role": "primary",
+        "appointmentType": "testamentary",
+        "guardianshipStructure": "individual",
+        "conditions": "Takes effect only if both parents die before the child reaches 18. Guardian must maintain the child's existing school placement at Manchester Grammar School.",
+        "notes": "Auntie Lakshmi confirmed she is willing and able to act. Child to continue attending current school in Manchester. Speaks both English and Hindi."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Shariah court guardian with collective structure",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000003",
+        "personId": "p0000001-0000-4000-a000-000000000014",
+        "childPersonId": "p0000001-0000-4000-a000-000000000015",
+        "role": "primary",
+        "appointmentType": "shariah_court_appointed",
+        "guardianshipStructure": "collective",
+        "notes": "Guardianship follows hadanah principles — maternal family has priority for young children. Islamic Sharia Council London consulted."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — community-appointed guardian with family council decision",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000004",
+        "personId": "p0000001-0000-4000-a000-000000000016",
+        "childPersonId": "p0000001-0000-4000-a000-000000000017",
+        "role": "secondary",
+        "appointmentType": "community_appointed",
+        "guardianshipStructure": "family_council_determined",
+        "familyCouncilDecisionRef": "FC/2025/003 \u2014 Okonkwo family council decision of 12 January 2025",
+        "notes": "Kwame Mensah agreed to act as guardian. Family council approved unanimously at the January 2025 meeting in Accra."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — substitute guardian for Canadian resident",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000005",
+        "personId": "p0000001-0000-4000-a000-000000000018",
+        "childPersonId": "p0000001-0000-4000-a000-000000000019",
+        "role": "substitute",
+        "appointmentType": "parental_responsibility",
+        "guardianshipStructure": "individual",
+        "notes": "Guardian lives in Vancouver, Canada. May need to apply for child's visa. Has agreed to relocate temporarily if needed."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "personId": "p0000001-0000-4000-a000-000000000010",
+        "childPersonId": "p0000001-0000-4000-a000-000000000011",
+        "role": "primary",
+        "appointmentType": "testamentary"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required childPersonId",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000010",
+        "role": "primary",
+        "appointmentType": "testamentary"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — role is not a valid enum value",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000010",
+        "childPersonId": "p0000001-0000-4000-a000-000000000011",
+        "role": "backup",
+        "appointmentType": "testamentary"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — appointmentType is not a valid enum value",
+      "data": {
+        "id": "g0000001-0000-4000-a000-000000000001",
+        "personId": "p0000001-0000-4000-a000-000000000010",
+        "childPersonId": "p0000001-0000-4000-a000-000000000011",
+        "role": "primary",
+        "appointmentType": "informal"
+      },
+      "valid": false
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "target": "../../../v1/document.json",
+  "tests": [
+    {
+      "description": "valid — minimal document with required fields only",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000001",
+        "type": "will",
+        "title": "Last Will and Testament of James Davies"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — fully populated PDF will with storage reference",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000002",
+        "type": "will",
+        "title": "Last Will and Testament of Priya Sharma",
+        "fileFormat": "pdf",
+        "storageRef": "s3://estate-docs/wills/sharma-priya-2025.pdf",
+        "fileSizeBytes": 245760,
+        "mimeType": "application/pdf",
+        "createdDate": "2025-01-20",
+        "notes": "Original held by Irwin Mitchell LLP, Manchester. Certified copy on file.",
+        "entityType": "estate",
+        "entityId": "e0000001-0000-4000-a000-000000000001"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Japanese will with Unicode title",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000003",
+        "type": "will",
+        "title": "\u9063\u8a00\u66f8 \u2014 \u7530\u4e2d\u88d5\u5b50",
+        "fileFormat": "pdf",
+        "storageRef": "/vault/wills/tanaka-2025.pdf",
+        "fileSizeBytes": 189440,
+        "mimeType": "application/pdf",
+        "createdDate": "2025-03-10",
+        "notes": "Holographic will — handwritten by Hiroshi Tanaka, witnessed by two neighbours.",
+        "entityType": "estate",
+        "entityId": "e0000001-0000-4000-a000-000000000002"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — Islamic nikah nama document",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000004",
+        "type": "nikah_nama",
+        "title": "Nikah Nama \u2014 Ahmed Al-Rashid and Fatimah Khalid",
+        "fileFormat": "pdf",
+        "createdDate": "2018-09-14",
+        "notes": "Certified copy of the original nikah nama issued by the Islamic Sharia Council, London.",
+        "entityType": "estate",
+        "entityId": "e0000001-0000-4000-a000-000000000003"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — codicil document linked to an asset",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000005",
+        "type": "codicil",
+        "title": "First Codicil dated 15 June 2024 — Amara Okonkwo",
+        "fileFormat": "pdf",
+        "storageRef": "DMS/2024/EST/001234",
+        "fileSizeBytes": 98304,
+        "mimeType": "application/pdf",
+        "createdDate": "2024-06-15",
+        "notes": "Amends clause 4 of the original will to add the Lagos apartment to the specific bequests.",
+        "entityType": "asset",
+        "entityId": "a0000001-0000-4000-a000-000000000008"
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "type": "will",
+        "title": "Last Will and Testament"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required type",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000001",
+        "title": "Last Will and Testament"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required title",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000001",
+        "type": "will"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — fileSizeBytes is negative",
+      "data": {
+        "id": "d0000001-0000-4000-a000-000000000001",
+        "type": "will",
+        "title": "Last Will and Testament",
+        "fileSizeBytes": -1024
+      },
+      "valid": false
+    }
+  ]
+}

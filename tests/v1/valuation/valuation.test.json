@@ -1,0 +1,145 @@
+{
+  "target": "../../../v1/valuation.json",
+  "tests": [
+    {
+      "description": "valid — minimal valuation with required fields only",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000001",
+        "entityType": "asset",
+        "entityId": "a0000001-0000-4000-a000-000000000001",
+        "valuedAmount": { "amount": 450000, "currency": "GBP" },
+        "valuationDate": "2025-09-15"
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — professional RICS property valuation",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000002",
+        "entityType": "property",
+        "entityId": "p0000001-0000-4000-a000-000000000020",
+        "valuedAmount": { "amount": 57500000, "currency": "GBP" },
+        "valuationDate": "2025-10-01",
+        "provider": "RICS Surveyor — Jonathan Rao FRICS",
+        "providerType": "professional_valuer",
+        "method": "comparable_sales",
+        "valuationPurpose": "date_of_death",
+        "confidence": "high",
+        "notes": "RICS Red Book valuation — market value basis. Assumes vacant possession. Three comparable sales in the same postcode used."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — AI estimate with comparables including v1.3.0 matchScore, humanVerdict, and rejectionReason",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000003",
+        "entityType": "asset",
+        "entityId": "a0000001-0000-4000-a000-000000000003",
+        "valuedAmount": { "amount": 18500, "currency": "GBP" },
+        "valuationDate": "2026-02-15",
+        "provider": "INHERIT AI",
+        "providerType": "ai_estimate",
+        "method": "ai_analysis",
+        "valuationPurpose": "current_estimate",
+        "confidence": "medium",
+        "comparables": [
+          {
+            "url": "https://www.ebay.co.uk/itm/123456789",
+            "screenshotUrl": "https://storage.openinherit.org/comparables/ebay-123456789.png",
+            "title": "Hornby R3456 Class 66 EWS DCC Fitted \u2014 mint, boxed",
+            "salePrice": { "amount": 18999, "currency": "GBP" },
+            "saleDate": "2025-11-20",
+            "platform": "eBay",
+            "capturedAt": "2026-02-15",
+            "matchConfidence": "exact",
+            "matchFactors": ["same manufacturer", "same model number", "same livery", "DCC fitted", "original box"],
+            "matchNotes": "Identical item — same model number, same condition description, original box.",
+            "matchScore": 97,
+            "humanVerdict": "accepted"
+          },
+          {
+            "url": "https://www.ebay.co.uk/itm/987654321",
+            "title": "Hornby Class 66 DB Cargo OO gauge",
+            "salePrice": { "amount": 15500, "currency": "GBP" },
+            "saleDate": "2025-10-05",
+            "platform": "eBay",
+            "capturedAt": "2026-02-15",
+            "matchConfidence": "approximate",
+            "matchFactors": ["same manufacturer", "same class", "similar era"],
+            "matchNotes": "Different livery (DB Cargo not EWS). EWS livery commands a premium.",
+            "matchScore": 58,
+            "humanVerdict": "rejected",
+            "rejectionReason": "Wrong livery — DB Cargo is less sought-after than EWS in this gauge. Not a valid comparable."
+          }
+        ],
+        "notes": "AI estimate based on 23 eBay sold listings over the past 90 days. EWS livery commands 15-20% premium over standard Class 66."
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — asset collection valuation for probate",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000004",
+        "entityType": "asset_collection",
+        "entityId": "c0000001-0000-4000-a000-000000000002",
+        "valuedAmount": { "amount": 1200000, "currency": "GBP" },
+        "valuationDate": "2025-10-20",
+        "provider": "Soul Brother Records, Brixton",
+        "providerType": "dealer",
+        "method": "comparable_sales",
+        "valuationPurpose": "probate",
+        "confidence": "high",
+        "notes": "Specialist dealer valuation. The collection is worth significantly more as a set than individually — buyers for complete Northern Soul collections are scarce but premium."
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required id",
+      "data": {
+        "entityType": "asset",
+        "entityId": "a0000001-0000-4000-a000-000000000001",
+        "valuedAmount": { "amount": 450000, "currency": "GBP" },
+        "valuationDate": "2025-09-15"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required entityType",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000001",
+        "entityId": "a0000001-0000-4000-a000-000000000001",
+        "valuedAmount": { "amount": 450000, "currency": "GBP" },
+        "valuationDate": "2025-09-15"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — entityType is not a valid enum value",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000001",
+        "entityType": "liability",
+        "entityId": "a0000001-0000-4000-a000-000000000001",
+        "valuedAmount": { "amount": 450000, "currency": "GBP" },
+        "valuationDate": "2025-09-15"
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — comparable matchScore > 100",
+      "data": {
+        "id": "v0000001-0000-4000-a000-000000000005",
+        "entityType": "asset",
+        "entityId": "a0000001-0000-4000-a000-000000000001",
+        "valuedAmount": { "amount": 18500, "currency": "GBP" },
+        "valuationDate": "2025-09-15",
+        "comparables": [
+          {
+            "title": "Similar item",
+            "matchScore": 110
+          }
+        ]
+      },
+      "valid": false
+    }
+  ]
+}

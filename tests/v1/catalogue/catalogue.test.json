@@ -1,0 +1,212 @@
+{
+  "target": "../../../v1/catalogue.json",
+  "tests": [
+    {
+      "description": "valid — minimal catalogue with required fields only (empty assets array)",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 1,
+        "assets": []
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — catalogue with one asset and basic metadata",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 1,
+        "schemaVersion": "1.3.0",
+        "exportedAt": "2026-03-28",
+        "exportedBy": {
+          "name": "Hiroshi Tanaka",
+          "email": "hiroshi.tanaka@example.com"
+        },
+        "generator": {
+          "name": "INHERIT Catalogue Export",
+          "version": "1.3.0",
+          "url": "https://openinherit.org"
+        },
+        "dataProvenance": "manual_entry",
+        "assets": [
+          {
+            "id": "a0000001-0000-4000-a000-000000000001",
+            "name": "Hornby R3456 Class 66 EWS Locomotive",
+            "category": "collectibles",
+            "subcategory": "model_railways",
+            "brand": "Hornby",
+            "model": "R3456 Class 66 EWS",
+            "estimatedValue": { "amount": 18500, "currency": "GBP" },
+            "condition": "excellent",
+            "originalPackaging": "complete"
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — catalogue with legacyContacts and agent fields on embedded assets",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 1,
+        "schemaVersion": "1.3.0",
+        "exportedAt": "2026-03-28",
+        "dataProvenance": "ai_extracted",
+        "assets": [
+          {
+            "id": "a0000001-0000-4000-a000-000000000002",
+            "name": "Grandmother's engagement ring",
+            "category": "jewellery_watches",
+            "subcategory": "engagement ring",
+            "brand": "Mappin & Webb",
+            "estimatedValue": { "amount": 450000, "currency": "GBP" },
+            "condition": "excellent",
+            "searchTerms": [
+              "Mappin Webb engagement ring",
+              "18ct gold solitaire diamond ring",
+              "1960s engagement ring diamond"
+            ],
+            "comparableSearchProfile": {
+              "platforms": ["ebay", "1stdibs", "bonhams"],
+              "searchQuery": "18ct gold solitaire diamond engagement ring 1ct vintage",
+              "filters": {
+                "metal": "18ct_gold",
+                "stone": "diamond"
+              },
+              "searchFrequency": "on_demand"
+            },
+            "confidenceScores": {
+              "category": 99,
+              "subcategory": 95,
+              "brand": 80,
+              "estimatedValue": 55
+            },
+            "valuationReliability": 60,
+            "suggestedSubcategory": "vintage solitaire ring",
+            "lastVerifiedAt": "2026-01-10T09:00:00Z",
+            "verifiedBy": "owner",
+            "dataProvenance": "manual_entry"
+          },
+          {
+            "id": "a0000001-0000-4000-a000-000000000003",
+            "name": "\u9234\u6728\u9999\u91cc \u30d1\u30fc\u30d5\u30a7\u30af\u30c8\u30ea\u30fc\u30eb \u30d5\u30a3\u30c3\u30b7\u30f3\u30b0\u30ed\u30c3\u30c9",
+            "category": "firearms_sporting",
+            "subcategory": "fishing rod",
+            "brand": "Hardy Bros",
+            "model": "Perfect Reel LHW",
+            "estimatedValue": { "amount": 85000, "currency": "JPY" },
+            "condition": "good",
+            "dataProvenance": "ai_extracted",
+            "confidenceScores": {
+              "brand": 78,
+              "model": 65,
+              "category": 90
+            }
+          }
+        ],
+        "assetCollections": [
+          {
+            "id": "c0000001-0000-4000-a000-000000000001",
+            "estateId": "e0000001-0000-4000-a000-000000000001",
+            "name": "Vintage fishing tackle collection",
+            "category": "fishing_gear",
+            "estimatedValue": { "amount": 250000, "currency": "GBP" },
+            "disposalStrategy": "dealer_bids"
+          }
+        ],
+        "valuations": [
+          {
+            "id": "v0000001-0000-4000-a000-000000000001",
+            "entityType": "asset",
+            "entityId": "a0000001-0000-4000-a000-000000000002",
+            "valuedAmount": { "amount": 450000, "currency": "GBP" },
+            "valuationDate": "2026-01-10",
+            "providerType": "owner",
+            "confidence": "medium"
+          }
+        ],
+        "legacyContacts": [
+          {
+            "id": "lc000001-0000-4000-a000-000000000001",
+            "personId": "p0000001-0000-4000-a000-000000000050",
+            "name": "Yuki Tanaka",
+            "relationship": "daughter",
+            "email": "yuki.tanaka@example.com",
+            "phone": "+44 7700 900000",
+            "notificationMethod": "email",
+            "accessLevel": "full",
+            "letterGenerated": true,
+            "letterGeneratedAt": "2026-03-01T10:00:00Z",
+            "letterDeliveryMethod": "both",
+            "notes": "Primary family contact. Has a copy of the access instructions."
+          },
+          {
+            "id": "lc000001-0000-4000-a000-000000000002",
+            "name": "Ananya Sharma",
+            "relationship": "solicitor",
+            "email": "ananya.sharma@irwinmitchell.com",
+            "notificationMethod": "email",
+            "accessLevel": "read_only",
+            "letterGenerated": false
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required inherit field",
+      "data": {
+        "version": 1,
+        "assets": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required version field",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "assets": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required assets field",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 1
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — inherit is wrong URI (must be exactly the catalogue schema URI)",
+      "data": {
+        "inherit": "https://openinherit.org/v1/schema.json",
+        "version": 1,
+        "assets": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — version is wrong value (must be 1)",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 2,
+        "assets": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — embedded asset missing required name field",
+      "data": {
+        "inherit": "https://openinherit.org/v1/catalogue.json",
+        "version": 1,
+        "assets": [
+          {
+            "id": "a0000001-0000-4000-a000-000000000001",
+            "category": "financial"
+          }
+        ]
+      },
+      "valid": false
+    }
+  ]
+}
