@@ -1,0 +1,246 @@
+{
+  "target": "../../../v1/schema.json",
+  "tests": [
+    {
+      "description": "valid — minimal document with all required arrays empty and minimal estate",
+      "data": {
+        "inherit": "https://openinherit.org/v1/schema.json",
+        "version": 1,
+        "estate": {
+          "id": "e0000001-0000-4000-a000-000000000001",
+          "testatorPersonId": "p0000001-0000-4000-a000-000000000001",
+          "status": "planning",
+          "jurisdiction": {
+            "country": "GB"
+          },
+          "createdAt": "2025-01-01T00:00:00Z",
+          "lastModifiedAt": "2025-01-01T00:00:00Z"
+        },
+        "people": [
+          {
+            "id": "p0000001-0000-4000-a000-000000000001",
+            "givenName": "Alice",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": []
+      },
+      "valid": true
+    },
+    {
+      "description": "valid — document with @context and legacyContacts (v1.3.0 fields)",
+      "data": {
+        "@context": "https://openinherit.org/v1/context/inherit-v1.jsonld",
+        "inherit": "https://openinherit.org/v1/schema.json",
+        "version": 1,
+        "estate": {
+          "id": "e0000002-0000-4000-a000-000000000002",
+          "testatorPersonId": "p0000002-0000-4000-a000-000000000002",
+          "status": "confirmed",
+          "jurisdiction": {
+            "country": "GB",
+            "subdivision": "GB-ENG",
+            "legalSystem": "common_law"
+          },
+          "createdAt": "2025-06-15T10:00:00Z",
+          "lastModifiedAt": "2025-12-01T09:30:00Z"
+        },
+        "people": [
+          {
+            "id": "p0000002-0000-4000-a000-000000000002",
+            "givenName": "Richard",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": [],
+        "legacyContacts": [
+          {
+            "id": "lc000001-0000-4000-a000-000000000001",
+            "name": "Sarah Davies",
+            "accessLevel": "read_only",
+            "relationship": "daughter",
+            "notificationMethod": "email"
+          }
+        ]
+      },
+      "valid": true
+    },
+    {
+      "description": "invalid — missing required inherit field",
+      "data": {
+        "version": 1,
+        "estate": {
+          "id": "e0000003-0000-4000-a000-000000000003",
+          "testatorPersonId": "p0000003-0000-4000-a000-000000000003",
+          "status": "planning",
+          "jurisdiction": {
+            "country": "GB"
+          },
+          "createdAt": "2025-01-01T00:00:00Z",
+          "lastModifiedAt": "2025-01-01T00:00:00Z"
+        },
+        "people": [
+          {
+            "id": "p0000003-0000-4000-a000-000000000003",
+            "givenName": "Bob",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — wrong inherit value (not the required const)",
+      "data": {
+        "inherit": "https://example.com/wrong-schema.json",
+        "version": 1,
+        "estate": {
+          "id": "e0000004-0000-4000-a000-000000000004",
+          "testatorPersonId": "p0000004-0000-4000-a000-000000000004",
+          "status": "planning",
+          "jurisdiction": {
+            "country": "GB"
+          },
+          "createdAt": "2025-01-01T00:00:00Z",
+          "lastModifiedAt": "2025-01-01T00:00:00Z"
+        },
+        "people": [
+          {
+            "id": "p0000004-0000-4000-a000-000000000004",
+            "givenName": "Carol",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — missing required estate field",
+      "data": {
+        "inherit": "https://openinherit.org/v1/schema.json",
+        "version": 1,
+        "people": [
+          {
+            "id": "p0000005-0000-4000-a000-000000000005",
+            "givenName": "Dave",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": []
+      },
+      "valid": false
+    },
+    {
+      "description": "invalid — legacyContacts item missing required accessLevel",
+      "data": {
+        "inherit": "https://openinherit.org/v1/schema.json",
+        "version": 1,
+        "estate": {
+          "id": "e0000006-0000-4000-a000-000000000006",
+          "testatorPersonId": "p0000006-0000-4000-a000-000000000006",
+          "status": "planning",
+          "jurisdiction": {
+            "country": "GB"
+          },
+          "createdAt": "2025-01-01T00:00:00Z",
+          "lastModifiedAt": "2025-01-01T00:00:00Z"
+        },
+        "people": [
+          {
+            "id": "p0000006-0000-4000-a000-000000000006",
+            "givenName": "Eve",
+            "roles": ["testator"]
+          }
+        ],
+        "kinships": [],
+        "relationships": [],
+        "properties": [],
+        "assets": [],
+        "liabilities": [],
+        "bequests": [],
+        "trusts": [],
+        "executors": [],
+        "guardians": [],
+        "wishes": [],
+        "documents": [],
+        "nonprobateTransfers": [],
+        "proxyAuthorisations": [],
+        "dealerInterests": [],
+        "legacyContacts": [
+          {
+            "id": "lc000002-0000-4000-a000-000000000002",
+            "name": "Frank Wilson"
+          }
+        ]
+      },
+      "valid": false
+    }
+  ]
+}
